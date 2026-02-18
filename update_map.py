@@ -392,7 +392,6 @@ def build_panel_html(run_date: str) -> str:
     </div>
     <div class="arm-byline">By <a href="https://www.linkedin.com/in/lee-fischman/" target="_blank" rel="noopener">Lee Fischman</a></div>
 
-    <p class="arm-section">About</p>
     <p class="arm-p">A live semantic atlas of recent AI research from arXiv (cs.AI), rebuilt daily. Each point is a paper. Nearby points share similar topics &mdash; clusters surface naturally from the embedding space and are labelled by their most distinctive terms.</p>
     <p class="arm-p">Powered by <a href="https://apple.github.io/embedding-atlas/" target="_blank" rel="noopener">Apple Embedding Atlas</a> and SPECTER2 scientific embeddings.</p>
 
