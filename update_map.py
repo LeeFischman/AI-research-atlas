@@ -404,7 +404,7 @@ def build_panel_html(run_date: str) -> str:
     <p class="arm-section">Books by the author</p>
     <a class="arm-book" href="https://www.amazon.com/dp/B0GMVH6P2W" target="_blank" rel="noopener">
       <span class="arm-book-icon">&#x1F4D8;</span>
-      <span class="arm-book-text"><span class="arm-book-title">Building AI-Powered Products and Agents</span><span class="arm-book-sub">Available on Amazon &#x2192;</span></span>
+      <span class="arm-book-text"><span class="arm-book-title">Building Deep Learning Products and Agents</span><span class="arm-book-sub">Available on Amazon &#x2192;</span></span>
     </a>
 
     <hr class="arm-divider">
