@@ -532,6 +532,8 @@ if __name__ == "__main__":
 
     subprocess.run(atlas_cmd, check=True)
     os.system("unzip -o site.zip -d docs/ && touch docs/.nojekyll")
+    result = subprocess.run(["find", "docs/", "-name", "config.json"], capture_output=True, text=True)
+    print("  config.json location:", result.stdout.strip())
 
     # Config override
     config_path = "docs/data/config.json"
