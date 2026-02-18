@@ -1,6 +1,6 @@
 # AI Research Atlas
 
-A daily-updated interactive map of recent AI research papers from arXiv (cs.AI),
+A daily-updated interactive atlas of recent AI research papers from arXiv (cs.AI),
 visualised using [Embedding Atlas](https://apple.github.io/embedding-atlas/).
 
 Each point is a paper. Nearby points share similar research topics. Cluster labels
@@ -35,7 +35,7 @@ and select **Read and write permissions**. Save.
 
 Go to **Actions → Update AI Research Atlas → Run workflow**.
 This will:
-- Fetch the latest papers from arXiv
+- Fetch the last 5 days of papers from arXiv (first-run pre-fill)
 - Compute SPECTER2 embeddings and UMAP projection
 - Build the Embedding Atlas site
 - Commit `database.parquet` back to `main`
@@ -49,8 +49,25 @@ After the first run completes, go to **Settings → Pages**.
 - Source: **Deploy from a branch**
 - Branch: **gh-pages** / `/ (root)`
 
-Your map will be live at:
+Your atlas will be live at:
 `https://<your-username>.github.io/<repo-name>/`
+
+---
+
+## Embedding modes
+
+The workflow supports two modes, selectable from a dropdown when triggering a manual run
+(**Actions → Update AI Research Atlas → Run workflow → embedding_mode**).
+Scheduled daily runs always use the default (`full`).
+
+| Mode | How it works | Best for |
+|------|-------------|----------|
+| **full** *(default)* | Hands the entire DB to the CLI; SPECTER2 and UMAP run internally on every run | Guaranteed layout coherence; simpler |
+| **incremental** | Python embeds only *new* papers with SPECTER2; UMAP re-projects all stored vectors | Faster runner times as the DB grows |
+
+In incremental mode, raw embedding vectors are stored in `database.parquet` alongside the
+2D projection coordinates. UMAP still runs over the full corpus each time so the layout
+remains globally coherent — only the expensive SPECTER2 step is skipped for existing papers.
 
 ---
 
@@ -58,9 +75,11 @@ Your map will be live at:
 
 | Component | Detail |
 |-----------|--------|
-| Papers | Last 5 days of `cs.AI` submissions, up to 250 per run |
+| Papers | Rolling 4-day window of `cs.AI` submissions, up to 250 per run |
+| First run | Pre-fills with the last 5 days automatically |
+| Deduplication | Duplicate arXiv IDs are overwritten with the newest version |
 | Embeddings | `allenai/specter2_base` — purpose-built for scientific text |
-| Projection | UMAP to 2D (computed by Embedding Atlas internally) |
+| Projection | UMAP to 2D |
 | Cluster labels | TF-IDF on paper text, with stop words to suppress generic AI terms |
 | Point colour | **Reputation Enhanced** — papers from top institutions or with public code |
 | Schedule | 14:00 UTC daily |
@@ -75,8 +94,7 @@ to suppress additional terms from cluster labels.
 **Reputation criteria** — Edit `calculate_reputation()` in `update_map.py`
 to add institutions or scoring rules.
 
-**Date range** — Change `timedelta(days=5)` in `update_map.py` to widen or narrow
-the arXiv query window.
+**Retention window** — Change `RETENTION_DAYS` in `update_map.py` (currently 4 days).
 
 **arXiv category** — Change `cat:cs.AI` in the search query to any arXiv category,
 e.g. `cat:cs.LG` for machine learning or `cat:stat.ML`.
