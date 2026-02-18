@@ -23,7 +23,15 @@ ARXIV_MAX       = 250     # max papers fetched per arXiv query
 # Set automatically by the workflow_dispatch input in the YAML.
 # "full"        — CLI handles SPECTER2 + UMAP internally on every run.
 # "incremental" — Python embeds only NEW papers; UMAP runs over all stored vectors.
-EMBEDDING_MODE = os.environ.get("EMBEDDING_MODE", "full").strip().lower()
+# Embedding mode controls how papers are embedded and projected each run.
+# "full"        — CLI handles SPECTER2 + UMAP internally. Slower but always
+#                 produces a globally coherent layout. --text feeds both
+#                 embeddings and TF-IDF labels so label_text column is unused.
+# "incremental" — Python embeds only NEW papers; UMAP re-projects all stored
+#                 vectors. Faster. --text only feeds TF-IDF so label_text
+#                 (title-only) is used for sharper cluster labels.
+#                 only this mode supports text-label mode for enhanced TF-IDF performance 
+EMBEDDING_MODE = os.environ.get("EMBEDDING_MODE", "incremental").strip().lower()
 
 print(f"▶  Embedding mode : {EMBEDDING_MODE.upper()}")
 
@@ -470,10 +478,14 @@ if __name__ == "__main__":
         title    = r.title
         abstract = r.summary
         scrubbed = scrub_model_words(f"{title}. {title}. {abstract}")
+        # label_text: title only (repeated for TF-IDF weight), used for cluster
+        # labels in incremental mode where --text doesn't affect embeddings.
+        label_text = scrub_model_words(f"{title}. {title}. {title}.")
         rows.append({
             "title":        title,
             "abstract":     abstract,
             "text":         scrubbed,
+            "label_text":   label_text,
             "url":          r.pdf_url,
             "id":           r.entry_id.split("/")[-1],
             "author_count": len(r.authors),
@@ -513,15 +525,21 @@ if __name__ == "__main__":
     print(f"  Building atlas ({EMBEDDING_MODE} mode)...")
 
     if EMBEDDING_MODE == "incremental":
+        # Incremental mode: embeddings are pre-computed and passed via --x/--y,
+        # so --text only feeds TF-IDF label generation. We use label_text
+        # (title only, repeated for weight) for sharper, noun-dense cluster labels.
         atlas_cmd = [
             "embedding-atlas", DB_PATH,
-            "--text",       "text",
+            "--text",       "label_text",
             "--x",          "projection_x",
             "--y",          "projection_y",
             # "--stop-words", STOP_WORDS_PATH,  # omitted: NLTK default stop words are used
             "--export-application", "site.zip",
         ]
     else:
+        # Full mode: --text feeds both SPECTER2 embeddings and TF-IDF labels,
+        # so we keep the full scrubbed text to preserve embedding quality.
+        # To improve label quality in full mode, switch to incremental mode.
         atlas_cmd = [
             "embedding-atlas", DB_PATH,
             "--text",       "text",
@@ -532,15 +550,12 @@ if __name__ == "__main__":
 
     subprocess.run(atlas_cmd, check=True)
     os.system("unzip -o site.zip -d docs/ && touch docs/.nojekyll")
-    result = subprocess.run(["find", "docs/", "-type", "f"], capture_output=True, text=True)
-    print("  docs/ contents:\n", result.stdout.strip())
 
     # Config override
-    config_path = "docs/data/metadata.json"
+    config_path = "docs/data/config.json"
     if os.path.exists(config_path):
         with open(config_path, "r") as f:
             conf = json.load(f)
-            print("  config.json keys:", json.dumps(conf, indent=2))
 
         conf["name_column"]  = "title"
         conf["label_column"] = "title"
