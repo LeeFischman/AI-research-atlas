@@ -30,7 +30,7 @@ ARXIV_MAX       = 250     # max papers fetched per arXiv query
 # "incremental" — Python embeds only NEW papers; UMAP re-projects all stored
 #                 vectors. Faster. --text only feeds TF-IDF so label_text
 #                 (title-only) is used for sharper cluster labels.
-EMBEDDING_MODE = os.environ.get("EMBEDDING_MODE", "incremental").strip().lower()
+EMBEDDING_MODE = os.environ.get("EMBEDDING_MODE", "full").strip().lower()
 
 print(f"▶  Embedding mode : {EMBEDDING_MODE.upper()}")
 
@@ -314,7 +314,94 @@ def embed_and_project(df: pd.DataFrame) -> pd.DataFrame:
 
 
 # ──────────────────────────────────────────────
-# 7. HTML POP-OUT PANEL
+# 7. CLUSTER LABEL GENERATION
+#
+# CURRENT APPROACH: KeyBERT (option 1)
+#   Uses semantic keyword extraction via SPECTER2 to find the most
+#   representative 1-2 word phrase for each spatial cluster. Produces
+#   meaningful labels like "federated learning" or "vision-language"
+#   rather than raw TF-IDF frequency winners.
+#
+# ALTERNATIVES (if you want to change approach):
+#
+#   Option 2 — LLM-generated labels via Anthropic API (highest quality):
+#     After clustering, send the top-N titles per cluster to claude-haiku
+#     and ask for a 2-4 word descriptive label. Best results but adds
+#     latency and API cost. Requires ANTHROPIC_API_KEY in repo secrets.
+#     Rough implementation: collect cluster titles → call anthropic.Anthropic()
+#     client → parse response → write labels parquet.
+#
+#   Option 3 — Bigrams in label_text (lowest effort):
+#     Pre-process label_text to append bigrams joined with underscores
+#     (e.g. "reinforcement_learning", "graph_neural") before the atlas
+#     build. TF-IDF then has more distinctive tokens to rank. No new
+#     dependencies. Add to the label_text construction in the row builder:
+#       import nltk; nltk.download("punkt")
+#       from nltk import ngrams, word_tokenize
+#       words = word_tokenize(title.lower())
+#       bigrams = ["_".join(b) for b in ngrams(words, 2)]
+#       label_text = title + " " + " ".join(bigrams)
+#
+#   Option 4 — Pre-computed labels file from external tool:
+#     Generate a CSV/parquet with columns x, y, text (optional: level,
+#     priority) using any method, then pass via --labels to the CLI.
+#     This is the escape hatch if none of the above satisfy.
+# ──────────────────────────────────────────────
+def generate_keybert_labels(df: pd.DataFrame) -> str:
+    """
+    Cluster the 2D projection with HDBSCAN, then use KeyBERT + SPECTER2
+    to extract the best 1-2 word phrase for each cluster. Writes a
+    labels.parquet file and returns its path for the --labels CLI flag.
+    """
+    from keybert import KeyBERT
+    from sklearn.cluster import HDBSCAN
+
+    print("  Generating KeyBERT cluster labels...")
+
+    coords = df[["projection_x", "projection_y"]].values.astype(np.float64)
+
+    # HDBSCAN on 2D projection — finds natural density-based clusters.
+    # min_cluster_size controls granularity: lower = more clusters.
+    clusterer = HDBSCAN(min_cluster_size=8, metric="euclidean")
+    cluster_ids = clusterer.fit_predict(coords)
+
+    n_clusters = len(set(cluster_ids)) - (1 if -1 in cluster_ids else 0)
+    print(f"  Found {n_clusters} clusters (noise points excluded).")
+
+    # KeyBERT with SPECTER2 — reuses the cached HuggingFace download.
+    kw_model = KeyBERT(model="allenai/specter2_base")
+
+    label_rows = []
+    for cid in sorted(set(cluster_ids)):
+        if cid == -1:
+            continue  # HDBSCAN noise points get no label
+        mask = cluster_ids == cid
+        titles = df.loc[mask, "title"].tolist()
+        combined = " ".join(titles)
+
+        keywords = kw_model.extract_keywords(
+            combined,
+            keyphrase_ngram_range=(1, 2),
+            stop_words="english",
+            top_n=1,
+        )
+        if not keywords:
+            continue
+
+        label_text = keywords[0][0].title()
+        cx = float(coords[mask, 0].mean())
+        cy = float(coords[mask, 1].mean())
+        label_rows.append({"x": cx, "y": cy, "text": label_text})
+
+    labels_df = pd.DataFrame(label_rows)
+    labels_path = "labels.parquet"
+    labels_df.to_parquet(labels_path, index=False)
+    print(f"  Wrote {len(labels_df)} labels to {labels_path}.")
+    return labels_path
+
+
+# ──────────────────────────────────────────────
+# 8. HTML POP-OUT PANEL
 # ──────────────────────────────────────────────
 def build_panel_html(run_date: str) -> str:
     return (
@@ -438,7 +525,7 @@ def build_panel_html(run_date: str) -> str:
 
 
 # ──────────────────────────────────────────────
-# 8. MAIN
+# 9. MAIN
 # ──────────────────────────────────────────────
 if __name__ == "__main__":
     clear_docs_contents("docs")
@@ -500,22 +587,15 @@ if __name__ == "__main__":
     new_df["group"] = new_df.apply(calculate_reputation, axis=1)
 
     # Merge into rolling DB
-df = merge_papers(existing_df, new_df)
-print(f"  Rolling DB: {len(df)} papers after merge.")
-
-# Backfill label_text for older rows that predate the column.
-missing = df["label_text"].isna() if "label_text" in df.columns else pd.Series([True] * len(df))
-if missing.any():
-    print(f"  Backfilling label_text for {missing.sum()} older rows...")
-    df.loc[missing, "label_text"] = df.loc[missing, "title"].apply(
-        lambda t: scrub_model_words(f"{t}. {t}. {t}.")
-    )
+    df = merge_papers(existing_df, new_df)
     print(f"  Rolling DB: {len(df)} papers after merge.")
 
     # Embed & project (incremental mode only)
+    labels_path = None
     if EMBEDDING_MODE == "incremental":
         print("  Incremental mode: embedding new papers only.")
         df = embed_and_project(df)
+        labels_path = generate_keybert_labels(df)
 
     # Save rolling DB
     # Full mode: drop projection columns so CLI always recomputes a fresh layout.
@@ -537,15 +617,15 @@ if missing.any():
     print(f"  Building atlas ({EMBEDDING_MODE} mode)...")
 
     if EMBEDDING_MODE == "incremental":
-        # Incremental mode: embeddings are pre-computed and passed via --x/--y,
-        # so --text only feeds TF-IDF label generation. We use label_text
-        # (title only, repeated for weight) for sharper, noun-dense cluster labels.
+        # Incremental mode: embeddings are pre-computed via --x/--y.
+        # KeyBERT labels are passed via --labels, bypassing TF-IDF entirely.
+        # --text is still required by the CLI (used for tooltip search).
         atlas_cmd = [
             "embedding-atlas", DB_PATH,
             "--text",       "label_text",
             "--x",          "projection_x",
             "--y",          "projection_y",
-            # "--stop-words", STOP_WORDS_PATH,  # omitted: NLTK default stop words are used
+            "--labels",     labels_path,
             "--export-application", "site.zip",
         ]
     else:
