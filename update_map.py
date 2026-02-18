@@ -495,6 +495,9 @@ if __name__ == "__main__":
     else:
         save_df = df
 
+    save_df = save_df.copy()
+    save_df["date_added"] = pd.to_datetime(save_df["date_added"], utc=True).dt.strftime("%Y-%m-%dT%H:%M:%SZ")
+
     save_df.to_parquet(DB_PATH, index=False)
     print(f"  Saved {len(save_df)} papers to {DB_PATH}.")
 
