@@ -538,6 +538,7 @@ if __name__ == "__main__":
     if os.path.exists(config_path):
         with open(config_path, "r") as f:
             conf = json.load(f)
+            print("  config.json keys:", json.dumps(conf, indent=2))
 
         conf["name_column"]  = "title"
         conf["label_column"] = "title"
