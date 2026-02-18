@@ -400,10 +400,6 @@ def build_panel_html(run_date: str) -> str:
 
     <div class="arm-tip"><span class="arm-tip-icon">&#x1F4A1;</span><span>Set color to <strong>Reputation</strong> to see higher reputation scoring.</span></div>
 
-    <p class="arm-section">Reputation coloring</p>
-    <div class="arm-legend-row"><div class="arm-dot arm-dot-enhanced"></div><div><span class="arm-legend-label">Reputation Enhanced</span><br>Papers from MIT, Stanford, CMU, DeepMind, OpenAI, Anthropic &amp; similar, or with public code on GitHub / HuggingFace.</div></div>
-    <div class="arm-legend-row"><div class="arm-dot arm-dot-std"></div><div><span class="arm-legend-label">Reputation Std</span><br>All other papers.</div></div>
-
     <hr class="arm-divider">
 
     <p class="arm-section">Books by the author</p>
