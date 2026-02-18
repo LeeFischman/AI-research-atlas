@@ -30,8 +30,7 @@ ARXIV_MAX       = 250     # max papers fetched per arXiv query
 # "incremental" — Python embeds only NEW papers; UMAP re-projects all stored
 #                 vectors. Faster. --text only feeds TF-IDF so label_text
 #                 (title-only) is used for sharper cluster labels.
-#                 only this mode supports text-label mode for enhanced TF-IDF performance 
-EMBEDDING_MODE = os.environ.get("EMBEDDING_MODE", "incremental").strip().lower()
+EMBEDDING_MODE = os.environ.get("EMBEDDING_MODE", "full").strip().lower()
 
 print(f"▶  Embedding mode : {EMBEDDING_MODE.upper()}")
 
@@ -293,10 +292,14 @@ def embed_and_project(df: pd.DataFrame) -> pd.DataFrame:
     n_new = needs_embed.sum()
     if n_new:
         print(f"  Embedding {n_new} new paper(s) with SPECTER2...")
-        texts   = df.loc[needs_embed, "text"].tolist()
+        idx     = df.index[needs_embed].tolist()
+        texts   = df.loc[idx, "text"].tolist()
         vectors = model.encode(texts, show_progress_bar=True, batch_size=16,
                                convert_to_numpy=True)
-        df.loc[needs_embed, "embedding"] = [v.tolist() for v in vectors]
+        # Assign row-by-row using integer positions to avoid pandas mixed-type
+        # issues when setting list values into a column containing None.
+        for i, pos in enumerate(idx):
+            df.at[pos, "embedding"] = vectors[i].tolist()
     else:
         print("  All papers already embedded — skipping SPECTER2.")
 
