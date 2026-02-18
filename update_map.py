@@ -394,13 +394,13 @@ def build_panel_html(run_date: str) -> str:
 </button>
 
 <!-- Slide-out panel -->
-<div id="arm-panel" role="complementary" aria-label="About this map">
+<div id="arm-panel" role="complementary" aria-label="About the Atlas">
 
   <div id="arm-body">
 
     <!-- Header -->
     <div class="arm-header">
-      <p class="arm-title">The <span>AI Research</span> Map</p>
+      <p class="arm-title">The <span>AI Research</span> Atlas</p>
       <button id="arm-close"
         onclick="document.getElementById('arm-panel').classList.remove('arm-open')"
         aria-label="Close panel">✕</button>
@@ -413,7 +413,7 @@ def build_panel_html(run_date: str) -> str:
     <!-- About -->
     <p class="arm-section">About</p>
     <p class="arm-p">
-      A live semantic map of recent AI research from arXiv (cs.AI), rebuilt daily.
+      A live semantic atlas of recent AI research from arXiv (cs.AI) over the last 5 days, rebuilt daily.
       Each point is a paper. Nearby points share similar topics — clusters surface
       naturally from the embedding space and are labelled by their most distinctive terms.
     </p>
@@ -427,7 +427,7 @@ def build_panel_html(run_date: str) -> str:
     <!-- Tip -->
     <div class="arm-tip">
       <span class="arm-tip-icon">💡</span>
-      <span>Set color to <strong>Reputation</strong> to see higher reputation scoring.</span>
+      <span>Set color to <strong>Reputation</strong> to mark papers with higher reputation scoring.</span>
     </div>
 
     <!-- Legend -->
@@ -450,7 +450,7 @@ def build_panel_html(run_date: str) -> str:
     <hr class="arm-divider">
 
     <!-- Books -->
-    <p class="arm-section">Books by the author</p>
+    <p class="arm-section">Check out my books</p>
     <a class="arm-book" href="https://www.amazon.com/dp/B0GMVH6P2W" target="_blank" rel="noopener">
       <span class="arm-book-icon">📘</span>
       <span class="arm-book-text">
@@ -531,7 +531,7 @@ if __name__ == "__main__":
     print(f"📄 Saved {len(df)} papers to {DB_PATH}")
 
     # ── Build the atlas ──────────────────────────────
-    print("🧠 Building Map...")
+    print("🧠 Building Atlas...")
     subprocess.run([
         "embedding-atlas", DB_PATH,
         "--text",       "text",
