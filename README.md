@@ -1,4 +1,4 @@
-# AI Research Map
+# AI Research Atlas
 
 A daily-updated interactive map of recent AI research papers from arXiv (cs.AI),
 visualised using [Embedding Atlas](https://apple.github.io/embedding-atlas/).
@@ -33,7 +33,7 @@ and select **Read and write permissions**. Save.
 
 ### 3. Run the workflow for the first time
 
-Go to **Actions → Update AI Research Map → Run workflow**.
+Go to **Actions → Update AI Research Atlas → Run workflow**.
 This will:
 - Fetch the latest papers from arXiv
 - Compute SPECTER2 embeddings and UMAP projection
