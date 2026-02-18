@@ -500,7 +500,16 @@ if __name__ == "__main__":
     new_df["group"] = new_df.apply(calculate_reputation, axis=1)
 
     # Merge into rolling DB
-    df = merge_papers(existing_df, new_df)
+df = merge_papers(existing_df, new_df)
+print(f"  Rolling DB: {len(df)} papers after merge.")
+
+# Backfill label_text for older rows that predate the column.
+missing = df["label_text"].isna() if "label_text" in df.columns else pd.Series([True] * len(df))
+if missing.any():
+    print(f"  Backfilling label_text for {missing.sum()} older rows...")
+    df.loc[missing, "label_text"] = df.loc[missing, "title"].apply(
+        lambda t: scrub_model_words(f"{t}. {t}. {t}.")
+    )
     print(f"  Rolling DB: {len(df)} papers after merge.")
 
     # Embed & project (incremental mode only)
