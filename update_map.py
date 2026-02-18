@@ -477,10 +477,11 @@ if __name__ == "__main__":
         })
 
     new_df = pd.DataFrame(rows)
-    new_df["group"] = new_df.apply(calculate_reputation, axis=1)
+    new_df["Reputation"] = new_df.apply(calculate_reputation, axis=1)
 
     # Merge into rolling DB
     df = merge_papers(existing_df, new_df)
+    df = df.drop(columns=["group"], errors="ignore")
     print(f"  Rolling DB: {len(df)} papers after merge.")
 
     # Embed & project (incremental mode only)
@@ -533,12 +534,12 @@ if __name__ == "__main__":
 
         conf["name_column"]  = "title"
         conf["label_column"] = "title"
-        conf["color_by"]     = "group"
+        conf["color_by"]     = "Reputation"
 
         conf.setdefault("column_mappings", {}).update({
             "title":        "title",
             "abstract":     "abstract",
-            "group":        "group",
+            "Reputation":        "Reputation",
             "author_count": "author_count",
             "author_tier":  "author_tier",
             "url":          "url",
