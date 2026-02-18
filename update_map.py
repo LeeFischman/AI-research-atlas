@@ -392,6 +392,7 @@ def build_panel_html(run_date: str) -> str:
     </div>
     <div class="arm-byline">By <a href="https://www.linkedin.com/in/lee-fischman/" target="_blank" rel="noopener">Lee Fischman</a></div>
 
+    <p class="arm-section">About</p>
     <p class="arm-p">A live semantic atlas of recent AI research from arXiv (cs.AI), rebuilt daily. Each point is a paper. Nearby points share similar topics &mdash; clusters surface naturally from the embedding space and are labelled by their most distinctive terms.</p>
     <p class="arm-p">Powered by <a href="https://apple.github.io/embedding-atlas/" target="_blank" rel="noopener">Apple Embedding Atlas</a> and SPECTER2 scientific embeddings.</p>
 
@@ -399,12 +400,16 @@ def build_panel_html(run_date: str) -> str:
 
     <div class="arm-tip"><span class="arm-tip-icon">&#x1F4A1;</span><span>Set color to <strong>Reputation</strong> to see higher reputation scoring.</span></div>
 
+    <p class="arm-section">Reputation coloring</p>
+    <div class="arm-legend-row"><div class="arm-dot arm-dot-enhanced"></div><div><span class="arm-legend-label">Reputation Enhanced</span><br>Papers from MIT, Stanford, CMU, DeepMind, OpenAI, Anthropic &amp; similar, or with public code on GitHub / HuggingFace.</div></div>
+    <div class="arm-legend-row"><div class="arm-dot arm-dot-std"></div><div><span class="arm-legend-label">Reputation Std</span><br>All other papers.</div></div>
+
     <hr class="arm-divider">
 
     <p class="arm-section">Books by the author</p>
     <a class="arm-book" href="https://www.amazon.com/dp/B0GMVH6P2W" target="_blank" rel="noopener">
       <span class="arm-book-icon">&#x1F4D8;</span>
-      <span class="arm-book-text"><span class="arm-book-title">Building Deep Learning Products and Agents</span><span class="arm-book-sub">Available on Amazon &#x2192;</span></span>
+      <span class="arm-book-text"><span class="arm-book-title">Building AI-Powered Products and Agents</span><span class="arm-book-sub">Available on Amazon &#x2192;</span></span>
     </a>
 
     <hr class="arm-divider">
@@ -477,11 +482,10 @@ if __name__ == "__main__":
         })
 
     new_df = pd.DataFrame(rows)
-    new_df["Reputation"] = new_df.apply(calculate_reputation, axis=1)
+    new_df["group"] = new_df.apply(calculate_reputation, axis=1)
 
     # Merge into rolling DB
     df = merge_papers(existing_df, new_df)
-    df = df.drop(columns=["group"], errors="ignore")
     print(f"  Rolling DB: {len(df)} papers after merge.")
 
     # Embed & project (incremental mode only)
@@ -496,6 +500,9 @@ if __name__ == "__main__":
     else:
         save_df = df
 
+    # Normalize date_added to a consistent ISO string.
+    # load_existing_db() converts it to datetime; new rows arrive as strings.
+    # After merge the column is mixed-type, which pyarrow refuses to serialize.
     save_df = save_df.copy()
     save_df["date_added"] = pd.to_datetime(save_df["date_added"], utc=True).dt.strftime("%Y-%m-%dT%H:%M:%SZ")
 
@@ -511,7 +518,7 @@ if __name__ == "__main__":
             "--text",       "text",
             "--x",          "projection_x",
             "--y",          "projection_y",
-            "--stop-words", STOP_WORDS_PATH,
+            # "--stop-words", STOP_WORDS_PATH,  # omitted: NLTK default stop words are used
             "--export-application", "site.zip",
         ]
     else:
@@ -519,7 +526,7 @@ if __name__ == "__main__":
             "embedding-atlas", DB_PATH,
             "--text",       "text",
             "--model",      "allenai/specter2_base",
-            "--stop-words", STOP_WORDS_PATH,
+            # "--stop-words", STOP_WORDS_PATH,  # omitted: NLTK default stop words are used
             "--export-application", "site.zip",
         ]
 
@@ -534,12 +541,18 @@ if __name__ == "__main__":
 
         conf["name_column"]  = "title"
         conf["label_column"] = "title"
-        conf["color_by"]     = "Reputation"
+        conf["color_by"]     = "group"
+
+        # labelDensityThreshold controls how dense a cluster must be to receive
+        # a floating label. Value is relative to the max density (0.0–1.0).
+        # Raise it to suppress labels on small/sparse clusters.
+        # Lower it to label more clusters including sparse ones.
+        # conf["labelDensityThreshold"] = 0.1  # default is ~0.05
 
         conf.setdefault("column_mappings", {}).update({
             "title":        "title",
             "abstract":     "abstract",
-            "Reputation":        "Reputation",
+            "group":        "group",
             "author_count": "author_count",
             "author_tier":  "author_tier",
             "url":          "url",
