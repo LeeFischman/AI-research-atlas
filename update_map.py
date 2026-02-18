@@ -376,13 +376,26 @@ def generate_keybert_labels(df: pd.DataFrame) -> str:
         if cid == -1:
             continue  # HDBSCAN noise points get no label
         mask = cluster_ids == cid
-        titles = df.loc[mask, "title"].tolist()
+        # Use label_text (scrubbed, title-only) rather than raw title so
+        # "model/models" variants are already stripped before KeyBERT sees them.
+        titles = df.loc[mask, "label_text"].tolist()
         combined = " ".join(titles)
+
+        # Extend English stop words with AI boilerplate that KeyBERT
+        # would otherwise rank highly across all clusters.
+        KEYBERT_STOP_WORDS = list("english") + [
+            "model", "models", "paper", "propose", "proposed", "approach",
+            "method", "methods", "task", "tasks", "performance", "results",
+            "result", "work", "framework", "system", "learning", "deep",
+            "based", "using", "show", "new", "novel", "training", "dataset",
+            "data", "benchmark", "improve", "improved", "state", "art",
+            "effective", "efficient", "robust", "demonstrate", "achieve",
+        ]
 
         keywords = kw_model.extract_keywords(
             combined,
             keyphrase_ngram_range=(1, 2),
-            stop_words="english",
+            stop_words=KEYBERT_STOP_WORDS,
             top_n=1,
         )
         if not keywords:
