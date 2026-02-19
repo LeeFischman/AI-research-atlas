@@ -5,10 +5,95 @@
             "projection": {
                 "x": "projection_x",
                 "y": "projection_y"
-            },
-            "text": "text",
-            "neighbors": "__neighbors"
+            }
         },
+        "embeddingViewLabels": [
+            {
+                "x": 10.620506604512533,
+                "y": 10.44824449221293,
+                "text": "Humanoid"
+            },
+            {
+                "x": 5.9307426972822705,
+                "y": 12.591628508134322,
+                "text": "Backdoors"
+            },
+            {
+                "x": 6.214422082901001,
+                "y": 11.62921838760376,
+                "text": "Devsecops"
+            },
+            {
+                "x": 5.9823290934929485,
+                "y": 10.300198298234205,
+                "text": "Conversational"
+            },
+            {
+                "x": 6.821572144826253,
+                "y": 10.984421571095785,
+                "text": "Seccodebench"
+            },
+            {
+                "x": 5.828859048731187,
+                "y": 9.495997709386488,
+                "text": "Ideation"
+            },
+            {
+                "x": 10.011962230388935,
+                "y": 7.175915351280799,
+                "text": "Interpretable"
+            },
+            {
+                "x": 9.616974234580994,
+                "y": 8.126296699047089,
+                "text": "Autoencoders"
+            },
+            {
+                "x": 9.473321914672852,
+                "y": 10.386345727103096,
+                "text": "Mavrl"
+            },
+            {
+                "x": 9.590852618217468,
+                "y": 9.583774447441101,
+                "text": "Submodular"
+            },
+            {
+                "x": 9.205957055091858,
+                "y": 11.664757251739502,
+                "text": "Fleet"
+            },
+            {
+                "x": 8.66692066192627,
+                "y": 7.423981746037801,
+                "text": "Deepfusion"
+            },
+            {
+                "x": 7.952937364578247,
+                "y": 11.533978515201145,
+                "text": "Embewebagent"
+            },
+            {
+                "x": 8.366668313741684,
+                "y": 8.896040797233582,
+                "text": "Softmax"
+            },
+            {
+                "x": 8.104792905890424,
+                "y": 8.117968082427979,
+                "text": "Pretrained"
+            },
+            {
+                "x": 9.133631642659505,
+                "y": 11.095221583048502,
+                "text": "Agentic"
+            },
+            {
+                "x": 8.256031036376953,
+                "y": 10.512287957327706,
+                "text": "Reasoning"
+            }
+        ],
         "initialState": {
             "version": "0.0.0"
         }
@@ -20,11 +105,11 @@
     },
     "name_column": "title",
     "label_column": "title",
-    "color_by": "group",
+    "color_by": "Reputation",
     "column_mappings": {
         "title": "title",
         "abstract": "abstract",
-        "group": "group",
+        "Reputation": "Reputation",
         "author_count": "author_count",
         "author_tier": "author_tier",
         "url": "url"
