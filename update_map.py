@@ -534,7 +534,6 @@ def build_panel_html(run_date: str) -> str:
     </div>
     <div class="arm-byline">By <a href="https://www.linkedin.com/in/lee-fischman/" target="_blank" rel="noopener">Lee Fischman</a></div>
 
-    <p class="arm-section">About</p>
     <p class="arm-p">A live semantic atlas of recent AI research from arXiv (cs.AI), rebuilt daily. Each point is a paper. Nearby points share similar topics &mdash; clusters surface naturally from the embedding space and are labelled by their most distinctive terms.</p>
     <p class="arm-p">Powered by <a href="https://apple.github.io/embedding-atlas/" target="_blank" rel="noopener">Apple Embedding Atlas</a> and SPECTER2 scientific embeddings.</p>
 
@@ -542,16 +541,14 @@ def build_panel_html(run_date: str) -> str:
 
     <div class="arm-tip"><span class="arm-tip-icon">&#x1F4A1;</span><span>Set color to <strong>Reputation</strong> to see higher reputation scoring.</span></div>
 
-    <p class="arm-section">Reputation coloring</p>
-    <div class="arm-legend-row"><div class="arm-dot arm-dot-enhanced"></div><div><span class="arm-legend-label">Reputation Enhanced</span><br>Papers from MIT, Stanford, CMU, DeepMind, OpenAI, Anthropic &amp; similar, or with public code on GitHub / HuggingFace.</div></div>
-    <div class="arm-legend-row"><div class="arm-dot arm-dot-std"></div><div><span class="arm-legend-label">Reputation Std</span><br>All other papers.</div></div>
+  <div class="arm-tip"><span class="arm-tip-icon">&#x1F4A1;</span><span>Set color to <strong>author_tier</strong>; more authors tends to be better.</span></div>
 
     <hr class="arm-divider">
 
     <p class="arm-section">Books by the author</p>
     <a class="arm-book" href="https://www.amazon.com/dp/B0GMVH6P2W" target="_blank" rel="noopener">
       <span class="arm-book-icon">&#x1F4D8;</span>
-      <span class="arm-book-text"><span class="arm-book-title">Building AI-Powered Products and Agents</span><span class="arm-book-sub">Available on Amazon &#x2192;</span></span>
+      <span class="arm-book-text"><span class="arm-book-title">Building Deep Learning Products</span><span class="arm-book-sub">Available on Amazon &#x2192;</span></span>
     </a>
 
     <hr class="arm-divider">
