@@ -381,10 +381,14 @@ def generate_keybert_labels(df: pd.DataFrame) -> str:
         titles = df.loc[mask, "label_text"].tolist()
         combined = " ".join(titles)
 
-        # Extend English stop words with AI boilerplate that KeyBERT
-        # would otherwise rank highly across all clusters.
-        KEYBERT_STOP_WORDS = list("english") + [
-            "model", "models", "paper", "propose", "proposed", "approach",
+        # Extend scikit-learn English stop words with AI boilerplate that
+        # KeyBERT would otherwise rank highly across all clusters.
+        # Note: stop_words="english" passes a string to CountVectorizer which
+        # uses sklearn's list internally — we extend that list explicitly here.
+        from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
+        KEYBERT_STOP_WORDS = list(ENGLISH_STOP_WORDS) + [
+            "model", "models", "modeling", "modeled",
+            "paper", "propose", "proposed", "approach",
             "method", "methods", "task", "tasks", "performance", "results",
             "result", "work", "framework", "system", "learning", "deep",
             "based", "using", "show", "new", "novel", "training", "dataset",
