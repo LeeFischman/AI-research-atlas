@@ -400,8 +400,10 @@ def generate_keybert_labels(df: pd.DataFrame) -> str:
             combined,
             keyphrase_ngram_range=(1, 2),
             stop_words=KEYBERT_STOP_WORDS,
-            top_n=1,
+            top_n=3,
         )
+        print(f"  Cluster {cid} ({mask.sum()} papers) top keywords: {keywords}")
+        print(f"  Sample input (first 200 chars): {combined[:200]}")
         if not keywords:
             continue
 
