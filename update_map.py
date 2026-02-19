@@ -421,7 +421,7 @@ def generate_keybert_labels(df: pd.DataFrame) -> str:
         # top_n: how many candidate keywords to extract (kept for debug printing).
         keywords = kw_model.extract_keywords(
             combined,
-            keyphrase_ngram_range=(1, 1),
+            keyphrase_ngram_range=(1, 2),
             stop_words=KEYBERT_STOP_WORDS,
             use_mmr=True,
             diversity=0.3,
