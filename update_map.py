@@ -30,7 +30,7 @@ ARXIV_MAX       = 250     # max papers fetched per arXiv query
 # "incremental" — Python embeds only NEW papers; UMAP re-projects all stored
 #                 vectors. Faster. --text only feeds TF-IDF so label_text
 #                 (title-only) is used for sharper cluster labels.
-EMBEDDING_MODE = os.environ.get("EMBEDDING_MODE", "full").strip().lower()
+EMBEDDING_MODE = os.environ.get("EMBEDDING_MODE", "incremental").strip().lower()
 
 print(f"▶  Embedding mode : {EMBEDDING_MODE.upper()}")
 
