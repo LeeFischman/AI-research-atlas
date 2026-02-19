@@ -30,7 +30,7 @@ ARXIV_MAX       = 250     # max papers fetched per arXiv query
 # "incremental" — Python embeds only NEW papers; UMAP re-projects all stored
 #                 vectors. Faster. --text only feeds TF-IDF so label_text
 #                 (title-only) is used for sharper cluster labels.
-EMBEDDING_MODE = os.environ.get("EMBEDDING_MODE", "incremental").strip().lower()
+EMBEDDING_MODE = os.environ.get("EMBEDDING_MODE", "full").strip().lower()
 
 print(f"▶  Embedding mode : {EMBEDDING_MODE.upper()}")
 
@@ -210,7 +210,7 @@ def calculate_reputation(row) -> str:
     # Author count — larger teams tend to reflect institutional resources
     score += author_reputation_score(row["author_count"])
 
-    return "Reputation Enhanced" if score >= 4 else "Reputation Std"
+    return "Reputation Enhanced" if score >= 3 else "Reputation Std"
 
 
 # ──────────────────────────────────────────────
@@ -360,9 +360,17 @@ def generate_keybert_labels(df: pd.DataFrame) -> str:
 
     coords = df[["projection_x", "projection_y"]].values.astype(np.float64)
 
-    # HDBSCAN on 2D projection — finds natural density-based clusters.
-    # min_cluster_size controls granularity: lower = more clusters.
-    clusterer = HDBSCAN(min_cluster_size=8, metric="euclidean")
+    # ── HDBSCAN clustering settings ─────────────────────────────────────
+    # min_cluster_size: minimum papers for a group to become a cluster.
+    #   Higher → fewer, larger, more general clusters (less labels).
+    #   Lower  → more, smaller, more specific clusters (more labels).
+    #   Recommended range: 3–15. Default: 5.
+    #
+    # min_samples: how conservative cluster assignment is.
+    #   Lower  → more points assigned to clusters (less noise/unlabelled).
+    #   Higher → stricter, more points treated as noise.
+    #   Recommended range: 1–5. Default: 3.
+    clusterer = HDBSCAN(min_cluster_size=5, min_samples=3, metric="euclidean")
     cluster_ids = clusterer.fit_predict(coords)
 
     n_clusters = len(set(cluster_ids)) - (1 if -1 in cluster_ids else 0)
@@ -396,10 +404,27 @@ def generate_keybert_labels(df: pd.DataFrame) -> str:
             "effective", "efficient", "robust", "demonstrate", "achieve",
         ]
 
+        # ── KeyBERT keyword extraction settings ─────────────────────────
+        # keyphrase_ngram_range: (min, max) words per keyword phrase.
+        #   (1, 1) → single words only e.g. "robotics", "safety" — more general.
+        #   (1, 2) → single words and bigrams e.g. "medical imaging" — more specific.
+        #   (2, 2) → bigrams only — specific but can produce odd pairings.
+        #
+        # use_mmr: Maximal Marginal Relevance reduces redundancy between keywords.
+        #   True  → picks broader, more diverse terms across the cluster.
+        #   False → picks the highest-scoring terms regardless of similarity.
+        #
+        # diversity: only applies when use_mmr=True. Range 0.0–1.0.
+        #   Lower  → keywords closer to cluster centroid (more representative).
+        #   Higher → keywords more spread out (more diverse but less focused).
+        #
+        # top_n: how many candidate keywords to extract (kept for debug printing).
         keywords = kw_model.extract_keywords(
             combined,
-            keyphrase_ngram_range=(1, 2),
+            keyphrase_ngram_range=(1, 1),
             stop_words=KEYBERT_STOP_WORDS,
+            use_mmr=True,
+            diversity=0.3,
             top_n=3,
         )
         print(f"  Cluster {cid} ({mask.sum()} papers) top keywords: {keywords}")
