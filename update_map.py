@@ -638,10 +638,10 @@ if __name__ == "__main__":
     if EMBEDDING_MODE == "incremental":
         # Incremental mode: embeddings are pre-computed via --x/--y.
         # KeyBERT labels are passed via --labels, bypassing TF-IDF entirely.
-        # --text is still required by the CLI (used for tooltip search).
+        # --text is intentionally omitted so the CLI cannot generate competing
+        # automatic TF-IDF labels that would override our KeyBERT labels.
         atlas_cmd = [
             "embedding-atlas", DB_PATH,
-            "--text",       "label_text",
             "--x",          "projection_x",
             "--y",          "projection_y",
             "--labels",     labels_path,
@@ -663,7 +663,7 @@ if __name__ == "__main__":
     os.system("unzip -o site.zip -d docs/ && touch docs/.nojekyll")
 
     # Config override
-    config_path = "docs/data/config.json"
+    config_path = "docs/data/metadata.json"
     if os.path.exists(config_path):
         with open(config_path, "r") as f:
             conf = json.load(f)
