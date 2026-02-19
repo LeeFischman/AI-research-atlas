@@ -5,50 +5,10 @@
             "projection": {
                 "x": "projection_x",
                 "y": "projection_y"
-            }
+            },
+            "text": "text",
+            "neighbors": "__neighbors"
         },
-        "embeddingViewLabels": [
-            {
-                "x": 11.449631035327911,
-                "y": 7.882666110992432,
-                "text": "Medical Image"
-            },
-            {
-                "x": 5.282957553863525,
-                "y": 10.401386921222393,
-                "text": "Backdooring Bias"
-            },
-            {
-                "x": 6.481343095952814,
-                "y": 10.101866375316273,
-                "text": "Behavior Devsecops"
-            },
-            {
-                "x": 6.8431605886905755,
-                "y": 8.590317929044684,
-                "text": "Explanations Counterfactual"
-            },
-            {
-                "x": 9.581774171793237,
-                "y": 7.902050342199938,
-                "text": "Lstm Demand"
-            },
-            {
-                "x": 10.760516262054443,
-                "y": 10.436180782318115,
-                "text": "Perceptive Humanoid"
-            },
-            {
-                "x": 7.913786704723652,
-                "y": 10.470399196331318,
-                "text": "Ml Callable"
-            },
-            {
-                "x": 9.147292375564575,
-                "y": 10.422295464409721,
-                "text": "Reinforcement Tikart"
-            }
-        ],
         "initialState": {
             "version": "0.0.0"
         }
