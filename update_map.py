@@ -39,7 +39,7 @@ print(f"▶  Embedding mode : {EMBEDDING_MODE.upper()}")
 # 1. TEXT SCRUBBER
 # ──────────────────────────────────────────────
 def scrub_model_words(text: str) -> str:
-    pattern = re.compile(r'model(?:s|ing|ed|er|ers)?\b', re.IGNORECASE)
+    pattern = re.compile(r'model(?:s|ing|ed|er|ers)?\b', re.IGNORECASE)
     return " ".join(pattern.sub("", text).split())
 
 
@@ -304,12 +304,28 @@ def embed_and_project(df: pd.DataFrame) -> pd.DataFrame:
         print("  All papers already embedded — skipping SPECTER2.")
 
     all_vectors = np.array(df["embedding"].tolist(), dtype=np.float32)
-    print(f"  Projecting {len(all_vectors)} papers with UMAP...")
-    reducer = umap_lib.UMAP(n_components=2, metric="cosine", random_state=42,
-                            n_neighbors=15, min_dist=0.1)
-    coords = reducer.fit_transform(all_vectors)
-    df["projection_x"] = coords[:, 0].astype(float)
-    df["projection_y"] = coords[:, 1].astype(float)
+    n = len(all_vectors)
+    print(f"  Projecting {n} papers with UMAP (two-stage)...")
+
+    # ── Stage 1: 768D → 50D (for clustering) ────────────────────────────
+    # Reducing to 50D preserves far more structure than going straight to 2D.
+    # HDBSCAN then clusters in this richer space using cosine metric, which
+    # is appropriate for embedding vectors where direction > magnitude.
+    # The 50D coords are stored in the parquet so they don't need recomputing
+    # on every run — only new papers trigger a full re-projection.
+    reducer_50d = umap_lib.UMAP(n_components=50, metric="cosine",
+                                random_state=42, n_neighbors=15)
+    coords_50d = reducer_50d.fit_transform(all_vectors)
+    # Store as a flat list so pyarrow can serialise it into parquet.
+    df["embedding_50d"] = [row.tolist() for row in coords_50d]
+
+    # ── Stage 2: 768D → 2D (for display only) ───────────────────────────
+    # min_dist controls point spread: lower = tighter clusters visually.
+    reducer_2d = umap_lib.UMAP(n_components=2, metric="cosine",
+                               random_state=42, n_neighbors=15, min_dist=0.1)
+    coords_2d = reducer_2d.fit_transform(all_vectors)
+    df["projection_x"] = coords_2d[:, 0].astype(float)
+    df["projection_y"] = coords_2d[:, 1].astype(float)
     return df
 
 
@@ -358,11 +374,44 @@ def generate_keybert_labels(df: pd.DataFrame) -> str:
 
     print("  Generating KeyBERT cluster labels...")
 
-    coords = df[["projection_x", "projection_y"]].values.astype(np.float64)
+    # 2D coords used only for computing label centroid positions for display.
+    coords_2d = df[["projection_x", "projection_y"]].values.astype(np.float64)
+
+    # ── Clustering input: 50D cosine space ──────────────────────────────
+    # CURRENT APPROACH: cluster on the 50D UMAP projection (stored in
+    # embedding_50d) using cosine metric. This is far more semantically
+    # accurate than clustering on 2D display coords, which lose structure
+    # during the final compression step.
+    #
+    # ALTERNATIVE A — cluster on raw 768D SPECTER2 vectors:
+    #   More faithful to the original embedding space but slower and
+    #   HDBSCAN struggles with very high dimensions (curse of dimensionality).
+    #   Use 50D as a middle ground (current approach) unless you have
+    #   a strong reason to use the full vectors.
+    #   To enable: replace the embedding_50d block below with:
+    #     all_vectors = np.array(df["embedding"].tolist(), dtype=np.float32)
+    #     cluster_input = all_vectors
+    #     cluster_metric = "cosine"
+    #
+    # ALTERNATIVE B — cluster on 2D display coords (original approach):
+    #   Simple but lossy. Fine for small corpora but misses structure
+    #   compressed away during the 768D → 2D projection.
+    #   To enable: replace the block below with:
+    #     cluster_input = coords_2d
+    #     cluster_metric = "euclidean"
+    if "embedding_50d" in df.columns and df["embedding_50d"].notna().all():
+        cluster_input = np.array(df["embedding_50d"].tolist(), dtype=np.float32)
+        cluster_metric = "cosine"
+        print("  Clustering on 50D cosine space (high-fidelity).")
+    else:
+        # Fallback for runs where 50D projection isn't yet stored.
+        cluster_input = coords_2d
+        cluster_metric = "euclidean"
+        print("  Clustering on 2D coords (fallback — embedding_50d not available).")
 
     # ── HDBSCAN clustering settings ─────────────────────────────────────
     # min_cluster_size: minimum papers for a group to become a cluster.
-    #   Higher → fewer, larger, more general clusters (less labels).
+    #   Higher → fewer, larger, more general clusters (fewer labels).
     #   Lower  → more, smaller, more specific clusters (more labels).
     #   Recommended range: 3–15. Default: 5.
     #
@@ -370,8 +419,75 @@ def generate_keybert_labels(df: pd.DataFrame) -> str:
     #   Lower  → more points assigned to clusters (less noise/unlabelled).
     #   Higher → stricter, more points treated as noise.
     #   Recommended range: 1–5. Default: 3.
-    clusterer = HDBSCAN(min_cluster_size=5, min_samples=4, metric="euclidean")
-    cluster_ids = clusterer.fit_predict(coords)
+    #
+    # cluster_selection_method:
+    #   "eom"  (default) — Excess of Mass; finds clusters of varying sizes.
+    #   "leaf" — selects leaf nodes of the condensed tree; smaller, more
+    #            granular clusters. Try this if clusters feel too coarse.
+    #   To enable leaf mode: add cluster_selection_method="leaf" below.
+    #
+    # Adaptive min_cluster_size (scales with corpus size):
+    #   Rather than a fixed value, scale to corpus size so the number of
+    #   clusters stays roughly proportional as the rolling DB grows/shrinks.
+    #   To enable: replace min_cluster_size=5 with:
+    #     min_cluster_size=max(5, len(df) // 40)
+    #
+    # Soft clustering (reduces unlabelled noise points):
+    #   HDBSCAN supports fuzzy cluster membership — points near boundaries
+    #   get fractional membership rather than being forced into one cluster
+    #   or marked as noise. Requires prediction_data=True and a separate
+    #   soft assignment step via hdbscan.all_points_membership_vectors().
+    #   Note: soft clustering is not currently implemented here; enable
+    #   prediction_data=True below as a first step if you want to explore it.
+    # ════════════════════════════════════════════════════════════════════
+    # HDBSCAN SETTINGS — all changes take effect on the next build.
+    # These settings do not affect database.parquet in any way.
+    # ════════════════════════════════════════════════════════════════════
+    #
+    # ── min_cluster_size (int, default: 5) ──────────────────────────────
+    # Minimum number of papers required to form a cluster.
+    # Lower  → more clusters, more specific labels.
+    # Higher → fewer clusters, more general labels.
+    # Syntax:   HDBSCAN(min_cluster_size=5, ...)
+    # Range:    3–15 recommended for a ~300 paper corpus.
+    #
+    # ── min_samples (int, default: 4) ───────────────────────────────────
+    # Controls how conservative cluster assignment is.
+    # Lower  → more points pulled into clusters, fewer noise points.
+    # Higher → stricter assignment, more points marked as noise.
+    # Syntax:   HDBSCAN(..., min_samples=4, ...)
+    # Range:    1–5 recommended.
+    #
+    # ── cluster_selection_method (str, default: "eom") ──────────────────
+    # "eom"  — Excess of Mass; finds clusters of varying sizes (default).
+    # "leaf" — Selects leaf nodes; smaller, more granular clusters.
+    #          Try "leaf" if clusters feel too coarse.
+    # Syntax:   HDBSCAN(..., cluster_selection_method="leaf")
+    #
+    # ── metric (str, set automatically above) ───────────────────────────
+    # "cosine"    — used when clustering on 50D embeddings (current).
+    # "euclidean" — used as fallback when clustering on 2D coords.
+    # Do not change this directly; it is set by the cluster_metric variable.
+    #
+    # ── Adaptive min_cluster_size (scales with corpus size) ─────────────
+    # Keeps cluster count roughly proportional as the rolling DB changes.
+    # Syntax:   HDBSCAN(min_cluster_size=max(5, len(df) // 40), ...)
+    #
+    # ── cluster_selection_epsilon (float, default: 0.0) ─────────────────
+    # Merges clusters closer than this distance threshold. Useful if you
+    # see many tiny clusters that should logically be one topic.
+    # Syntax:   HDBSCAN(..., cluster_selection_epsilon=0.5)
+    # Range:    0.0 (off) to ~2.0; tune by inspecting cluster count.
+    #
+    # ── alpha (float, default: 1.0) ─────────────────────────────────────
+    # Controls how aggressively clusters are split during extraction.
+    # Higher → fewer, more stable clusters.
+    # Lower  → more splits, more clusters.
+    # Syntax:   HDBSCAN(..., alpha=1.0)
+    # Range:    0.5–2.0 typical.
+    # ════════════════════════════════════════════════════════════════════
+    clusterer = HDBSCAN(min_cluster_size=max(5, len(df) // 40), min_samples=4, metric=cluster_metric, cluster_selection_method="leaf")
+    cluster_ids = clusterer.fit_predict(cluster_input)
 
     n_clusters = len(set(cluster_ids)) - (1 if -1 in cluster_ids else 0)
     print(f"  Found {n_clusters} clusters (noise points excluded).")
@@ -421,7 +537,7 @@ def generate_keybert_labels(df: pd.DataFrame) -> str:
         # top_n: how many candidate keywords to extract (kept for debug printing).
         keywords = kw_model.extract_keywords(
             combined,
-            keyphrase_ngram_range=(1, 2),
+            keyphrase_ngram_range=(2, 2),
             stop_words=KEYBERT_STOP_WORDS,
             use_mmr=True,
             diversity=0.3,
@@ -433,8 +549,8 @@ def generate_keybert_labels(df: pd.DataFrame) -> str:
             continue
 
         label_text = keywords[0][0].title()
-        cx = float(coords[mask, 0].mean())
-        cy = float(coords[mask, 1].mean())
+        cx = float(coords_2d[mask, 0].mean())
+        cy = float(coords_2d[mask, 1].mean())
         label_rows.append({"x": cx, "y": cy, "text": label_text})
 
     labels_df = pd.DataFrame(label_rows)
@@ -534,7 +650,7 @@ def build_panel_html(run_date: str) -> str:
     </div>
     <div class="arm-byline">By <a href="https://www.linkedin.com/in/lee-fischman/" target="_blank" rel="noopener">Lee Fischman</a></div>
 
-    <p class="arm-p">A live semantic atlas of AI research from arXiv (cs.AI) across a rolling 5-day window. Each point is a paper. Nearby points share similar topics &mdash; clusters surface naturally from the embedding space and are labelled by their most distinctive terms.</p>
+    <p class="arm-p">A live semantic atlas of recent AI research from arXiv (cs.AI), rebuilt daily. Each point is a paper. Nearby points share similar topics &mdash; clusters surface naturally from the embedding space and are labelled by their most distinctive terms.</p>
     <p class="arm-p">Powered by <a href="https://apple.github.io/embedding-atlas/" target="_blank" rel="noopener">Apple Embedding Atlas</a> and SPECTER2 scientific embeddings.</p>
 
     <hr class="arm-divider">
@@ -585,6 +701,15 @@ if __name__ == "__main__":
         print(f"  Loaded {len(existing_df)} existing papers from rolling DB.")
 
     # Fetch from arXiv
+        # Set a descriptive User-Agent as required by arXiv's API policy.
+    # Without this, new clients may receive HTTP 406 rejections.
+    import urllib.request
+    opener = urllib.request.build_opener()
+    opener.addheaders = [("User-Agent",
+        "ai-research-atlas/1.0 (https://github.com/lfischman/ai-research-atlas; "
+        "mailto:lee.fischman@gmail.com)")]
+    urllib.request.install_opener(opener)
+
     client = arxiv.Client(page_size=100, delay_seconds=10)
     search = arxiv.Search(
         query=(
