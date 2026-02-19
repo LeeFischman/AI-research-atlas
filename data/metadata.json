@@ -1,1 +1,72 @@
-{"props": {"data": {"id": "__row_index__", "projection": {"x": "projection_x", "y": "projection_y"}, "text": "label_text"}, "embeddingViewLabels": [{"x": 12.493444760640463, "y": 9.721406724717882, "text": "Behavior Devsecops"}, {"x": 13.454625765482584, "y": 9.853346745173136, "text": "Backdooring Bias"}, {"x": 13.316805839538574, "y": 5.3900278264826, "text": "Perceptive Humanoid"}, {"x": 10.987684754764333, "y": 4.485688742469339, "text": "Medical Image"}, {"x": 10.91482999920845, "y": 8.788422524929047, "text": "Generation Disentangling"}, {"x": 10.982282638549805, "y": 9.934479077657064, "text": "Ai Disempowerment"}, {"x": 12.94480458427878, "y": 7.006961504618327, "text": "Llm Agent"}, {"x": 10.686236882209778, "y": 6.401918375492096, "text": "Autoencoders Scalable"}], "initialState": {"version": "0.0.0"}}, "isStatic": true, "database": {"type": "wasm", "load": true}}
+{
+    "props": {
+        "data": {
+            "id": "__row_index__",
+            "projection": {
+                "x": "projection_x",
+                "y": "projection_y"
+            }
+        },
+        "embeddingViewLabels": [
+            {
+                "x": 11.449631035327911,
+                "y": 7.882666110992432,
+                "text": "Medical Image"
+            },
+            {
+                "x": 5.282957553863525,
+                "y": 10.401386921222393,
+                "text": "Backdooring Bias"
+            },
+            {
+                "x": 6.481343095952814,
+                "y": 10.101866375316273,
+                "text": "Behavior Devsecops"
+            },
+            {
+                "x": 6.8431605886905755,
+                "y": 8.590317929044684,
+                "text": "Explanations Counterfactual"
+            },
+            {
+                "x": 9.581774171793237,
+                "y": 7.902050342199938,
+                "text": "Lstm Demand"
+            },
+            {
+                "x": 10.760516262054443,
+                "y": 10.436180782318115,
+                "text": "Perceptive Humanoid"
+            },
+            {
+                "x": 7.913786704723652,
+                "y": 10.470399196331318,
+                "text": "Ml Callable"
+            },
+            {
+                "x": 9.147292375564575,
+                "y": 10.422295464409721,
+                "text": "Reinforcement Tikart"
+            }
+        ],
+        "initialState": {
+            "version": "0.0.0"
+        }
+    },
+    "isStatic": true,
+    "database": {
+        "type": "wasm",
+        "load": true
+    },
+    "name_column": "title",
+    "label_column": "title",
+    "color_by": "group",
+    "column_mappings": {
+        "title": "title",
+        "abstract": "abstract",
+        "group": "group",
+        "author_count": "author_count",
+        "author_tier": "author_tier",
+        "url": "url"
+    }
+}
