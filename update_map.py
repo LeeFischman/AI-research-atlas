@@ -30,7 +30,7 @@ ARXIV_MAX       = 250     # max papers fetched per arXiv query
 # "incremental" — Python embeds only NEW papers; UMAP re-projects all stored
 #                 vectors. Faster. --text only feeds TF-IDF so label_text
 #                 (title-only) is used for sharper cluster labels.
-EMBEDDING_MODE = os.environ.get("EMBEDDING_MODE", "full").strip().lower()
+EMBEDDING_MODE = os.environ.get("EMBEDDING_MODE", "incremental").strip().lower()
 
 print(f"▶  Embedding mode : {EMBEDDING_MODE.upper()}")
 
@@ -370,7 +370,7 @@ def generate_keybert_labels(df: pd.DataFrame) -> str:
     #   Lower  → more points assigned to clusters (less noise/unlabelled).
     #   Higher → stricter, more points treated as noise.
     #   Recommended range: 1–5. Default: 3.
-    clusterer = HDBSCAN(min_cluster_size=5, min_samples=3, metric="euclidean")
+    clusterer = HDBSCAN(min_cluster_size=5, min_samples=4, metric="euclidean")
     cluster_ids = clusterer.fit_predict(coords)
 
     n_clusters = len(set(cluster_ids)) - (1 if -1 in cluster_ids else 0)
@@ -628,11 +628,19 @@ if __name__ == "__main__":
         })
 
     new_df = pd.DataFrame(rows)
-    new_df["group"] = new_df.apply(calculate_reputation, axis=1)
+    new_df["Reputation"] = new_df.apply(calculate_reputation, axis=1)
 
     # Merge into rolling DB
     df = merge_papers(existing_df, new_df)
+    df = df.drop(columns=["group"], errors="ignore")  # remove legacy column name
     print(f"  Rolling DB: {len(df)} papers after merge.")
+
+    # Backfill Reputation for older rows that predate the column.
+    if "Reputation" not in df.columns or df["Reputation"].isna().any():
+        missing = df["Reputation"].isna() if "Reputation" in df.columns else pd.Series([True] * len(df))
+        if missing.any():
+            print(f"  Backfilling Reputation for {missing.sum()} older rows...")
+            df.loc[missing, "Reputation"] = df.loc[missing].apply(calculate_reputation, axis=1)
 
     # Embed & project (incremental mode only)
     labels_path = None
@@ -695,7 +703,7 @@ if __name__ == "__main__":
 
         conf["name_column"]  = "title"
         conf["label_column"] = "title"
-        conf["color_by"]     = "group"
+        conf["color_by"]     = "Reputation"
 
         # labelDensityThreshold controls how dense a cluster must be to receive
         # a floating label. Value is relative to the max density (0.0–1.0).
@@ -706,7 +714,7 @@ if __name__ == "__main__":
         conf.setdefault("column_mappings", {}).update({
             "title":        "title",
             "abstract":     "abstract",
-            "group":        "group",
+            "Reputation":   "Reputation",
             "author_count": "author_count",
             "author_tier":  "author_tier",
             "url":          "url",
