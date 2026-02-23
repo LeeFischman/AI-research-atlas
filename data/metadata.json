@@ -9,128 +9,128 @@
         },
         "embeddingViewLabels": [
             {
-                "x": -1.320717204106018,
-                "y": -1.8615895725623257,
-                "text": "Time Series Forecasting And Prediction",
+                "x": -1.0564879897658497,
+                "y": -0.9389476039769201,
+                "text": "Llm Agent Evaluation Frameworks",
                 "level": 0,
                 "priority": 10
             },
             {
-                "x": -2.2450911201939374,
-                "y": 0.6720148935762036,
-                "text": "Llm Agent Benchmarking And Evaluation",
-                "level": 0,
-                "priority": 10
-            },
-            {
-                "x": 0.9868415254434474,
-                "y": -0.6504674618212407,
-                "text": "Multimodal Foundation Models",
-                "level": 0,
-                "priority": 10
-            },
-            {
-                "x": 0.6160383287227559,
-                "y": 0.5911997571328996,
+                "x": -0.3694776634627073,
+                "y": 1.1295039489050898,
                 "text": "Information Retrieval Systems",
                 "level": 0,
                 "priority": 10
             },
             {
-                "x": 0.4988233111884809,
-                "y": -1.2415106685933384,
-                "text": "Generative Models For Molecular Design",
+                "x": 1.3011199385757954,
+                "y": -2.382728386721608,
+                "text": "Automated Debugging And Error Explanation",
                 "level": 0,
                 "priority": 10
             },
             {
-                "x": -1.4502390498536086,
-                "y": -0.8729636798931872,
-                "text": "Llm Safety And Alignment",
+                "x": -3.0233906479145407,
+                "y": -0.8530214730418195,
+                "text": "Robot Learning And Control",
                 "level": 0,
                 "priority": 10
             },
             {
-                "x": 1.3061557606928014,
-                "y": 2.1957836228414447,
-                "text": "Embodied Agent Learning",
+                "x": 0.5260504077117188,
+                "y": -0.7251839587412345,
+                "text": "Llm Knowledge And Reasoning",
                 "level": 0,
                 "priority": 10
             },
             {
-                "x": -0.6145130760084846,
-                "y": -2.43206189876751,
-                "text": "Model Scaling And Efficiency",
+                "x": -1.0262136243781643,
+                "y": 0.4118852521849471,
+                "text": "Model Quantization",
                 "level": 0,
                 "priority": 10
             },
             {
-                "x": -1.5635522644161644,
-                "y": 1.8756531244966927,
-                "text": "Memory And Planning In Agents",
+                "x": -1.1527057733282833,
+                "y": -2.235690138972088,
+                "text": "Stance Detection And Opinion Mining",
                 "level": 0,
                 "priority": 10
             },
             {
-                "x": 0.19745461844624165,
-                "y": 1.908608057124266,
-                "text": "Multi-Agent Coordination And Safety",
+                "x": 0.6036719343040094,
+                "y": 1.4550283007301295,
+                "text": "Privacy-Preserving Machine Learning",
                 "level": 0,
                 "priority": 10
             },
             {
-                "x": -1.056144582386536,
-                "y": 0.7304484714170136,
-                "text": "Representational Learning Analysis",
-                "level": 0,
-                "priority": 10
-            },
-            {
-                "x": 1.2991438353876894,
-                "y": -2.4883494087912164,
-                "text": "Model Quantization And Compression",
-                "level": 0,
-                "priority": 10
-            },
-            {
-                "x": -2.5345889259970966,
-                "y": -0.49245124387394834,
-                "text": "Natural Language Understanding Tasks",
-                "level": 0,
-                "priority": 10
-            },
-            {
-                "x": 2.205867469647023,
-                "y": 1.017592722034339,
+                "x": 1.968002299653773,
+                "y": -1.1121411058285007,
                 "text": "Geometric Deep Learning",
                 "level": 0,
                 "priority": 10
             },
             {
-                "x": -0.33148308754464195,
-                "y": 0.022286804668121475,
-                "text": "Reinforcement Learning With Verifiable Rewards",
+                "x": -1.983562686484062,
+                "y": -0.06927639914515499,
+                "text": "Ai For Scientific Discovery",
                 "level": 0,
                 "priority": 10
             },
             {
-                "x": -0.6238986312643152,
-                "y": 2.480956583930896,
-                "text": "Scientific Discovery With Ai",
+                "x": 1.7483549484327763,
+                "y": 3.0786978866175696,
+                "text": "Model Serving And Deployment",
                 "level": 0,
                 "priority": 10
             },
             {
-                "x": 2.063167339691456,
-                "y": -1.161820933206812,
-                "text": "Medical Image Understanding",
+                "x": 1.9875320107529064,
+                "y": 1.654054416425034,
+                "text": "Watermarking And Content Verification",
                 "level": 0,
                 "priority": 10
             },
             {
-                "x": 2.526914771670594,
-                "y": -0.015299006661138722,
-                "text": "Graph Neural Networks",
+                "x": -0.11186807859579231,
+                "y": -2.766334319227935,
+                "text": "Learning Theory And Reasoning",
+                "level": 0,
+                "priority": 10
+            },
+            {
+                "x": -2.4135973787050746,
+                "y": 1.6388068681566348,
+                "text": "Video Generation And Synthesis",
+                "level": 0,
+                "priority": 10
+            },
+            {
+                "x": 0.29084269000581053,
+                "y": -1.9197810137191094,
+                "text": "Knowledge Graphs And Structured Data",
+                "level": 0,
+                "priority": 10
+            },
+            {
+                "x": 1.5581849886165116,
+                "y": 0.23493615357879,
+                "text": "Participatory Ai And Democracy",
+                "level": 0,
+                "priority": 10
+            },
+            {
+                "x": 2.618236636149451,
+                "y": 0.0157073413614535,
+                "text": "Risk Prediction And Finance",
+                "level": 0,
+                "priority": 10
+            },
+            {
+                "x": -1.1833863779372233,
+                "y": 2.9449715081244143,
+                "text": "Audio Processing",
                 "level": 0,
                 "priority": 10
             }
