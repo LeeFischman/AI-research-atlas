@@ -783,7 +783,7 @@ if __name__ == "__main__":
         print("\n▶  Stage 1 — Loading rolling database...")
         existing_df  = load_existing_db()
         is_first_run = existing_df.empty and not os.path.exists(DB_PATH)
-        days_back    = 5 if is_first_run else 2
+        days_back = 5 if is_first_run else 1
 
         if is_first_run:
             print("  First run — pre-filling with last 5 days of arXiv papers.")
