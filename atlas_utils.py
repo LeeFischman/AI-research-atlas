@@ -38,7 +38,7 @@ import pandas as pd
 
 DB_PATH         = "database.parquet"
 STOP_WORDS_PATH = "stop_words.csv"
-RETENTION_DAYS  = 5      # papers older than this are pruned each run
+RETENTION_DAYS  = 4      # papers older than this are pruned each run
 ARXIV_MAX       = 250    # max papers fetched per arXiv query
 
 # arXiv retry policy
@@ -544,8 +544,7 @@ def build_and_deploy_atlas(
         print(f"  {config_path} not found — skipping config override.")
 
     # ── Panel HTML injection ───────────────────────────────────────────────
-    # Font <link> tags go in <head> to prevent FOUT (flash of unstyled text).
-    # Panel CSS/JS/DOM goes before </body>.
+    # font_html (GA + fonts) → <head>; panel_html (CSS/JS/DOM) → before </body>
     index_file = os.path.join(docs_dir, "index.html")
     if os.path.exists(index_file):
         font_html, panel_html = build_panel_html(run_date)
@@ -575,12 +574,16 @@ def build_and_deploy_atlas(
 def build_panel_html(run_date: str) -> tuple[str, str]:
     """Return (font_html, panel_html).
 
-    font_html  — <link> tags injected into <head> to prevent font FOUT.
-    panel_html — CSS, JS, and panel DOM injected before </body>.
+    font_html  — GA4 snippet + font <link> tags, injected into <head>.
+    panel_html — CSS, JS, and panel DOM, injected before </body>.
     """
     font_html = (
-        '<link rel="preconnect" href="https://fonts.googleapis.com">'
-        '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
+        '<!-- Google tag (gtag.js) -->' +
+        '<script async src="https://www.googletagmanager.com/gtag/js?id=G-6LKWKT8838"></script>' +
+        '<script>window.dataLayer=window.dataLayer||[];' +
+        'function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-6LKWKT8838");</script>' +
+        '<link rel="preconnect" href="https://fonts.googleapis.com">' +
+        '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' +
         '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">'
     )
     panel_html = (
@@ -696,11 +699,8 @@ def build_panel_html(run_date: str) -> tuple[str, str]:
     document.querySelectorAll('.arm-tab').forEach(function(t) { t.style.display = ''; });
   }
 
-  // ── Shortcut color-by handler ─────────────────────────────────────────────
-  // Atlas renders a <select> whose options have JSON-quoted values like
-  // '"Reputation"', '"author_count"' etc. We find it by checking which
-  // select contains a Reputation option, set its value via the native setter
-  // (required for Svelte to detect the change), and fire a change event.
+  // Atlas color-by: find the select whose options include Reputation,
+  // set value via native setter (Svelte needs this), fire change event.
   function armSetColor(columnName, tileEl) {
     var colorSelect = Array.from(document.querySelectorAll('select')).find(function(sel) {
       return Array.from(sel.options).some(function(o) { return o.text.includes('Reputation'); });
