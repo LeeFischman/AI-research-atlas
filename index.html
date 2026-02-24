@@ -12,7 +12,7 @@
     </style>
     <script type="module" crossorigin src="./assets/index-BtGntx4N.js"></script>
     <link rel="stylesheet" crossorigin href="./assets/index-Df_vtN7h.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-6LKWKT8838"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-6LKWKT8838");</script><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
   <body>
     <div id="app" class="embedding-atlas-root"></div>
@@ -128,11 +128,8 @@
     document.querySelectorAll('.arm-tab').forEach(function(t) { t.style.display = ''; });
   }
 
-  // ── Shortcut color-by handler ─────────────────────────────────────────────
-  // Atlas renders a <select> whose options have JSON-quoted values like
-  // '"Reputation"', '"author_count"' etc. We find it by checking which
-  // select contains a Reputation option, set its value via the native setter
-  // (required for Svelte to detect the change), and fire a change event.
+  // Atlas color-by: find the select whose options include Reputation,
+  // set value via native setter (Svelte needs this), fire change event.
   function armSetColor(columnName, tileEl) {
     var colorSelect = Array.from(document.querySelectorAll('select')).find(function(sel) {
       return Array.from(sel.options).some(function(o) { return o.text.includes('Reputation'); });
@@ -189,7 +186,7 @@
   </div>
   <div class="arm-footer">
     <div class="arm-status-dot"></div>
-    <span class="arm-status-text">Last updated <strong>February 23, 2026 UTC</strong></span>
+    <span class="arm-status-text">Last updated <strong>February 24, 2026 UTC</strong></span>
   </div>
 </div>
 
@@ -228,7 +225,7 @@
   </div>
   <div class="arm-footer">
     <div class="arm-status-dot"></div>
-    <span class="arm-status-text">Last updated <strong>February 23, 2026 UTC</strong></span>
+    <span class="arm-status-text">Last updated <strong>February 24, 2026 UTC</strong></span>
   </div>
 </div>
 
