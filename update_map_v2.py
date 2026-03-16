@@ -41,28 +41,36 @@ import os
 import random
 import re
 import time
-import urllib.request
 from datetime import datetime, timedelta, timezone
 from math import sqrt
 
 import numpy as np
 import pandas as pd
 
-import arxiv
-
 # Shared utilities — does NOT modify update_map.py
 from atlas_utils import (
     DB_PATH,
     ARXIV_MAX,
+    RETENTION_DAYS,
     _strip_urls,
     scrub_model_words,
-    calculate_reputation,
+    calculate_prominence,
+    calculate_citation_tier,
     categorize_authors,
+    load_author_cache,
+    save_author_cache,
+    fetch_author_hindices,
     load_existing_db,
     merge_papers,
-    fetch_arxiv,
+    fetch_arxiv_oai,
     embed_and_project,
     build_and_deploy_atlas,
+    # Semantic Scholar
+    SS_CACHE_TTL_DAYS,
+    load_ss_cache,
+    save_ss_cache,
+    fetch_semantic_scholar_data,
+    _arxiv_id_base,
 )
 
 
@@ -76,18 +84,33 @@ from atlas_utils import (
 # Set via env var:  OFFLINE_MODE=true python update_map_v2.py
 OFFLINE_MODE = os.environ.get("OFFLINE_MODE", "false").strip().lower() == "true"
 
+# When True: re-fetch OpenAlex h-indices for ALL papers, including those that
+# already have an author_hindices list (e.g. empty lists from a first run).
+# Set via env var:  BACKFILL_HINDICES=true
+# Remove after one successful backfill run.
+BACKFILL_HINDICES = os.environ.get("BACKFILL_HINDICES", "false").strip().lower() == "true"
+
 # Cache file written after every successful Haiku grouping call.
 # Loaded automatically in offline mode.
 GROUP_NAMES_CACHE = "group_names_v2.json"
 
 # ── Haiku grouping ───────────────────────────────────────────────────────────
 
-# Target group count range sent to Haiku in the prompt.
-# If Haiku returns more than GROUP_COUNT_MAX groups, excess groups are merged
-# down automatically — no retry needed for over-grouping.
-# Recommended range: 10-20.
-GROUP_COUNT_MIN = 12
-GROUP_COUNT_MAX = 18
+# ── Haiku grouping ───────────────────────────────────────────────────────────
+
+# Stable bucket count (always offered to Haiku; only used if papers fit).
+GROUP_STABLE_COUNT = 14
+
+# Maximum dynamic groups Haiku may invent beyond the stable buckets.
+GROUP_DYNAMIC_MAX  = 999  # uncapped — Haiku chooses however many make sense
+
+# Hard cap on total groups (stable + dynamic).
+# Haiku is not required to reach this — it's a ceiling, not a target.
+GROUP_COUNT_MAX    = 60
+
+# No hard minimum — if 10 groups make sense today, that's fine.
+# Validation rejects responses with 0 groups only.
+GROUP_COUNT_MIN    = 1
 
 # Characters of each abstract sent to Haiku.
 # Recommended range: 150-400.  Shorter = cheaper; longer = better grouping.
@@ -143,13 +166,14 @@ VARIANCE_AMPLIFIER = 2.0
 # Clusters too sparse / papers far from their label:
 #   → Raise SCATTER_FRACTION (0.35 → 0.45)
 #
-# Merge step absorbing groups that feel semantically distinct:
-#   → Raise GROUP_COUNT_MAX (18 → 20 or 22)
-#     Haiku's natural granularity may warrant a higher ceiling.
+# Too many dynamic groups (noise-like topics appearing):
+#   → Lower GROUP_DYNAMIC_MAX (6 → 4)
 #
-# Haiku consistently returns too few groups (< GROUP_COUNT_MIN):
-#   → Lower GROUP_COUNT_MIN (12 → 10), or reduce ABSTRACT_GROUPING_CHARS
-#     so Haiku sees less detail and forms coarser groups.
+# Dynamic groups too coarse (interesting edges being merged into stable):
+#   → Raise GROUP_DYNAMIC_MAX (6 → 8)
+#
+# Merge step absorbing groups that feel semantically distinct:
+#   → Raise GROUP_COUNT_MAX (20 → 24)
 #
 # Ready for production (fresh papers + re-grouping):
 #   → Remove OFFLINE_MODE from the workflow YAML.
@@ -162,6 +186,11 @@ VARIANCE_AMPLIFIER = 2.0
 PROJ_X_COL = "projection_v2_x"
 PROJ_Y_COL = "projection_v2_y"
 
+# ── Significant papers ───────────────────────────────────────────────────────
+# Written by the weekly update_significant.py script.
+# Loaded at Stage 1 and merged with the recent-window papers.
+SIGNIFICANT_PATH = "significant.parquet"
+
 # ── Haiku model ──────────────────────────────────────────────────────────────
 HAIKU_MODEL = "claude-haiku-4-5-20251001"
 
@@ -170,28 +199,116 @@ HAIKU_MODEL = "claude-haiku-4-5-20251001"
 # STAGE 3 — HAIKU GROUPING
 # ══════════════════════════════════════════════════════════════════════════════
 
+_STABLE_BUCKETS = """STABLE CATEGORIES (use only those that have papers today — skip empty ones):
+
+ID 0 — Language Models & Reasoning
+  Core LLM research: pretraining, fine-tuning, RLHF, instruction following,
+  chain-of-thought, inference-time scaling, agents, prompt engineering,
+  retrieval-augmented generation, context length, and LLM efficiency.
+
+ID 1 — Computer Vision
+  Image and video understanding, generation, and editing. Object detection,
+  segmentation, recognition, diffusion models for images, 3D reconstruction,
+  video generation and understanding. Primary contribution is visual.
+
+ID 2 — Multimodal Learning
+  Systems jointly processing two or more modalities (vision+language,
+  audio+language, etc.). VLMs, vision-language alignment, captioning,
+  visual QA, audio-language models. Primary contribution is cross-modal fusion.
+
+ID 3 — Reinforcement Learning
+  RL algorithms, policy optimization, reward modeling, multi-agent RL,
+  offline RL, model-based RL, exploration strategies, game-playing agents.
+
+ID 4 — Robotics & Embodied AI
+  Physical robots, manipulation, locomotion, sim-to-real transfer,
+  embodied agents in 3D environments, navigation, dexterous control.
+
+ID 5 — Safety, Alignment & Ethics
+  AI safety, alignment research, red-teaming, jailbreaks, fairness, bias,
+  interpretability for safety, societal impact, governance, privacy.
+
+ID 6 — Theory, Optimization & Efficient ML
+  Mathematical foundations: convergence proofs, generalization bounds,
+  learning theory. Model compression, quantization, pruning, efficient
+  architectures, hardware-aware ML, federated learning.
+
+ID 7 — Domain Applications
+  AI applied to a specific external field as the primary contribution:
+  medicine, biology, climate, law, finance, education, scientific discovery.
+  The application domain — not the AI method — is the main result.
+
+ID 8 — Generative Models & Synthesis
+  Generative modelling as the primary contribution: diffusion models, GANs,
+  VAEs, flow-based models, autoregressive generation of images, video, 3D,
+  molecules, or other structured data. Distinct from Computer Vision when the
+  core contribution is the generative method rather than visual understanding.
+
+ID 9 — Speech & Audio Processing
+  Spoken language, audio signals, and music. Speech recognition, synthesis,
+  voice conversion, speaker identification, audio generation, sound event
+  detection, music information retrieval. Primary modality is audio.
+
+ID 10 — Graph Learning & Networks
+  Graph neural networks, knowledge graphs, network analysis, link prediction,
+  node classification, graph generation, and geometric deep learning on
+  non-Euclidean data structures.
+
+ID 11 — Data, Benchmarks & Evaluation
+  Datasets, evaluation frameworks, and measurement methodology as the primary
+  contribution: new benchmarks, annotation pipelines, evaluation metrics,
+  leaderboard analysis, reproducibility studies, dataset audits.
+
+ID 12 — Human-AI Interaction
+  Interfaces, user experience, and the human side of AI systems: conversational
+  agents, explainability for end-users, HCI studies, accessibility, human
+  factors, collaborative AI tools, trust and transparency research.
+
+ID 13 — Planning & Search
+  Planning algorithms, search-based reasoning, symbolic AI, combinatorial
+  optimisation, constraint satisfaction, automated reasoning, and hybrid
+  neuro-symbolic approaches where planning or search is the core contribution."""
+
 _GROUPING_SYSTEM = (
     "You are a research taxonomy expert. You will be given a list of AI research "
     "paper titles and abstracts. Your task is to group them into thematically "
-    "coherent clusters based on shared research methodology, problem formulation, "
-    "or application domain.\n\n"
-    "Rules:\n"
+    "coherent clusters.\n\n"
+
+    f"{_STABLE_BUCKETS}\n\n"
+
+    "DYNAMIC CATEGORIES (create as many as the papers genuinely warrant):\n"
+    "  Use IDs starting at 14. Name each with a concise 3-6 word noun phrase "
+    "capturing the shared intellectual thread (e.g. 'Graph Neural Network Methods', "
+    "'Diffusion Model Theory', 'Speech & Audio Processing'). Create a dynamic "
+    "group only when papers genuinely don't fit any stable category above.\n\n"
+
+    f"TOTAL GROUP CAP: {GROUP_COUNT_MAX} groups maximum (stable + dynamic combined). "
+    "You are NOT required to reach this cap — use only as many groups as the "
+    "papers genuinely warrant.\n\n"
+
+    "ASSIGNMENT RULES:\n"
     "- Assign every paper to exactly one group.\n"
-    f"- Use between {GROUP_COUNT_MIN} and {GROUP_COUNT_MAX} groups total. "
-    "Do not create more or fewer.\n"
-    "- Group papers by what makes them intellectually related, not just surface "
-    "topic keywords. Papers that share a methodology or theoretical framework "
-    "should be grouped together even if their application domains differ.\n"
-    "- Give each group a concise 3-6 word name capturing the shared intellectual "
-    "thread (methodology or framing, not just topic keywords). "
-    "Prefer noun phrases: 'Sparse Reward Policy Learning' not 'Papers About RL'.\n"
-    "- Respond ONLY with a JSON array. No preamble, no explanation, no markdown "
-    "fences. The array must have exactly one entry per paper in the same order "
-    "as the input, with this structure:\n"
-    '[{"index": 0, "group_id": 0, "group_name": "Sparse Reward Policy Learning"}, '
-    '{"index": 1, "group_id": 3, "group_name": "Multimodal Instruction Tuning"}, ...]\n'
-    "- group_id must be an integer from 0 to (number_of_groups - 1).\n"
-    "- group_name must be identical for every entry that shares the same group_id."
+    "- When a paper could fit multiple stable categories, assign it to the one "
+    "where its PRIMARY CONTRIBUTION lies — the thing the authors would consider "
+    "their main result. Example: a vision-language model whose core contribution "
+    "is a new training objective → Language Models & Reasoning; one whose core "
+    "contribution is cross-modal alignment → Multimodal Learning.\n"
+    "- Prefer stable categories over dynamic ones when the fit is reasonable.\n"
+    "- Group papers by what makes them intellectually related — shared methodology "
+    "or theoretical framework — not just surface topic keywords.\n\n"
+
+    "OUTPUT FORMAT:\n"
+    "Respond ONLY with a JSON object with exactly two keys. No preamble, no "
+    "explanation, no markdown fences:\n"
+    '{"groups": {"0": "Language Models & Reasoning", "14": "Graph Neural Network Methods"}, '
+    '"assignments": {"0": 0, "1": 0, "2": 8, "3": 1, ...}}\n'
+    "- 'groups': maps each group_id (as a string) to its name. Include only "
+    "groups that are actually used.\n"
+    "- 'assignments': maps each paper index (as a string) to its group_id integer. "
+    "Every paper index from 0 to N-1 must appear exactly once.\n"
+    "- group_id must be an integer (0-13 for stable, 14+ for dynamic).\n"
+    "- For stable categories, group_name must exactly match the stable category "
+    "name (e.g. 'Language Models & Reasoning', not 'LLMs & Reasoning')."
 )
 
 
@@ -206,21 +323,50 @@ def _build_grouping_user_message(df: pd.DataFrame) -> str:
     return "\n\n".join(lines)
 
 
+# Canonical names for stable buckets — used to normalise Haiku's output
+# so minor variations ("LLMs & Reasoning") are corrected to the exact name.
+_STABLE_BUCKET_NAMES: dict[int, str] = {
+    0: "Language Models & Reasoning",
+    1: "Computer Vision",
+    2: "Multimodal Learning",
+    3: "Reinforcement Learning",
+    4: "Robotics & Embodied AI",
+    5: "Safety, Alignment & Ethics",
+    6: "Theory, Optimization & Efficient ML",
+    7: "Domain Applications",
+    8: "Generative Models & Synthesis",
+    9: "Speech & Audio Processing",
+    10: "Graph Learning & Networks",
+    11: "Data, Benchmarks & Evaluation",
+    12: "Human-AI Interaction",
+    13: "Planning & Search",
+}
+
+
 def _parse_grouping_response(
     text: str, n_papers: int
 ) -> tuple[dict[int, int], dict[int, str]] | None:
-    """Parse and validate Haiku's JSON grouping response.
+    """Parse and validate Haiku's compact JSON grouping response.
+
+    Expected format:
+      {"groups": {"0": "Language Models & Reasoning", "14": "Graph Neural Network Methods"},
+       "assignments": {"0": 0, "1": 0, "2": 8, ...}}
+
+    This compact format avoids repeating group names on every entry, keeping
+    output well within Haiku's token ceiling even for 800+ papers.
+
+    Stable buckets (IDs 0-13): names are normalised to canonical values.
+    Dynamic buckets (IDs 14+): names are taken as-is from Haiku; number is
+    uncapped — Haiku creates however many the papers warrant.
 
     Hard failures → return None → trigger retry:
-      - Non-JSON or non-list
-      - Wrong entry count
-      - Missing / non-integer fields
-      - Fewer than GROUP_COUNT_MIN groups
+      - Non-JSON or wrong top-level structure
+      - assignments missing paper indices or has extra keys
+      - Non-integer or negative group_ids
+      - group_id referenced in assignments but missing from groups dict
 
     Soft acceptance → log warning, return result:
-      - More than GROUP_COUNT_MAX groups (caller merges excess groups down)
-
-    group_name drift: majority vote across all entries for each group_id.
+      - More than GROUP_COUNT_MAX groups (caller merges excess down)
     """
     text = re.sub(r"^```(?:json)?\s*", "", text.strip())
     text = re.sub(r"\s*```$", "", text)
@@ -231,57 +377,87 @@ def _parse_grouping_response(
         print(f"    JSON parse error: {e}")
         return None
 
-    if not isinstance(data, list):
-        print(f"    Expected JSON list, got {type(data).__name__}.")
+    if not isinstance(data, dict) or "groups" not in data or "assignments" not in data:
+        print(f"    Expected JSON object with 'groups' and 'assignments' keys, "
+              f"got: {type(data).__name__}.")
         return None
 
-    if len(data) != n_papers:
-        print(f"    Expected {n_papers} entries, got {len(data)}.")
+    assignments_raw = data["assignments"]
+    groups_raw      = data["groups"]
+
+    if not isinstance(assignments_raw, dict):
+        print(f"    'assignments' must be a dict, got {type(assignments_raw).__name__}.")
         return None
 
+    if not isinstance(groups_raw, dict):
+        print(f"    'groups' must be a dict, got {type(groups_raw).__name__}.")
+        return None
+
+    # Parse group names dict: keys are string group_ids
+    group_names_raw: dict[int, str] = {}
+    for k, v in groups_raw.items():
+        try:
+            gid = int(k)
+        except (ValueError, TypeError):
+            print(f"    Non-integer group_id key in 'groups': {k!r}")
+            return None
+        group_names_raw[gid] = str(v).strip()
+
+    # Parse assignments dict → mapping from paper index to group_id
     mapping: dict[int, int] = {}
-    name_votes: dict[int, dict[str, int]] = {}
-
-    for entry in data:
-        if not isinstance(entry, dict) or "index" not in entry or "group_id" not in entry:
-            print(f"    Malformed entry: {entry}")
+    for k, gid_raw in assignments_raw.items():
+        try:
+            i = int(k)
+        except (ValueError, TypeError):
+            print(f"    Non-integer paper index key in 'assignments': {k!r}")
             return None
-        idx = entry["index"]
-        gid = entry["group_id"]
-        if not isinstance(idx, int) or not isinstance(gid, int) or gid < 0:
-            print(f"    Non-integer or negative values: index={idx}, group_id={gid}")
+        if not isinstance(gid_raw, int):
+            print(f"    Non-integer group_id at assignment index {i}: {gid_raw!r}")
             return None
-        mapping[idx] = gid
-        name = str(entry.get("group_name", "")).strip().title()
-        if name:
-            name_votes.setdefault(gid, {})
-            name_votes[gid][name] = name_votes[gid].get(name, 0) + 1
+        if gid_raw < 0:
+            print(f"    Negative group_id at assignment index {i}: {gid_raw}")
+            return None
+        if gid_raw not in group_names_raw:
+            print(f"    group_id {gid_raw} used in assignments but missing from 'groups'.")
+            return None
+        mapping[i] = gid_raw
 
     missing = set(range(n_papers)) - set(mapping.keys())
     if missing:
         print(f"    Missing paper indices: {sorted(missing)[:10]}...")
         return None
 
-    n_groups = len(set(mapping.values()))
-    if n_groups < GROUP_COUNT_MIN:
-        print(f"    Got {n_groups} groups — below minimum {GROUP_COUNT_MIN}. Rejecting.")
-        return None
+    all_gids     = set(mapping.values())
+    stable_gids  = {g for g in all_gids if g in _STABLE_BUCKET_NAMES}
+    dynamic_gids = {g for g in all_gids if g not in _STABLE_BUCKET_NAMES}
+    n_groups     = len(all_gids)
+
+    print(f"    Groups: {len(stable_gids)} stable, {len(dynamic_gids)} dynamic "
+          f"= {n_groups} total.")
+
+    if len(dynamic_gids) > GROUP_DYNAMIC_MAX:
+        print(f"    {len(dynamic_gids)} dynamic groups exceeds cap "
+              f"({GROUP_DYNAMIC_MAX}). Will merge excess after parsing.")
+
     if n_groups > GROUP_COUNT_MAX:
-        print(f"    Got {n_groups} groups — above maximum {GROUP_COUNT_MAX}. "
+        print(f"    {n_groups} total groups exceeds cap ({GROUP_COUNT_MAX}). "
               "Will merge excess groups after parsing.")
 
+    # Build final group_names: stable buckets always use canonical names
     group_names: dict[int, str] = {}
-    for gid in set(mapping.values()):
-        votes = name_votes.get(gid, {})
-        if votes:
-            winner = max(votes, key=votes.__getitem__)
-            if len(votes) > 1:
-                print(f"    Group {gid}: name drift resolved → '{winner}' "
-                      f"(from {dict(votes)})")
-            group_names[gid] = winner
+    for gid in all_gids:
+        if gid in _STABLE_BUCKET_NAMES:
+            canonical  = _STABLE_BUCKET_NAMES[gid]
+            haiku_name = group_names_raw.get(gid, "")
+            if haiku_name and haiku_name != canonical:
+                print(f"    Stable group {gid}: normalised "
+                      f"'{haiku_name}' → '{canonical}'")
+            group_names[gid] = canonical
         else:
-            group_names[gid] = f"Group {gid}"
-            print(f"    Group {gid}: no name in response — fallback '{group_names[gid]}'")
+            name = group_names_raw.get(gid, "").title() or f"Emerging Topic {gid}"
+            if not group_names_raw.get(gid):
+                print(f"    Dynamic group {gid}: no name — fallback '{name}'")
+            group_names[gid] = name
 
     return mapping, group_names
 
@@ -373,7 +549,7 @@ def haiku_group_papers(
         try:
             response = client.messages.create(
                 model=HAIKU_MODEL,
-                max_tokens=8192,   # 250 entries × ~55 chars ≈ 3.4K tokens; Haiku max for headroom
+                max_tokens=16000,  # ~315 papers × ~70 chars/entry ≈ 5.5K tokens; increased for larger pools
                 system=_GROUPING_SYSTEM,
                 messages=[{"role": "user", "content": user_msg}],
             )
@@ -465,7 +641,7 @@ def _hdbscan_fallback_grouping(df: pd.DataFrame) -> dict[int, int]:
         print("  Clustering on 768D SPECTER2 (cosine).")
     else:
         print("  No embedding available — random group assignment.")
-        return {i: i % GROUP_COUNT_MIN for i in range(len(df))}
+        return {i: i % 8 for i in range(len(df))}
 
     for mcs in [max(3, len(df) // 30), max(3, len(df) // 40), 3]:
         clusterer  = HDBSCAN(min_cluster_size=mcs, min_samples=3,
@@ -473,7 +649,7 @@ def _hdbscan_fallback_grouping(df: pd.DataFrame) -> dict[int, int]:
         labels     = clusterer.fit_predict(X)
         n_clusters = len(set(labels)) - (1 if -1 in labels else 0)
         print(f"  HDBSCAN min_cluster_size={mcs} → {n_clusters} clusters.")
-        if GROUP_COUNT_MIN <= n_clusters <= GROUP_COUNT_MAX + 5:
+        if 5 <= n_clusters <= GROUP_COUNT_MAX + 5:
             break
 
     unique_clusters = [c for c in sorted(set(labels)) if c != -1]
@@ -719,7 +895,8 @@ if __name__ == "__main__":
     print("=" * 60)
     print(f"  AI Research Atlas v2 — {run_date} UTC")
     print(f"  OFFLINE_MODE       : {OFFLINE_MODE}")
-    print(f"  GROUP_COUNT        : {GROUP_COUNT_MIN}–{GROUP_COUNT_MAX}")
+    print(f"  BACKFILL_HINDICES  : {BACKFILL_HINDICES}")
+    print(f"  GROUP_COUNT        : up to {GROUP_COUNT_MAX} ({GROUP_STABLE_COUNT} stable + uncapped dynamic)")
     print(f"  LAYOUT_SCALE       : {LAYOUT_SCALE}")
     print(f"  SCATTER_FRACTION   : {SCATTER_FRACTION}")
     print(f"  VARIANCE_AMPLIFIER : {VARIANCE_AMPLIFIER}")
@@ -731,10 +908,11 @@ if __name__ == "__main__":
     if OFFLINE_MODE:
         print("\n▶  OFFLINE MODE — loading existing data, skipping all API calls...")
 
-        df = load_existing_db()
+        df = load_existing_db(bypass_pruning=True)
         if df.empty:
             raise RuntimeError(
-                "No database.parquet found. Run once in normal mode first."
+                "database.parquet is empty or missing. "
+                "Run once in normal mode (remove OFFLINE_MODE from the YAML) to populate it."
             )
         if "group_id_v2" not in df.columns:
             raise RuntimeError(
@@ -751,6 +929,39 @@ if __name__ == "__main__":
                 "database.parquet is missing projection_x/y (SPECTER2 UMAP). "
                 "Run once in normal mode first."
             )
+
+        # Migrate Reputation → Prominence column name if present from older runs
+        if "Reputation" in df.columns and "Prominence" not in df.columns:
+            df = df.rename(columns={"Reputation": "Prominence"})
+            print("  Migrated 'Reputation' column -> 'Prominence'.")
+
+        # Recompute Prominence tier values if they look like the old two-value system
+        if "Prominence" in df.columns:
+            old_values = {"Reputation Enhanced", "Reputation Std"}
+            if set(df["Prominence"].dropna().unique()).issubset(old_values):
+                print("  Recomputing Prominence tiers (old two-value system detected)...")
+                df["Prominence"] = df.apply(calculate_prominence, axis=1)
+                tier_counts = df["Prominence"].value_counts()
+                for tier in ["Elite", "Enhanced", "Emerging", "Unverified"]:
+                    print(f"    {tier}: {tier_counts.get(tier, 0)}")
+
+        # Ensure paper_source exists (needed for CitationTier)
+        if "paper_source" not in df.columns:
+            df["paper_source"] = "Recent"
+
+        # Note: significant.parquet is NOT loaded in offline mode.
+        # Significant papers lack embeddings and group_id_v2, so they cannot
+        # participate in Stage 4 (MDS layout). Offline mode is for layout/UI
+        # iteration only — CitationTier is still computed for Recent papers
+        # (all "Cited" or blank) so the column exists in the build.
+
+        # Ensure CitationTier exists; recompute so layout reflects current pool
+        print("\n▶  (Offline) Computing CitationTier (Recent papers only)...")
+        if "ss_citation_count" not in df.columns:
+            df["ss_citation_count"] = 0
+        if "ss_influential_citations" not in df.columns:
+            df["ss_influential_citations"] = 0
+        df["CitationTier"] = calculate_citation_tier(df)
 
         group_names = _load_group_names_cache(df)
 
@@ -780,8 +991,68 @@ if __name__ == "__main__":
         haiku_client = anthropic.Anthropic(api_key=api_key)
 
         # ── Stage 1: Load & prune rolling DB ────────────────────────────────
-        print("\n▶  Stage 1 — Loading rolling database...")
-        existing_df  = load_existing_db()
+        print("\n▶  Stage 1 -- Loading rolling database...")
+
+        # ── Load database.parquet (Recent papers only) ───────────────────────
+        if os.path.exists(DB_PATH):
+            existing_df = pd.read_parquet(DB_PATH)
+        else:
+            existing_df = pd.DataFrame()
+
+        # Ensure paper_source column exists and default to "Recent"
+        if not existing_df.empty and "paper_source" not in existing_df.columns:
+            existing_df["paper_source"] = "Recent"
+
+        # Remove any Significant papers that leaked into database.parquet from
+        # a prior run — they'll be re-added cleanly from significant.parquet below
+        if not existing_df.empty and "paper_source" in existing_df.columns:
+            before_sig = len(existing_df)
+            existing_df = existing_df[
+                existing_df["paper_source"] != "Significant"
+            ].copy().reset_index(drop=True)
+            removed = before_sig - len(existing_df)
+            if removed:
+                print(f"  Removed {removed} Significant rows from database.parquet "
+                      f"(will reload from significant.parquet).")
+
+        # Prune Recent papers older than RETENTION_DAYS
+        if not existing_df.empty and "date_added" in existing_df.columns:
+            cutoff = datetime.now(timezone.utc) - timedelta(days=RETENTION_DAYS)
+            existing_df["date_added"] = pd.to_datetime(
+                existing_df["date_added"], utc=True, errors="coerce"
+            )
+            before = len(existing_df)
+            existing_df = existing_df[
+                existing_df["date_added"] >= cutoff
+            ].reset_index(drop=True)
+            pruned = before - len(existing_df)
+            if pruned:
+                print(f"  Pruned {pruned} Recent papers older than {RETENTION_DAYS} days.")
+
+        # Migrate Reputation → Prominence column name if present from older runs
+        if "Reputation" in existing_df.columns and "Prominence" not in existing_df.columns:
+            existing_df = existing_df.rename(columns={"Reputation": "Prominence"})
+            print("  Migrated 'Reputation' column -> 'Prominence'.")
+
+        print(f"  Loaded {len(existing_df)} existing Recent papers.")
+
+        # ── Load and merge significant.parquet ──────────────────────────────
+        if os.path.exists(SIGNIFICANT_PATH):
+            sig_df = pd.read_parquet(SIGNIFICANT_PATH)
+            sig_df["paper_source"] = "Significant"
+            n_sig = len(sig_df)
+            # Remove Significant papers that are also in the recent window
+            # (prefer Recent so they get pruned naturally when they age out)
+            sig_df = sig_df[~sig_df["id"].isin(existing_df["id"])].reset_index(drop=True)
+            if len(sig_df) < n_sig:
+                print(f"  {n_sig - len(sig_df)} Significant paper(s) already in "
+                      f"recent window -- skipping duplicates.")
+            existing_df = pd.concat([existing_df, sig_df], ignore_index=True)
+            print(f"  Merged {len(sig_df)} Significant papers "
+                  f"(total: {len(existing_df)}).")
+        else:
+            print("  No significant.parquet found -- running without Significant papers.")
+
         is_first_run = existing_df.empty and not os.path.exists(DB_PATH)
         days_back = 5 if is_first_run else 1
 
@@ -790,24 +1061,9 @@ if __name__ == "__main__":
         else:
             print(f"  Loaded {len(existing_df)} existing papers.")
 
-        # ── Stage 1b: arXiv fetch ────────────────────────────────────────────
-        print("\n▶  Stage 1b — Fetching from arXiv...")
-        opener = urllib.request.build_opener()
-        opener.addheaders = [("User-Agent",
-            "ai-research-atlas/2.0 (https://github.com/LeeFischman/ai-research-atlas; "
-            "mailto:lee.fischman@gmail.com)")]
-        urllib.request.install_opener(opener)
-
-        arxiv_client = arxiv.Client(page_size=100, delay_seconds=10)
-        search = arxiv.Search(
-            query=(
-                f"cat:cs.AI AND submittedDate:"
-                f"[{(now - timedelta(days=days_back)).strftime('%Y%m%d%H%M')}"
-                f" TO {now.strftime('%Y%m%d%H%M')}]"
-            ),
-            max_results=ARXIV_MAX,
-        )
-        results = fetch_arxiv(arxiv_client, search)
+        # ── Stage 1b: arXiv fetch (OAI-PMH announcement-date) ───────────────
+        print("\n▶  Stage 1b — Fetching from arXiv (OAI-PMH)...")
+        results = fetch_arxiv_oai(days_back=days_back, max_results=ARXIV_MAX)
 
         if not results:
             if existing_df.empty:
@@ -835,23 +1091,162 @@ if __name__ == "__main__":
                     "author_count": len(r.authors),
                     "author_tier":  categorize_authors(len(r.authors)),
                     "date_added":   today_str,
+                    "authors_list": [a.name for a in r.authors],
                 })
             new_df = pd.DataFrame(rows)
-            new_df["Reputation"] = new_df.apply(calculate_reputation, axis=1)
+            new_df["Prominence"]   = "Unverified"   # placeholder; recalculated in 1c
+            new_df["paper_source"] = "Recent"
             df = merge_papers(existing_df, new_df)
             df = df.drop(columns=["group", "group_id_v2"], errors="ignore")
             print(f"  Rolling DB: {len(df)} papers after merge.")
         else:
             df = existing_df.drop(columns=["group", "group_id_v2"], errors="ignore")
+            # Ensure paper_source is set for all rows
+            if "paper_source" not in df.columns:
+                df["paper_source"] = "Recent"
 
-        # Backfill reputation for older rows
-        if "Reputation" not in df.columns or df["Reputation"].isna().any():
-            missing = (df["Reputation"].isna() if "Reputation" in df.columns
-                       else pd.Series([True] * len(df)))
-            if missing.any():
-                print(f"  Backfilling Reputation for {missing.sum()} rows...")
-                df.loc[missing, "Reputation"] = df.loc[missing].apply(
-                    calculate_reputation, axis=1)
+        # ── Stage 1c: Author h-index enrichment ─────────────────────────────
+        print("\n▶  Stage 1c — Author h-index enrichment (OpenAlex)...")
+        if "author_hindices" not in df.columns:
+            df["author_hindices"] = None
+        if "authors_list" not in df.columns:
+            df["authors_list"] = None
+
+        author_cache = load_author_cache()
+
+        if BACKFILL_HINDICES:
+            # Re-fetch for all rows, including those with empty lists
+            needs_hindex = pd.Series([True] * len(df), index=df.index)
+            print(f"  BACKFILL_HINDICES=true — re-fetching all {len(df)} papers.")
+        else:
+            # Normal mode: only fetch for rows missing h-index data
+            needs_hindex = df["author_hindices"].isna() | df["author_hindices"].apply(
+                lambda x: isinstance(x, list) and len(x) == 0
+            )
+
+        n_needs = needs_hindex.sum()
+        print(f"  {n_needs} papers need h-index lookup"
+              f" ({len(df) - n_needs} already have data).")
+
+        for idx in df.index[needs_hindex]:
+            authors = df.at[idx, "authors_list"]
+            if not isinstance(authors, list) or len(authors) == 0:
+                df.at[idx, "author_hindices"] = []
+                continue
+            df.at[idx, "author_hindices"] = fetch_author_hindices(authors, author_cache)
+
+        save_author_cache(author_cache)
+        print(f"  h-index enrichment complete. Cache now has {len(author_cache)} entries.")
+
+        # Compute Prominence now that author_hindices is populated
+        df["Prominence"] = df.apply(calculate_prominence, axis=1)
+        tier_counts = df["Prominence"].value_counts()
+        for tier in ["Elite", "Enhanced", "Emerging", "Unverified"]:
+            print(f"  {tier}: {tier_counts.get(tier, 0)}")
+
+        # ── Stage 1d: Semantic Scholar enrichment ────────────────────────────
+        print("\n▶  Stage 1d — Semantic Scholar enrichment...")
+
+        # Ensure columns exist (default values; populated below from cache)
+        for col, default in [
+            ("ss_citation_count",        0),
+            ("ss_influential_citations", 0),
+            ("ss_tldr",                  ""),
+        ]:
+            if col not in df.columns:
+                df[col] = default
+
+        ss_cache = load_ss_cache()
+
+        # Fetch a paper if any of these are true:
+        #   (a) not in cache at all
+        #   (b) cache entry is older than SS_CACHE_TTL_DAYS (normal TTL)
+        #   (c) cache entry has zero signal — citation_count=0, tldr="" —
+        #       meaning S2 hadn't indexed it yet; retry every run until it
+        #       appears (brand-new papers typically land in S2 within days)
+        cutoff_ss = (
+            datetime.now(timezone.utc) - timedelta(days=SS_CACHE_TTL_DAYS)
+        ).isoformat()
+
+        def _needs_ss_fetch(arxiv_id):
+            """Return a reason string if the paper needs a fetch, else None."""
+            base  = _arxiv_id_base(arxiv_id)
+            entry = ss_cache.get(base)
+            if entry is None:
+                return "not cached"
+            if entry.get("fetched_at", "") < cutoff_ss:
+                return "stale (TTL expired)"
+            no_signal = (
+                int(entry.get("citation_count",             0)) == 0
+                and int(entry.get("influential_citation_count", 0)) == 0
+                and not (entry.get("tldr") or "").strip()
+            )
+            if no_signal:
+                return "unindexed (no signal yet)"
+            return None
+
+        reason_map = {
+            aid: _needs_ss_fetch(aid)
+            for aid in df["id"].tolist()
+        }
+        arxiv_ids_to_fetch = [aid for aid, reason in reason_map.items()
+                               if reason is not None]
+        n_cached    = len(df) - len(arxiv_ids_to_fetch)
+        n_unindexed = sum(1 for r in reason_map.values()
+                          if r == "unindexed (no signal yet)")
+        n_stale     = sum(1 for r in reason_map.values()
+                          if r == "stale (TTL expired)")
+        n_missing   = sum(1 for r in reason_map.values() if r == "not cached")
+        print(f"  {len(arxiv_ids_to_fetch)} papers need S2 fetch "
+              f"({n_cached} skipped: already have data within TTL). "
+              f"Breakdown: {n_missing} missing, {n_stale} stale, "
+              f"{n_unindexed} not yet indexed.")
+
+        if arxiv_ids_to_fetch:
+            fetch_semantic_scholar_data(arxiv_ids_to_fetch, ss_cache)
+            save_ss_cache(ss_cache)
+            print(f"  S2 cache now has {len(ss_cache)} entries.")
+        else:
+            print(f"  All papers found in S2 cache — no fetch needed.")
+
+        # Apply cache values to DataFrame (covers all papers, not just re-fetched)
+        for idx in df.index:
+            base  = _arxiv_id_base(df.at[idx, "id"])
+            entry = ss_cache.get(base)
+            if entry:
+                df.at[idx, "ss_citation_count"]        = int(entry.get("citation_count",             0))
+                df.at[idx, "ss_influential_citations"]  = int(entry.get("influential_citation_count", 0))
+                df.at[idx, "ss_tldr"]                   = entry.get("tldr", "") or ""
+
+        n_with_tldr  = (df["ss_tldr"].astype(str).str.len() > 0).sum()
+        n_with_cites = (df["ss_citation_count"] > 0).sum()
+        print(f"  S2 enrichment complete: "
+              f"{n_with_cites}/{len(df)} papers with citations, "
+              f"{n_with_tldr}/{len(df)} with TLDRs.")
+
+        # ── Stage 1e: CitationTier ────────────────────────────────────────────
+        print("\n▶  Stage 1e -- Computing CitationTier...")
+        df["CitationTier"] = calculate_citation_tier(df)
+
+        # ── Stage 1f: Recency label ───────────────────────────────────────────
+        # Categorical column for sidebar color-by shortcut.
+        # "Today" / "Yesterday" / "Earlier" based on date_added.
+        print("\n▶  Stage 1f -- Computing Recency...")
+        _today_utc = datetime.now(timezone.utc).date()
+        def _recency_label(date_added_val):
+            try:
+                d = pd.to_datetime(date_added_val, utc=True).date()
+                delta = (_today_utc - d).days
+                if delta == 0:  return "Today"
+                if delta == 1:  return "Yesterday"
+                return "Earlier"
+            except Exception:
+                return "Earlier"
+        df["recency"] = df["date_added"].apply(_recency_label)
+        recency_counts = df["recency"].value_counts()
+        print(f"  Recency: Today={recency_counts.get('Today', 0)}, "
+              f"Yesterday={recency_counts.get('Yesterday', 0)}, "
+              f"Earlier={recency_counts.get('Earlier', 0)}.")
 
         # ── Stage 2: SPECTER2 embed + UMAP ──────────────────────────────────
         print("\n▶  Stage 2 — SPECTER2 embedding + UMAP...")

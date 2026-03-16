@@ -9,9 +9,13 @@
 # --------
 #   §1  Text helpers          scrub_model_words, _strip_urls
 #   §2  Docs cleanup          clear_docs_contents
-#   §3  Reputation scoring    INSTITUTION_PATTERN, calculate_reputation
+#   §3  Prominence scoring    load_author_cache, save_author_cache,
+#                             fetch_author_hindices, calculate_prominence
+#   §3b Semantic Scholar      load_ss_cache, save_ss_cache,
+#                             fetch_semantic_scholar_data, _arxiv_id_base
 #   §4  Rolling database      load_existing_db, merge_papers
-#   §5  arXiv fetch           fetch_arxiv  (exponential back-off)
+#   §5  arXiv fetch           fetch_arxiv_oai  (OAI-PMH announcement-date)
+#                             fetch_arxiv      (legacy submission-date, v1 only)
 #   §6  Embedding / UMAP      embed_and_project, _embed_only,
 #                             compute_hybrid_distances, embed_and_project_hybrid
 #   §7  Atlas build + deploy  build_and_deploy_atlas
@@ -38,8 +42,8 @@ import pandas as pd
 
 DB_PATH         = "database.parquet"
 STOP_WORDS_PATH = "stop_words.csv"
-RETENTION_DAYS  = 4      # papers older than this are pruned each run
-ARXIV_MAX       = 250    # max papers fetched per arXiv query
+RETENTION_DAYS  = 14      # papers older than this are pruned each run
+ARXIV_MAX       = 400    # max papers fetched per arXiv query
 
 # arXiv retry policy
 BASE_WAIT   = 15
@@ -95,103 +99,54 @@ def clear_docs_contents(target_dir: str) -> None:
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# §3  REPUTATION SCORING
+# §3  PROMINENCE SCORING  (h-index based)
+#
+# Formula
+# ───────
+#   h_score = log1p(max_h)    * W_MAX
+#           + log1p(median_h) * W_MEDIAN
+#
+#   max_h    : highest h-index across all authors
+#   median_h : median h-index across all authors
+#   log1p    : compresses the long right tail of h-index distributions
+#              (log1p(x) = log(1+x), so h=0→0, h=9≈2.3, h=29≈3.4, h=79≈4.4)
+#
+# Four tiers (h_score thresholds are first-guess constants — tune after seeing
+# real distributions in run_state.json):
+#   h_score ≥ TIER_ELITE     → "Elite"
+#   h_score ≥ TIER_ENHANCED  → "Enhanced"
+#   h_score ≥ TIER_EMERGING  → "Emerging"
+#   h_score <  TIER_EMERGING → "Unverified"
+#
+# Author h-index cache
+#   File  : author_cache.json  (alongside database.parquet)
+#   Key   : normalised author name (stripped, lowercased)
+#   Value : {"hindex": int, "fetched_at": ISO timestamp}
+#   TTL   : AUTHOR_CACHE_TTL_DAYS (30 days — h-index changes slowly)
+#   Scope : ALL authors per paper
 # ══════════════════════════════════════════════════════════════════════════════
 
-INSTITUTION_PATTERN = re.compile(r"\b(" + "|".join([
-    # US Universities
-    "MIT", "Stanford", "CMU", "Carnegie Mellon",
-    "UC Berkeley", "Berkeley", "Caltech",
-    "Harvard", "Princeton", "Yale", "Columbia",
-    "University of Washington", "UW Seattle",
-    "University of Michigan", "University of Illinois",
-    "UIUC", "UT Austin", "NYU", "Cornell",
-    "Georgia Tech", "UCLA", "UCSD", "USC",
-    "University of Pennsylvania", "UPenn",
-    "Johns Hopkins", "Duke", "Brown", "Dartmouth",
-    "University of Wisconsin", "Purdue", "Ohio State",
-    "University of Maryland", "University of Massachusetts",
-    # US National Labs & Research Institutes
-    "Allen Institute", "AI2", "Allenai",
-    "IBM Research", "Microsoft Research", "MSR",
-    "Google Research", "Google Brain", "Google DeepMind",
-    "NVIDIA Research", "Intel Labs", "Salesforce Research",
-    "Adobe Research", "Baidu Research", "Amazon Science",
-    "Apple ML Research",
-    # US AI Labs
-    "OpenAI", "Anthropic", "DeepMind", "Google DeepMind",
-    "FAIR", "Meta AI", "xAI", "Mistral",
-    "Cohere", "Stability AI", "Inflection AI",
-    "Character AI", "Runway", "Hugging Face",
-    # UK
-    "Oxford", "University of Oxford",
-    "Cambridge", "University of Cambridge",
-    "Imperial College", "UCL", "University College London",
-    "Edinburgh", "University of Edinburgh",
-    "King's College London", "University of Manchester",
-    "University of Bristol", "University of Warwick",
-    "Alan Turing Institute",
-    # Canada
-    "University of Toronto", "UofT", "Vector Institute",
-    "McGill", "McGill University",
-    "Mila", "Montreal Institute",
-    "University of Montreal",
-    "University of British Columbia", "UBC",
-    "University of Alberta",
-    # France
-    "INRIA", "ENS", "CNRS", "Sorbonne",
-    "PSL University", "Paris-Saclay",
-    # Germany
-    "Max Planck", "MPI",
-    "TU Berlin", "TU Munich", "Technical University of Munich",
-    "DFKI", "Helmholtz",
-    "University of Tuebingen",
-    # Switzerland
-    "ETH Zurich", "EPFL", "University of Zurich",
-    # Netherlands
-    "University of Amsterdam", "CWI", "Delft",
-    # Scandinavia
-    "KTH", "Chalmers", "University of Copenhagen", "DTU", "NTNU",
-    # Israel
-    "Technion", "Hebrew University", "Weizmann Institute",
-    "Tel Aviv University", "Bar-Ilan University",
-    # China
-    "Tsinghua", "Tsinghua University",
-    "Peking University", "PKU",
-    "Shanghai AI Lab",
-    "Zhejiang University",
-    "USTC", "Fudan University", "Renmin University",
-    "Chinese Academy of Sciences", "CAS",
-    "BAAI", "Beijing Academy of Artificial Intelligence",
-    "Alibaba DAMO", "Tencent AI Lab", "ByteDance", "SenseTime",
-    # Japan
-    "University of Tokyo", "Kyoto University",
-    "RIKEN", "RIKEN AIP",
-    "Osaka University", "Tohoku University",
-    "Tokyo Institute of Technology", "Tokyo Tech",
-    "Preferred Networks",
-    # South Korea
-    "KAIST", "Seoul National University", "SNU",
-    "POSTECH", "Yonsei University",
-    "Samsung Research", "Naver", "LG AI Research", "Kakao",
-    # Singapore
-    "NUS", "National University of Singapore",
-    "NTU", "Nanyang Technological University",
-    "AI Singapore", "ASTAR",
-    # Australia
-    "University of Sydney", "University of Melbourne",
-    "Australian National University", "ANU",
-    "University of Queensland", "CSIRO",
-    # India
-    "IIT", "IIT Bombay", "IIT Delhi", "IIT Madras",
-    "IISc", "Indian Institute of Science",
-    "Microsoft Research India",
-    # Middle East
-    "KAUST", "King Abdullah University",
-    "Mohamed bin Zayed University", "MBZUAI",
-    # Latin America
-    "University of Sao Paulo", "USP", "PUC-Rio",
-]) + r")\b", re.IGNORECASE)
+AUTHOR_CACHE_PATH     = "author_cache.json"
+AUTHOR_CACHE_TTL_DAYS = 30
+
+# ── Formula weights ───────────────────────────────────────────────────────────
+# Both start at 1.0. max_h naturally exceeds median_h so no artificial
+# multiplier is needed. Tune after inspecting real tier distributions.
+W_MAX    = 1.0
+W_MEDIAN = 1.0
+
+# ── Tier thresholds ───────────────────────────────────────────────────────────
+# Representative h_score values with W_MAX=W_MEDIAN=1.0:
+#   Unknown solo author          max=0,  median=0  → 0.0
+#   Grad students only           max=2,  median=1  → 1.8
+#   One mid-career researcher    max=10, median=3  → 3.8
+#   Solid team                   max=20, median=10 → 5.4
+#   Strong PI + good team        max=40, median=15 → 6.5
+#   Elite collaboration          max=60, median=25 → 7.6
+TIER_ELITE    = 7.0
+TIER_ENHANCED = 5.0
+TIER_EMERGING = 3.0
+# below TIER_EMERGING            → "Unverified"
 
 
 def categorize_authors(n: int) -> str:
@@ -200,31 +155,500 @@ def categorize_authors(n: int) -> str:
     return "8+ Authors"
 
 
-def author_reputation_score(n: int) -> int:
-    if n >= 8:  return 3
-    if n >= 4:  return 1
-    return 0
+def load_author_cache() -> dict:
+    """Load the author h-index cache from disk; return empty dict if missing."""
+    if os.path.exists(AUTHOR_CACHE_PATH):
+        with open(AUTHOR_CACHE_PATH) as f:
+            return json.load(f)
+    return {}
 
 
-def calculate_reputation(row) -> str:
-    score = 0
-    full_text = f"{row['title']} {row['abstract']}".lower()
-    if INSTITUTION_PATTERN.search(full_text):
-        score += 3
-    if any(k in full_text for k in ["github.com", "huggingface.co"]):
-        score += 2
-    score += author_reputation_score(row["author_count"])
-    return "Reputation Enhanced" if score >= 3 else "Reputation Std"
+def save_author_cache(cache: dict) -> None:
+    """Persist the author h-index cache to disk."""
+    with open(AUTHOR_CACHE_PATH, "w") as f:
+        json.dump(cache, f, indent=2)
+
+
+def fetch_author_hindices(author_names: list, cache: dict) -> list:
+    """Return a list of h-indices for ALL authors, using OpenAlex API.
+
+    Checks the cache first; fetches from OpenAlex for missing/stale entries.
+    Stale = fetched_at older than AUTHOR_CACHE_TTL_DAYS.
+
+    Batches up to 50 uncached authors per API request using OpenAlex OR filter
+    syntax, reducing ~400 individual calls to ~8 batched calls.
+
+    On 429 rate-limit responses, backs off exponentially starting at 60s,
+    doubling up to 4 retries (max single wait ~10 min).
+
+    Parameters
+    ----------
+    author_names : list of str — raw author names from arXiv
+    cache        : the shared in-memory cache dict (mutated in-place)
+
+    Returns
+    -------
+    list of int — one h-index per author (0 for failed/unknown lookups),
+                  in the same order as author_names
+    """
+    import difflib
+    import urllib.parse
+    import urllib.request as _req
+
+    _OA_BATCH_SIZE  = 50    # authors per API request (OpenAlex OR filter max)
+    _OA_MAX_RETRIES = 5
+    _OA_BASE_WAIT   = 60    # seconds — first 429 wait
+    _OA_MAX_WAIT    = 600   # seconds — cap per retry (~10 min)
+    _OA_BATCH_SLEEP = 0.5   # seconds between batch requests (~2 req/s, well under limit)
+    _OA_SLOW_SLEEP  = 2.0   # seconds between batches after first 429
+
+    inter_batch_sleep = _OA_BATCH_SLEEP
+
+    cutoff_ts = (
+        datetime.now(timezone.utc) - timedelta(days=AUTHOR_CACHE_TTL_DAYS)
+    ).isoformat()
+
+    # ── OpenAlex API key + rate limit check ──────────────────────────────────
+    _oa_key = os.environ.get("OPENALEX_API_KEY", "")
+    _oa_qs  = f"&api_key={_oa_key}" if _oa_key else ""
+    if _oa_key:
+        try:
+            _rl_url = f"https://api.openalex.org/rate-limit?api_key={_oa_key}"
+            _rl_req = _req.Request(_rl_url, headers={"User-Agent": "ai-research-atlas/2.0"})
+            with _req.urlopen(_rl_req, timeout=10) as _rl_resp:
+                _rl = json.loads(_rl_resp.read().decode()).get("rate_limit", {})
+            print(f"  OpenAlex budget: "
+                  f"${_rl.get('daily_used_usd', '?'):.4f} used / "
+                  f"${_rl.get('daily_budget_usd', '?'):.2f} daily — "
+                  f"${_rl.get('daily_remaining_usd', '?'):.4f} remaining "
+                  f"(resets in {_rl.get('resets_in_seconds', '?')}s)")
+        except Exception as _rl_e:
+            print(f"  OpenAlex rate limit check failed: {_rl_e}")
+    else:
+        print("  OpenAlex: no API key — using anonymous tier (may be rate limited)")
+    # ─────────────────────────────────────────────────────────────────────────
+
+    # ── Separate cached from uncached authors ─────────────────────────────────
+    # Build index map so we can reconstruct results in original order
+    cleaned      = [n.strip() for n in author_names]
+    hindices     = [0] * len(cleaned)
+    to_fetch_idx = []   # indices into cleaned/hindices that need API lookup
+
+    for i, name in enumerate(cleaned):
+        if not name:
+            continue
+        key   = name.lower()
+        entry = cache.get(key)
+        if entry and entry.get("fetched_at", "") > cutoff_ts:
+            hindices[i] = entry.get("hindex", 0)
+        else:
+            to_fetch_idx.append(i)
+
+    if not to_fetch_idx:
+        return hindices
+
+    n_fetch   = len(to_fetch_idx)
+    n_batches = (n_fetch + _OA_BATCH_SIZE - 1) // _OA_BATCH_SIZE
+    print(f"  OpenAlex: fetching {n_fetch} authors in {n_batches} batch(es) "
+          f"of up to {_OA_BATCH_SIZE}...")
+
+    _UA = ("ai-research-atlas/2.0 "
+           "(https://github.com/LeeFischman/ai-research-atlas; "
+           "mailto:lee.fischman@gmail.com)")
+
+    # ── Process in batches ────────────────────────────────────────────────────
+    for batch_start in range(0, n_fetch, _OA_BATCH_SIZE):
+        batch_indices = to_fetch_idx[batch_start: batch_start + _OA_BATCH_SIZE]
+        batch_names   = [cleaned[i] for i in batch_indices]
+
+        # Build OR filter: display_name.search:Name1|Name2|Name3
+        names_filter = "|".join(urllib.parse.quote(n) for n in batch_names)
+        url = (f"https://api.openalex.org/authors"
+               f"?filter=display_name.search:{names_filter}"
+               f"&per_page={_OA_BATCH_SIZE}"
+               f"&select=display_name,summary_stats"
+               f"{_oa_qs}")
+        req = _req.Request(url, headers={"User-Agent": _UA})
+
+        results   = []
+        succeeded = False
+
+        for attempt in range(1, _OA_MAX_RETRIES + 1):
+            try:
+                with _req.urlopen(req, timeout=20) as resp:
+                    data    = json.loads(resp.read().decode())
+                results   = data.get("results", [])
+                succeeded = True
+                time.sleep(inter_batch_sleep)
+                break
+
+            except urllib.error.HTTPError as e:
+                if e.code == 429:
+                    inter_batch_sleep = _OA_SLOW_SLEEP
+                    wait      = min(_OA_BASE_WAIT * (2 ** (attempt - 1)), _OA_MAX_WAIT)
+                    batch_num = batch_start // _OA_BATCH_SIZE + 1
+                    print(f"  OpenAlex 429 on batch {batch_num}/{n_batches} — "
+                          f"backing off {wait}s (attempt {attempt}/{_OA_MAX_RETRIES})...")
+                    time.sleep(wait)
+                else:
+                    print(f"  OpenAlex batch request failed: {e}")
+                    break
+            except Exception as e:
+                print(f"  OpenAlex batch request failed: {e}")
+                break
+
+        if not succeeded:
+            # Leave hindices[i] = 0 for all in this batch; don't cache failures
+            print(f"  OpenAlex gave up on batch after {_OA_MAX_RETRIES} attempts — skipping.")
+            continue
+
+        # ── Match returned authors back to input names ────────────────────────
+        # Build lookup: lowercase display_name → h-index from API results
+        api_lookup = {}
+        for r in results:
+            dn = (r.get("display_name") or "").strip()
+            if dn:
+                h = (r.get("summary_stats") or {}).get("h_index", 0) or 0
+                api_lookup[dn.lower()] = h
+
+        api_names_lower = list(api_lookup.keys())
+
+        for i, name in zip(batch_indices, batch_names):
+            key    = name.lower()
+            hindex = 0
+
+            # 1. Exact match
+            if key in api_lookup:
+                hindex = api_lookup[key]
+            # 2. Fuzzy match — closest name above 0.6 similarity
+            elif api_names_lower:
+                matches = difflib.get_close_matches(key, api_names_lower, n=1, cutoff=0.6)
+                if matches:
+                    hindex = api_lookup[matches[0]]
+                # else hindex stays 0 — author genuinely not found in results
+
+            hindices[i] = hindex
+            cache[key]  = {
+                "hindex":     hindex,
+                "fetched_at": datetime.now(timezone.utc).isoformat(),
+            }
+
+    return hindices
+
+
+def _safe_hindices(row) -> list:
+    """Extract author_hindices from a row as a clean list of ints.
+
+    Handles three cases:
+      - author_hindices column present and is a list  → use it directly
+      - only max_author_hindex present (old DB rows)  → treat as [max_author_hindex]
+      - neither present / NaN                         → return [0]
+    """
+    val = row.get("author_hindices", None)
+    if isinstance(val, (list, np.ndarray)) and len(val) > 0:
+        return [int(h) if (h is not None and not (isinstance(h, float) and np.isnan(h)))
+                else 0 for h in val]
+
+    # Backward compat: old rows have max_author_hindex (int) but no list
+    old = row.get("max_author_hindex", None)
+    if old is not None and not (isinstance(old, float) and np.isnan(old)):
+        return [int(old)]
+
+    return [0]
+
+
+def calculate_prominence(row) -> str:
+    """Compute prominence tier from author h-indices.
+
+    Reads row["author_hindices"] (list of ints, one per author).
+    Falls back to row["max_author_hindex"] for rows written by older pipeline.
+
+    Formula
+    -------
+    h_score = log1p(max_h) * W_MAX + log1p(median_h) * W_MEDIAN
+
+    Returns one of: "Elite" / "Enhanced" / "Emerging" / "Unverified"
+    """
+    import math
+    hindices = _safe_hindices(row)
+
+    max_h    = max(hindices) if hindices else 0
+    median_h = float(np.median(hindices)) if hindices else 0.0
+
+    h_score = math.log1p(max_h) * W_MAX + math.log1p(median_h) * W_MEDIAN
+
+    if h_score >= TIER_ELITE:
+        return "Elite"
+    elif h_score >= TIER_ENHANCED:
+        return "Enhanced"
+    elif h_score >= TIER_EMERGING:
+        return "Emerging"
+    else:
+        return "Unverified"
+
+
+# Alias so callers using the old name continue to work during transition
+calculate_reputation = calculate_prominence
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# §3b  SEMANTIC SCHOLAR ENRICHMENT
+#
+# For each arXiv paper, fetches from the Semantic Scholar API:
+#   citation_count             — total citations received
+#   influential_citation_count — citations that "heavily build on" this paper
+#                                (S2's own classifier; per-citation signal)
+#   tldr                       — S2's one-sentence AI-generated summary
+#
+# Implementation notes
+# ────────────────────
+# • Uses the batch endpoint (POST /graph/v1/paper/batch) — up to 500 IDs per
+#   request, so even 400 papers is a single HTTP call.
+# • arXiv IDs from the parquet (e.g. "2501.12345v1") are stripped of their
+#   version suffix before being sent as "arXiv:2501.12345".
+# • Cache key  : base arXiv ID (version-stripped, e.g. "2501.12345")
+# • Cache value: {citation_count, influential_citation_count, tldr, fetched_at}
+# • Cache TTL  : SS_CACHE_TTL_DAYS (7 days — citations move faster than h-index)
+# • Papers not yet indexed in S2 (brand-new, or outside its corpus) are stored
+#   with all-zero counts and empty TLDR; they are re-fetched after the TTL expires.
+# • Optional env var SEMANTIC_SCHOLAR_API_KEY unlocks higher rate limits.
+#   Without it the free tier allows ~1 req/s (plenty for a daily batch job).
+# • "Highly influential" in S2 is a per-citation signal, not a per-paper boolean.
+#   The paper-level equivalent is influential_citation_count, stored here.
+# ══════════════════════════════════════════════════════════════════════════════
+
+SS_CACHE_PATH     = "ss_cache.json"
+SS_CACHE_TTL_DAYS = 7     # re-fetch after 7 days so citation counts stay fresh
+
+_SS_BATCH_URL = (
+    "https://api.semanticscholar.org/graph/v1/paper/batch"
+    "?fields=citationCount,influentialCitationCount,tldr"
+)
+
+
+def load_ss_cache() -> dict:
+    """Load the Semantic Scholar cache from disk; return empty dict if missing."""
+    if os.path.exists(SS_CACHE_PATH):
+        with open(SS_CACHE_PATH) as f:
+            return json.load(f)
+    return {}
+
+
+def save_ss_cache(cache: dict) -> None:
+    """Persist the Semantic Scholar cache to disk."""
+    with open(SS_CACHE_PATH, "w") as f:
+        json.dump(cache, f, indent=2)
+
+
+def _arxiv_id_base(arxiv_id: str) -> str:
+    """Strip version suffix from an arXiv entry ID.
+
+    '2501.12345v1' → '2501.12345'
+    '2501.12345'   → '2501.12345'
+    """
+    return re.sub(r'v\d+$', '', arxiv_id.strip())
+
+
+def fetch_semantic_scholar_data(arxiv_ids: list, cache: dict) -> dict:
+    """Fetch Semantic Scholar metadata for a list of arXiv IDs.
+
+    Fetches all given IDs from S2 unconditionally and updates the cache.
+    The caller (update_map_v2.py) is responsible for deciding which IDs
+    need fetching — this function does not do its own cache filtering,
+    which would silently skip IDs the caller determined are stale or
+    have no signal (e.g. zeros stored from a previously failed request).
+
+    Parameters
+    ----------
+    arxiv_ids : list of str — raw arXiv entry IDs (may include version suffix)
+    cache     : the shared in-memory cache dict (mutated in-place)
+
+    Returns
+    -------
+    dict mapping base_arxiv_id → {
+        "citation_count":             int,
+        "influential_citation_count": int,
+        "tldr":                       str,   # AI-generated one-liner, or ""
+        "fetched_at":                 str,   # ISO timestamp
+    }
+    All values default to 0 / "" for papers not found in S2.
+    """
+    import urllib.request as _req
+
+    now_iso = datetime.now(timezone.utc).isoformat()
+
+    # De-duplicate while preserving order
+    seen     = set()
+    to_fetch = [_arxiv_id_base(aid) for aid in arxiv_ids
+                if not (_arxiv_id_base(aid) in seen or seen.add(_arxiv_id_base(aid)))]
+
+    results = {}
+    print(f"  Fetching {len(to_fetch)} papers from Semantic Scholar...")
+
+    ss_api_key = os.environ.get("SEMANTIC_SCHOLAR_API_KEY", "").strip()
+    base_headers = {
+        "Content-Type": "application/json",
+        "User-Agent": (
+            "ai-research-atlas/2.0 "
+            "(https://github.com/LeeFischman/ai-research-atlas; "
+            "mailto:lee.fischman@gmail.com)"
+        ),
+    }
+    if ss_api_key:
+        base_headers["x-api-key"] = ss_api_key
+    # Rate limit: ~1 req/s free tier, ~3 req/s with key
+    inter_chunk_sleep = 0.4 if ss_api_key else 1.2
+
+    BATCH_SIZE = 500
+    for chunk_i, chunk_start in enumerate(range(0, len(to_fetch), BATCH_SIZE)):
+        chunk  = to_fetch[chunk_start:chunk_start + BATCH_SIZE]
+        ss_ids = [f"arXiv:{b}" for b in chunk]
+
+        payload = json.dumps({"ids": ss_ids}).encode("utf-8")
+        req     = _req.Request(
+            _SS_BATCH_URL, data=payload, headers=base_headers, method="POST"
+        )
+
+        try:
+            with _req.urlopen(req, timeout=30) as resp:
+                data = json.loads(resp.read().decode())
+
+            found_n = null_n = 0
+            for base, paper in zip(chunk, data):
+                if paper is None:
+                    # Not yet indexed in S2 (brand-new paper, or outside corpus)
+                    entry = {
+                        "citation_count":             0,
+                        "influential_citation_count": 0,
+                        "tldr":                       "",
+                        "fetched_at":                 now_iso,
+                    }
+                    null_n += 1
+                else:
+                    tldr_text = ""
+                    if isinstance(paper.get("tldr"), dict):
+                        tldr_text = paper["tldr"].get("text", "") or ""
+                    entry = {
+                        "citation_count":             int(paper.get("citationCount")            or 0),
+                        "influential_citation_count": int(paper.get("influentialCitationCount") or 0),
+                        "tldr":                       tldr_text,
+                        "fetched_at":                 now_iso,
+                    }
+                    found_n += 1
+                cache[base]   = entry
+                results[base] = entry
+
+            print(f"  S2 chunk {chunk_i + 1}: "
+                  f"{found_n} found, {null_n} not indexed.")
+
+        except Exception as e:
+            print(f"  S2 batch fetch failed (chunk {chunk_i + 1}): {e}")
+            # Store default zeros for the failed chunk so pipeline continues
+            for base in chunk:
+                if base not in results:
+                    entry = {
+                        "citation_count":             0,
+                        "influential_citation_count": 0,
+                        "tldr":                       "",
+                        "fetched_at":                 now_iso,
+                    }
+                    cache[base]   = entry
+                    results[base] = entry
+
+        if chunk_start + BATCH_SIZE < len(to_fetch):
+            time.sleep(inter_chunk_sleep)
+
+    return results
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# §3c  CITATION TIER
+#
+# CitationTier spans both Recent and Significant papers:
+#
+#   "Very Highly Cited" — top CITATION_TIER_TOP_PCT of the significant pool
+#                         by ss_influential_citations (dynamic percentile)
+#   "Highly Cited"      — remaining papers in the significant pool
+#   "Cited"             — Recent papers with ss_citation_count > 0
+#   ""                  — Recent papers with zero citations (not displayed)
+#
+# Percentile thresholds are computed fresh each run against the current pool,
+# so "Very Highly Cited" always means top-of-field for the current period
+# regardless of absolute citation counts.
+#
+# Computed in update_map_v2.py after Stage 1d (S2 enrichment) so that the
+# thresholds reflect the full merged pool (Recent + Significant).
+# ══════════════════════════════════════════════════════════════════════════════
+
+CITATION_TIER_TOP_PCT = 0.20   # top 20% of significant pool -> Very Highly Cited
+
+
+def calculate_citation_tier(df: pd.DataFrame) -> pd.Series:
+    """Assign CitationTier to all papers in the merged DataFrame.
+
+    Parameters
+    ----------
+    df : DataFrame with columns paper_source, ss_influential_citations,
+         ss_citation_count (all present after Stage 1d).
+
+    Returns
+    -------
+    pd.Series of str, aligned to df.index.
+    """
+    result = pd.Series("", index=df.index, dtype=str)
+
+    required = {"paper_source", "ss_influential_citations", "ss_citation_count"}
+    missing  = required - set(df.columns)
+    if missing:
+        print(f"  CitationTier: skipped -- missing columns: {missing}")
+        return result
+
+    sig_mask    = df["paper_source"] == "Significant"
+    recent_mask = ~sig_mask
+
+    # Recent papers: "Cited" if any citations, else ""
+    cited_mask = recent_mask & (df["ss_citation_count"].fillna(0).astype(int) > 0)
+    result[cited_mask] = "Cited"
+
+    # Significant papers: percentile split within the pool
+    sig_indices = df.index[sig_mask].tolist()
+    if not sig_indices:
+        n_cited = int(cited_mask.sum())
+        print(f"  CitationTier: {n_cited} Cited, 0 Very Highly / Highly Cited "
+              f"(no significant pool yet).")
+        return result
+
+    sig_inf   = df.loc[sig_mask, "ss_influential_citations"].fillna(0).astype(int)
+    threshold = float(sig_inf.quantile(1.0 - CITATION_TIER_TOP_PCT))
+
+    for idx in sig_indices:
+        inf = int(df.at[idx, "ss_influential_citations"] or 0)
+        if threshold > 0 and inf >= threshold:
+            result[idx] = "Very Highly Cited"
+        else:
+            result[idx] = "Highly Cited"
+
+    n_very  = int((result == "Very Highly Cited").sum())
+    n_high  = int((result == "Highly Cited").sum())
+    n_cited = int((result == "Cited").sum())
+    n_none  = int((result == "").sum())
+    print(f"  CitationTier: {n_very} Very Highly Cited, {n_high} Highly Cited, "
+          f"{n_cited} Cited, {n_none} uncited Recent.")
+
+    return result
 
 
 # ══════════════════════════════════════════════════════════════════════════════
 # §4  ROLLING DATABASE
 # ══════════════════════════════════════════════════════════════════════════════
 
-def load_existing_db(db_path: str = DB_PATH) -> pd.DataFrame:
+def load_existing_db(db_path: str = DB_PATH, bypass_pruning: bool = False) -> pd.DataFrame:
     if not os.path.exists(db_path):
         return pd.DataFrame()
     df = pd.read_parquet(db_path)
+    if bypass_pruning:
+        print(f"  Loaded {len(df)} papers (retention pruning skipped — offline mode).")
+        return df
     if "date_added" not in df.columns:
         print("  Existing DB has no date_added column — starting fresh.")
         return pd.DataFrame()
@@ -250,10 +674,505 @@ def merge_papers(existing: pd.DataFrame, new: pd.DataFrame) -> pd.DataFrame:
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# §5  arXiv FETCH WITH EXPONENTIAL BACK-OFF
+# §5  arXiv FETCH — OAI-PMH ANNOUNCEMENT-DATE APPROACH
+#
+# Background
+# ──────────
+# The standard arXiv API filters by *submission date* — when the author
+# clicked "Upload".  But the daily website listings show papers by
+# *announcement date* — when arXiv moderators released them to the public.
+# Papers can sit in moderation for days, so submission-date queries silently
+# miss or misplace a significant fraction of each day's announced papers.
+#
+# The fix is a two-step pipeline:
+#   1. OAI-PMH (Open Archives Initiative Protocol for Metadata Harvesting):
+#      query by `datestamp` (announcement date) to get arXiv IDs.
+#   2. arXiv Search API: batch-fetch full metadata for those IDs.
+#
+# Date arithmetic
+# ───────────────
+# The pipeline runs at 03:00 UTC.  arXiv announces at ~01:00 UTC, so we
+# query TODAY's UTC date.  On weekends (Sat/Sun UTC) arXiv doesn't release;
+# the function returns [] and the caller handles that gracefully.
+#
+# For first-run backfill (days_back > 1) we query multiple past dates.
+#
+# Monday quirk
+# ────────────
+# arXiv's Monday list includes Friday + Sunday submissions and is the
+# largest batch of the week.  The OAI datestamp for Monday's announcement
+# is typically Monday UTC (occasionally Tuesday UTC if the server is slow).
+# By querying today + yesterday we reliably catch it without special-casing.
+#
+# Rate limits
+# ───────────
+# OAI-PMH: 20s sleep between resumption-token requests (strictly enforced).
+# Search API: 3s sleep between 50-ID batches (polite use).
 # ══════════════════════════════════════════════════════════════════════════════
 
+import urllib.parse
+import urllib.request as _ureq
+import xml.etree.ElementTree as ET
+from dataclasses import dataclass, field
+
+# XML namespace map for OAI-PMH + arXiv metadata prefix
+_OAI_NS = {
+    "oai":    "http://www.openarchives.org/OAI/2.0/",
+    "arxiv":  "http://arxiv.org/OAI/2.0/",
+    "atom":   "http://www.w3.org/2005/Atom",
+}
+
+_OAI_BASE_URL    = "https://export.arxiv.org/oai2"
+_SEARCH_BASE_URL = "https://export.arxiv.org/api/query"
+_OAI_RESUMPTION_SLEEP  = 20   # seconds — strictly required by arXiv
+_SEARCH_BATCH_SIZE     = 50   # IDs per Search API request
+_SEARCH_BATCH_SLEEP    = 3    # seconds between Search API batches
+_OAI_UA = (
+    "ai-research-atlas/2.0 "
+    "(https://github.com/LeeFischman/ai-research-atlas; "
+    "mailto:lee.fischman@gmail.com)"
+)
+
+
+@dataclass
+class _Author:
+    """Minimal author object — matches the .name interface of arxiv.Result."""
+    name: str
+
+
+@dataclass
+class _ArxivPaper:
+    """Lightweight paper object matching the arxiv.Result interface used in
+    update_map_v2.py Stage 1b:
+        r.title, r.summary, r.pdf_url, r.entry_id, r.authors (list of _Author)
+    """
+    title:            str
+    summary:          str
+    pdf_url:          str
+    entry_id:         str
+    authors:          list = field(default_factory=list)
+    publication_date: str  = ""    # YYYY-MM-DD, parsed from atom:published
+
+
+def _oai_fetch_ids_for_date(date_str: str, category: str = "cs.AI") -> list[str]:
+    """Fetch arXiv IDs announced on `date_str` (YYYY-MM-DD) via OAI-PMH.
+
+    Uses the broad 'cs' set and filters by category in code, because arXiv
+    OAI does not expose fine-grained set names like 'cs.AI' directly.
+
+    Returns a deduplicated list of base arXiv IDs (e.g. '2501.12345').
+    """
+    params: dict = {
+        "verb":           "ListRecords",
+        "metadataPrefix": "arXiv",
+        "from":           date_str,
+        "until":          date_str,
+        "set":            "cs",
+    }
+
+    found: list[str] = []
+    seen:  set[str]  = set()
+    page  = 0
+
+    while True:
+        page += 1
+        url = f"{_OAI_BASE_URL}?{urllib.parse.urlencode(params)}"
+        req = _ureq.Request(url, headers={"User-Agent": _OAI_UA})
+
+        for attempt in range(1, MAX_RETRIES + 1):
+            try:
+                with _ureq.urlopen(req, timeout=30) as resp:
+                    raw = resp.read()
+                break
+            except urllib.error.HTTPError as e:
+                if e.code == 503:
+                    retry_after = int(e.headers.get("Retry-After", 30))
+                    print(f"    OAI 503 — waiting {retry_after}s (attempt {attempt})...")
+                    time.sleep(retry_after)
+                elif e.code == 429:
+                    wait = BASE_WAIT * (2 ** (attempt - 1))
+                    print(f"    OAI 429 — waiting {wait}s (attempt {attempt})...")
+                    time.sleep(wait)
+                else:
+                    raise
+            except Exception as e:
+                if attempt < MAX_RETRIES:
+                    wait = BASE_WAIT * (2 ** (attempt - 1))
+                    print(f"    OAI error: {e} — waiting {wait}s (attempt {attempt})...")
+                    time.sleep(wait)
+                else:
+                    raise
+        else:
+            print(f"    OAI fetch failed after {MAX_RETRIES} attempts on page {page}.")
+            break
+
+        root = ET.fromstring(raw)
+
+        # Check for OAI error (e.g. noRecordsMatch)
+        error_el = root.find(".//oai:error", _OAI_NS)
+        if error_el is not None:
+            code = error_el.get("code", "")
+            if code == "noRecordsMatch":
+                print(f"    OAI: no records for {date_str} (weekend or holiday).")
+            else:
+                print(f"    OAI error code='{code}': {error_el.text}")
+            break
+
+        for record in root.findall(".//oai:record", _OAI_NS):
+            # Skip deleted records
+            header = record.find("oai:header", _OAI_NS)
+            if header is not None and header.get("status") == "deleted":
+                continue
+
+            # Namespace-agnostic category search — arXiv uses different namespace
+            # URIs depending on record type, so match by local tag name only.
+            cats_el = next(
+                (el for el in record.iter()
+                 if el.tag.split("}")[-1] == "categories"),
+                None
+            )
+            if cats_el is None or not cats_el.text:
+                continue
+            if category not in cats_el.text.split():
+                continue
+
+            id_el = record.find(".//oai:identifier", _OAI_NS)
+            if id_el is None or not id_el.text:
+                continue
+
+            # "oai:arXiv.org:2501.12345" -> "2501.12345"
+            raw_id  = id_el.text.split(":")[-1].strip()
+            base_id = _arxiv_id_base(raw_id)
+            if base_id not in seen:
+                seen.add(base_id)
+                found.append(base_id)
+
+        # Resumption token for next page
+        token_el = root.find(".//oai:resumptionToken", _OAI_NS)
+        if token_el is not None and token_el.text and token_el.text.strip():
+            print(f"    OAI page {page}: {len(found)} IDs so far — "
+                  f"resuming in {_OAI_RESUMPTION_SLEEP}s...")
+            time.sleep(_OAI_RESUMPTION_SLEEP)
+            params = {"verb": "ListRecords",
+                      "resumptionToken": token_el.text.strip()}
+        else:
+            break
+
+    return found
+
+
+def oai_fetch_ids_for_range(
+    date_from_str: str,
+    date_to_str:   str,
+    category:      str = "cs.AI",
+) -> list[str]:
+    """Fetch arXiv IDs announced between date_from_str and date_to_str via OAI-PMH.
+
+    Unlike _oai_fetch_ids_for_date (which queries a single day), this function
+    queries a full date range in one OAI-PMH request, using resumption tokens
+    to page through all results. Suitable for the initial 150-day backfill in
+    update_significant.py, and for weekly delta fetches.
+
+    Parameters
+    ----------
+    date_from_str : start date inclusive, YYYY-MM-DD
+    date_to_str   : end date inclusive, YYYY-MM-DD
+    category      : arXiv category filter (default: cs.AI)
+
+    Returns
+    -------
+    Deduplicated list of base arXiv IDs (e.g. '2501.12345'), no version suffix.
+    """
+    params: dict = {
+        "verb":           "ListRecords",
+        "metadataPrefix": "arXiv",
+        "from":           date_from_str,
+        "until":          date_to_str,
+        "set":            "cs",      # cs.AI is not a valid OAI set; filter by category in code
+    }
+
+    found: list[str] = []
+    seen:  set[str]  = set()
+    page  = 0
+
+    print(f"  OAI-PMH range fetch: {date_from_str} to {date_to_str} "
+          f"(category={category})...")
+
+    while True:
+        page += 1
+        url = f"{_OAI_BASE_URL}?{urllib.parse.urlencode(params)}"
+        req = _ureq.Request(url, headers={"User-Agent": _OAI_UA})
+
+        for attempt in range(1, MAX_RETRIES + 1):
+            try:
+                with _ureq.urlopen(req, timeout=60) as resp:
+                    raw = resp.read()
+                break
+            except urllib.error.HTTPError as e:
+                if e.code == 503:
+                    retry_after = int(e.headers.get("Retry-After", 30))
+                    print(f"    OAI 503 — waiting {retry_after}s (attempt {attempt})...")
+                    time.sleep(retry_after)
+                elif e.code == 429:
+                    wait = BASE_WAIT * (2 ** (attempt - 1))
+                    print(f"    OAI 429 — waiting {wait}s (attempt {attempt})...")
+                    time.sleep(wait)
+                else:
+                    raise
+            except Exception as e:
+                if attempt < MAX_RETRIES:
+                    wait = BASE_WAIT * (2 ** (attempt - 1))
+                    print(f"    OAI error: {e} — waiting {wait}s (attempt {attempt})...")
+                    time.sleep(wait)
+                else:
+                    raise
+        else:
+            print(f"    OAI range fetch failed after {MAX_RETRIES} attempts on page {page}.")
+            break
+
+        root = ET.fromstring(raw)
+
+        error_el = root.find(".//oai:error", _OAI_NS)
+        if error_el is not None:
+            code = error_el.get("code", "")
+            if code == "noRecordsMatch":
+                print(f"    OAI: no records for range {date_from_str}:{date_to_str}.")
+            else:
+                print(f"    OAI error code='{code}': {error_el.text}")
+            break
+
+        page_new = 0
+        records = root.findall(".//oai:record", _OAI_NS)
+
+        for record in records:
+            header = record.find("oai:header", _OAI_NS)
+            if header is not None and header.get("status") == "deleted":
+                continue
+
+            # Use namespace-agnostic search for categories — arXiv uses different
+            # namespace URIs depending on record type (new vs revised):
+            #   new papers:  http://arxiv.org/OAI/2.0/
+            #   revised:     http://arxiv.org/OAI/arXiv/
+            # Searching by local name avoids brittle namespace URI matching.
+            cats_el = next(
+                (el for el in record.iter()
+                 if el.tag.split("}")[-1] == "categories"),
+                None
+            )
+            if cats_el is None or not cats_el.text:
+                continue
+            if category not in cats_el.text.split():
+                continue
+
+            # OAI-PMH date range matches on last-updated datestamp, not submission
+            # date. Filter by <created> date to get only newly submitted papers,
+            # not revisions of old papers.
+            created_el = next(
+                (el for el in record.iter()
+                 if el.tag.split("}")[-1] == "created"),
+                None
+            )
+            if created_el is None or not created_el.text:
+                continue
+            created_date = created_el.text.strip()[:10]  # YYYY-MM-DD
+            if created_date < date_from_str or created_date > date_to_str:
+                continue
+
+            id_el = record.find(".//oai:identifier", _OAI_NS)
+            if id_el is None or not id_el.text:
+                continue
+
+            raw_id  = id_el.text.split(":")[-1].strip()
+            base_id = _arxiv_id_base(raw_id)
+            if base_id not in seen:
+                seen.add(base_id)
+                found.append(base_id)
+                page_new += 1
+
+        token_el = root.find(".//oai:resumptionToken", _OAI_NS)
+        if token_el is not None and token_el.text and token_el.text.strip():
+            print(f"    OAI page {page}: {page_new} new IDs "
+                  f"(running total: {len(found)}) — resuming in {_OAI_RESUMPTION_SLEEP}s...")
+            time.sleep(_OAI_RESUMPTION_SLEEP)
+            params = {"verb": "ListRecords",
+                      "resumptionToken": token_el.text.strip()}
+        else:
+            print(f"    OAI page {page}: {page_new} new IDs "
+                  f"(total: {len(found)}) — complete.")
+            break
+
+    return found
+
+
+# Public alias so update_significant.py can import without the leading underscore
+def _search_fetch_metadata(arxiv_ids: list[str]) -> list[_ArxivPaper]:
+    """Fetch full metadata for a list of arXiv IDs via the Search API.
+
+    Batches IDs in groups of _SEARCH_BATCH_SIZE to avoid URL length errors.
+    Returns a list of _ArxivPaper objects in no guaranteed order.
+    """
+    papers: list[_ArxivPaper] = []
+
+    for batch_start in range(0, len(arxiv_ids), _SEARCH_BATCH_SIZE):
+        batch   = arxiv_ids[batch_start:batch_start + _SEARCH_BATCH_SIZE]
+        id_list = ",".join(batch)
+        url     = f"{_SEARCH_BASE_URL}?id_list={id_list}&max_results={len(batch)}"
+        req     = _ureq.Request(url, headers={"User-Agent": _OAI_UA})
+
+        for attempt in range(1, MAX_RETRIES + 1):
+            try:
+                with _ureq.urlopen(req, timeout=30) as resp:
+                    raw = resp.read()
+                break
+            except Exception as e:
+                if attempt < MAX_RETRIES:
+                    wait = min(BASE_WAIT * (2 ** (attempt - 1)), MAX_WAIT)
+                    print(f"    Search API error: {e} — "
+                          f"waiting {wait}s (attempt {attempt})...")
+                    time.sleep(wait)
+                else:
+                    print(f"    Search API batch failed: {e}")
+                    raw = None
+                    break
+
+        if raw is None:
+            continue
+
+        root = ET.fromstring(raw)
+        for entry in root.findall("atom:entry", _OAI_NS):
+            title_el    = entry.find("atom:title",   _OAI_NS)
+            summary_el  = entry.find("atom:summary", _OAI_NS)
+            id_el       = entry.find("atom:id",      _OAI_NS)
+
+            if title_el is None or id_el is None:
+                continue
+
+            title   = (title_el.text   or "").strip().replace("\n", " ")
+            summary = (summary_el.text or "").strip().replace("\n", " ") \
+                      if summary_el is not None else ""
+            abs_url = (id_el.text or "").strip()   # e.g. http://arxiv.org/abs/2501.12345v1
+
+            # Derive PDF URL from abstract URL
+            pdf_url = abs_url.replace("/abs/", "/pdf/") if "/abs/" in abs_url else abs_url
+
+            # Publication date — arXiv Atom feed <published> is the original
+            # submission date, e.g. "2025-01-22T00:00:00Z" → "2025-01-22"
+            published_el = entry.find("atom:published", _OAI_NS)
+            pub_date = ""
+            if published_el is not None and published_el.text:
+                pub_date = published_el.text.strip()[:10]
+
+            authors = [
+                _Author(name=(a.find("atom:name", _OAI_NS).text or "").strip())
+                for a in entry.findall("atom:author", _OAI_NS)
+                if a.find("atom:name", _OAI_NS) is not None
+            ]
+
+            papers.append(_ArxivPaper(
+                title            = title,
+                summary          = summary,
+                pdf_url          = pdf_url,
+                entry_id         = abs_url,
+                authors          = authors,
+                publication_date = pub_date,
+            ))
+
+        if batch_start + _SEARCH_BATCH_SIZE < len(arxiv_ids):
+            time.sleep(_SEARCH_BATCH_SLEEP)
+
+    return papers
+
+
+fetch_arxiv_metadata = _search_fetch_metadata
+
+
+def fetch_arxiv_oai(
+    days_back: int = 1,
+    category:  str = "cs.AI",
+    max_results: int = ARXIV_MAX,
+) -> list[_ArxivPaper]:
+    """Fetch papers announced on arXiv by announcement date via OAI-PMH.
+
+    Parameters
+    ----------
+    days_back   : number of past calendar days to query (1 = today only;
+                  >1 used for first-run backfill)
+    category    : arXiv category filter (default: cs.AI)
+    max_results : hard cap on total papers returned
+
+    Returns a deduplicated list of _ArxivPaper objects, capped at max_results.
+
+    Date strategy
+    ─────────────
+    Run at 03:00 UTC, announcement at ~01:00 UTC.  We query today's UTC date
+    as the primary target, then yesterday as a fallback (catches the Monday
+    announcement which occasionally carries a Tuesday UTC datestamp on slow
+    servers).  For backfill runs (days_back > 1) we extend further back.
+    """
+    now_utc  = datetime.now(timezone.utc)
+    # Build list of candidate dates: today first, then going back
+    dates = [
+        (now_utc - timedelta(days=d)).strftime("%Y-%m-%d")
+        for d in range(days_back + 1)   # +1 so today+yesterday always included
+    ]
+    # Deduplicate while preserving order
+    seen_dates: set[str] = set()
+    dates = [d for d in dates if not (d in seen_dates or seen_dates.add(d))]
+
+    all_ids: list[str] = []
+    seen_ids: set[str] = set()
+
+    for date_str in dates:
+        print(f"  OAI-PMH: fetching {category} IDs for {date_str}...")
+        ids = _oai_fetch_ids_for_date(date_str, category)
+        new_ids = [i for i in ids if i not in seen_ids]
+        seen_ids.update(new_ids)
+        all_ids.extend(new_ids)
+        if new_ids:
+            print(f"    {date_str}: {len(new_ids)} IDs "
+                  f"(running total: {len(all_ids)})")
+        else:
+            print(f"    {date_str}: 0 IDs — no announcement or weekend.")
+
+        if len(all_ids) >= max_results:
+            print(f"  Reached max_results cap ({max_results}) — stopping.")
+            break
+
+    if not all_ids:
+        return []
+
+    # Apply cap before fetching metadata (saves Search API calls)
+    all_ids = all_ids[:max_results]
+
+    # ── Diagnostic: sample IDs so logs can be spot-checked against arXiv ──
+    sample_ids = all_ids[:5]
+    print(f"  Sample IDs (verify at https://arxiv.org/abs/<id>): "
+          f"{', '.join(sample_ids)}")
+
+    print(f"  Fetching metadata for {len(all_ids)} IDs via Search API...")
+    papers = _search_fetch_metadata(all_ids)
+
+    if not papers and all_ids:
+        print(f"  WARNING: OAI returned {len(all_ids)} IDs but metadata fetch "
+              f"returned 0 papers. Possible date shift — check OAI datestamp "
+              f"vs arXiv announcement schedule.")
+    else:
+        print(f"  Retrieved metadata for {len(papers)}/{len(all_ids)} papers.")
+        # ── Diagnostic: sample titles for visual confirmation ──────────────
+        print("  Sample titles (confirm these are real cs.AI papers):")
+        for p in papers[:3]:
+            print(f"    - {p.title[:80]}")
+
+    return papers
+
+
+# Legacy alias — kept so update_map.py (v1) continues to work unchanged
 def fetch_arxiv(client, search) -> list:
+    """Legacy submission-date fetch via the arxiv Python library.
+
+    Retained for backward compatibility with update_map.py (v1 pipeline).
+    update_map_v2.py uses fetch_arxiv_oai() instead.
+    """
     last_exc = None
     for attempt in range(MAX_RETRIES):
         try:
@@ -527,14 +1446,20 @@ def build_and_deploy_atlas(
 
         conf["name_column"]  = "title"
         conf["label_column"] = "title"
-        conf["color_by"]     = "Reputation"
+        conf["color_by"]     = "Prominence"
         conf.setdefault("column_mappings", {}).update({
-            "title":        "title",
-            "abstract":     "abstract",
-            "Reputation":   "Reputation",
-            "author_count": "author_count",
-            "author_tier":  "author_tier",
-            "url":          "url",
+            "title":                   "title",
+            "abstract":                "abstract",
+            "Prominence":              "Prominence",
+            "author_count":            "author_count",
+            "author_tier":             "author_tier",
+            "url":                     "url",
+            "ss_citation_count":       "ss_citation_count",
+            "ss_influential_citations":"ss_influential_citations",
+            "ss_tldr":                 "ss_tldr",
+            "CitationTier":            "CitationTier",
+            "recency":                 "recency",
+            "paper_source":            "paper_source",
         })
 
         with open(config_path, "w") as f:
@@ -548,7 +1473,7 @@ def build_and_deploy_atlas(
     index_file = os.path.join(docs_dir, "index.html")
     if os.path.exists(index_file):
         font_html, panel_html = build_panel_html(run_date)
-        with open(index_file, "r", encoding="utf-8") as f:
+        with open(index_file, "r", encoding="utf-8", errors="replace") as f:
             content = f.read()
         if "</head>" in content:
             content = content.replace("</head>", font_html + "\n</head>")
@@ -558,11 +1483,33 @@ def build_and_deploy_atlas(
             content = content.replace("</body>", panel_html + "\n</body>")
         else:
             content += panel_html
-        with open(index_file, "w", encoding="utf-8") as f:
+        with open(index_file, "w", encoding="utf-8", errors="replace") as f:
             f.write(content)
         print("  Info panel injected into index.html.")
     else:
         print(f"  {index_file} not found — skipping panel injection.")
+
+    # ── Grid view: papers.json + grid.html ───────────────────────────────────
+    try:
+        grid_df = pd.read_parquet(db_path)
+        grid_cols = [
+            "title", "ss_tldr", "abstract", "url", "date_added",
+            "Prominence", "author_count", "CitationTier", "recency",
+        ]
+        grid_cols = [c for c in grid_cols if c in grid_df.columns]
+        grid_out = grid_df[grid_cols].copy()
+
+        papers_json_path = os.path.join(docs_dir, "data", "papers.json")
+        grid_out.to_json(papers_json_path, orient="records", default_handler=str)
+        print(f"  papers.json written ({len(grid_out)} papers → {papers_json_path}).")
+    except Exception as exc:
+        print(f"  Warning: papers.json generation failed: {exc}")
+
+    grid_html_content = build_grid_html(run_date)
+    grid_html_path = os.path.join(docs_dir, "grid.html")
+    with open(grid_html_path, "w", encoding="utf-8") as f:
+        f.write(grid_html_content)
+    print(f"  grid.html written → {grid_html_path}.")
 
     print("  Atlas build complete.")
 
@@ -599,6 +1546,21 @@ def build_panel_html(run_date: str) -> tuple[str, str]:
     --arm-panel-w: 300px;
   }
 
+  /* ── Top title bar ───────────────────────────────────────────────── */
+  #arm-title-bar {
+    position:fixed; top:0; left:50%; transform:translateX(-50%);
+    z-index:1000000;
+    background:rgba(15,23,42,0.82); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+    border:1px solid var(--arm-border); border-top:none;
+    border-radius:0 0 10px 10px;
+    padding:6px 22px;
+    font-family:var(--arm-font); font-size:15px; font-weight:700;
+    color:#f1f5f9; letter-spacing:-0.01em; line-height:1.3;
+    white-space:nowrap; user-select:none;
+    box-shadow:0 3px 20px rgba(0,0,0,0.4);
+  }
+  #arm-title-bar span { color:var(--arm-accent); }
+
   /* ── Tab strip ───────────────────────────────────────────────────── */
   #arm-tab-strip {
     position:fixed; left:0; top:50%; transform:translateY(-50%);
@@ -616,7 +1578,8 @@ def build_panel_html(run_date: str) -> tuple[str, str]:
     transition:background 0.2s,color 0.2s,box-shadow 0.2s; user-select:none;
   }
   #arm-shortcuts-tab { border-radius:0 10px 0 0; }
-  #arm-about-tab     { border-radius:0 0 10px 0; }
+  #arm-about-tab     { border-radius:0; }
+  #arm-grid-tab      { border-radius:0 0 10px 0; }
   .arm-tab:hover     { background:rgba(30,41,59,0.95); color:#93c5fd; box-shadow:4px 0 24px rgba(96,165,250,0.2); }
   .arm-tab.arm-active { background:rgba(30,41,59,0.98); color:#93c5fd; }
 
@@ -679,6 +1642,47 @@ def build_panel_html(run_date: str) -> tuple[str, str]:
   .arm-tile-text { display:flex; flex-direction:column; gap:1px; }
   .arm-tile-label { font-size:12px; font-weight:600; color:#cbd5e1; line-height:1.3; transition:color 0.15s; }
   .arm-tile-sub   { font-size:11px; color:#64748b; line-height:1.3; }
+
+  /* ── Custom point popup ──────────────────────────────────────────── */
+  #arm-cp {
+    position:fixed; z-index:999998; width:320px;
+    background:var(--arm-bg); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+    border:1px solid var(--arm-border); border-radius:12px;
+    box-shadow:0 8px 32px rgba(0,0,0,0.6);
+    font-family:var(--arm-font); color:#e2e8f0;
+    display:none;
+  }
+  .arm-cp-body { padding:16px; display:flex; flex-direction:column; gap:10px; }
+  .arm-cp-title-row { display:flex; align-items:flex-start; justify-content:space-between; gap:8px; }
+  .arm-cp-title { font-size:13px; font-weight:700; color:#f1f5f9; line-height:1.4; text-decoration:none; flex:1; }
+  .arm-cp-title:hover { color:var(--arm-accent); text-decoration:underline; }
+  .arm-cp-badge { flex-shrink:0; font-size:10px; font-weight:600; border-radius:4px; padding:2px 6px; white-space:nowrap; margin-top:2px; border:1px solid; }
+  .arm-cp-badge-elite      { color:#fbbf24; background:rgba(251,191,36,0.12); border-color:rgba(251,191,36,0.35); }
+  .arm-cp-badge-enhanced   { color:#60a5fa; background:rgba(96,165,250,0.12); border-color:rgba(96,165,250,0.35); }
+  .arm-cp-badge-emerging   { color:#34d399; background:rgba(52,211,153,0.10); border-color:rgba(52,211,153,0.30); }
+  .arm-cp-badge-unverified { color:#64748b; background:rgba(100,116,139,0.10); border-color:rgba(100,116,139,0.25); }
+  .arm-cp-topic { font-size:11px; color:var(--arm-accent); font-weight:500; }
+  .arm-cp-tldr { font-size:11.5px; color:#94a3b8; line-height:1.6; }
+  .arm-cp-expand { display:inline-block; margin-top:5px; font-size:11px; font-weight:500; color:#60a5fa; cursor:pointer; background:none; border:none; padding:0; font-family:var(--arm-font); text-decoration:none; opacity:0.8; transition:opacity 0.15s; }
+  .arm-cp-expand:hover { opacity:1; }
+  .arm-cp-abstract { font-size:11.5px; color:#94a3b8; line-height:1.6; max-height:9.6em; overflow-y:auto; scrollbar-width:thin; scrollbar-color:#334155 transparent; margin-top:6px; }
+  .arm-cp-abstract::-webkit-scrollbar { width:4px; }
+  .arm-cp-abstract::-webkit-scrollbar-thumb { background:#334155; border-radius:4px; }
+  .arm-cp-abstract.arm-cp-abstract-hidden { display:none; }
+  .arm-cp-meta { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+  .arm-cp-meta span { font-size:11px; color:#64748b; }
+  .arm-cp-badge { font-size:10px; font-weight:600; letter-spacing:0.04em; padding:2px 7px; border-radius:99px; border:1px solid; }
+  .arm-cp-badge-elite      { color:#f59e0b; background:rgba(245,158,11,0.12); border-color:rgba(245,158,11,0.35); }
+  .arm-cp-badge-enhanced   { color:#60a5fa; background:rgba(96,165,250,0.12); border-color:rgba(96,165,250,0.35); }
+  .arm-cp-badge-emerging   { color:#4ade80; background:rgba(74,222,128,0.10); border-color:rgba(74,222,128,0.30); }
+  .arm-cp-badge-unverified { color:#475569; background:rgba(71,85,105,0.15);  border-color:rgba(71,85,105,0.35); }
+  .arm-cp-badge-very-highly-cited { color:#ef4444; background:rgba(239,68,68,0.12); border-color:rgba(239,68,68,0.35); }
+  .arm-cp-badge-highly-cited      { color:#f97316; background:rgba(249,115,22,0.12); border-color:rgba(249,115,22,0.35); }
+  .arm-cp-badge-cited             { color:#facc15; background:rgba(250,204,21,0.12); border-color:rgba(250,204,21,0.35); }
+  .arm-cp-keywords { font-size:10.5px; color:#475569; line-height:1.5; }
+  .arm-cp-footer { padding:10px 16px; border-top:1px solid var(--arm-border); display:flex; justify-content:flex-end; }
+  .arm-cp-btn { font-size:11px; font-weight:600; color:var(--arm-accent); background:var(--arm-accent-dim); border:1px solid rgba(96,165,250,0.25); border-radius:6px; padding:5px 12px; text-decoration:none; transition:background 0.15s; font-family:var(--arm-font); cursor:pointer; }
+  .arm-cp-btn:hover { background:rgba(96,165,250,0.2); }
 </style>
 
 <script>
@@ -699,11 +1703,11 @@ def build_panel_html(run_date: str) -> tuple[str, str]:
     document.querySelectorAll('.arm-tab').forEach(function(t) { t.style.display = ''; });
   }
 
-  // Atlas color-by: find the select whose options include Reputation,
+  // Atlas color-by: find the select whose options include Prominence,
   // set value via native setter (Svelte needs this), fire change event.
   function armSetColor(columnName, tileEl) {
     var colorSelect = Array.from(document.querySelectorAll('select')).find(function(sel) {
-      return Array.from(sel.options).some(function(o) { return o.text.includes('Reputation'); });
+      return Array.from(sel.options).some(function(o) { return o.text.includes('Prominence'); });
     });
     if (colorSelect) {
       var nativeSetter = Object.getOwnPropertyDescriptor(
@@ -718,6 +1722,218 @@ def build_panel_html(run_date: str) -> tuple[str, str]:
   }
 </script>
 
+<!-- ── Custom point popup ──────────────────────────────────────────── -->
+<div id="arm-cp">
+  <div class="arm-cp-body">
+    <a class="arm-cp-title" id="arm-cp-title" href="#" target="_blank" rel="noopener"></a>
+    <div class="arm-cp-tldr" id="arm-cp-tldr"></div>
+    <button class="arm-cp-expand" id="arm-cp-expand"></button>
+    <div class="arm-cp-abstract arm-cp-abstract-hidden" id="arm-cp-abstract"></div>
+    <div class="arm-cp-meta"   id="arm-cp-meta"></div>
+  </div>
+  <div class="arm-cp-footer">
+    <a class="arm-cp-btn" id="arm-cp-btn" href="#" target="_blank" rel="noopener">Open on arXiv →</a>
+  </div>
+</div>
+
+<script>
+(function() {
+  var cp = document.getElementById('arm-cp');
+
+  // Persistent preference: remembers whether the user last expanded to full
+  // abstract. Resets to false (show TLDR by default) on page load.
+  var _armShowFull = false;
+
+  function armSetAbstractView(hasTldr, showFull) {
+    var tldrEl     = document.getElementById('arm-cp-tldr');
+    var expandEl   = document.getElementById('arm-cp-expand');
+    var abstractEl = document.getElementById('arm-cp-abstract');
+    if (!hasTldr) {
+      // No TLDR: show abstract directly, no toggle affordance
+      tldrEl.style.display    = 'none';
+      expandEl.style.display  = 'none';
+      abstractEl.classList.remove('arm-cp-abstract-hidden');
+      return;
+    }
+    tldrEl.style.display   = '';
+    expandEl.style.display = '';
+    if (showFull) {
+      abstractEl.classList.remove('arm-cp-abstract-hidden');
+      expandEl.textContent = '\u25BE Hide abstract';
+    } else {
+      abstractEl.classList.add('arm-cp-abstract-hidden');
+      expandEl.textContent = '\u25B8 Full abstract';
+    }
+  }
+
+  function extractData(popup) {
+    var data = {};
+    popup.querySelectorAll('[class*="px-2"][class*="flex"][class*="items-center"]').forEach(function(row) {
+      var kids = Array.from(row.children).filter(function(c) { return c.textContent.trim(); });
+      if (kids.length >= 2) {
+        data[kids[0].textContent.trim()] = kids[1].textContent.trim();
+      }
+    });
+    return data;
+  }
+
+  function showCP(data, atlasPopup) {
+    var title       = data['title']        || '';
+    var url         = data['url']          || '#';
+    var abs         = data['abstract']     || '';
+    var tldr        = data['ss_tldr']      || '';
+    var count       = data['author_count'] || '';
+    var date        = (data['date_added']  || '').substring(0, 10);
+    var prominence  = data['Prominence']   || '';
+    var citTier     = data['CitationTier'] || '';
+    var citeCount   = parseInt(data['ss_citation_count']        || '0') || 0;
+    var inflCount   = parseInt(data['ss_influential_citations'] || '0') || 0;
+    var hasTldr     = tldr.trim().length > 0;
+
+    document.getElementById('arm-cp-title').textContent = title;
+    document.getElementById('arm-cp-title').href = url;
+    document.getElementById('arm-cp-btn').href = url;
+
+    document.getElementById('arm-cp-tldr').textContent     = hasTldr ? tldr : '';
+    document.getElementById('arm-cp-abstract').textContent = abs;
+
+    // Re-wire expand button each open (clone removes any prior listener)
+    var expandEl  = document.getElementById('arm-cp-expand');
+    var newExpand = expandEl.cloneNode(true);
+    expandEl.parentNode.replaceChild(newExpand, expandEl);
+    newExpand.addEventListener('click', function() {
+      _armShowFull = !_armShowFull;
+      armSetAbstractView(hasTldr, _armShowFull);
+    });
+
+    // Apply persistent preference; new papers snap to user's last choice
+    armSetAbstractView(hasTldr, _armShowFull);
+
+    var metaEl = document.getElementById('arm-cp-meta');
+    metaEl.innerHTML = '';
+    if (count) { var s1 = document.createElement('span'); s1.textContent = '\\u{1F465}\\uFE0E ' + count + ' authors'; metaEl.appendChild(s1); }
+    if (date)  { var s2 = document.createElement('span'); s2.textContent = '\\u{1F4C5}\\uFE0E ' + date; metaEl.appendChild(s2); }
+    if (prominence) {
+      var pill = document.createElement('span');
+      pill.textContent = prominence;
+      var tierClass = {
+        'Elite':      'arm-cp-badge-elite',
+        'Enhanced':   'arm-cp-badge-enhanced',
+        'Emerging':   'arm-cp-badge-emerging',
+        'Unverified': 'arm-cp-badge-unverified'
+      }[prominence] || 'arm-cp-badge-unverified';
+      pill.className = 'arm-cp-badge ' + tierClass;
+      metaEl.appendChild(pill);
+    }
+    if (citTier) {
+      var ctPill = document.createElement('span');
+      ctPill.textContent = citTier;
+      var ctClass = {
+        'Very Highly Cited': 'arm-cp-badge-very-highly-cited',
+        'Highly Cited':      'arm-cp-badge-highly-cited',
+        'Cited':             'arm-cp-badge-cited'
+      }[citTier] || '';
+      if (ctClass) { ctPill.className = 'arm-cp-badge ' + ctClass; metaEl.appendChild(ctPill); }
+    }
+    if (citeCount > 0) {
+      var citeEl = document.createElement('span');
+      citeEl.textContent = '\\u{1F4C8}\\uFE0E ' + citeCount + ' citation' + (citeCount !== 1 ? 's' : '')
+        + (inflCount > 0 ? ', ' + inflCount + ' influential' : '');
+      metaEl.appendChild(citeEl);
+    }
+
+    // Smart positioning: right of Atlas popup, flip left if near viewport edge
+    var rect = atlasPopup.getBoundingClientRect();
+    var left = rect.right + 12;
+    if (left + 330 > window.innerWidth) { left = rect.left - 330 - 12; }
+    if (left < 8) { left = 8; }
+    var top = Math.max(8, rect.top);
+
+    cp.style.left = left + 'px';
+    cp.style.top  = top  + 'px';
+    cp.style.display = 'block';
+
+    // Clamp vertically after rendering so we know the height
+    requestAnimationFrame(function() {
+      var maxTop = window.innerHeight - cp.offsetHeight - 8;
+      if (parseFloat(cp.style.top) > maxTop) { cp.style.top = Math.max(8, maxTop) + 'px'; }
+    });
+  }
+
+  function hideCP() { cp.style.display = 'none'; }
+
+  function findAtlasPopup(node) {
+    if (node.nodeType !== 1) return null;
+    if (node.classList && node.classList.contains('border-slate-300') && node.classList.contains('shadow-md')) return node;
+    return node.querySelector ? node.querySelector('.border-slate-300.shadow-md') : null;
+  }
+
+  function waitForRoot() {
+    var root = document.querySelector('.embedding-atlas-root');
+    if (!root) { setTimeout(waitForRoot, 300); return; }
+
+    // Hide Atlas's own popup immediately whenever it appears
+    new MutationObserver(function(mutations) {
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          var popup = findAtlasPopup(node);
+          if (popup) { popup.style.display = 'none'; }
+        });
+      });
+    }).observe(root, { childList: true, subtree: true });
+
+    // On every click inside Atlas, wait for its popup to settle then read it
+    root.addEventListener('click', function() {
+      // Poll for up to 600ms for Atlas popup to appear/update
+      var attempts = 0;
+      var interval = setInterval(function() {
+        attempts++;
+        var popup = root.querySelector('.border-slate-300.shadow-md');
+        if (popup) {
+          popup.style.display = 'none';
+          showCP(extractData(popup), popup);
+          clearInterval(interval);
+        } else if (attempts > 12) {
+          // No popup appeared — user clicked empty space, hide ours
+          clearInterval(interval);
+          hideCP();
+        }
+      }, 50);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', waitForRoot);
+  } else {
+    waitForRoot();
+  }
+})();
+
+// Collapse charts panel on load
+(function() {
+  function collapseChartsPanel() {
+    const btn = document.querySelector('button[title="Show / hide charts"]');
+    if (!btn) { setTimeout(collapseChartsPanel, 200); return; }
+    if (!btn.classList.contains('text-slate-400')) { btn.click(); }
+  }
+  window.addEventListener('load', () => setTimeout(collapseChartsPanel, 300));
+})();
+
+// Collapse table panel on load
+(function() {
+  function collapseTablePanel() {
+    const btn = Array.from(document.querySelectorAll('button'))
+      .find(b => b.title === 'Show / hide table');
+    if (!btn) { setTimeout(collapseTablePanel, 200); return; }
+    if (!btn.classList.contains('text-slate-400')) { btn.click(); }
+  }
+  window.addEventListener('load', () => setTimeout(collapseTablePanel, 300));
+})();
+</script>
+
+<!-- ── Top title bar ──────────────────────────────────────────────── -->
+<div id="arm-title-bar">The <span>AI Research</span> Atlas</div>
+
 <!-- ── Tab strip ──────────────────────────────────────────────────── -->
 <div id="arm-tab-strip">
   <button id="arm-shortcuts-tab" class="arm-tab"
@@ -726,6 +1942,9 @@ def build_panel_html(run_date: str) -> tuple[str, str]:
   <button id="arm-about-tab" class="arm-tab"
     onclick="armToggle('arm-about-panel','arm-about-tab','arm-shortcuts-tab')"
     aria-label="Open About panel">About</button>
+  <button id="arm-grid-tab" class="arm-tab"
+    onclick="window.location.href='grid.html'"
+    aria-label="Open Grid View">Grid View</button>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════
@@ -739,19 +1958,24 @@ def build_panel_html(run_date: str) -> tuple[str, str]:
     </div>
     <p class="arm-sc-intro">Click a tile to see points colored by</p>
 
-    <a class="arm-tile" href="javascript:void(0)" onclick="armSetColor('Reputation', this)">
+    <a class="arm-tile" href="javascript:void(0)" onclick="armSetColor('Prominence', this)">
       <span class="arm-tile-icon"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="9,2 11.1,6.6 16.2,7.3 12.6,10.7 13.5,15.8 9,13.4 4.5,15.8 5.4,10.7 1.8,7.3 6.9,6.6"/></svg></span>
-      <span class="arm-tile-text"><span class="arm-tile-label">Reputation score</span><span class="arm-tile-sub">Institution &amp; open-source signals</span></span>
+      <span class="arm-tile-text"><span class="arm-tile-label">Author prominence</span><span class="arm-tile-sub">Elite · Enhanced · Emerging · Unverified</span></span>
     </a>
 
     <a class="arm-tile" href="javascript:void(0)" onclick="armSetColor('author_count', this)">
       <span class="arm-tile-icon"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.5" cy="6" r="2.5"/><path d="M1 16c0-3.3 2.5-5 5.5-5"/><circle cx="13" cy="6" r="2.5"/><path d="M17 16c0-3.3-2.5-5-5.5-5"/><path d="M10 16c0-2.8-1.8-4.5-4-4.5"/></svg></span>
-      <span class="arm-tile-text"><span class="arm-tile-label">Author count</span><span class="arm-tile-sub">More authors tends to be better</span></span>
+      <span class="arm-tile-text"><span class="arm-tile-label">Author count</span><span class="arm-tile-sub">1 \xb7 2 \xb7 3 \xb7 5 \xb7 8 \xb7 13 \xb7 21 \xb7 34+</span></span>
     </a>
 
-    <a class="arm-tile" href="javascript:void(0)" onclick="armSetColor('author_tier', this)">
-      <span class="arm-tile-icon"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5L9 4l5 4.5"/><path d="M5.5 8v5.5h7V8"/><path d="M7 13.5v-3h4v3"/><path d="M3 8.5h12"/></svg></span>
-      <span class="arm-tile-text"><span class="arm-tile-label">Author seniority</span><span class="arm-tile-sub">Highlights established researchers</span></span>
+    <a class="arm-tile" href="javascript:void(0)" onclick="armSetColor('CitationTier', this)">
+      <span class="arm-tile-icon"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,13 6,8 10,10 16,4"/><polyline points="12,4 16,4 16,8"/></svg></span>
+      <span class="arm-tile-text"><span class="arm-tile-label">Citation impact</span><span class="arm-tile-sub">Very Highly Cited · Highly Cited · Cited</span></span>
+    </a>
+
+    <a class="arm-tile" href="javascript:void(0)" onclick="armSetColor('recency', this)">
+      <span class="arm-tile-icon"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="7"/><polyline points="9,5 9,9 12,11"/></svg></span>
+      <span class="arm-tile-text"><span class="arm-tile-label">Recency</span><span class="arm-tile-sub">Today · Yesterday · Earlier</span></span>
     </a>
 
   </div>
@@ -772,7 +1996,7 @@ def build_panel_html(run_date: str) -> tuple[str, str]:
     </div>
     <div class="arm-byline">By <a href="https://www.linkedin.com/in/lee-fischman/" target="_blank" rel="noopener">Lee Fischman</a></div>
 
-    <p class="arm-p">A live semantic map of recent AI research from arXiv (cs.AI), rebuilt every day across a rolling 4-day window. Each point is a paper. Groups are determined by Claude Haiku based on shared research methodology and problem formulation.</p>
+    <p class="arm-p">A live semantic map of recent AI research from arXiv (cs.AI), rebuilt every day across a rolling """ + str(RETENTION_DAYS) + """-day window. Each point is a paper. Groups are determined by Claude Haiku based on shared research methodology and problem formulation.</p>
     <p class="arm-p"><a href="https://github.com/LeeFischman/AI-research-atlas" target="_blank" rel="noopener">More...</a></p>
 
     <hr class="arm-divider">
@@ -792,7 +2016,7 @@ def build_panel_html(run_date: str) -> tuple[str, str]:
     <hr class="arm-divider">
 
     <p class="arm-section">Powered by</p>
-    <p class="arm-p"><a href="https://apple.github.io/embedding-atlas/" target="_blank" rel="noopener">Apple Embedding Atlas</a>, <a href="https://openalex.org" target="_blank" rel="noopener">OpenAlex</a>, and <a href="https://allenai.org/blog/specter2-adapting-scientific-document-embeddings-to-multiple-fields-and-task-formats-c95686c06567" target="_blank" rel="noopener">SPECTER2</a></p>
+    <p class="arm-p"><a href="https://apple.github.io/embedding-atlas/" target="_blank" rel="noopener">Apple Embedding Atlas</a>, <a href="https://openalex.org" target="_blank" rel="noopener">OpenAlex</a>, <a href="https://www.semanticscholar.org" target="_blank" rel="noopener">Semantic Scholar</a>, and <a href="https://allenai.org/blog/specter2-adapting-scientific-document-embeddings-to-multiple-fields-and-task-formats-c95686c06567" target="_blank" rel="noopener">SPECTER2</a></p>
   </div>
   <div class="arm-footer">
     <div class="arm-status-dot"></div>
@@ -802,3 +2026,820 @@ def build_panel_html(run_date: str) -> tuple[str, str]:
 """
     )
     return font_html, panel_html
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# §9  GRID VIEW HTML
+# ══════════════════════════════════════════════════════════════════════════════
+
+def build_grid_html(run_date: str) -> str:
+    """Return the complete self-contained HTML for grid.html.
+
+    Reads  docs/data/papers.json  (written by build_and_deploy_atlas).
+    Displays a sortable, filterable table of papers with the same visual
+    chrome (title bar, Shortcuts panel, About panel, tab strip) as the
+    main Embedding Atlas page.
+    """
+    # __RUN_DATE__ is replaced with the actual run_date at the very end.
+    html = """\
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>AI Research Atlas \u2014 Grid View</title>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6LKWKT8838"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-6LKWKT8838');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --arm-font:'Inter',system-ui,-apple-system,sans-serif;
+    --arm-accent:#60a5fa;
+    --arm-accent-dim:rgba(96,165,250,0.12);
+    --arm-border:rgba(255,255,255,0.08);
+    --arm-muted:#94a3b8;
+    --arm-bg:rgba(15,23,42,0.92);
+    --arm-panel-w:300px;
+  }
+  *,*::before,*::after { box-sizing:border-box; }
+  html,body { margin:0; padding:0; height:100%; background:#0f172a; color:#e2e8f0; font-family:var(--arm-font); }
+
+  /* ── Title bar ─────────────────────────────────────────────────────── */
+  #arm-title-bar {
+    position:fixed; top:0; left:50%; transform:translateX(-50%);
+    z-index:1000000;
+    background:rgba(15,23,42,0.92); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+    border:1px solid var(--arm-border); border-top:none;
+    border-radius:0 0 10px 10px;
+    padding:6px 22px;
+    font-family:var(--arm-font); font-size:15px; font-weight:700;
+    color:#f1f5f9; letter-spacing:-0.01em; line-height:1.3;
+    white-space:nowrap; user-select:none;
+    box-shadow:0 3px 20px rgba(0,0,0,0.4);
+  }
+  #arm-title-bar span { color:var(--arm-accent); }
+
+  /* ── Tab strip ─────────────────────────────────────────────────────── */
+  #arm-tab-strip {
+    position:fixed; left:0; top:50%; transform:translateY(-50%);
+    z-index:1000000; display:flex; flex-direction:column; gap:4px;
+  }
+  .arm-tab {
+    display:flex; align-items:center; justify-content:center;
+    writing-mode:vertical-rl; text-orientation:mixed;
+    background:rgba(15,23,42,0.90); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+    color:var(--arm-accent); border:1px solid var(--arm-border); border-left:none;
+    padding:18px 9px; cursor:pointer;
+    font-family:var(--arm-font); font-weight:600; font-size:12px;
+    letter-spacing:0.12em; text-transform:uppercase;
+    box-shadow:3px 0 20px rgba(0,0,0,0.4);
+    transition:background 0.2s,color 0.2s,box-shadow 0.2s; user-select:none;
+  }
+  #arm-shortcuts-tab { border-radius:0 10px 0 0; }
+  #arm-about-tab     { border-radius:0; }
+  #arm-atlas-tab     { border-radius:0 0 10px 0; }
+  .arm-tab:hover     { background:rgba(30,41,59,0.95); color:#93c5fd; box-shadow:4px 0 24px rgba(96,165,250,0.2); }
+  .arm-tab.arm-active { background:rgba(30,41,59,0.98); color:#93c5fd; }
+
+  /* ── Panel chrome ──────────────────────────────────────────────────── */
+  .arm-panel {
+    position:fixed; left:0; top:50%;
+    transform:translateY(-50%) translateX(-110%);
+    z-index:999999; width:var(--arm-panel-w); max-height:88vh;
+    display:flex; flex-direction:column;
+    background:var(--arm-bg); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+    border:1px solid var(--arm-border); border-left:none; border-radius:0 16px 16px 0;
+    box-shadow:6px 0 40px rgba(0,0,0,0.6),inset 1px 0 0 rgba(255,255,255,0.04);
+    font-family:var(--arm-font); font-size:13px; color:#e2e8f0; line-height:1.65;
+    transition:transform 0.32s cubic-bezier(0.4,0,0.2,1); overflow:hidden;
+  }
+  .arm-panel.arm-open { transform:translateY(-50%) translateX(0); }
+  .arm-body { overflow-y:auto; overflow-x:hidden; padding:22px 20px 16px; flex:1; scrollbar-width:thin; scrollbar-color:#334155 transparent; }
+  .arm-body::-webkit-scrollbar { width:4px; }
+  .arm-body::-webkit-scrollbar-thumb { background:#334155; border-radius:4px; }
+  .arm-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:4px; }
+  .arm-title  { font-size:15px; font-weight:700; color:#f1f5f9; letter-spacing:-0.01em; line-height:1.3; margin:0; }
+  .arm-title span { color:var(--arm-accent); }
+  .arm-close  { background:none; border:none; color:var(--arm-muted); cursor:pointer; font-size:17px; line-height:1; padding:2px 4px; border-radius:4px; transition:color 0.15s,background 0.15s; flex-shrink:0; margin-left:8px; }
+  .arm-close:hover { color:#f1f5f9; background:rgba(255,255,255,0.07); }
+  .arm-byline { font-size:12px; color:var(--arm-muted); margin-bottom:16px; }
+  .arm-byline a { color:var(--arm-accent); text-decoration:none; font-weight:500; }
+  .arm-byline a:hover { color:#93c5fd; text-decoration:underline; }
+  .arm-divider { border:none; border-top:1px solid var(--arm-border); margin:14px 0; }
+  .arm-section { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; color:#475569; margin:0 0 8px; }
+  .arm-p { color:#94a3b8; margin:0 0 10px; font-size:12.5px; }
+  .arm-p a { color:var(--arm-accent); text-decoration:none; }
+  .arm-p a:hover { color:#93c5fd; text-decoration:underline; }
+  .arm-book { display:flex; align-items:center; gap:10px; background:rgba(255,255,255,0.03); border:1px solid var(--arm-border); border-radius:8px; padding:10px 12px; text-decoration:none; transition:background 0.2s,border-color 0.2s; margin-bottom:8px; }
+  .arm-book:hover { background:rgba(96,165,250,0.07); border-color:rgba(96,165,250,0.3); }
+  .arm-book-icon { font-size:22px; flex-shrink:0; }
+  .arm-book-text { display:flex; flex-direction:column; }
+  .arm-book-title { font-size:12px; font-weight:600; color:#e2e8f0; line-height:1.3; margin-bottom:2px; }
+  .arm-book-sub { font-size:11px; color:var(--arm-accent); }
+  .arm-footer { padding:10px 20px 14px; border-top:1px solid var(--arm-border); display:flex; align-items:center; gap:7px; flex-shrink:0; }
+  .arm-status-dot { width:7px; height:7px; border-radius:50%; background:#22c55e; box-shadow:0 0 6px rgba(34,197,94,0.7); flex-shrink:0; animation:arm-pulse 2.5s ease-in-out infinite; }
+  @keyframes arm-pulse { 0%,100%{opacity:1;}50%{opacity:0.35;} }
+  .arm-status-text { font-size:11px; color:#475569; font-family:var(--arm-font); }
+  .arm-status-text strong { color:#64748b; font-weight:500; }
+  .arm-sc-intro { font-size:12.5px; color:#94a3b8; margin:0 0 14px; line-height:1.5; }
+  .arm-tile {
+    display:flex; align-items:center; gap:11px;
+    background:rgba(255,255,255,0.03); border:1px solid var(--arm-border);
+    border-radius:8px; padding:10px 12px; text-decoration:none;
+    transition:background 0.2s,border-color 0.2s; margin-bottom:7px; cursor:pointer;
+  }
+  .arm-tile:hover { background:rgba(96,165,250,0.07); border-color:rgba(96,165,250,0.3); }
+  .arm-tile:hover .arm-tile-label { color:#e2e8f0; }
+  .arm-tile.arm-tile-active { background:rgba(96,165,250,0.12); border-color:rgba(96,165,250,0.4); }
+  .arm-tile.arm-tile-active .arm-tile-label { color:#93c5fd; }
+  .arm-tile-icon { flex-shrink:0; width:18px; height:18px; color:#64748b; display:flex; align-items:center; justify-content:center; }
+  .arm-tile-text { display:flex; flex-direction:column; gap:1px; }
+  .arm-tile-label { font-size:12px; font-weight:600; color:#cbd5e1; line-height:1.3; transition:color 0.15s; }
+  .arm-tile-sub   { font-size:11px; color:#64748b; line-height:1.3; }
+
+  /* ── Filter popup ──────────────────────────────────────────────────── */
+  #arm-filter-popup {
+    position:fixed;
+    z-index:1000001;
+    background:rgba(15,23,42,0.97); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+    border:1px solid var(--arm-border); border-radius:12px;
+    padding:14px 16px 10px; min-width:210px;
+    box-shadow:4px 8px 32px rgba(0,0,0,0.7);
+    font-family:var(--arm-font);
+    display:none;
+    transition:none;
+  }
+  #arm-filter-popup .fp-title {
+    font-size:10px; font-weight:600; text-transform:uppercase;
+    letter-spacing:0.09em; color:#475569; margin-bottom:10px;
+    padding-right:20px;
+  }
+  .fp-close {
+    position:absolute; top:8px; right:10px;
+    background:none; border:none; color:#475569; cursor:pointer;
+    font-size:16px; padding:2px 4px; line-height:1; border-radius:4px;
+    transition:color 0.15s;
+  }
+  .fp-close:hover { color:#94a3b8; }
+  .fp-btn {
+    display:block; width:100%; text-align:left;
+    background:rgba(255,255,255,0.04); border:1px solid var(--arm-border);
+    border-radius:6px; padding:7px 10px; margin-bottom:5px;
+    color:#cbd5e1; font-size:12px; font-weight:500; cursor:pointer;
+    font-family:var(--arm-font); transition:background 0.15s,border-color 0.15s;
+  }
+  .fp-btn:hover { background:rgba(96,165,250,0.10); border-color:rgba(96,165,250,0.3); color:#e2e8f0; }
+  .fp-btn.fp-active { background:rgba(96,165,250,0.15); border-color:rgba(96,165,250,0.5); color:#93c5fd; }
+  .fp-clear { color:#475569; border-color:rgba(71,85,105,0.25); margin-top:8px; font-size:11px; }
+  .fp-clear:hover { color:#94a3b8; background:rgba(255,255,255,0.04); }
+
+  /* ── Grid / table ──────────────────────────────────────────────────── */
+  #grid-wrap {
+    position:fixed; top:42px; left:40px; right:0; bottom:32px;
+    overflow:auto;
+    scrollbar-width:thin; scrollbar-color:#334155 transparent;
+  }
+  #grid-wrap::-webkit-scrollbar { width:6px; height:6px; }
+  #grid-wrap::-webkit-scrollbar-thumb { background:#334155; border-radius:4px; }
+
+  #grid-table { width:100%; border-collapse:collapse; font-size:12px; color:#cbd5e1; }
+
+  #grid-table thead tr {
+    background:rgba(15,23,42,0.99);
+    position:sticky; top:0; z-index:10;
+    box-shadow:0 1px 0 var(--arm-border);
+  }
+  #grid-table th {
+    padding:10px 12px; text-align:left;
+    font-size:10.5px; font-weight:600; text-transform:uppercase; letter-spacing:0.07em;
+    color:#64748b; white-space:nowrap; user-select:none; cursor:pointer;
+    transition:color 0.15s;
+  }
+  #grid-table th:hover { color:#94a3b8; }
+  #grid-table th.sort-active { color:var(--arm-accent); }
+  .sort-arrow { margin-left:3px; font-size:9px; }
+
+  #grid-table td {
+    padding:8px 12px; border-bottom:1px solid rgba(255,255,255,0.035);
+    vertical-align:top; line-height:1.5;
+  }
+  #grid-table tr:hover td { background:rgba(255,255,255,0.018); }
+
+  .col-title      { width:20%; min-width:150px; }
+  .col-tldr       { width:17%; min-width:110px; }
+  .col-abstract   { width:18%; min-width:120px; }
+  .col-url        { width:5%;  min-width:56px;  }
+  .col-date       { width:8%;  min-width:82px;  }
+  .col-prominence { width:9%;  min-width:88px;  }
+  .col-count      { width:8%;  min-width:78px;  }
+  .col-citation   { width:11%; min-width:96px;  }
+
+  .cell-title { color:#f1f5f9; font-weight:600; font-size:12px; text-decoration:none; display:block; line-height:1.4; }
+  .cell-title:hover { color:var(--arm-accent); text-decoration:underline; }
+
+  .cell-clamp { display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:3; overflow:hidden; }
+  .cell-tldr     { font-size:11.5px; color:#94a3b8; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:3; overflow:hidden; cursor:pointer; }
+  .cell-tldr.expanded    { display:block; }
+  .cell-abstract { font-size:11.5px; color:#94a3b8; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:3; overflow:hidden; cursor:pointer; }
+  .cell-abstract.expanded { display:block; }
+
+  .cell-url a { font-size:11px; color:var(--arm-accent); text-decoration:none; white-space:nowrap; }
+  .cell-url a:hover { text-decoration:underline; }
+
+  .cell-date { font-size:11px; color:#475569; white-space:nowrap; }
+
+  /* ── Column resize handle ───────────────────────────────────────── */
+  #grid-table th { position:relative; }
+  .col-rh {
+    position:absolute; top:0; right:0; width:5px; height:100%;
+    cursor:col-resize; user-select:none; background:transparent; z-index:1;
+  }
+  .col-rh:hover, .col-rh.rh-active { background:rgba(96,165,250,0.35); }
+
+  /* ── Shared badge base ──────────────────────────────────────────── */
+  .badge {
+    display:inline-block; font-size:10px; font-weight:600;
+    letter-spacing:0.04em; padding:2px 7px; border-radius:99px; border:1px solid;
+    white-space:nowrap;
+  }
+
+  /* Prominence (author tier) */
+  .badge-elite      { color:#f59e0b; background:rgba(245,158,11,0.12); border-color:rgba(245,158,11,0.35); }
+  .badge-enhanced   { color:#60a5fa; background:rgba(96,165,250,0.12); border-color:rgba(96,165,250,0.35); }
+  .badge-emerging   { color:#4ade80; background:rgba(74,222,128,0.10); border-color:rgba(74,222,128,0.30); }
+  .badge-unverified { color:#475569; background:rgba(71,85,105,0.15);  border-color:rgba(71,85,105,0.35); }
+
+  /* Author count — Fibonacci red→yellow→green, widths grow with Fibonacci */
+  .badge-count-1  { color:#ef4444; background:rgba(239,68,68,0.12);   border-color:rgba(239,68,68,0.35);  min-width:22px; text-align:center; }
+  .badge-count-2  { color:#f97316; background:rgba(249,115,22,0.12);  border-color:rgba(249,115,22,0.35); min-width:22px; text-align:center; }
+  .badge-count-3  { color:#fb923c; background:rgba(251,146,60,0.12);  border-color:rgba(251,146,60,0.35); min-width:28px; text-align:center; }
+  .badge-count-5  { color:#f59e0b; background:rgba(245,158,11,0.12);  border-color:rgba(245,158,11,0.35); min-width:34px; text-align:center; }
+  .badge-count-8  { color:#eab308; background:rgba(234,179,8,0.12);   border-color:rgba(234,179,8,0.35);  min-width:42px; text-align:center; }
+  .badge-count-13 { color:#84cc16; background:rgba(132,204,22,0.12);  border-color:rgba(132,204,22,0.35); min-width:54px; text-align:center; }
+  .badge-count-21 { color:#22c55e; background:rgba(34,197,94,0.12);   border-color:rgba(34,197,94,0.35);  min-width:66px; text-align:center; }
+  .badge-count-21p{ color:#10b981; background:rgba(16,185,129,0.12);  border-color:rgba(16,185,129,0.35); min-width:78px; text-align:center; }
+
+  /* Citation impact */
+  .badge-uncited        { color:#475569; background:rgba(71,85,105,0.15);   border-color:rgba(71,85,105,0.35); }
+  .badge-cited          { color:#facc15; background:rgba(250,204,21,0.12);  border-color:rgba(250,204,21,0.35); }
+  .badge-highly-cited   { color:#f97316; background:rgba(249,115,22,0.12); border-color:rgba(249,115,22,0.35); }
+  .badge-vhc            { color:#ef4444; background:rgba(239,68,68,0.12);   border-color:rgba(239,68,68,0.35); }
+
+  /* ── Status bar ────────────────────────────────────────────────────── */
+  #grid-status-bar {
+    position:fixed; bottom:0; left:40px; right:0; height:32px;
+    background:rgba(15,23,42,0.97); border-top:1px solid var(--arm-border);
+    display:flex; align-items:center; padding:0 16px; gap:14px;
+    font-size:11px; color:#475569; z-index:100;
+  }
+  #grid-count { color:#64748b; }
+  #active-filter-label { color:var(--arm-accent); font-weight:500; }
+  #clear-filter-btn {
+    background:none; border:none; color:#475569; cursor:pointer;
+    font-size:11px; font-family:var(--arm-font); padding:0;
+    text-decoration:underline; transition:color 0.15s;
+  }
+  #clear-filter-btn:hover { color:#94a3b8; }
+
+  /* ── Loading ───────────────────────────────────────────────────────── */
+  #grid-loading {
+    position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+    text-align:center; color:#475569; font-size:13px;
+  }
+  #grid-error { color:#ef4444; }
+</style>
+</head>
+<body>
+
+<!-- ── Title bar ──────────────────────────────────────────────────── -->
+<div id="arm-title-bar">The <span>AI Research</span> Atlas</div>
+
+<!-- ── Tab strip ──────────────────────────────────────────────────── -->
+<div id="arm-tab-strip">
+  <button id="arm-shortcuts-tab" class="arm-tab"
+    onclick="armToggle('arm-shortcuts-panel','arm-shortcuts-tab','arm-about-tab')"
+    aria-label="Open Shortcuts panel">Shortcuts</button>
+  <button id="arm-about-tab" class="arm-tab"
+    onclick="armToggle('arm-about-panel','arm-about-tab','arm-shortcuts-tab')"
+    aria-label="Open About panel">About</button>
+  <button id="arm-atlas-tab" class="arm-tab"
+    onclick="window.location.href='index.html'"
+    aria-label="Return to Map View">Map View</button>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     SHORTCUTS PANEL
+═══════════════════════════════════════════════════════════════════ -->
+<div id="arm-shortcuts-panel" class="arm-panel" role="complementary" aria-label="Shortcuts">
+  <div class="arm-body">
+    <div class="arm-header">
+      <p class="arm-title"><span>Shortcuts</span></p>
+      <button class="arm-close" onclick="armClose('arm-shortcuts-panel','arm-shortcuts-tab')" aria-label="Close">&#x2715;</button>
+    </div>
+    <p class="arm-sc-intro">Click a tile to filter papers by</p>
+
+    <a class="arm-tile" href="javascript:void(0)" id="tile-Prominence"
+       onclick="armShowFilterOptions('Prominence','Author prominence',this)">
+      <span class="arm-tile-icon"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="9,2 11.1,6.6 16.2,7.3 12.6,10.7 13.5,15.8 9,13.4 4.5,15.8 5.4,10.7 1.8,7.3 6.9,6.6"/></svg></span>
+      <span class="arm-tile-text"><span class="arm-tile-label">Author prominence</span><span class="arm-tile-sub">Elite \xb7 Enhanced \xb7 Emerging \xb7 Unverified</span></span>
+    </a>
+
+    <a class="arm-tile" href="javascript:void(0)" id="tile-author_count"
+       onclick="armShowFilterOptions('author_count','Author count',this)">
+      <span class="arm-tile-icon"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.5" cy="6" r="2.5"/><path d="M1 16c0-3.3 2.5-5 5.5-5"/><circle cx="13" cy="6" r="2.5"/><path d="M17 16c0-3.3-2.5-5-5.5-5"/><path d="M10 16c0-2.8-1.8-4.5-4-4.5"/></svg></span>
+      <span class="arm-tile-text"><span class="arm-tile-label">Author count</span><span class="arm-tile-sub">1 \xb7 2 \xb7 3 \xb7 5 \xb7 8 \xb7 13 \xb7 21 \xb7 34+</span></span>
+    </a>
+
+    <a class="arm-tile" href="javascript:void(0)" id="tile-CitationTier"
+       onclick="armShowFilterOptions('CitationTier','Citation impact',this)">
+      <span class="arm-tile-icon"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,13 6,8 10,10 16,4"/><polyline points="12,4 16,4 16,8"/></svg></span>
+      <span class="arm-tile-text"><span class="arm-tile-label">Citation impact</span><span class="arm-tile-sub">Very Highly Cited \xb7 Highly Cited \xb7 Cited</span></span>
+    </a>
+
+    <a class="arm-tile" href="javascript:void(0)" id="tile-recency"
+       onclick="armShowFilterOptions('recency','Recency',this)">
+      <span class="arm-tile-icon"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="7"/><polyline points="9,5 9,9 12,11"/></svg></span>
+      <span class="arm-tile-text"><span class="arm-tile-label">Recency</span><span class="arm-tile-sub">Today \xb7 Yesterday \xb7 Earlier</span></span>
+    </a>
+
+  </div>
+  <div class="arm-footer">
+    <div class="arm-status-dot"></div>
+    <span class="arm-status-text">Last updated <strong>__RUN_DATE__ UTC</strong></span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     ABOUT PANEL
+═══════════════════════════════════════════════════════════════════ -->
+<div id="arm-about-panel" class="arm-panel" role="complementary" aria-label="About this atlas">
+  <div class="arm-body">
+    <div class="arm-header">
+      <p class="arm-title">The <span>AI Research</span> Atlas</p>
+      <button class="arm-close" onclick="armClose('arm-about-panel','arm-about-tab')" aria-label="Close panel">&#x2715;</button>
+    </div>
+    <div class="arm-byline">By <a href="https://www.linkedin.com/in/lee-fischman/" target="_blank" rel="noopener">Lee Fischman</a></div>
+
+    <p class="arm-p">A live semantic map of recent AI research from arXiv (cs.AI), rebuilt every day across a rolling 14-day window. Each point is a paper. Groups are determined by Claude Haiku based on shared research methodology and problem formulation.</p>
+    <p class="arm-p"><a href="https://github.com/LeeFischman/AI-research-atlas" target="_blank" rel="noopener">More...</a></p>
+
+    <hr class="arm-divider">
+
+    <p class="arm-section">How to use</p>
+    <p class="arm-p">Sort columns by clicking their headers. Use the Shortcuts panel to filter by author prominence, citation impact, or recency. Click a row&#x2019;s abstract cell to expand it. Click a paper title to open it on arXiv.</p>
+
+    <hr class="arm-divider">
+
+    <p class="arm-section">Books by the author</p>
+    <a class="arm-book" href="https://www.amazon.com/dp/B0GMVH6P2W" target="_blank" rel="noopener">
+      <span class="arm-book-icon">&#x1F4D8;</span>
+      <span class="arm-book-text"><span class="arm-book-title">Building Deep Learning Products</span><span class="arm-book-sub">Available on Amazon &#x2192;</span></span>
+    </a>
+    <p class="arm-p" style="margin-top:4px;"><a href="https://donate.stripe.com/6oU5kD9sE17y87J3gI1ck00" target="_blank" rel="noopener">Buy me a bagel &#x1F96F;</a></p>
+
+    <hr class="arm-divider">
+
+    <p class="arm-section">Powered by</p>
+    <p class="arm-p"><a href="https://apple.github.io/embedding-atlas/" target="_blank" rel="noopener">Apple Embedding Atlas</a>, <a href="https://openalex.org" target="_blank" rel="noopener">OpenAlex</a>, <a href="https://www.semanticscholar.org" target="_blank" rel="noopener">Semantic Scholar</a>, and <a href="https://allenai.org/blog/specter2-adapting-scientific-document-embeddings-to-multiple-fields-and-task-formats-c95686c06567" target="_blank" rel="noopener">SPECTER2</a></p>
+  </div>
+  <div class="arm-footer">
+    <div class="arm-status-dot"></div>
+    <span class="arm-status-text">Last updated <strong>__RUN_DATE__ UTC</strong></span>
+  </div>
+</div>
+
+<!-- ── Filter popup (upper left, below title bar) ─────────────────── -->
+<div id="arm-filter-popup">
+  <button class="fp-close" onclick="hideFilterPopup()" aria-label="Close filter popup">&#x2715;</button>
+  <div class="fp-title" id="fp-title"></div>
+  <div id="fp-options"></div>
+  <button class="fp-btn fp-clear" onclick="clearFilter()">&#x2715;&nbsp; Clear filter / Show all</button>
+</div>
+
+<!-- ── Loading indicator ──────────────────────────────────────────── -->
+<div id="grid-loading">Loading papers&#x2026;</div>
+
+<!-- ── Grid ──────────────────────────────────────────────────────── -->
+<div id="grid-wrap" style="display:none">
+  <table id="grid-table">
+    <thead>
+      <tr>
+        <th class="col-title"      onclick="setSort('title')">
+          Title <span class="sort-arrow" id="sa-title"></span></th>
+        <th class="col-tldr"       onclick="setSort('ss_tldr')">
+          TLDR <span class="sort-arrow" id="sa-ss_tldr"></span></th>
+        <th class="col-abstract"   onclick="setSort('abstract')">
+          Abstract <span class="sort-arrow" id="sa-abstract"></span></th>
+        <th class="col-url"        onclick="setSort('url')">
+          Link <span class="sort-arrow" id="sa-url"></span></th>
+        <th class="col-date"       onclick="setSort('date_added')">
+          Date Added <span class="sort-arrow" id="sa-date_added"></span></th>
+        <th class="col-prominence" onclick="setSort('Prominence')">
+          Author Prominence <span class="sort-arrow" id="sa-Prominence"></span></th>
+        <th class="col-count"      onclick="setSort('author_count')">
+          Author Count <span class="sort-arrow" id="sa-author_count"></span></th>
+        <th class="col-citation"   onclick="setSort('CitationTier')">
+          Citation Impact <span class="sort-arrow" id="sa-CitationTier"></span></th>
+      </tr>
+    </thead>
+    <tbody id="grid-tbody"></tbody>
+  </table>
+</div>
+
+<!-- ── Status bar ─────────────────────────────────────────────────── -->
+<div id="grid-status-bar">
+  <span id="grid-count"></span>
+  <span id="active-filter-label"></span>
+  <button id="clear-filter-btn" onclick="clearFilter()" style="display:none">Clear filter</button>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var papers    = [];
+  var sortCol   = 'date_added';
+  var sortDir   = -1;            // -1 = descending, 1 = ascending
+  var activeFilter = null;       // {col, value, label} | null
+
+  // ── Panel toggle (same logic as main Atlas) ───────────────────────
+  function armToggle(panelId, tabId, hideTabId) {
+    var panel  = document.getElementById(panelId);
+    var isOpen = panel.classList.contains('arm-open');
+    document.querySelectorAll('.arm-panel').forEach(function (p) { p.classList.remove('arm-open'); });
+    document.querySelectorAll('.arm-tab').forEach(function (t) { t.classList.remove('arm-active'); t.style.display = ''; });
+    if (!isOpen) {
+      panel.classList.add('arm-open');
+      document.getElementById(tabId).classList.add('arm-active');
+      if (hideTabId) document.getElementById(hideTabId).style.display = 'none';
+    }
+  }
+  function armClose(panelId, tabId) {
+    document.getElementById(panelId).classList.remove('arm-open');
+    document.getElementById(tabId).classList.remove('arm-active');
+    document.querySelectorAll('.arm-tab').forEach(function (t) { t.style.display = ''; });
+  }
+  // Expose to inline onclick attributes
+  window.armToggle = armToggle;
+  window.armClose  = armClose;
+
+  // ── Filter popup ──────────────────────────────────────────────────
+  // Fixed Fibonacci "or more" thresholds for author count filter
+  var FIB_COUNT = [1, 2, 3, 5, 8, 13, 21, 34];
+
+  function armShowFilterOptions(col, label, tileEl) {
+    var values, isGte = false;
+
+    if (col === 'author_count') {
+      // Fixed Fibonacci "or more" buckets — always shown regardless of data
+      isGte = true;
+      values = FIB_COUNT.map(String);
+    } else {
+      // Gather distinct non-empty values from data
+      var seen = Object.create(null);
+      papers.forEach(function (p) {
+        var v = p[col];
+        if (v !== null && v !== undefined && v !== '') seen[String(v)] = true;
+      });
+      var tierOrder = {
+        'Elite': 0, 'Enhanced': 1, 'Emerging': 2, 'Unverified': 3,
+        'Very Highly Cited': 0, 'Highly Cited': 1, 'Cited': 2, 'Uncited': 3,
+        'Today': 0, 'Yesterday': 1, 'Earlier': 2,
+      };
+      values = Object.keys(seen).sort(function (a, b) {
+        var oa = tierOrder[a], ob = tierOrder[b];
+        if (oa !== undefined && ob !== undefined) return oa - ob;
+        var na = parseFloat(a), nb = parseFloat(b);
+        if (!isNaN(na) && !isNaN(nb)) return na - nb;
+        return a.localeCompare(b);
+      });
+    }
+
+    document.getElementById('fp-title').textContent = 'Filter by ' + label;
+    var opts = document.getElementById('fp-options');
+    opts.innerHTML = '';
+    values.forEach(function (v) {
+      var isActive = activeFilter && activeFilter.col === col &&
+                     activeFilter.value === v && activeFilter.gte === isGte;
+      var btn = document.createElement('button');
+      btn.className = 'fp-btn' + (isActive ? ' fp-active' : '');
+      btn.textContent = isGte ? (v + ' or more') : v;
+      btn.onclick = function () {
+        applyFilter(col, v, isGte ? (label + ': ' + v + ' or more') : (label + ': ' + v), isGte);
+      };
+      opts.appendChild(btn);
+    });
+
+    // Position popup to the right of the shortcuts panel, vertically near the tile
+    var popup = document.getElementById('arm-filter-popup');
+    popup.style.display = 'block';
+    var panelEl = document.getElementById('arm-shortcuts-panel');
+    var panelRect = panelEl.getBoundingClientRect();
+    var tileRect  = tileEl  ? tileEl.getBoundingClientRect() : panelRect;
+    var left = panelRect.right + 10;
+    var top  = tileRect.top;
+    if (left + 220 > window.innerWidth) left = Math.max(8, window.innerWidth - 228);
+    popup.style.left = left + 'px';
+    popup.style.top  = top  + 'px';
+    requestAnimationFrame(function () {
+      var maxTop = window.innerHeight - popup.offsetHeight - 8;
+      if (parseFloat(popup.style.top) > maxTop) {
+        popup.style.top = Math.max(8, maxTop) + 'px';
+      }
+    });
+
+    document.querySelectorAll('.arm-tile').forEach(function (t) { t.classList.remove('arm-tile-active'); });
+    if (tileEl) tileEl.classList.add('arm-tile-active');
+  }
+  window.armShowFilterOptions = armShowFilterOptions;
+
+  function hideFilterPopup() {
+    document.getElementById('arm-filter-popup').style.display = 'none';
+  }
+  window.hideFilterPopup = hideFilterPopup;
+
+  // Close popup when clicking outside it (but not on a tile)
+  document.addEventListener('click', function (e) {
+    var popup = document.getElementById('arm-filter-popup');
+    if (popup.style.display === 'none') return;
+    if (popup.contains(e.target)) return;
+    if (e.target.closest && e.target.closest('.arm-tile')) return;
+    hideFilterPopup();
+    document.querySelectorAll('.arm-tile').forEach(function (t) { t.classList.remove('arm-tile-active'); });
+  }, true);
+
+  function applyFilter(col, value, label, gte) {
+    activeFilter = { col: col, value: value, label: label, gte: !!gte };
+    hideFilterPopup();
+    render();
+  }
+
+  function clearFilter() {
+    activeFilter = null;
+    document.querySelectorAll('.arm-tile').forEach(function (t) { t.classList.remove('arm-tile-active'); });
+    hideFilterPopup();
+    render();
+  }
+  window.clearFilter = clearFilter;
+
+  // ── Sort ──────────────────────────────────────────────────────────
+  function setSort(col) {
+    if (sortCol === col) {
+      sortDir = -sortDir;
+    } else {
+      sortCol = col;
+      sortDir = (col === 'date_added') ? -1 : 1;
+    }
+    renderHeaders();
+    render();
+  }
+  window.setSort = setSort;
+
+  // ── Data helpers ──────────────────────────────────────────────────
+  // Map CitationTier string → numeric rank for sorting
+  var citationRank = { 'Very Highly Cited': 3, 'Highly Cited': 2, 'Cited': 1, 'Uncited': 0 };
+  var prominenceRank = { 'Elite': 3, 'Enhanced': 2, 'Emerging': 1, 'Unverified': 0 };
+
+  function getFilteredSorted() {
+    var rows = papers.slice();
+    if (activeFilter) {
+      var fc = activeFilter.col, fv = activeFilter.value;
+      if (activeFilter.gte) {
+        var threshold = Number(fv);
+        rows = rows.filter(function (p) { return (p[fc] || 0) >= threshold; });
+      } else {
+        rows = rows.filter(function (p) {
+          var pv = p[fc];
+          if (fc === 'CitationTier') pv = pv || 'Uncited';
+          return String(pv == null ? '' : pv) === fv;
+        });
+      }
+    }
+    rows.sort(function (a, b) {
+      var av, bv;
+      if (sortCol === 'CitationTier') {
+        av = citationRank[a.CitationTier] != null ? citationRank[a.CitationTier] : -1;
+        bv = citationRank[b.CitationTier] != null ? citationRank[b.CitationTier] : -1;
+        return sortDir * (av - bv);
+      }
+      if (sortCol === 'Prominence') {
+        av = prominenceRank[a.Prominence] != null ? prominenceRank[a.Prominence] : -1;
+        bv = prominenceRank[b.Prominence] != null ? prominenceRank[b.Prominence] : -1;
+        return sortDir * (av - bv);
+      }
+      av = a[sortCol]; bv = b[sortCol];
+      if (av == null) av = ''; if (bv == null) bv = '';
+      if (typeof av === 'number' && typeof bv === 'number') return sortDir * (av - bv);
+      return sortDir * String(av).localeCompare(String(bv));
+    });
+    return rows;
+  }
+
+  // ── Badge helpers ─────────────────────────────────────────────────
+  function prominenceBadge(tier) {
+    if (!tier) return '\u2014';
+    var map = {
+      'Elite':      'badge-elite',
+      'Enhanced':   'badge-enhanced',
+      'Emerging':   'badge-emerging',
+      'Unverified': 'badge-unverified',
+    };
+    var cls = map[tier];
+    return cls ? '<span class="badge ' + cls + '">' + tier + '</span>' : tier;
+  }
+
+  function authorCountBadge(n) {
+    var count = parseInt(n, 10);
+    if (isNaN(count)) return '\u2014';
+    var cls, label;
+    if      (count === 1)  { cls = 'badge-count-1';   label = '1'; }
+    else if (count === 2)  { cls = 'badge-count-2';   label = '2'; }
+    else if (count === 3)  { cls = 'badge-count-3';   label = '3'; }
+    else if (count <= 5)   { cls = 'badge-count-5';   label = count; }
+    else if (count <= 8)   { cls = 'badge-count-8';   label = count; }
+    else if (count <= 13)  { cls = 'badge-count-13';  label = count; }
+    else if (count <= 21)  { cls = 'badge-count-21';  label = count; }
+    else                   { cls = 'badge-count-21p'; label = count + '+'; }
+    return '<span class="badge ' + cls + '">' + label + '</span>';
+  }
+
+  function citationBadge(tier) {
+    var t = tier || 'Uncited';
+    var map = {
+      'Very Highly Cited': ['badge-vhc',          'Very Highly Cited'],
+      'Highly Cited':      ['badge-highly-cited',  'Highly Cited'],
+      'Cited':             ['badge-cited',          'Cited'],
+      'Uncited':           ['badge-uncited',        'Uncited'],
+    };
+    var entry = map[t] || map['Uncited'];
+    return '<span class="badge ' + entry[0] + '">' + entry[1] + '</span>';
+  }
+
+  function td(content, className) {
+    var el = document.createElement('td');
+    if (className) el.className = className;
+    if (typeof content === 'string') el.innerHTML = content;
+    else el.appendChild(content);
+    return el;
+  }
+
+  // ── Render table ──────────────────────────────────────────────────
+  function render() {
+    var rows  = getFilteredSorted();
+    var tbody = document.getElementById('grid-tbody');
+    tbody.innerHTML = '';
+
+    rows.forEach(function (p) {
+      var tr = document.createElement('tr');
+
+      // Title (link)
+      var titleA = document.createElement('a');
+      titleA.className = 'cell-title cell-clamp';
+      titleA.textContent = p.title || '\u2014';
+      titleA.href   = p.url || '#';
+      titleA.target = '_blank';
+      titleA.rel    = 'noopener';
+      tr.appendChild(td(titleA));
+
+      // TLDR (click to expand, same as abstract)
+      var tldrDiv = document.createElement('div');
+      tldrDiv.className = 'cell-tldr';
+      tldrDiv.textContent = p.ss_tldr || '\u2014';
+      tldrDiv.title = 'Click to expand';
+      tldrDiv.onclick = function () { tldrDiv.classList.toggle('expanded'); };
+      tr.appendChild(td(tldrDiv));
+
+      // Abstract (click to expand)
+      var absDiv = document.createElement('div');
+      absDiv.className = 'cell-abstract';
+      absDiv.textContent = p.abstract || '\u2014';
+      absDiv.title = 'Click to expand';
+      absDiv.onclick = function () { absDiv.classList.toggle('expanded'); };
+      tr.appendChild(td(absDiv));
+
+      // URL
+      var urlTd = document.createElement('td');
+      urlTd.className = 'cell-url';
+      if (p.url) {
+        var urlA = document.createElement('a');
+        urlA.href = p.url; urlA.target = '_blank'; urlA.rel = 'noopener';
+        urlA.textContent = 'arXiv \u2192';
+        urlTd.appendChild(urlA);
+      } else {
+        urlTd.textContent = '\u2014';
+      }
+      tr.appendChild(urlTd);
+
+      // Date added
+      var dateTd = document.createElement('td');
+      dateTd.className = 'cell-date';
+      dateTd.textContent = (p.date_added || '').substring(0, 10) || '\u2014';
+      tr.appendChild(dateTd);
+
+      // Author Prominence (badge)
+      var promTd = document.createElement('td');
+      promTd.innerHTML = prominenceBadge(p.Prominence);
+      tr.appendChild(promTd);
+
+      // Author Count (Fibonacci badge)
+      var countTd = document.createElement('td');
+      countTd.innerHTML = authorCountBadge(p.author_count);
+      tr.appendChild(countTd);
+
+      // Citation Impact (badge)
+      var citTd = document.createElement('td');
+      citTd.innerHTML = citationBadge(p.CitationTier);
+      tr.appendChild(citTd);
+
+      tbody.appendChild(tr);
+    });
+
+    // Status bar
+    var countEl  = document.getElementById('grid-count');
+    var labelEl  = document.getElementById('active-filter-label');
+    var clearBtn = document.getElementById('clear-filter-btn');
+    countEl.textContent = rows.length + ' of ' + papers.length + ' papers';
+    if (activeFilter) {
+      labelEl.textContent    = activeFilter.label;
+      clearBtn.style.display = '';
+    } else {
+      labelEl.textContent    = '';
+      clearBtn.style.display = 'none';
+    }
+  }
+
+  // ── Render sort header indicators ─────────────────────────────────
+  function renderHeaders() {
+    var cols = ['title', 'ss_tldr', 'abstract', 'url', 'date_added', 'Prominence', 'author_count', 'CitationTier'];
+    cols.forEach(function (c) {
+      var el = document.getElementById('sa-' + c);
+      if (!el) return;
+      el.textContent = sortCol === c ? (sortDir === 1 ? '\u2191' : '\u2193') : '';
+    });
+    document.querySelectorAll('#grid-table th').forEach(function (th) { th.classList.remove('sort-active'); });
+    var idx = {
+      'title': 0, 'ss_tldr': 1, 'abstract': 2, 'url': 3,
+      'date_added': 4, 'Prominence': 5, 'author_count': 6, 'CitationTier': 7
+    }[sortCol];
+    if (idx !== undefined) {
+      var ths = document.querySelectorAll('#grid-table th');
+      if (ths[idx]) ths[idx].classList.add('sort-active');
+    }
+  }
+
+  // ── Column resize ─────────────────────────────────────────────────
+  function initColResize() {
+    var ths = document.querySelectorAll('#grid-table th');
+    ths.forEach(function (th) {
+      var handle = document.createElement('div');
+      handle.className = 'col-rh';
+      th.appendChild(handle);
+      var startX, startW;
+      handle.addEventListener('mousedown', function (e) {
+        e.preventDefault();
+        startX = e.clientX;
+        startW = th.offsetWidth;
+        handle.classList.add('rh-active');
+        function onMove(e) {
+          var w = Math.max(40, startW + (e.clientX - startX));
+          th.style.width = w + 'px';
+          th.style.minWidth = w + 'px';
+        }
+        function onUp() {
+          handle.classList.remove('rh-active');
+          document.removeEventListener('mousemove', onMove);
+          document.removeEventListener('mouseup', onUp);
+        }
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('mouseup', onUp);
+      });
+    });
+  }
+
+  // ── Bootstrap ─────────────────────────────────────────────────────
+  fetch('data/papers.json')
+    .then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
+    .then(function (data) {
+      papers = data;
+      document.getElementById('grid-loading').style.display = 'none';
+      document.getElementById('grid-wrap').style.display    = '';
+      renderHeaders();
+      render();
+      initColResize();
+    })
+    .catch(function (e) {
+      var el = document.getElementById('grid-loading');
+      el.innerHTML = '<span id="grid-error">Failed to load papers.json: ' + e.message + '</span>';
+    });
+
+})();
+</script>
+</body>
+</html>"""
+    return html.replace('__RUN_DATE__', run_date)
