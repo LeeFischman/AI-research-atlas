@@ -10,8 +10,8 @@
         overscroll-behavior-x: none;
       }
     </style>
-    <script type="module" crossorigin src="./assets/index-BtGntx4N.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-Df_vtN7h.css">
+    <script type="module" crossorigin src="./assets/index-7BQiBOoY.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-B4LpG193.css">
   <!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-6LKWKT8838"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-6LKWKT8838");</script><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
   <body>
@@ -27,6 +27,21 @@
     --arm-bg: rgba(15,23,42,0.82);
     --arm-panel-w: 300px;
   }
+
+  /* ── Top title bar ───────────────────────────────────────────────── */
+  #arm-title-bar {
+    position:fixed; top:0; left:50%; transform:translateX(-50%);
+    z-index:1000000;
+    background:rgba(15,23,42,0.82); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+    border:1px solid var(--arm-border); border-top:none;
+    border-radius:0 0 10px 10px;
+    padding:6px 22px;
+    font-family:var(--arm-font); font-size:15px; font-weight:700;
+    color:#f1f5f9; letter-spacing:-0.01em; line-height:1.3;
+    white-space:nowrap; user-select:none;
+    box-shadow:0 3px 20px rgba(0,0,0,0.4);
+  }
+  #arm-title-bar span { color:var(--arm-accent); }
 
   /* ── Tab strip ───────────────────────────────────────────────────── */
   #arm-tab-strip {
@@ -45,7 +60,8 @@
     transition:background 0.2s,color 0.2s,box-shadow 0.2s; user-select:none;
   }
   #arm-shortcuts-tab { border-radius:0 10px 0 0; }
-  #arm-about-tab     { border-radius:0 0 10px 0; }
+  #arm-about-tab     { border-radius:0; }
+  #arm-grid-tab      { border-radius:0 0 10px 0; }
   .arm-tab:hover     { background:rgba(30,41,59,0.95); color:#93c5fd; box-shadow:4px 0 24px rgba(96,165,250,0.2); }
   .arm-tab.arm-active { background:rgba(30,41,59,0.98); color:#93c5fd; }
 
@@ -108,6 +124,47 @@
   .arm-tile-text { display:flex; flex-direction:column; gap:1px; }
   .arm-tile-label { font-size:12px; font-weight:600; color:#cbd5e1; line-height:1.3; transition:color 0.15s; }
   .arm-tile-sub   { font-size:11px; color:#64748b; line-height:1.3; }
+
+  /* ── Custom point popup ──────────────────────────────────────────── */
+  #arm-cp {
+    position:fixed; z-index:999998; width:320px;
+    background:var(--arm-bg); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+    border:1px solid var(--arm-border); border-radius:12px;
+    box-shadow:0 8px 32px rgba(0,0,0,0.6);
+    font-family:var(--arm-font); color:#e2e8f0;
+    display:none;
+  }
+  .arm-cp-body { padding:16px; display:flex; flex-direction:column; gap:10px; }
+  .arm-cp-title-row { display:flex; align-items:flex-start; justify-content:space-between; gap:8px; }
+  .arm-cp-title { font-size:13px; font-weight:700; color:#f1f5f9; line-height:1.4; text-decoration:none; flex:1; }
+  .arm-cp-title:hover { color:var(--arm-accent); text-decoration:underline; }
+  .arm-cp-badge { flex-shrink:0; font-size:10px; font-weight:600; border-radius:4px; padding:2px 6px; white-space:nowrap; margin-top:2px; border:1px solid; }
+  .arm-cp-badge-elite      { color:#fbbf24; background:rgba(251,191,36,0.12); border-color:rgba(251,191,36,0.35); }
+  .arm-cp-badge-enhanced   { color:#60a5fa; background:rgba(96,165,250,0.12); border-color:rgba(96,165,250,0.35); }
+  .arm-cp-badge-emerging   { color:#34d399; background:rgba(52,211,153,0.10); border-color:rgba(52,211,153,0.30); }
+  .arm-cp-badge-unverified { color:#64748b; background:rgba(100,116,139,0.10); border-color:rgba(100,116,139,0.25); }
+  .arm-cp-topic { font-size:11px; color:var(--arm-accent); font-weight:500; }
+  .arm-cp-tldr { font-size:11.5px; color:#94a3b8; line-height:1.6; }
+  .arm-cp-expand { display:inline-block; margin-top:5px; font-size:11px; font-weight:500; color:#60a5fa; cursor:pointer; background:none; border:none; padding:0; font-family:var(--arm-font); text-decoration:none; opacity:0.8; transition:opacity 0.15s; }
+  .arm-cp-expand:hover { opacity:1; }
+  .arm-cp-abstract { font-size:11.5px; color:#94a3b8; line-height:1.6; max-height:9.6em; overflow-y:auto; scrollbar-width:thin; scrollbar-color:#334155 transparent; margin-top:6px; }
+  .arm-cp-abstract::-webkit-scrollbar { width:4px; }
+  .arm-cp-abstract::-webkit-scrollbar-thumb { background:#334155; border-radius:4px; }
+  .arm-cp-abstract.arm-cp-abstract-hidden { display:none; }
+  .arm-cp-meta { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+  .arm-cp-meta span { font-size:11px; color:#64748b; }
+  .arm-cp-badge { font-size:10px; font-weight:600; letter-spacing:0.04em; padding:2px 7px; border-radius:99px; border:1px solid; }
+  .arm-cp-badge-elite      { color:#f59e0b; background:rgba(245,158,11,0.12); border-color:rgba(245,158,11,0.35); }
+  .arm-cp-badge-enhanced   { color:#60a5fa; background:rgba(96,165,250,0.12); border-color:rgba(96,165,250,0.35); }
+  .arm-cp-badge-emerging   { color:#4ade80; background:rgba(74,222,128,0.10); border-color:rgba(74,222,128,0.30); }
+  .arm-cp-badge-unverified { color:#475569; background:rgba(71,85,105,0.15);  border-color:rgba(71,85,105,0.35); }
+  .arm-cp-badge-very-highly-cited { color:#ef4444; background:rgba(239,68,68,0.12); border-color:rgba(239,68,68,0.35); }
+  .arm-cp-badge-highly-cited      { color:#f97316; background:rgba(249,115,22,0.12); border-color:rgba(249,115,22,0.35); }
+  .arm-cp-badge-cited             { color:#facc15; background:rgba(250,204,21,0.12); border-color:rgba(250,204,21,0.35); }
+  .arm-cp-keywords { font-size:10.5px; color:#475569; line-height:1.5; }
+  .arm-cp-footer { padding:10px 16px; border-top:1px solid var(--arm-border); display:flex; justify-content:flex-end; }
+  .arm-cp-btn { font-size:11px; font-weight:600; color:var(--arm-accent); background:var(--arm-accent-dim); border:1px solid rgba(96,165,250,0.25); border-radius:6px; padding:5px 12px; text-decoration:none; transition:background 0.15s; font-family:var(--arm-font); cursor:pointer; }
+  .arm-cp-btn:hover { background:rgba(96,165,250,0.2); }
 </style>
 
 <script>
@@ -128,11 +185,11 @@
     document.querySelectorAll('.arm-tab').forEach(function(t) { t.style.display = ''; });
   }
 
-  // Atlas color-by: find the select whose options include Reputation,
+  // Atlas color-by: find the select whose options include Prominence,
   // set value via native setter (Svelte needs this), fire change event.
   function armSetColor(columnName, tileEl) {
     var colorSelect = Array.from(document.querySelectorAll('select')).find(function(sel) {
-      return Array.from(sel.options).some(function(o) { return o.text.includes('Reputation'); });
+      return Array.from(sel.options).some(function(o) { return o.text.includes('Prominence'); });
     });
     if (colorSelect) {
       var nativeSetter = Object.getOwnPropertyDescriptor(
@@ -147,6 +204,218 @@
   }
 </script>
 
+<!-- ── Custom point popup ──────────────────────────────────────────── -->
+<div id="arm-cp">
+  <div class="arm-cp-body">
+    <a class="arm-cp-title" id="arm-cp-title" href="#" target="_blank" rel="noopener"></a>
+    <div class="arm-cp-tldr" id="arm-cp-tldr"></div>
+    <button class="arm-cp-expand" id="arm-cp-expand"></button>
+    <div class="arm-cp-abstract arm-cp-abstract-hidden" id="arm-cp-abstract"></div>
+    <div class="arm-cp-meta"   id="arm-cp-meta"></div>
+  </div>
+  <div class="arm-cp-footer">
+    <a class="arm-cp-btn" id="arm-cp-btn" href="#" target="_blank" rel="noopener">Open on arXiv →</a>
+  </div>
+</div>
+
+<script>
+(function() {
+  var cp = document.getElementById('arm-cp');
+
+  // Persistent preference: remembers whether the user last expanded to full
+  // abstract. Resets to false (show TLDR by default) on page load.
+  var _armShowFull = false;
+
+  function armSetAbstractView(hasTldr, showFull) {
+    var tldrEl     = document.getElementById('arm-cp-tldr');
+    var expandEl   = document.getElementById('arm-cp-expand');
+    var abstractEl = document.getElementById('arm-cp-abstract');
+    if (!hasTldr) {
+      // No TLDR: show abstract directly, no toggle affordance
+      tldrEl.style.display    = 'none';
+      expandEl.style.display  = 'none';
+      abstractEl.classList.remove('arm-cp-abstract-hidden');
+      return;
+    }
+    tldrEl.style.display   = '';
+    expandEl.style.display = '';
+    if (showFull) {
+      abstractEl.classList.remove('arm-cp-abstract-hidden');
+      expandEl.textContent = '▾ Hide abstract';
+    } else {
+      abstractEl.classList.add('arm-cp-abstract-hidden');
+      expandEl.textContent = '▸ Full abstract';
+    }
+  }
+
+  function extractData(popup) {
+    var data = {};
+    popup.querySelectorAll('[class*="px-2"][class*="flex"][class*="items-center"]').forEach(function(row) {
+      var kids = Array.from(row.children).filter(function(c) { return c.textContent.trim(); });
+      if (kids.length >= 2) {
+        data[kids[0].textContent.trim()] = kids[1].textContent.trim();
+      }
+    });
+    return data;
+  }
+
+  function showCP(data, atlasPopup) {
+    var title       = data['title']        || '';
+    var url         = data['url']          || '#';
+    var abs         = data['abstract']     || '';
+    var tldr        = data['ss_tldr']      || '';
+    var count       = data['author_count'] || '';
+    var date        = (data['date_added']  || '').substring(0, 10);
+    var prominence  = data['Prominence']   || '';
+    var citTier     = data['CitationTier'] || '';
+    var citeCount   = parseInt(data['ss_citation_count']        || '0') || 0;
+    var inflCount   = parseInt(data['ss_influential_citations'] || '0') || 0;
+    var hasTldr     = tldr.trim().length > 0;
+
+    document.getElementById('arm-cp-title').textContent = title;
+    document.getElementById('arm-cp-title').href = url;
+    document.getElementById('arm-cp-btn').href = url;
+
+    document.getElementById('arm-cp-tldr').textContent     = hasTldr ? tldr : '';
+    document.getElementById('arm-cp-abstract').textContent = abs;
+
+    // Re-wire expand button each open (clone removes any prior listener)
+    var expandEl  = document.getElementById('arm-cp-expand');
+    var newExpand = expandEl.cloneNode(true);
+    expandEl.parentNode.replaceChild(newExpand, expandEl);
+    newExpand.addEventListener('click', function() {
+      _armShowFull = !_armShowFull;
+      armSetAbstractView(hasTldr, _armShowFull);
+    });
+
+    // Apply persistent preference; new papers snap to user's last choice
+    armSetAbstractView(hasTldr, _armShowFull);
+
+    var metaEl = document.getElementById('arm-cp-meta');
+    metaEl.innerHTML = '';
+    if (count) { var s1 = document.createElement('span'); s1.textContent = '\u{1F465}\uFE0E ' + count + ' authors'; metaEl.appendChild(s1); }
+    if (date)  { var s2 = document.createElement('span'); s2.textContent = '\u{1F4C5}\uFE0E ' + date; metaEl.appendChild(s2); }
+    if (prominence) {
+      var pill = document.createElement('span');
+      pill.textContent = prominence;
+      var tierClass = {
+        'Elite':      'arm-cp-badge-elite',
+        'Enhanced':   'arm-cp-badge-enhanced',
+        'Emerging':   'arm-cp-badge-emerging',
+        'Unverified': 'arm-cp-badge-unverified'
+      }[prominence] || 'arm-cp-badge-unverified';
+      pill.className = 'arm-cp-badge ' + tierClass;
+      metaEl.appendChild(pill);
+    }
+    if (citTier) {
+      var ctPill = document.createElement('span');
+      ctPill.textContent = citTier;
+      var ctClass = {
+        'Very Highly Cited': 'arm-cp-badge-very-highly-cited',
+        'Highly Cited':      'arm-cp-badge-highly-cited',
+        'Cited':             'arm-cp-badge-cited'
+      }[citTier] || '';
+      if (ctClass) { ctPill.className = 'arm-cp-badge ' + ctClass; metaEl.appendChild(ctPill); }
+    }
+    if (citeCount > 0) {
+      var citeEl = document.createElement('span');
+      citeEl.textContent = '\u{1F4C8}\uFE0E ' + citeCount + ' citation' + (citeCount !== 1 ? 's' : '')
+        + (inflCount > 0 ? ', ' + inflCount + ' influential' : '');
+      metaEl.appendChild(citeEl);
+    }
+
+    // Smart positioning: right of Atlas popup, flip left if near viewport edge
+    var rect = atlasPopup.getBoundingClientRect();
+    var left = rect.right + 12;
+    if (left + 330 > window.innerWidth) { left = rect.left - 330 - 12; }
+    if (left < 8) { left = 8; }
+    var top = Math.max(8, rect.top);
+
+    cp.style.left = left + 'px';
+    cp.style.top  = top  + 'px';
+    cp.style.display = 'block';
+
+    // Clamp vertically after rendering so we know the height
+    requestAnimationFrame(function() {
+      var maxTop = window.innerHeight - cp.offsetHeight - 8;
+      if (parseFloat(cp.style.top) > maxTop) { cp.style.top = Math.max(8, maxTop) + 'px'; }
+    });
+  }
+
+  function hideCP() { cp.style.display = 'none'; }
+
+  function findAtlasPopup(node) {
+    if (node.nodeType !== 1) return null;
+    if (node.classList && node.classList.contains('border-slate-300') && node.classList.contains('shadow-md')) return node;
+    return node.querySelector ? node.querySelector('.border-slate-300.shadow-md') : null;
+  }
+
+  function waitForRoot() {
+    var root = document.querySelector('.embedding-atlas-root');
+    if (!root) { setTimeout(waitForRoot, 300); return; }
+
+    // Hide Atlas's own popup immediately whenever it appears
+    new MutationObserver(function(mutations) {
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          var popup = findAtlasPopup(node);
+          if (popup) { popup.style.display = 'none'; }
+        });
+      });
+    }).observe(root, { childList: true, subtree: true });
+
+    // On every click inside Atlas, wait for its popup to settle then read it
+    root.addEventListener('click', function() {
+      // Poll for up to 600ms for Atlas popup to appear/update
+      var attempts = 0;
+      var interval = setInterval(function() {
+        attempts++;
+        var popup = root.querySelector('.border-slate-300.shadow-md');
+        if (popup) {
+          popup.style.display = 'none';
+          showCP(extractData(popup), popup);
+          clearInterval(interval);
+        } else if (attempts > 12) {
+          // No popup appeared — user clicked empty space, hide ours
+          clearInterval(interval);
+          hideCP();
+        }
+      }, 50);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', waitForRoot);
+  } else {
+    waitForRoot();
+  }
+})();
+
+// Collapse charts panel on load
+(function() {
+  function collapseChartsPanel() {
+    const btn = document.querySelector('button[title="Show / hide charts"]');
+    if (!btn) { setTimeout(collapseChartsPanel, 200); return; }
+    if (!btn.classList.contains('text-slate-400')) { btn.click(); }
+  }
+  window.addEventListener('load', () => setTimeout(collapseChartsPanel, 300));
+})();
+
+// Collapse table panel on load
+(function() {
+  function collapseTablePanel() {
+    const btn = Array.from(document.querySelectorAll('button'))
+      .find(b => b.title === 'Show / hide table');
+    if (!btn) { setTimeout(collapseTablePanel, 200); return; }
+    if (!btn.classList.contains('text-slate-400')) { btn.click(); }
+  }
+  window.addEventListener('load', () => setTimeout(collapseTablePanel, 300));
+})();
+</script>
+
+<!-- ── Top title bar ──────────────────────────────────────────────── -->
+<div id="arm-title-bar">The <span>AI Research</span> Atlas</div>
+
 <!-- ── Tab strip ──────────────────────────────────────────────────── -->
 <div id="arm-tab-strip">
   <button id="arm-shortcuts-tab" class="arm-tab"
@@ -155,6 +424,9 @@
   <button id="arm-about-tab" class="arm-tab"
     onclick="armToggle('arm-about-panel','arm-about-tab','arm-shortcuts-tab')"
     aria-label="Open About panel">About</button>
+  <button id="arm-grid-tab" class="arm-tab"
+    onclick="window.location.href='grid.html'"
+    aria-label="Open Grid View">Grid View</button>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════
@@ -168,25 +440,30 @@
     </div>
     <p class="arm-sc-intro">Click a tile to see points colored by</p>
 
-    <a class="arm-tile" href="javascript:void(0)" onclick="armSetColor('Reputation', this)">
+    <a class="arm-tile" href="javascript:void(0)" onclick="armSetColor('Prominence', this)">
       <span class="arm-tile-icon"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="9,2 11.1,6.6 16.2,7.3 12.6,10.7 13.5,15.8 9,13.4 4.5,15.8 5.4,10.7 1.8,7.3 6.9,6.6"/></svg></span>
-      <span class="arm-tile-text"><span class="arm-tile-label">Reputation score</span><span class="arm-tile-sub">Institution &amp; open-source signals</span></span>
+      <span class="arm-tile-text"><span class="arm-tile-label">Author prominence</span><span class="arm-tile-sub">Elite · Enhanced · Emerging · Unverified</span></span>
     </a>
 
     <a class="arm-tile" href="javascript:void(0)" onclick="armSetColor('author_count', this)">
       <span class="arm-tile-icon"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.5" cy="6" r="2.5"/><path d="M1 16c0-3.3 2.5-5 5.5-5"/><circle cx="13" cy="6" r="2.5"/><path d="M17 16c0-3.3-2.5-5-5.5-5"/><path d="M10 16c0-2.8-1.8-4.5-4-4.5"/></svg></span>
-      <span class="arm-tile-text"><span class="arm-tile-label">Author count</span><span class="arm-tile-sub">More authors tends to be better</span></span>
+      <span class="arm-tile-text"><span class="arm-tile-label">Author count</span><span class="arm-tile-sub">1 · 2 · 3 · 5 · 8 · 13 · 21 · 34+</span></span>
     </a>
 
-    <a class="arm-tile" href="javascript:void(0)" onclick="armSetColor('author_tier', this)">
-      <span class="arm-tile-icon"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5L9 4l5 4.5"/><path d="M5.5 8v5.5h7V8"/><path d="M7 13.5v-3h4v3"/><path d="M3 8.5h12"/></svg></span>
-      <span class="arm-tile-text"><span class="arm-tile-label">Author seniority</span><span class="arm-tile-sub">Highlights established researchers</span></span>
+    <a class="arm-tile" href="javascript:void(0)" onclick="armSetColor('CitationTier', this)">
+      <span class="arm-tile-icon"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,13 6,8 10,10 16,4"/><polyline points="12,4 16,4 16,8"/></svg></span>
+      <span class="arm-tile-text"><span class="arm-tile-label">Citation impact</span><span class="arm-tile-sub">Very Highly Cited · Highly Cited · Cited</span></span>
+    </a>
+
+    <a class="arm-tile" href="javascript:void(0)" onclick="armSetColor('recency', this)">
+      <span class="arm-tile-icon"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="7"/><polyline points="9,5 9,9 12,11"/></svg></span>
+      <span class="arm-tile-text"><span class="arm-tile-label">Recency</span><span class="arm-tile-sub">Today · Yesterday · Earlier</span></span>
     </a>
 
   </div>
   <div class="arm-footer">
     <div class="arm-status-dot"></div>
-    <span class="arm-status-text">Last updated <strong>February 24, 2026 UTC</strong></span>
+    <span class="arm-status-text">Last updated <strong>March 16, 2026 UTC</strong></span>
   </div>
 </div>
 
@@ -201,7 +478,7 @@
     </div>
     <div class="arm-byline">By <a href="https://www.linkedin.com/in/lee-fischman/" target="_blank" rel="noopener">Lee Fischman</a></div>
 
-    <p class="arm-p">A live semantic map of recent AI research from arXiv (cs.AI), rebuilt every day across a rolling 4-day window. Each point is a paper. Groups are determined by Claude Haiku based on shared research methodology and problem formulation.</p>
+    <p class="arm-p">A live semantic map of recent AI research from arXiv (cs.AI), rebuilt every day across a rolling 14-day window. Each point is a paper. Groups are determined by Claude Haiku based on shared research methodology and problem formulation.</p>
     <p class="arm-p"><a href="https://github.com/LeeFischman/AI-research-atlas" target="_blank" rel="noopener">More...</a></p>
 
     <hr class="arm-divider">
@@ -221,11 +498,11 @@
     <hr class="arm-divider">
 
     <p class="arm-section">Powered by</p>
-    <p class="arm-p"><a href="https://apple.github.io/embedding-atlas/" target="_blank" rel="noopener">Apple Embedding Atlas</a>, <a href="https://openalex.org" target="_blank" rel="noopener">OpenAlex</a>, and <a href="https://allenai.org/blog/specter2-adapting-scientific-document-embeddings-to-multiple-fields-and-task-formats-c95686c06567" target="_blank" rel="noopener">SPECTER2</a></p>
+    <p class="arm-p"><a href="https://apple.github.io/embedding-atlas/" target="_blank" rel="noopener">Apple Embedding Atlas</a>, <a href="https://openalex.org" target="_blank" rel="noopener">OpenAlex</a>, <a href="https://www.semanticscholar.org" target="_blank" rel="noopener">Semantic Scholar</a>, and <a href="https://allenai.org/blog/specter2-adapting-scientific-document-embeddings-to-multiple-fields-and-task-formats-c95686c06567" target="_blank" rel="noopener">SPECTER2</a></p>
   </div>
   <div class="arm-footer">
     <div class="arm-status-dot"></div>
-    <span class="arm-status-text">Last updated <strong>February 24, 2026 UTC</strong></span>
+    <span class="arm-status-text">Last updated <strong>March 16, 2026 UTC</strong></span>
   </div>
 </div>
 

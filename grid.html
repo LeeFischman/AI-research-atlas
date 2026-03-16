@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>AI Research Atlas — Grid View</title>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6LKWKT8838"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-6LKWKT8838');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --arm-font:'Inter',system-ui,-apple-system,sans-serif;
+    --arm-accent:#60a5fa;
+    --arm-accent-dim:rgba(96,165,250,0.12);
+    --arm-border:rgba(255,255,255,0.08);
+    --arm-muted:#94a3b8;
+    --arm-bg:rgba(15,23,42,0.92);
+    --arm-panel-w:300px;
+  }
+  *,*::before,*::after { box-sizing:border-box; }
+  html,body { margin:0; padding:0; height:100%; background:#0f172a; color:#e2e8f0; font-family:var(--arm-font); }
+
+  /* ── Title bar ─────────────────────────────────────────────────────── */
+  #arm-title-bar {
+    position:fixed; top:0; left:50%; transform:translateX(-50%);
+    z-index:1000000;
+    background:rgba(15,23,42,0.92); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+    border:1px solid var(--arm-border); border-top:none;
+    border-radius:0 0 10px 10px;
+    padding:6px 22px;
+    font-family:var(--arm-font); font-size:15px; font-weight:700;
+    color:#f1f5f9; letter-spacing:-0.01em; line-height:1.3;
+    white-space:nowrap; user-select:none;
+    box-shadow:0 3px 20px rgba(0,0,0,0.4);
+  }
+  #arm-title-bar span { color:var(--arm-accent); }
+
+  /* ── Tab strip ─────────────────────────────────────────────────────── */
+  #arm-tab-strip {
+    position:fixed; left:0; top:50%; transform:translateY(-50%);
+    z-index:1000000; display:flex; flex-direction:column; gap:4px;
+  }
+  .arm-tab {
+    display:flex; align-items:center; justify-content:center;
+    writing-mode:vertical-rl; text-orientation:mixed;
+    background:rgba(15,23,42,0.90); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+    color:var(--arm-accent); border:1px solid var(--arm-border); border-left:none;
+    padding:18px 9px; cursor:pointer;
+    font-family:var(--arm-font); font-weight:600; font-size:12px;
+    letter-spacing:0.12em; text-transform:uppercase;
+    box-shadow:3px 0 20px rgba(0,0,0,0.4);
+    transition:background 0.2s,color 0.2s,box-shadow 0.2s; user-select:none;
+  }
+  #arm-shortcuts-tab { border-radius:0 10px 0 0; }
+  #arm-about-tab     { border-radius:0; }
+  #arm-atlas-tab     { border-radius:0 0 10px 0; }
+  .arm-tab:hover     { background:rgba(30,41,59,0.95); color:#93c5fd; box-shadow:4px 0 24px rgba(96,165,250,0.2); }
+  .arm-tab.arm-active { background:rgba(30,41,59,0.98); color:#93c5fd; }
+
+  /* ── Panel chrome ──────────────────────────────────────────────────── */
+  .arm-panel {
+    position:fixed; left:0; top:50%;
+    transform:translateY(-50%) translateX(-110%);
+    z-index:999999; width:var(--arm-panel-w); max-height:88vh;
+    display:flex; flex-direction:column;
+    background:var(--arm-bg); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+    border:1px solid var(--arm-border); border-left:none; border-radius:0 16px 16px 0;
+    box-shadow:6px 0 40px rgba(0,0,0,0.6),inset 1px 0 0 rgba(255,255,255,0.04);
+    font-family:var(--arm-font); font-size:13px; color:#e2e8f0; line-height:1.65;
+    transition:transform 0.32s cubic-bezier(0.4,0,0.2,1); overflow:hidden;
+  }
+  .arm-panel.arm-open { transform:translateY(-50%) translateX(0); }
+  .arm-body { overflow-y:auto; overflow-x:hidden; padding:22px 20px 16px; flex:1; scrollbar-width:thin; scrollbar-color:#334155 transparent; }
+  .arm-body::-webkit-scrollbar { width:4px; }
+  .arm-body::-webkit-scrollbar-thumb { background:#334155; border-radius:4px; }
+  .arm-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:4px; }
+  .arm-title  { font-size:15px; font-weight:700; color:#f1f5f9; letter-spacing:-0.01em; line-height:1.3; margin:0; }
+  .arm-title span { color:var(--arm-accent); }
+  .arm-close  { background:none; border:none; color:var(--arm-muted); cursor:pointer; font-size:17px; line-height:1; padding:2px 4px; border-radius:4px; transition:color 0.15s,background 0.15s; flex-shrink:0; margin-left:8px; }
+  .arm-close:hover { color:#f1f5f9; background:rgba(255,255,255,0.07); }
+  .arm-byline { font-size:12px; color:var(--arm-muted); margin-bottom:16px; }
+  .arm-byline a { color:var(--arm-accent); text-decoration:none; font-weight:500; }
+  .arm-byline a:hover { color:#93c5fd; text-decoration:underline; }
+  .arm-divider { border:none; border-top:1px solid var(--arm-border); margin:14px 0; }
+  .arm-section { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; color:#475569; margin:0 0 8px; }
+  .arm-p { color:#94a3b8; margin:0 0 10px; font-size:12.5px; }
+  .arm-p a { color:var(--arm-accent); text-decoration:none; }
+  .arm-p a:hover { color:#93c5fd; text-decoration:underline; }
+  .arm-book { display:flex; align-items:center; gap:10px; background:rgba(255,255,255,0.03); border:1px solid var(--arm-border); border-radius:8px; padding:10px 12px; text-decoration:none; transition:background 0.2s,border-color 0.2s; margin-bottom:8px; }
+  .arm-book:hover { background:rgba(96,165,250,0.07); border-color:rgba(96,165,250,0.3); }
+  .arm-book-icon { font-size:22px; flex-shrink:0; }
+  .arm-book-text { display:flex; flex-direction:column; }
+  .arm-book-title { font-size:12px; font-weight:600; color:#e2e8f0; line-height:1.3; margin-bottom:2px; }
+  .arm-book-sub { font-size:11px; color:var(--arm-accent); }
+  .arm-footer { padding:10px 20px 14px; border-top:1px solid var(--arm-border); display:flex; align-items:center; gap:7px; flex-shrink:0; }
+  .arm-status-dot { width:7px; height:7px; border-radius:50%; background:#22c55e; box-shadow:0 0 6px rgba(34,197,94,0.7); flex-shrink:0; animation:arm-pulse 2.5s ease-in-out infinite; }
+  @keyframes arm-pulse { 0%,100%{opacity:1;}50%{opacity:0.35;} }
+  .arm-status-text { font-size:11px; color:#475569; font-family:var(--arm-font); }
+  .arm-status-text strong { color:#64748b; font-weight:500; }
+  .arm-sc-intro { font-size:12.5px; color:#94a3b8; margin:0 0 14px; line-height:1.5; }
+  .arm-tile {
+    display:flex; align-items:center; gap:11px;
+    background:rgba(255,255,255,0.03); border:1px solid var(--arm-border);
+    border-radius:8px; padding:10px 12px; text-decoration:none;
+    transition:background 0.2s,border-color 0.2s; margin-bottom:7px; cursor:pointer;
+  }
+  .arm-tile:hover { background:rgba(96,165,250,0.07); border-color:rgba(96,165,250,0.3); }
+  .arm-tile:hover .arm-tile-label { color:#e2e8f0; }
+  .arm-tile.arm-tile-active { background:rgba(96,165,250,0.12); border-color:rgba(96,165,250,0.4); }
+  .arm-tile.arm-tile-active .arm-tile-label { color:#93c5fd; }
+  .arm-tile-icon { flex-shrink:0; width:18px; height:18px; color:#64748b; display:flex; align-items:center; justify-content:center; }
+  .arm-tile-text { display:flex; flex-direction:column; gap:1px; }
+  .arm-tile-label { font-size:12px; font-weight:600; color:#cbd5e1; line-height:1.3; transition:color 0.15s; }
+  .arm-tile-sub   { font-size:11px; color:#64748b; line-height:1.3; }
+
+  /* ── Filter popup ──────────────────────────────────────────────────── */
+  #arm-filter-popup {
+    position:fixed;
+    z-index:1000001;
+    background:rgba(15,23,42,0.97); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+    border:1px solid var(--arm-border); border-radius:12px;
+    padding:14px 16px 10px; min-width:210px;
+    box-shadow:4px 8px 32px rgba(0,0,0,0.7);
+    font-family:var(--arm-font);
+    display:none;
+    transition:none;
+  }
+  #arm-filter-popup .fp-title {
+    font-size:10px; font-weight:600; text-transform:uppercase;
+    letter-spacing:0.09em; color:#475569; margin-bottom:10px;
+    padding-right:20px;
+  }
+  .fp-close {
+    position:absolute; top:8px; right:10px;
+    background:none; border:none; color:#475569; cursor:pointer;
+    font-size:16px; padding:2px 4px; line-height:1; border-radius:4px;
+    transition:color 0.15s;
+  }
+  .fp-close:hover { color:#94a3b8; }
+  .fp-btn {
+    display:block; width:100%; text-align:left;
+    background:rgba(255,255,255,0.04); border:1px solid var(--arm-border);
+    border-radius:6px; padding:7px 10px; margin-bottom:5px;
+    color:#cbd5e1; font-size:12px; font-weight:500; cursor:pointer;
+    font-family:var(--arm-font); transition:background 0.15s,border-color 0.15s;
+  }
+  .fp-btn:hover { background:rgba(96,165,250,0.10); border-color:rgba(96,165,250,0.3); color:#e2e8f0; }
+  .fp-btn.fp-active { background:rgba(96,165,250,0.15); border-color:rgba(96,165,250,0.5); color:#93c5fd; }
+  .fp-clear { color:#475569; border-color:rgba(71,85,105,0.25); margin-top:8px; font-size:11px; }
+  .fp-clear:hover { color:#94a3b8; background:rgba(255,255,255,0.04); }
+
+  /* ── Grid / table ──────────────────────────────────────────────────── */
+  #grid-wrap {
+    position:fixed; top:42px; left:40px; right:0; bottom:32px;
+    overflow:auto;
+    scrollbar-width:thin; scrollbar-color:#334155 transparent;
+  }
+  #grid-wrap::-webkit-scrollbar { width:6px; height:6px; }
+  #grid-wrap::-webkit-scrollbar-thumb { background:#334155; border-radius:4px; }
+
+  #grid-table { width:100%; border-collapse:collapse; font-size:12px; color:#cbd5e1; }
+
+  #grid-table thead tr {
+    background:rgba(15,23,42,0.99);
+    position:sticky; top:0; z-index:10;
+    box-shadow:0 1px 0 var(--arm-border);
+  }
+  #grid-table th {
+    padding:10px 12px; text-align:left;
+    font-size:10.5px; font-weight:600; text-transform:uppercase; letter-spacing:0.07em;
+    color:#64748b; white-space:nowrap; user-select:none; cursor:pointer;
+    transition:color 0.15s;
+  }
+  #grid-table th:hover { color:#94a3b8; }
+  #grid-table th.sort-active { color:var(--arm-accent); }
+  .sort-arrow { margin-left:3px; font-size:9px; }
+
+  #grid-table td {
+    padding:8px 12px; border-bottom:1px solid rgba(255,255,255,0.035);
+    vertical-align:top; line-height:1.5;
+  }
+  #grid-table tr:hover td { background:rgba(255,255,255,0.018); }
+
+  .col-title      { width:20%; min-width:150px; }
+  .col-tldr       { width:17%; min-width:110px; }
+  .col-abstract   { width:18%; min-width:120px; }
+  .col-url        { width:5%;  min-width:56px;  }
+  .col-date       { width:8%;  min-width:82px;  }
+  .col-prominence { width:9%;  min-width:88px;  }
+  .col-count      { width:8%;  min-width:78px;  }
+  .col-citation   { width:11%; min-width:96px;  }
+
+  .cell-title { color:#f1f5f9; font-weight:600; font-size:12px; text-decoration:none; display:block; line-height:1.4; }
+  .cell-title:hover { color:var(--arm-accent); text-decoration:underline; }
+
+  .cell-clamp { display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:3; overflow:hidden; }
+  .cell-tldr     { font-size:11.5px; color:#94a3b8; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:3; overflow:hidden; cursor:pointer; }
+  .cell-tldr.expanded    { display:block; }
+  .cell-abstract { font-size:11.5px; color:#94a3b8; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:3; overflow:hidden; cursor:pointer; }
+  .cell-abstract.expanded { display:block; }
+
+  .cell-url a { font-size:11px; color:var(--arm-accent); text-decoration:none; white-space:nowrap; }
+  .cell-url a:hover { text-decoration:underline; }
+
+  .cell-date { font-size:11px; color:#475569; white-space:nowrap; }
+
+  /* ── Column resize handle ───────────────────────────────────────── */
+  #grid-table th { position:relative; }
+  .col-rh {
+    position:absolute; top:0; right:0; width:5px; height:100%;
+    cursor:col-resize; user-select:none; background:transparent; z-index:1;
+  }
+  .col-rh:hover, .col-rh.rh-active { background:rgba(96,165,250,0.35); }
+
+  /* ── Shared badge base ──────────────────────────────────────────── */
+  .badge {
+    display:inline-block; font-size:10px; font-weight:600;
+    letter-spacing:0.04em; padding:2px 7px; border-radius:99px; border:1px solid;
+    white-space:nowrap;
+  }
+
+  /* Prominence (author tier) */
+  .badge-elite      { color:#f59e0b; background:rgba(245,158,11,0.12); border-color:rgba(245,158,11,0.35); }
+  .badge-enhanced   { color:#60a5fa; background:rgba(96,165,250,0.12); border-color:rgba(96,165,250,0.35); }
+  .badge-emerging   { color:#4ade80; background:rgba(74,222,128,0.10); border-color:rgba(74,222,128,0.30); }
+  .badge-unverified { color:#475569; background:rgba(71,85,105,0.15);  border-color:rgba(71,85,105,0.35); }
+
+  /* Author count — Fibonacci red→yellow→green, widths grow with Fibonacci */
+  .badge-count-1  { color:#ef4444; background:rgba(239,68,68,0.12);   border-color:rgba(239,68,68,0.35);  min-width:22px; text-align:center; }
+  .badge-count-2  { color:#f97316; background:rgba(249,115,22,0.12);  border-color:rgba(249,115,22,0.35); min-width:22px; text-align:center; }
+  .badge-count-3  { color:#fb923c; background:rgba(251,146,60,0.12);  border-color:rgba(251,146,60,0.35); min-width:28px; text-align:center; }
+  .badge-count-5  { color:#f59e0b; background:rgba(245,158,11,0.12);  border-color:rgba(245,158,11,0.35); min-width:34px; text-align:center; }
+  .badge-count-8  { color:#eab308; background:rgba(234,179,8,0.12);   border-color:rgba(234,179,8,0.35);  min-width:42px; text-align:center; }
+  .badge-count-13 { color:#84cc16; background:rgba(132,204,22,0.12);  border-color:rgba(132,204,22,0.35); min-width:54px; text-align:center; }
+  .badge-count-21 { color:#22c55e; background:rgba(34,197,94,0.12);   border-color:rgba(34,197,94,0.35);  min-width:66px; text-align:center; }
+  .badge-count-21p{ color:#10b981; background:rgba(16,185,129,0.12);  border-color:rgba(16,185,129,0.35); min-width:78px; text-align:center; }
+
+  /* Citation impact */
+  .badge-uncited        { color:#475569; background:rgba(71,85,105,0.15);   border-color:rgba(71,85,105,0.35); }
+  .badge-cited          { color:#facc15; background:rgba(250,204,21,0.12);  border-color:rgba(250,204,21,0.35); }
+  .badge-highly-cited   { color:#f97316; background:rgba(249,115,22,0.12); border-color:rgba(249,115,22,0.35); }
+  .badge-vhc            { color:#ef4444; background:rgba(239,68,68,0.12);   border-color:rgba(239,68,68,0.35); }
+
+  /* ── Status bar ────────────────────────────────────────────────────── */
+  #grid-status-bar {
+    position:fixed; bottom:0; left:40px; right:0; height:32px;
+    background:rgba(15,23,42,0.97); border-top:1px solid var(--arm-border);
+    display:flex; align-items:center; padding:0 16px; gap:14px;
+    font-size:11px; color:#475569; z-index:100;
+  }
+  #grid-count { color:#64748b; }
+  #active-filter-label { color:var(--arm-accent); font-weight:500; }
+  #clear-filter-btn {
+    background:none; border:none; color:#475569; cursor:pointer;
+    font-size:11px; font-family:var(--arm-font); padding:0;
+    text-decoration:underline; transition:color 0.15s;
+  }
+  #clear-filter-btn:hover { color:#94a3b8; }
+
+  /* ── Loading ───────────────────────────────────────────────────────── */
+  #grid-loading {
+    position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+    text-align:center; color:#475569; font-size:13px;
+  }
+  #grid-error { color:#ef4444; }
+</style>
+</head>
+<body>
+
+<!-- ── Title bar ──────────────────────────────────────────────────── -->
+<div id="arm-title-bar">The <span>AI Research</span> Atlas</div>
+
+<!-- ── Tab strip ──────────────────────────────────────────────────── -->
+<div id="arm-tab-strip">
+  <button id="arm-shortcuts-tab" class="arm-tab"
+    onclick="armToggle('arm-shortcuts-panel','arm-shortcuts-tab','arm-about-tab')"
+    aria-label="Open Shortcuts panel">Shortcuts</button>
+  <button id="arm-about-tab" class="arm-tab"
+    onclick="armToggle('arm-about-panel','arm-about-tab','arm-shortcuts-tab')"
+    aria-label="Open About panel">About</button>
+  <button id="arm-atlas-tab" class="arm-tab"
+    onclick="window.location.href='index.html'"
+    aria-label="Return to Map View">Map View</button>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     SHORTCUTS PANEL
+═══════════════════════════════════════════════════════════════════ -->
+<div id="arm-shortcuts-panel" class="arm-panel" role="complementary" aria-label="Shortcuts">
+  <div class="arm-body">
+    <div class="arm-header">
+      <p class="arm-title"><span>Shortcuts</span></p>
+      <button class="arm-close" onclick="armClose('arm-shortcuts-panel','arm-shortcuts-tab')" aria-label="Close">&#x2715;</button>
+    </div>
+    <p class="arm-sc-intro">Click a tile to filter papers by</p>
+
+    <a class="arm-tile" href="javascript:void(0)" id="tile-Prominence"
+       onclick="armShowFilterOptions('Prominence','Author prominence',this)">
+      <span class="arm-tile-icon"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="9,2 11.1,6.6 16.2,7.3 12.6,10.7 13.5,15.8 9,13.4 4.5,15.8 5.4,10.7 1.8,7.3 6.9,6.6"/></svg></span>
+      <span class="arm-tile-text"><span class="arm-tile-label">Author prominence</span><span class="arm-tile-sub">Elite · Enhanced · Emerging · Unverified</span></span>
+    </a>
+
+    <a class="arm-tile" href="javascript:void(0)" id="tile-author_count"
+       onclick="armShowFilterOptions('author_count','Author count',this)">
+      <span class="arm-tile-icon"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.5" cy="6" r="2.5"/><path d="M1 16c0-3.3 2.5-5 5.5-5"/><circle cx="13" cy="6" r="2.5"/><path d="M17 16c0-3.3-2.5-5-5.5-5"/><path d="M10 16c0-2.8-1.8-4.5-4-4.5"/></svg></span>
+      <span class="arm-tile-text"><span class="arm-tile-label">Author count</span><span class="arm-tile-sub">1 · 2 · 3 · 5 · 8 · 13 · 21 · 34+</span></span>
+    </a>
+
+    <a class="arm-tile" href="javascript:void(0)" id="tile-CitationTier"
+       onclick="armShowFilterOptions('CitationTier','Citation impact',this)">
+      <span class="arm-tile-icon"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,13 6,8 10,10 16,4"/><polyline points="12,4 16,4 16,8"/></svg></span>
+      <span class="arm-tile-text"><span class="arm-tile-label">Citation impact</span><span class="arm-tile-sub">Very Highly Cited · Highly Cited · Cited</span></span>
+    </a>
+
+    <a class="arm-tile" href="javascript:void(0)" id="tile-recency"
+       onclick="armShowFilterOptions('recency','Recency',this)">
+      <span class="arm-tile-icon"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="7"/><polyline points="9,5 9,9 12,11"/></svg></span>
+      <span class="arm-tile-text"><span class="arm-tile-label">Recency</span><span class="arm-tile-sub">Today · Yesterday · Earlier</span></span>
+    </a>
+
+  </div>
+  <div class="arm-footer">
+    <div class="arm-status-dot"></div>
+    <span class="arm-status-text">Last updated <strong>March 16, 2026 UTC</strong></span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     ABOUT PANEL
+═══════════════════════════════════════════════════════════════════ -->
+<div id="arm-about-panel" class="arm-panel" role="complementary" aria-label="About this atlas">
+  <div class="arm-body">
+    <div class="arm-header">
+      <p class="arm-title">The <span>AI Research</span> Atlas</p>
+      <button class="arm-close" onclick="armClose('arm-about-panel','arm-about-tab')" aria-label="Close panel">&#x2715;</button>
+    </div>
+    <div class="arm-byline">By <a href="https://www.linkedin.com/in/lee-fischman/" target="_blank" rel="noopener">Lee Fischman</a></div>
+
+    <p class="arm-p">A live semantic map of recent AI research from arXiv (cs.AI), rebuilt every day across a rolling 14-day window. Each point is a paper. Groups are determined by Claude Haiku based on shared research methodology and problem formulation.</p>
+    <p class="arm-p"><a href="https://github.com/LeeFischman/AI-research-atlas" target="_blank" rel="noopener">More...</a></p>
+
+    <hr class="arm-divider">
+
+    <p class="arm-section">How to use</p>
+    <p class="arm-p">Sort columns by clicking their headers. Use the Shortcuts panel to filter by author prominence, citation impact, or recency. Click a row&#x2019;s abstract cell to expand it. Click a paper title to open it on arXiv.</p>
+
+    <hr class="arm-divider">
+
+    <p class="arm-section">Books by the author</p>
+    <a class="arm-book" href="https://www.amazon.com/dp/B0GMVH6P2W" target="_blank" rel="noopener">
+      <span class="arm-book-icon">&#x1F4D8;</span>
+      <span class="arm-book-text"><span class="arm-book-title">Building Deep Learning Products</span><span class="arm-book-sub">Available on Amazon &#x2192;</span></span>
+    </a>
+    <p class="arm-p" style="margin-top:4px;"><a href="https://donate.stripe.com/6oU5kD9sE17y87J3gI1ck00" target="_blank" rel="noopener">Buy me a bagel &#x1F96F;</a></p>
+
+    <hr class="arm-divider">
+
+    <p class="arm-section">Powered by</p>
+    <p class="arm-p"><a href="https://apple.github.io/embedding-atlas/" target="_blank" rel="noopener">Apple Embedding Atlas</a>, <a href="https://openalex.org" target="_blank" rel="noopener">OpenAlex</a>, <a href="https://www.semanticscholar.org" target="_blank" rel="noopener">Semantic Scholar</a>, and <a href="https://allenai.org/blog/specter2-adapting-scientific-document-embeddings-to-multiple-fields-and-task-formats-c95686c06567" target="_blank" rel="noopener">SPECTER2</a></p>
+  </div>
+  <div class="arm-footer">
+    <div class="arm-status-dot"></div>
+    <span class="arm-status-text">Last updated <strong>March 16, 2026 UTC</strong></span>
+  </div>
+</div>
+
+<!-- ── Filter popup (upper left, below title bar) ─────────────────── -->
+<div id="arm-filter-popup">
+  <button class="fp-close" onclick="hideFilterPopup()" aria-label="Close filter popup">&#x2715;</button>
+  <div class="fp-title" id="fp-title"></div>
+  <div id="fp-options"></div>
+  <button class="fp-btn fp-clear" onclick="clearFilter()">&#x2715;&nbsp; Clear filter / Show all</button>
+</div>
+
+<!-- ── Loading indicator ──────────────────────────────────────────── -->
+<div id="grid-loading">Loading papers&#x2026;</div>
+
+<!-- ── Grid ──────────────────────────────────────────────────────── -->
+<div id="grid-wrap" style="display:none">
+  <table id="grid-table">
+    <thead>
+      <tr>
+        <th class="col-title"      onclick="setSort('title')">
+          Title <span class="sort-arrow" id="sa-title"></span></th>
+        <th class="col-tldr"       onclick="setSort('ss_tldr')">
+          TLDR <span class="sort-arrow" id="sa-ss_tldr"></span></th>
+        <th class="col-abstract"   onclick="setSort('abstract')">
+          Abstract <span class="sort-arrow" id="sa-abstract"></span></th>
+        <th class="col-url"        onclick="setSort('url')">
+          Link <span class="sort-arrow" id="sa-url"></span></th>
+        <th class="col-date"       onclick="setSort('date_added')">
+          Date Added <span class="sort-arrow" id="sa-date_added"></span></th>
+        <th class="col-prominence" onclick="setSort('Prominence')">
+          Author Prominence <span class="sort-arrow" id="sa-Prominence"></span></th>
+        <th class="col-count"      onclick="setSort('author_count')">
+          Author Count <span class="sort-arrow" id="sa-author_count"></span></th>
+        <th class="col-citation"   onclick="setSort('CitationTier')">
+          Citation Impact <span class="sort-arrow" id="sa-CitationTier"></span></th>
+      </tr>
+    </thead>
+    <tbody id="grid-tbody"></tbody>
+  </table>
+</div>
+
+<!-- ── Status bar ─────────────────────────────────────────────────── -->
+<div id="grid-status-bar">
+  <span id="grid-count"></span>
+  <span id="active-filter-label"></span>
+  <button id="clear-filter-btn" onclick="clearFilter()" style="display:none">Clear filter</button>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var papers    = [];
+  var sortCol   = 'date_added';
+  var sortDir   = -1;            // -1 = descending, 1 = ascending
+  var activeFilter = null;       // {col, value, label} | null
+
+  // ── Panel toggle (same logic as main Atlas) ───────────────────────
+  function armToggle(panelId, tabId, hideTabId) {
+    var panel  = document.getElementById(panelId);
+    var isOpen = panel.classList.contains('arm-open');
+    document.querySelectorAll('.arm-panel').forEach(function (p) { p.classList.remove('arm-open'); });
+    document.querySelectorAll('.arm-tab').forEach(function (t) { t.classList.remove('arm-active'); t.style.display = ''; });
+    if (!isOpen) {
+      panel.classList.add('arm-open');
+      document.getElementById(tabId).classList.add('arm-active');
+      if (hideTabId) document.getElementById(hideTabId).style.display = 'none';
+    }
+  }
+  function armClose(panelId, tabId) {
+    document.getElementById(panelId).classList.remove('arm-open');
+    document.getElementById(tabId).classList.remove('arm-active');
+    document.querySelectorAll('.arm-tab').forEach(function (t) { t.style.display = ''; });
+  }
+  // Expose to inline onclick attributes
+  window.armToggle = armToggle;
+  window.armClose  = armClose;
+
+  // ── Filter popup ──────────────────────────────────────────────────
+  // Fixed Fibonacci "or more" thresholds for author count filter
+  var FIB_COUNT = [1, 2, 3, 5, 8, 13, 21, 34];
+
+  function armShowFilterOptions(col, label, tileEl) {
+    var values, isGte = false;
+
+    if (col === 'author_count') {
+      // Fixed Fibonacci "or more" buckets — always shown regardless of data
+      isGte = true;
+      values = FIB_COUNT.map(String);
+    } else {
+      // Gather distinct non-empty values from data
+      var seen = Object.create(null);
+      papers.forEach(function (p) {
+        var v = p[col];
+        if (v !== null && v !== undefined && v !== '') seen[String(v)] = true;
+      });
+      var tierOrder = {
+        'Elite': 0, 'Enhanced': 1, 'Emerging': 2, 'Unverified': 3,
+        'Very Highly Cited': 0, 'Highly Cited': 1, 'Cited': 2, 'Uncited': 3,
+        'Today': 0, 'Yesterday': 1, 'Earlier': 2,
+      };
+      values = Object.keys(seen).sort(function (a, b) {
+        var oa = tierOrder[a], ob = tierOrder[b];
+        if (oa !== undefined && ob !== undefined) return oa - ob;
+        var na = parseFloat(a), nb = parseFloat(b);
+        if (!isNaN(na) && !isNaN(nb)) return na - nb;
+        return a.localeCompare(b);
+      });
+    }
+
+    document.getElementById('fp-title').textContent = 'Filter by ' + label;
+    var opts = document.getElementById('fp-options');
+    opts.innerHTML = '';
+    values.forEach(function (v) {
+      var isActive = activeFilter && activeFilter.col === col &&
+                     activeFilter.value === v && activeFilter.gte === isGte;
+      var btn = document.createElement('button');
+      btn.className = 'fp-btn' + (isActive ? ' fp-active' : '');
+      btn.textContent = isGte ? (v + ' or more') : v;
+      btn.onclick = function () {
+        applyFilter(col, v, isGte ? (label + ': ' + v + ' or more') : (label + ': ' + v), isGte);
+      };
+      opts.appendChild(btn);
+    });
+
+    // Position popup to the right of the shortcuts panel, vertically near the tile
+    var popup = document.getElementById('arm-filter-popup');
+    popup.style.display = 'block';
+    var panelEl = document.getElementById('arm-shortcuts-panel');
+    var panelRect = panelEl.getBoundingClientRect();
+    var tileRect  = tileEl  ? tileEl.getBoundingClientRect() : panelRect;
+    var left = panelRect.right + 10;
+    var top  = tileRect.top;
+    if (left + 220 > window.innerWidth) left = Math.max(8, window.innerWidth - 228);
+    popup.style.left = left + 'px';
+    popup.style.top  = top  + 'px';
+    requestAnimationFrame(function () {
+      var maxTop = window.innerHeight - popup.offsetHeight - 8;
+      if (parseFloat(popup.style.top) > maxTop) {
+        popup.style.top = Math.max(8, maxTop) + 'px';
+      }
+    });
+
+    document.querySelectorAll('.arm-tile').forEach(function (t) { t.classList.remove('arm-tile-active'); });
+    if (tileEl) tileEl.classList.add('arm-tile-active');
+  }
+  window.armShowFilterOptions = armShowFilterOptions;
+
+  function hideFilterPopup() {
+    document.getElementById('arm-filter-popup').style.display = 'none';
+  }
+  window.hideFilterPopup = hideFilterPopup;
+
+  // Close popup when clicking outside it (but not on a tile)
+  document.addEventListener('click', function (e) {
+    var popup = document.getElementById('arm-filter-popup');
+    if (popup.style.display === 'none') return;
+    if (popup.contains(e.target)) return;
+    if (e.target.closest && e.target.closest('.arm-tile')) return;
+    hideFilterPopup();
+    document.querySelectorAll('.arm-tile').forEach(function (t) { t.classList.remove('arm-tile-active'); });
+  }, true);
+
+  function applyFilter(col, value, label, gte) {
+    activeFilter = { col: col, value: value, label: label, gte: !!gte };
+    hideFilterPopup();
+    render();
+  }
+
+  function clearFilter() {
+    activeFilter = null;
+    document.querySelectorAll('.arm-tile').forEach(function (t) { t.classList.remove('arm-tile-active'); });
+    hideFilterPopup();
+    render();
+  }
+  window.clearFilter = clearFilter;
+
+  // ── Sort ──────────────────────────────────────────────────────────
+  function setSort(col) {
+    if (sortCol === col) {
+      sortDir = -sortDir;
+    } else {
+      sortCol = col;
+      sortDir = (col === 'date_added') ? -1 : 1;
+    }
+    renderHeaders();
+    render();
+  }
+  window.setSort = setSort;
+
+  // ── Data helpers ──────────────────────────────────────────────────
+  // Map CitationTier string → numeric rank for sorting
+  var citationRank = { 'Very Highly Cited': 3, 'Highly Cited': 2, 'Cited': 1, 'Uncited': 0 };
+  var prominenceRank = { 'Elite': 3, 'Enhanced': 2, 'Emerging': 1, 'Unverified': 0 };
+
+  function getFilteredSorted() {
+    var rows = papers.slice();
+    if (activeFilter) {
+      var fc = activeFilter.col, fv = activeFilter.value;
+      if (activeFilter.gte) {
+        var threshold = Number(fv);
+        rows = rows.filter(function (p) { return (p[fc] || 0) >= threshold; });
+      } else {
+        rows = rows.filter(function (p) {
+          var pv = p[fc];
+          if (fc === 'CitationTier') pv = pv || 'Uncited';
+          return String(pv == null ? '' : pv) === fv;
+        });
+      }
+    }
+    rows.sort(function (a, b) {
+      var av, bv;
+      if (sortCol === 'CitationTier') {
+        av = citationRank[a.CitationTier] != null ? citationRank[a.CitationTier] : -1;
+        bv = citationRank[b.CitationTier] != null ? citationRank[b.CitationTier] : -1;
+        return sortDir * (av - bv);
+      }
+      if (sortCol === 'Prominence') {
+        av = prominenceRank[a.Prominence] != null ? prominenceRank[a.Prominence] : -1;
+        bv = prominenceRank[b.Prominence] != null ? prominenceRank[b.Prominence] : -1;
+        return sortDir * (av - bv);
+      }
+      av = a[sortCol]; bv = b[sortCol];
+      if (av == null) av = ''; if (bv == null) bv = '';
+      if (typeof av === 'number' && typeof bv === 'number') return sortDir * (av - bv);
+      return sortDir * String(av).localeCompare(String(bv));
+    });
+    return rows;
+  }
+
+  // ── Badge helpers ─────────────────────────────────────────────────
+  function prominenceBadge(tier) {
+    if (!tier) return '—';
+    var map = {
+      'Elite':      'badge-elite',
+      'Enhanced':   'badge-enhanced',
+      'Emerging':   'badge-emerging',
+      'Unverified': 'badge-unverified',
+    };
+    var cls = map[tier];
+    return cls ? '<span class="badge ' + cls + '">' + tier + '</span>' : tier;
+  }
+
+  function authorCountBadge(n) {
+    var count = parseInt(n, 10);
+    if (isNaN(count)) return '—';
+    var cls, label;
+    if      (count === 1)  { cls = 'badge-count-1';   label = '1'; }
+    else if (count === 2)  { cls = 'badge-count-2';   label = '2'; }
+    else if (count === 3)  { cls = 'badge-count-3';   label = '3'; }
+    else if (count <= 5)   { cls = 'badge-count-5';   label = count; }
+    else if (count <= 8)   { cls = 'badge-count-8';   label = count; }
+    else if (count <= 13)  { cls = 'badge-count-13';  label = count; }
+    else if (count <= 21)  { cls = 'badge-count-21';  label = count; }
+    else                   { cls = 'badge-count-21p'; label = count + '+'; }
+    return '<span class="badge ' + cls + '">' + label + '</span>';
+  }
+
+  function citationBadge(tier) {
+    var t = tier || 'Uncited';
+    var map = {
+      'Very Highly Cited': ['badge-vhc',          'Very Highly Cited'],
+      'Highly Cited':      ['badge-highly-cited',  'Highly Cited'],
+      'Cited':             ['badge-cited',          'Cited'],
+      'Uncited':           ['badge-uncited',        'Uncited'],
+    };
+    var entry = map[t] || map['Uncited'];
+    return '<span class="badge ' + entry[0] + '">' + entry[1] + '</span>';
+  }
+
+  function td(content, className) {
+    var el = document.createElement('td');
+    if (className) el.className = className;
+    if (typeof content === 'string') el.innerHTML = content;
+    else el.appendChild(content);
+    return el;
+  }
+
+  // ── Render table ──────────────────────────────────────────────────
+  function render() {
+    var rows  = getFilteredSorted();
+    var tbody = document.getElementById('grid-tbody');
+    tbody.innerHTML = '';
+
+    rows.forEach(function (p) {
+      var tr = document.createElement('tr');
+
+      // Title (link)
+      var titleA = document.createElement('a');
+      titleA.className = 'cell-title cell-clamp';
+      titleA.textContent = p.title || '—';
+      titleA.href   = p.url || '#';
+      titleA.target = '_blank';
+      titleA.rel    = 'noopener';
+      tr.appendChild(td(titleA));
+
+      // TLDR (click to expand, same as abstract)
+      var tldrDiv = document.createElement('div');
+      tldrDiv.className = 'cell-tldr';
+      tldrDiv.textContent = p.ss_tldr || '—';
+      tldrDiv.title = 'Click to expand';
+      tldrDiv.onclick = function () { tldrDiv.classList.toggle('expanded'); };
+      tr.appendChild(td(tldrDiv));
+
+      // Abstract (click to expand)
+      var absDiv = document.createElement('div');
+      absDiv.className = 'cell-abstract';
+      absDiv.textContent = p.abstract || '—';
+      absDiv.title = 'Click to expand';
+      absDiv.onclick = function () { absDiv.classList.toggle('expanded'); };
+      tr.appendChild(td(absDiv));
+
+      // URL
+      var urlTd = document.createElement('td');
+      urlTd.className = 'cell-url';
+      if (p.url) {
+        var urlA = document.createElement('a');
+        urlA.href = p.url; urlA.target = '_blank'; urlA.rel = 'noopener';
+        urlA.textContent = 'arXiv →';
+        urlTd.appendChild(urlA);
+      } else {
+        urlTd.textContent = '—';
+      }
+      tr.appendChild(urlTd);
+
+      // Date added
+      var dateTd = document.createElement('td');
+      dateTd.className = 'cell-date';
+      dateTd.textContent = (p.date_added || '').substring(0, 10) || '—';
+      tr.appendChild(dateTd);
+
+      // Author Prominence (badge)
+      var promTd = document.createElement('td');
+      promTd.innerHTML = prominenceBadge(p.Prominence);
+      tr.appendChild(promTd);
+
+      // Author Count (Fibonacci badge)
+      var countTd = document.createElement('td');
+      countTd.innerHTML = authorCountBadge(p.author_count);
+      tr.appendChild(countTd);
+
+      // Citation Impact (badge)
+      var citTd = document.createElement('td');
+      citTd.innerHTML = citationBadge(p.CitationTier);
+      tr.appendChild(citTd);
+
+      tbody.appendChild(tr);
+    });
+
+    // Status bar
+    var countEl  = document.getElementById('grid-count');
+    var labelEl  = document.getElementById('active-filter-label');
+    var clearBtn = document.getElementById('clear-filter-btn');
+    countEl.textContent = rows.length + ' of ' + papers.length + ' papers';
+    if (activeFilter) {
+      labelEl.textContent    = activeFilter.label;
+      clearBtn.style.display = '';
+    } else {
+      labelEl.textContent    = '';
+      clearBtn.style.display = 'none';
+    }
+  }
+
+  // ── Render sort header indicators ─────────────────────────────────
+  function renderHeaders() {
+    var cols = ['title', 'ss_tldr', 'abstract', 'url', 'date_added', 'Prominence', 'author_count', 'CitationTier'];
+    cols.forEach(function (c) {
+      var el = document.getElementById('sa-' + c);
+      if (!el) return;
+      el.textContent = sortCol === c ? (sortDir === 1 ? '↑' : '↓') : '';
+    });
+    document.querySelectorAll('#grid-table th').forEach(function (th) { th.classList.remove('sort-active'); });
+    var idx = {
+      'title': 0, 'ss_tldr': 1, 'abstract': 2, 'url': 3,
+      'date_added': 4, 'Prominence': 5, 'author_count': 6, 'CitationTier': 7
+    }[sortCol];
+    if (idx !== undefined) {
+      var ths = document.querySelectorAll('#grid-table th');
+      if (ths[idx]) ths[idx].classList.add('sort-active');
+    }
+  }
+
+  // ── Column resize ─────────────────────────────────────────────────
+  function initColResize() {
+    var ths = document.querySelectorAll('#grid-table th');
+    ths.forEach(function (th) {
+      var handle = document.createElement('div');
+      handle.className = 'col-rh';
+      th.appendChild(handle);
+      var startX, startW;
+      handle.addEventListener('mousedown', function (e) {
+        e.preventDefault();
+        startX = e.clientX;
+        startW = th.offsetWidth;
+        handle.classList.add('rh-active');
+        function onMove(e) {
+          var w = Math.max(40, startW + (e.clientX - startX));
+          th.style.width = w + 'px';
+          th.style.minWidth = w + 'px';
+        }
+        function onUp() {
+          handle.classList.remove('rh-active');
+          document.removeEventListener('mousemove', onMove);
+          document.removeEventListener('mouseup', onUp);
+        }
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('mouseup', onUp);
+      });
+    });
+  }
+
+  // ── Bootstrap ─────────────────────────────────────────────────────
+  fetch('data/papers.json')
+    .then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
+    .then(function (data) {
+      papers = data;
+      document.getElementById('grid-loading').style.display = 'none';
+      document.getElementById('grid-wrap').style.display    = '';
+      renderHeaders();
+      render();
+      initColResize();
+    })
+    .catch(function (e) {
+      var el = document.getElementById('grid-loading');
+      el.innerHTML = '<span id="grid-error">Failed to load papers.json: ' + e.message + '</span>';
+    });
+
+})();
+</script>
+</body>
+</html>

@@ -9,135 +9,76 @@
         },
         "embeddingViewLabels": [
             {
-                "x": -1.320717204106018,
-                "y": -1.8615895725623257,
-                "text": "Time Series Forecasting And Prediction",
+                "x": -1.0563085416191615,
+                "y": -2.250786382544593,
+                "text": "Group 0",
                 "level": 0,
                 "priority": 10
             },
             {
-                "x": -2.2450911201939374,
-                "y": 0.6720148935762036,
-                "text": "Llm Agent Benchmarking And Evaluation",
+                "x": 0.19722736336601582,
+                "y": -1.357687394077237,
+                "text": "Group 1",
                 "level": 0,
                 "priority": 10
             },
             {
-                "x": 0.9868415254434474,
-                "y": -0.6504674618212407,
-                "text": "Multimodal Foundation Models",
+                "x": -2.158395086871312,
+                "y": 1.007643785487561,
+                "text": "Group 2",
                 "level": 0,
                 "priority": 10
             },
             {
-                "x": 0.6160383287227559,
-                "y": 0.5911997571328996,
-                "text": "Information Retrieval Systems",
+                "x": -1.0246932726019418,
+                "y": 0.3042054539029607,
+                "text": "Group 3",
                 "level": 0,
                 "priority": 10
             },
             {
-                "x": 0.4988233111884809,
-                "y": -1.2415106685933384,
-                "text": "Generative Models For Molecular Design",
+                "x": 0.771949455168385,
+                "y": 1.6192664712328186,
+                "text": "Group 4",
                 "level": 0,
                 "priority": 10
             },
             {
-                "x": -1.4502390498536086,
-                "y": -0.8729636798931872,
-                "text": "Llm Safety And Alignment",
+                "x": -1.709534001042845,
+                "y": -0.6443404334481521,
+                "text": "Group 5",
                 "level": 0,
                 "priority": 10
             },
             {
-                "x": 1.3061557606928014,
-                "y": 2.1957836228414447,
-                "text": "Embodied Agent Learning",
+                "x": -0.4633824759524159,
+                "y": 2.0128785718419984,
+                "text": "Group 6",
                 "level": 0,
                 "priority": 10
             },
             {
-                "x": -0.6145130760084846,
-                "y": -2.43206189876751,
-                "text": "Model Scaling And Efficiency",
+                "x": 1.1264613985072252,
+                "y": 0.051931249014489436,
+                "text": "Group 7",
                 "level": 0,
                 "priority": 10
             },
             {
-                "x": -1.5635522644161644,
-                "y": 1.8756531244966927,
-                "text": "Memory And Planning In Agents",
+                "x": 2.4667338838807455,
+                "y": 0.5866541184028105,
+                "text": "Group 8",
                 "level": 0,
                 "priority": 10
             },
             {
-                "x": 0.19745461844624165,
-                "y": 1.908608057124266,
-                "text": "Multi-Agent Coordination And Safety",
-                "level": 0,
-                "priority": 10
-            },
-            {
-                "x": -1.056144582386536,
-                "y": 0.7304484714170136,
-                "text": "Representational Learning Analysis",
-                "level": 0,
-                "priority": 10
-            },
-            {
-                "x": 1.2991438353876894,
-                "y": -2.4883494087912164,
-                "text": "Model Quantization And Compression",
-                "level": 0,
-                "priority": 10
-            },
-            {
-                "x": -2.5345889259970966,
-                "y": -0.49245124387394834,
-                "text": "Natural Language Understanding Tasks",
-                "level": 0,
-                "priority": 10
-            },
-            {
-                "x": 2.205867469647023,
-                "y": 1.017592722034339,
-                "text": "Geometric Deep Learning",
-                "level": 0,
-                "priority": 10
-            },
-            {
-                "x": -0.33148308754464195,
-                "y": 0.022286804668121475,
-                "text": "Reinforcement Learning With Verifiable Rewards",
-                "level": 0,
-                "priority": 10
-            },
-            {
-                "x": -0.6238986312643152,
-                "y": 2.480956583930896,
-                "text": "Scientific Discovery With Ai",
-                "level": 0,
-                "priority": 10
-            },
-            {
-                "x": 2.063167339691456,
-                "y": -1.161820933206812,
-                "text": "Medical Image Understanding",
-                "level": 0,
-                "priority": 10
-            },
-            {
-                "x": 2.526914771670594,
-                "y": -0.015299006661138722,
-                "text": "Graph Neural Networks",
+                "x": 1.7414061506912961,
+                "y": -1.493689770661674,
+                "text": "Group 9",
                 "level": 0,
                 "priority": 10
             }
-        ],
-        "initialState": {
-            "version": "0.0.0"
-        }
+        ]
     },
     "isStatic": true,
     "database": {
@@ -146,13 +87,19 @@
     },
     "name_column": "title",
     "label_column": "title",
-    "color_by": "Reputation",
+    "color_by": "Prominence",
     "column_mappings": {
         "title": "title",
         "abstract": "abstract",
-        "Reputation": "Reputation",
+        "Prominence": "Prominence",
         "author_count": "author_count",
         "author_tier": "author_tier",
-        "url": "url"
+        "url": "url",
+        "ss_citation_count": "ss_citation_count",
+        "ss_influential_citations": "ss_influential_citations",
+        "ss_tldr": "ss_tldr",
+        "CitationTier": "CitationTier",
+        "recency": "recency",
+        "paper_source": "paper_source"
     }
 }
