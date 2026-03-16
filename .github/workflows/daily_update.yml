@@ -1,14 +1,14 @@
 name: Update AI Research Atlas
 on:
   schedule:
-    # Runs at 14:00 UTC every day
-    - cron: '0 14 * * *'
+    - cron: '0 3 * * *'
   workflow_dispatch: # Allows manual runs for testing
 permissions:
   contents: write
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -18,29 +18,131 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.12'
+      - name: Cache HuggingFace model weights
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: huggingface-specter2-v1
+
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt anthropic
+
+      # ════════════════════════════════════════════════════════════════════
+      # RUN MODES — set env vars below to match your current goal
+      #
+      # ── STATIC TEST (layout / UI iteration, no API calls) ───────────────
+      #   Use when: tweaking SCATTER_FRACTION, LAYOUT_SCALE, CSS, panel HTML,
+      #             or anything in the docs/ build that doesn't need fresh data.
+      #   Cost: $0. Runtime: ~2 min (just layout + Atlas build).
+      #   Requires: database.parquet and group_names_v2.json already committed
+      #             from a previous normal run.
+      #
+      #   Set:  OFFLINE_MODE: "true"   (uncomment the line below)
+      #   Keep: ANTHROPIC_API_KEY present but unused
+      #   Rest: all other vars are ignored in this mode
+      #
+      # ── RUNNING TEST (full pipeline, triggered manually) ─────────────────
+      #   Use when: validating a code change end-to-end before it goes live,
+      #             or after a multi-day gap where papers may have accumulated.
+      #   Cost: ~$0.10–0.20 Haiku + OpenAlex/S2 free tier. Runtime: ~10 min.
+      #
+      #   Set:  OFFLINE_MODE commented out (normal mode)
+      #   Keep: ANTHROPIC_API_KEY active
+      #   Note: BACKFILL_HINDICES only needed if author_hindices was lost or
+      #         corrupted — comment it back out after one successful run
+      #
+      # ── PRODUCTION (daily scheduled run, 00:00 UTC) ──────────────────────
+      #   The cron trigger handles this automatically. No changes needed
+      #   beyond confirming the two "must be off" items below are off.
+      #
+      #   OFFLINE_MODE:     must be commented out
+      #   BACKFILL_HINDICES: must be commented out
+      #   Everything else:  leave as configured
+      # ════════════════════════════════════════════════════════════════════
+
+      - name: Diagnose environment
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          echo "=== Python version ==="
+          python --version
+
+          echo "=== Checking HuggingFace connectivity ==="
+          curl -s --max-time 10 https://huggingface.co/allenai/specter2_base/resolve/main/config.json \
+            -H "Authorization: Bearer $HF_TOKEN" \
+            -o /dev/null -w "HTTP status: %{http_code}\n" \
+            || echo "FAILED: HuggingFace unreachable or timed out"
+
+          echo "=== Importing core libs ==="
+          python -c "import numpy; print('numpy OK')"
+          python -c "import pandas; print('pandas OK')"
+          python -c "import torch; print('torch OK')"
+          python -c "print('importing sentence_transformers...'); import sentence_transformers; print('sentence_transformers OK')"
+          python -c "print('importing transformers...'); import transformers; print('transformers OK')"
+
+          echo "=== Attempting SPECTER2 model load (actual model used in pipeline) ==="
+          python -c "
+          from sentence_transformers import SentenceTransformer
+          print('Loading allenai/specter2_base via SentenceTransformer...')
+          model = SentenceTransformer('allenai/specter2_base')
+          print('SPECTER2 model load OK')
+          "
+
+          echo "=== Diagnostics complete ==="
+
       - name: Run Update Script
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          EMBEDDING_MODEL: sbert
-          # Comment the below line when in production or recalcs are needed 
-          OFFLINE_MODE: "true"
-        run: python update_map_v2.py
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          PYTHONUNBUFFERED: "1"
+          OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
+
+          # ── STATIC TEST: uncomment to skip all API calls ─────────────────
+          # OFFLINE_MODE: "true"
+
+          # ── One-time repair: rebuilds author h-index for all papers ──────
+          # Comment out immediately after one successful run.
+          # BACKFILL_HINDICES: "true"
+
+          # ── Optional: higher Semantic Scholar API rate limits ────────────
+          # Unnecessary for daily volume — only add if you see S2 rate errors.
+          SEMANTIC_SCHOLAR_API_KEY: ${{ secrets.SEMANTIC_SCHOLAR_API_KEY }}
+
+        run: |
+          echo "=== Testing imports ==="
+          python -c "
+          print('Step 1: stdlib...'); import os, json, datetime; print('OK')
+          print('Step 2: numpy...'); import numpy; print('OK')
+          print('Step 3: pandas...'); import pandas; print('OK')
+          print('Step 4: sklearn...'); import sklearn; print('OK')
+          print('Step 5: umap...'); import umap; print('OK')
+          print('Step 6: torch...'); import torch; print('OK')
+          print('Step 7: sentence_transformers...'); import sentence_transformers; print('OK')
+          print('Step 8: anthropic...'); import anthropic; print('OK')
+          print('Step 9: atlas_utils...'); import atlas_utils; print('OK')
+          print('All imports OK')
+          "
+          echo "=== Running main script ==="
+          python update_map_v2.py
+
+      - name: Run nightly assertions
+        run: python nightly_assert.py
+
       - name: Commit and Push Database Changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add database.parquet run_state.json author_stats_cache.json label_diagnostics.json group_names_v2.json labels_v2.parquet 2>/dev/null || true
+          git add database.parquet run_state.json author_stats_cache.json author_cache.json label_diagnostics.json group_names_v2.json labels_v2.parquet ss_cache.json 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
             git commit -m "Update rolling database: $(date -u +'%Y-%m-%d')"
-            git pull --rebase origin main
+            git pull --rebase --autostash origin main
             git push
           fi
+
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:

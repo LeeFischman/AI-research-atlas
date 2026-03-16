@@ -1,0 +1,70 @@
+name: Daily Significant Papers Maintenance
+on:
+  schedule:
+    - cron: '0 1 * * *'   # 1 AM UTC -- runs 2 hours before main atlas build (03:00 UTC)
+  workflow_dispatch:       # Manual trigger for testing
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      # ════════════════════════════════════════════════════════════════════
+      # DAILY SIGNIFICANT PAPERS MAINTENANCE
+      #
+      # What this does (two tasks, one run):
+      #
+      #   Task 1 — Author h-index backfill (OpenAlex)
+      #     Finds authors in significant.parquet whose h-index is not yet
+      #     cached, fetches up to 900 per day, recomputes Prominence, and
+      #     writes significant.parquet.
+      #
+      #     Why capped at 900?  Free OpenAlex key budget = $1/day at
+      #     $0.001/search = 1,000 searches. 900 leaves 10% headroom.
+      #     If >900 authors are pending (e.g. after a large weekly run),
+      #     the remainder are processed on subsequent daily runs.
+      #
+      #   Task 2 — S2 citation refresh
+      #     Re-fetches citation counts for all 500 candidates in
+      #     sig_candidates.json (single S2 batch call). Re-ranks the
+      #     candidate pool so the next weekly discovery run works from
+      #     fresh numbers. Also updates significant.parquet citation columns.
+      #
+      # Scheduling note
+      #   Runs at 01:00 UTC — 2 hours before the main atlas build (03:00 UTC).
+      #   Neither task depends on that day's fresh papers, so running before
+      #   the main build is fine. The main build then picks up freshly ranked
+      #   candidates and updated citation counts when it merges significant.parquet.
+      #
+      # Cost: ~$0.90 max/day OpenAlex (900 lookups at $0.001) + S2 free.
+      # Runtime: ~15–20 min on throttle days; ~2 min when authors are cached.
+      # ════════════════════════════════════════════════════════════════════
+      - name: Run Daily Significant Papers Maintenance
+        env:
+          OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
+          SEMANTIC_SCHOLAR_API_KEY: ${{ secrets.SEMANTIC_SCHOLAR_API_KEY }}
+        run: python daily_significant.py
+      - name: Commit and Push
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add significant.parquet author_cache.json ss_cache.json sig_candidates.json 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Daily significant maintenance: $(date -u +'%Y-%m-%d')"
+            git pull --rebase --autostash origin main
+            git push
+          fi
