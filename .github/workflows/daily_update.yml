@@ -148,3 +148,13 @@ jobs:
         with:
           folder: docs
           branch: gh-pages
+
+      - name: Purge Cloudflare cache
+        if: success()
+        run: |
+          curl -s -X POST "https://api.cloudflare.com/client/v4/zones/${{ secrets.CLOUDFLARE_ZONE_ID }}/purge_cache" \
+            -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_CACHE_PURGE }}" \
+            -H "Content-Type: application/json" \
+            --data '{"purge_everything":true}' \
+            | jq '{success: .success, errors: .errors}'
+        shell: bash
