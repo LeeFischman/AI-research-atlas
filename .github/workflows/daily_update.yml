@@ -9,10 +9,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    env:
-      # Job-level env vars are visible to ALL steps (including nightly assert).
-      # To skip OpenAlex fetch: uncomment below. Comment out for production.
-      # OPENALEX_OFFLINE_MODE: "true"
+    # To skip OpenAlex fetch for all steps, add a job-level env block here:
+    #   env:
+    #     OPENALEX_OFFLINE_MODE: "true"
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
