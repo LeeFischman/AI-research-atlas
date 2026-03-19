@@ -9,6 +9,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      # Job-level env vars are visible to ALL steps (including nightly assert).
+      # To skip OpenAlex fetch: uncomment below. Comment out for production.
+      OPENALEX_OFFLINE_MODE: "true"
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -57,8 +61,9 @@ jobs:
       #   The cron trigger handles this automatically. No changes needed
       #   beyond confirming the two "must be off" items below are off.
       #
-      #   OFFLINE_MODE:     must be commented out
-      #   BACKFILL_HINDICES: must be commented out
+      #   OFFLINE_MODE:          must be commented out
+      #   BACKFILL_HINDICES:     must be commented out
+      #   OPENALEX_OFFLINE_MODE: must be commented out (job-level env block)
       #   Everything else:  leave as configured
       # ════════════════════════════════════════════════════════════════════
 
@@ -99,8 +104,14 @@ jobs:
           PYTHONUNBUFFERED: "1"
           OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
 
-          # ── STATIC TEST: uncomment to skip all API calls ─────────────────
+          # ── STATIC TEST: uncomment to skip arXiv, SPECTER2, and Haiku ──────
+          # Runs layout + Atlas build only. Use for UI/CSS iteration.
           # OFFLINE_MODE: "true"
+
+          # ── OPENALEX QUOTA EXCEEDED: uncomment to skip OpenAlex fetch ────
+          # Existing author_hindices carry forward; new papers get Unverified.
+          # Prominence is still recomputed. Remove once quota resets.
+          # OPENALEX_OFFLINE_MODE: "true"  # set at job level above instead
 
           # ── One-time repair: rebuilds author h-index for all papers ──────
           # Comment out immediately after one successful run.
@@ -134,7 +145,7 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add database.parquet run_state.json author_stats_cache.json author_cache.json label_diagnostics.json group_names_v2.json labels_v2.parquet ss_cache.json 2>/dev/null || true
+          git add database.parquet run_state.json author_stats_cache.json author_cache.json label_diagnostics.json group_names_v2.json dynamic_taxonomy.json labels_v2.parquet ss_cache.json 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
@@ -148,13 +159,3 @@ jobs:
         with:
           folder: docs
           branch: gh-pages
-
-      - name: Purge Cloudflare cache
-        if: success()
-        run: |
-          curl -s -X POST "https://api.cloudflare.com/client/v4/zones/${{ secrets.CLOUDFLARE_ZONE_ID }}/purge_cache" \
-            -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_CACHE_PURGE }}" \
-            -H "Content-Type: application/json" \
-            --data '{"purge_everything":true}' \
-            | jq '{success: .success, errors: .errors}'
-        shell: bash
