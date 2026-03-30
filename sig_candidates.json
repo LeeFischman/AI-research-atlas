@@ -1,15 +1,15 @@
 {
-  "last_fetched_date": "2026-03-08",
+  "last_fetched_date": "2026-03-15",
   "pool": [
     {
       "id": "2501.12948",
-      "ss_citation_count": 5338,
-      "ss_influential_citations": 989
+      "ss_citation_count": 5336,
+      "ss_influential_citations": 988
     },
     {
       "id": "2507.06261",
-      "ss_citation_count": 2315,
-      "ss_influential_citations": 638
+      "ss_citation_count": 2317,
+      "ss_influential_citations": 639
     },
     {
       "id": "2402.03216",
@@ -18,7 +18,7 @@
     },
     {
       "id": "2411.15594",
-      "ss_citation_count": 1133,
+      "ss_citation_count": 1134,
       "ss_influential_citations": 101
     },
     {
@@ -38,7 +38,7 @@
     },
     {
       "id": "2308.03688",
-      "ss_citation_count": 637,
+      "ss_citation_count": 638,
       "ss_influential_citations": 43
     },
     {
@@ -58,8 +58,8 @@
     },
     {
       "id": "2511.21631",
-      "ss_citation_count": 446,
-      "ss_influential_citations": 104
+      "ss_citation_count": 447,
+      "ss_influential_citations": 105
     },
     {
       "id": "2511.20843",
@@ -148,7 +148,7 @@
     },
     {
       "id": "2311.07226",
-      "ss_citation_count": 218,
+      "ss_citation_count": 217,
       "ss_influential_citations": 3
     },
     {
@@ -183,7 +183,7 @@
     },
     {
       "id": "2507.20534",
-      "ss_citation_count": 184,
+      "ss_citation_count": 185,
       "ss_influential_citations": 22
     },
     {
@@ -223,7 +223,7 @@
     },
     {
       "id": "2601.03267",
-      "ss_citation_count": 166,
+      "ss_citation_count": 167,
       "ss_influential_citations": 33
     },
     {
@@ -478,7 +478,7 @@
     },
     {
       "id": "2411.13093",
-      "ss_citation_count": 88,
+      "ss_citation_count": 87,
       "ss_influential_citations": 10
     },
     {
@@ -1188,7 +1188,7 @@
     },
     {
       "id": "2501.19306",
-      "ss_citation_count": 45,
+      "ss_citation_count": 46,
       "ss_influential_citations": 3
     },
     {
@@ -1353,8 +1353,8 @@
     },
     {
       "id": "2511.00088",
-      "ss_citation_count": 39,
-      "ss_influential_citations": 4
+      "ss_citation_count": 40,
+      "ss_influential_citations": 5
     },
     {
       "id": "2408.11832",
@@ -1373,7 +1373,7 @@
     },
     {
       "id": "2406.14909",
-      "ss_citation_count": 38,
+      "ss_citation_count": 37,
       "ss_influential_citations": 5
     },
     {
