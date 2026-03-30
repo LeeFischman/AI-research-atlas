@@ -6,7 +6,7 @@
 # Runs every day at 3 AM EST (8 AM UTC) — after the main daily atlas build
 # (03:00 UTC) has committed fresh database.parquet.
 #
-# Two tasks:
+# Three tasks:
 #   1. AUTHOR BACKFILL — find authors in significant.parquet whose h-index
 #      is not yet in author_cache.json, fetch up to OA_DAILY_LIMIT per run
 #      via OpenAlex, recompute Prominence, write significant.parquet.
@@ -15,6 +15,11 @@
 #      in sig_candidates.json via a single Semantic Scholar batch call, then
 #      re-rank so the next weekly run works from fresh numbers.
 #      Also updates ss_cache.json for any papers in significant.parquet.
+#
+#   3. WRITE significant_papers.json — build the LinkedIn extension feed file
+#      from today's papers in the enriched significant pool.  Sorted by
+#      composite score (tier_weight + ss_citation_count) descending.
+#      Falls back to 2-day window if fewer than SIG_JSON_MIN_PAPERS qualify.
 #
 # Scheduling rationale
 # ────────────────────
@@ -33,7 +38,7 @@
 
 import json
 import os
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 import pandas as pd
 
@@ -53,8 +58,9 @@ from atlas_utils import (
 # CONFIGURATION
 # ══════════════════════════════════════════════════════════════════════════════
 
-SIGNIFICANT_PATH     = "significant.parquet"
-SIG_CANDIDATES_PATH  = "sig_candidates.json"
+SIGNIFICANT_PATH             = "significant.parquet"
+SIG_CANDIDATES_PATH          = "sig_candidates.json"
+SIGNIFICANT_PAPERS_JSON_PATH = "significant_papers.json"
 
 # Max unique author name lookups sent to OpenAlex per daily run.
 # Free key budget: $1/day at $0.001/search = 1,000 searches.
@@ -63,6 +69,17 @@ OA_DAILY_LIMIT = 900
 
 # Author cache TTL (days) — must match atlas_utils.AUTHOR_CACHE_TTL_DAYS
 from atlas_utils import AUTHOR_CACHE_TTL_DAYS
+
+# Tier weights for composite score (must match LinkedIn extension logic)
+TIER_WEIGHTS = {
+    "Elite":      100_000,
+    "Enhanced":    50_000,
+    "Emerging":    10_000,
+    "Unverified":       0,
+}
+
+# Minimum papers before expanding date window to past 2 days
+SIG_JSON_MIN_PAPERS = 5
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -75,7 +92,6 @@ def _uncached_authors(sig_df: pd.DataFrame, author_cache: dict) -> list[str]:
     'Missing' = not in cache at all.
     'Stale'   = fetched_at is beyond AUTHOR_CACHE_TTL_DAYS.
     """
-    from datetime import timedelta
     cutoff_ts = (
         datetime.now(timezone.utc) - timedelta(days=AUTHOR_CACHE_TTL_DAYS)
     ).isoformat()
@@ -129,7 +145,6 @@ def run_author_backfill(sig_df: pd.DataFrame, author_cache: dict) -> pd.DataFram
     # Now rebuild author_hindices for every paper from the updated cache
     print("  Rebuilding author_hindices for all papers...")
     from atlas_utils import _safe_hindices
-    from datetime import timedelta
     cutoff_ts = (
         datetime.now(timezone.utc) - timedelta(days=AUTHOR_CACHE_TTL_DAYS)
     ).isoformat()
@@ -265,6 +280,102 @@ def run_citation_refresh(sig_df: pd.DataFrame, ss_cache: dict) -> pd.DataFrame:
 
 
 # ══════════════════════════════════════════════════════════════════════════════
+# TASK 3 — WRITE significant_papers.json  (LinkedIn extension feed)
+# ══════════════════════════════════════════════════════════════════════════════
+
+def write_significant_papers_json(sig_df: pd.DataFrame, ss_cache: dict) -> None:
+    """Build and write significant_papers.json for the LinkedIn extension.
+
+    Filters significant.parquet to papers published today (UTC).  Falls back
+    to the past 2 days if fewer than SIG_JSON_MIN_PAPERS qualify.  Sorts by
+    composite_score = tier_weight + ss_citation_count descending.
+
+    All fields required by the extension schema are guaranteed present,
+    with safe defaults for missing data.
+
+    Schema per entry:
+        id, title, url, authors_list, author_count,
+        ss_tldr, abstract, ss_citation_count, ss_influential_citations,
+        prominence_tier, publication_date
+    """
+    today_str     = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    yesterday_str = (datetime.now(timezone.utc).date() - timedelta(days=1)).strftime("%Y-%m-%d")
+
+    if "publication_date" not in sig_df.columns:
+        print("  WARNING: publication_date column missing — cannot filter by date.")
+        print(f"  {SIGNIFICANT_PAPERS_JSON_PATH} not written.")
+        return
+
+    # Normalise publication_date to YYYY-MM-DD strings for comparison
+    pub_dates = sig_df["publication_date"].astype(str).str[:10]
+
+    # Try today first; expand to past 2 days if too few results
+    mask = pub_dates == today_str
+    if mask.sum() < SIG_JSON_MIN_PAPERS:
+        mask = pub_dates.isin([today_str, yesterday_str])
+        print(f"  Fewer than {SIG_JSON_MIN_PAPERS} papers today — expanding to past 2 days "
+              f"({mask.sum()} papers).")
+    else:
+        print(f"  {mask.sum()} paper(s) published today ({today_str}).")
+
+    filtered = sig_df[mask].copy()
+
+    if filtered.empty:
+        print(f"  No papers found for {today_str} or {yesterday_str} — "
+              f"{SIGNIFICANT_PAPERS_JSON_PATH} not written.")
+        return
+
+    # ── Build output rows ─────────────────────────────────────────────────────
+    papers = []
+    for _, row in filtered.iterrows():
+        arxiv_id = str(row.get("id", "")).strip()
+        tier     = str(row.get("Prominence", "Unverified"))
+
+        # Pick best available TLDR: live ss_cache first, then parquet value
+        ss_entry = ss_cache.get(arxiv_id, {})
+        tldr     = (ss_entry.get("tldr") or "").strip()
+        if not tldr:
+            tldr = str(row.get("ss_tldr", "") or "").strip()
+
+        authors = row.get("authors_list", [])
+        if not isinstance(authors, list):
+            authors = []
+
+        cite_count = int(row.get("ss_citation_count", 0) or 0)
+        inf_count  = int(row.get("ss_influential_citations", 0) or 0)
+
+        composite_score = TIER_WEIGHTS.get(tier, 0) + cite_count
+
+        papers.append({
+            "_composite_score":         composite_score,   # internal; stripped before write
+            "id":                       arxiv_id,
+            "title":                    str(row.get("title", "") or "").strip(),
+            "url":                      str(row.get("url", "") or f"https://arxiv.org/pdf/{arxiv_id}"),
+            "authors_list":             authors,
+            "author_count":             int(row.get("author_count", len(authors)) or len(authors)),
+            "ss_tldr":                  tldr,
+            "abstract":                 str(row.get("abstract", "") or "").strip(),
+            "ss_citation_count":        cite_count,
+            "ss_influential_citations": inf_count,
+            "prominence_tier":          tier,
+            "publication_date":         str(row.get("publication_date", today_str) or today_str)[:10],
+        })
+
+    # Sort descending by composite score; strip internal field before writing
+    papers.sort(key=lambda p: p["_composite_score"], reverse=True)
+    for p in papers:
+        del p["_composite_score"]
+
+    with open(SIGNIFICANT_PAPERS_JSON_PATH, "w") as f:
+        json.dump(papers, f, indent=2)
+
+    print(f"  Wrote {len(papers)} papers → {SIGNIFICANT_PAPERS_JSON_PATH}")
+    if papers:
+        top = papers[0]
+        print(f"  Top paper : [{top['prominence_tier']}] {top['title'][:70]}...")
+
+
+# ══════════════════════════════════════════════════════════════════════════════
 # MAIN
 # ══════════════════════════════════════════════════════════════════════════════
 
@@ -320,6 +431,10 @@ if __name__ == "__main__":
         ).dt.strftime("%Y-%m-%dT%H:%M:%SZ")
 
     sig_df.to_parquet(SIGNIFICANT_PATH, index=False)
+
+    # ── Task 3: Write significant_papers.json ─────────────────────────────────
+    print(f"\n▶  Task 3 -- Writing {SIGNIFICANT_PAPERS_JSON_PATH} (LinkedIn extension feed)...")
+    write_significant_papers_json(sig_df, ss_cache)
 
     # ── Summary ───────────────────────────────────────────────────────────────
     print("\n-- Summary --")
