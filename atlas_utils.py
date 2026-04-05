@@ -336,6 +336,168 @@ def fetch_author_hindices(author_names: list, cache: dict) -> list:
     return hindices
 
 
+def fetch_hindices_bulk(
+    papers_authors: dict,   # {paper_idx_or_id: [author_name, ...]}
+    cache: dict,
+) -> dict:                  # {same key: [hindex, ...]}
+    """Batch h-index lookup across ALL papers in one pass.
+
+    Deduplicates author names across all papers, makes ~ceil(unique/50) API
+    calls total (vs one call per paper), then maps results back to each paper.
+
+    Parameters
+    ----------
+    papers_authors : dict mapping any hashable key → list of author name strings
+    cache          : shared in-memory author cache (mutated in-place)
+
+    Returns
+    -------
+    dict mapping same keys → list of int h-indices (0 for unknown/failed)
+    """
+    import difflib
+    import urllib.parse
+    import urllib.request as _req
+
+    _OA_BATCH_SIZE  = 50
+    _OA_MAX_RETRIES = 5
+    _OA_BASE_WAIT   = 60
+    _OA_MAX_WAIT    = 600
+    _OA_BATCH_SLEEP = 0.5
+    _OA_SLOW_SLEEP  = 2.0
+
+    cutoff_ts = (
+        datetime.now(timezone.utc) - timedelta(days=AUTHOR_CACHE_TTL_DAYS)
+    ).isoformat()
+
+    _oa_key = os.environ.get("OPENALEX_API_KEY", "")
+    _oa_qs  = f"&api_key={_oa_key}" if _oa_key else ""
+    _UA = ("ai-research-atlas/2.0 "
+           "(https://github.com/LeeFischman/ai-research-atlas; "
+           "mailto:lee.fischman@gmail.com)")
+
+    # ── Single budget check ───────────────────────────────────────────────────
+    if _oa_key:
+        try:
+            _rl_url = f"https://api.openalex.org/rate-limit?api_key={_oa_key}"
+            _rl_req = _req.Request(_rl_url, headers={"User-Agent": _UA})
+            with _req.urlopen(_rl_req, timeout=10) as _rl_resp:
+                _rl = json.loads(_rl_resp.read().decode()).get("rate_limit", {})
+            print(f"  OpenAlex budget: "
+                  f"${_rl.get('daily_used_usd', '?'):.4f} used / "
+                  f"${_rl.get('daily_budget_usd', '?'):.2f} daily — "
+                  f"${_rl.get('daily_remaining_usd', '?'):.4f} remaining "
+                  f"(resets in {_rl.get('resets_in_seconds', '?')}s)")
+        except Exception as e:
+            print(f"  OpenAlex rate limit check failed: {e}")
+    else:
+        print("  OpenAlex: no API key — using anonymous tier (may be rate limited)")
+
+    # ── Collect all unique author names needing lookup ────────────────────────
+    # name_key → set of paper keys that include this author
+    name_to_papers: dict = {}
+    # paper_key → [(position_in_list, name_key), ...]
+    paper_name_map: dict = {}
+
+    for pkey, names in papers_authors.items():
+        paper_name_map[pkey] = []
+        for pos, raw in enumerate(names):
+            name = raw.strip()
+            key  = name.lower()
+            paper_name_map[pkey].append((pos, key))
+            if not name:
+                continue
+            entry = cache.get(key)
+            if entry and entry.get("fetched_at", "") > cutoff_ts:
+                continue   # already cached and fresh — skip
+            name_to_papers.setdefault(key, {"name": name, "papers": set()})
+            name_to_papers[key]["papers"].add(pkey)
+
+    unique_to_fetch = list(name_to_papers.keys())  # deduplicated author keys
+    n_fetch   = len(unique_to_fetch)
+    n_batches = max(1, (n_fetch + _OA_BATCH_SIZE - 1) // _OA_BATCH_SIZE)
+
+    print(f"  OpenAlex: {n_fetch} unique authors to fetch across "
+          f"{len(papers_authors)} papers "
+          f"({n_batches} batch{'es' if n_batches != 1 else ''} of up to {_OA_BATCH_SIZE})...")
+
+    inter_batch_sleep = _OA_BATCH_SLEEP
+
+    # ── Fetch in batches ──────────────────────────────────────────────────────
+    for batch_start in range(0, n_fetch, _OA_BATCH_SIZE):
+        batch_keys  = unique_to_fetch[batch_start: batch_start + _OA_BATCH_SIZE]
+        batch_names = [name_to_papers[k]["name"] for k in batch_keys]
+
+        names_filter = "|".join(urllib.parse.quote(n) for n in batch_names)
+        url = (f"https://api.openalex.org/authors"
+               f"?filter=display_name.search:{names_filter}"
+               f"&per_page={_OA_BATCH_SIZE}"
+               f"&select=display_name,summary_stats"
+               f"{_oa_qs}")
+        req = _req.Request(url, headers={"User-Agent": _UA})
+
+        results   = []
+        succeeded = False
+        for attempt in range(1, _OA_MAX_RETRIES + 1):
+            try:
+                with _req.urlopen(req, timeout=20) as resp:
+                    data    = json.loads(resp.read().decode())
+                results   = data.get("results", [])
+                succeeded = True
+                time.sleep(inter_batch_sleep)
+                break
+            except urllib.error.HTTPError as e:
+                if e.code == 429:
+                    inter_batch_sleep = _OA_SLOW_SLEEP
+                    wait = min(_OA_BASE_WAIT * (2 ** (attempt - 1)), _OA_MAX_WAIT)
+                    print(f"  OpenAlex 429 on batch "
+                          f"{batch_start // _OA_BATCH_SIZE + 1}/{n_batches} — "
+                          f"backing off {wait}s (attempt {attempt})...")
+                    time.sleep(wait)
+                else:
+                    print(f"  OpenAlex batch failed: {e}")
+                    break
+            except Exception as e:
+                print(f"  OpenAlex batch failed: {e}")
+                break
+
+        if not succeeded:
+            # Cache zeros so we don't retry same authors next run
+            for key in batch_keys:
+                cache[key] = {"hindex": 0,
+                               "fetched_at": datetime.now(timezone.utc).isoformat()}
+            continue
+
+        api_lookup = {}
+        for r in results:
+            dn = (r.get("display_name") or "").strip()
+            if dn:
+                h = (r.get("summary_stats") or {}).get("h_index", 0) or 0
+                api_lookup[dn.lower()] = h
+
+        api_names_lower = list(api_lookup.keys())
+        for key in batch_keys:
+            if key in api_lookup:
+                hindex = api_lookup[key]
+            elif api_names_lower:
+                matches = difflib.get_close_matches(key, api_names_lower, n=1, cutoff=0.6)
+                hindex  = api_lookup[matches[0]] if matches else 0
+            else:
+                hindex = 0
+            cache[key] = {"hindex": hindex,
+                           "fetched_at": datetime.now(timezone.utc).isoformat()}
+
+    # ── Reconstruct per-paper h-index lists from cache ────────────────────────
+    results_out: dict = {}
+    for pkey, names in papers_authors.items():
+        hindices = []
+        for raw in names:
+            key = raw.strip().lower()
+            hindices.append(cache.get(key, {}).get("hindex", 0))
+        results_out[pkey] = hindices
+
+    return results_out
+
+
 def _safe_hindices(row) -> list:
     """Extract author_hindices from a row as a clean list of ints.
 
@@ -1495,9 +1657,17 @@ def build_and_deploy_atlas(
         grid_cols = [
             "title", "ss_tldr", "abstract", "url", "date_added",
             "Prominence", "author_count", "CitationTier", "recency",
+            "secondary_tags",
         ]
         grid_cols = [c for c in grid_cols if c in grid_df.columns]
         grid_out = grid_df[grid_cols].copy()
+
+        # Ensure secondary_tags is a proper list column (not stringified)
+        # so pandas to_json emits it as a JSON array, not a string.
+        if "secondary_tags" in grid_out.columns:
+            grid_out["secondary_tags"] = grid_out["secondary_tags"].apply(
+                lambda v: v if isinstance(v, list) else []
+            )
 
         papers_json_path = os.path.join(docs_dir, "data", "papers.json")
         grid_out.to_json(papers_json_path, orient="records", default_handler=str)
@@ -2228,14 +2398,15 @@ def build_grid_html(run_date: str) -> str:
   }
   #grid-table tr:hover td { background:rgba(255,255,255,0.018); }
 
-  .col-title      { width:20%; min-width:150px; }
-  .col-tldr       { width:17%; min-width:110px; }
-  .col-abstract   { width:18%; min-width:120px; }
+  .col-title      { width:18%; min-width:150px; }
+  .col-tldr       { width:15%; min-width:110px; }
+  .col-abstract   { width:16%; min-width:120px; }
   .col-url        { width:5%;  min-width:56px;  }
-  .col-date       { width:8%;  min-width:82px;  }
-  .col-prominence { width:9%;  min-width:88px;  }
-  .col-count      { width:8%;  min-width:78px;  }
-  .col-citation   { width:11%; min-width:96px;  }
+  .col-date       { width:7%;  min-width:82px;  }
+  .col-prominence { width:8%;  min-width:88px;  }
+  .col-count      { width:7%;  min-width:78px;  }
+  .col-citation   { width:9%;  min-width:96px;  }
+  .col-secondary  { width:11%; min-width:100px; }
 
   .cell-title { color:#f1f5f9; font-weight:600; font-size:12px; text-decoration:none; display:block; line-height:1.4; }
   .cell-title:hover { color:var(--arm-accent); text-decoration:underline; }
@@ -2287,6 +2458,16 @@ def build_grid_html(run_date: str) -> str:
   .badge-cited          { color:#facc15; background:rgba(250,204,21,0.12);  border-color:rgba(250,204,21,0.35); }
   .badge-highly-cited   { color:#f97316; background:rgba(249,115,22,0.12); border-color:rgba(249,115,22,0.35); }
   .badge-vhc            { color:#ef4444; background:rgba(239,68,68,0.12);   border-color:rgba(239,68,68,0.35); }
+
+  /* Secondary topic tags */
+  .badge-secondary-tag {
+    display:inline-block; font-size:10px; font-weight:500;
+    padding:2px 6px; border-radius:4px; border:1px solid;
+    color:#818cf8; background:rgba(129,140,248,0.10);
+    border-color:rgba(129,140,248,0.30); white-space:nowrap;
+    margin:1px 2px 1px 0; cursor:pointer; transition:background 0.15s,border-color 0.15s;
+  }
+  .badge-secondary-tag:hover { background:rgba(129,140,248,0.22); border-color:rgba(129,140,248,0.5); }
 
   /* ── Status bar ────────────────────────────────────────────────────── */
   #grid-status-bar {
@@ -2363,6 +2544,12 @@ def build_grid_html(run_date: str) -> str:
        onclick="armShowFilterOptions('recency','Recency',this)">
       <span class="arm-tile-icon"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="7"/><polyline points="9,5 9,9 12,11"/></svg></span>
       <span class="arm-tile-text"><span class="arm-tile-label">Recency</span><span class="arm-tile-sub">Today \xb7 Yesterday \xb7 Earlier</span></span>
+    </a>
+
+    <a class="arm-tile" href="javascript:void(0)" id="tile-secondary_tags"
+       onclick="armShowFilterOptions('secondary_tags','Also In',this)">
+      <span class="arm-tile-icon"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h12M9 3v12"/><circle cx="9" cy="9" r="7"/></svg></span>
+      <span class="arm-tile-text"><span class="arm-tile-label">Also In</span><span class="arm-tile-sub">Secondary topic tags</span></span>
     </a>
 
   </div>
@@ -2443,6 +2630,8 @@ def build_grid_html(run_date: str) -> str:
           Author Count <span class="sort-arrow" id="sa-author_count"></span></th>
         <th class="col-citation"   onclick="setSort('CitationTier')">
           Citation Impact <span class="sort-arrow" id="sa-CitationTier"></span></th>
+        <th class="col-secondary"  title="Secondary topic tags — click a chip to filter">
+          Also In</th>
       </tr>
     </thead>
     <tbody id="grid-tbody"></tbody>
@@ -2497,6 +2686,14 @@ def build_grid_html(run_date: str) -> str:
       // Fixed Fibonacci "or more" buckets — always shown regardless of data
       isGte = true;
       values = FIB_COUNT.map(String);
+    } else if (col === 'secondary_tags') {
+      // Flatten all tag arrays and collect unique values
+      var tagSeen = Object.create(null);
+      papers.forEach(function (p) {
+        var tags = Array.isArray(p.secondary_tags) ? p.secondary_tags : [];
+        tags.forEach(function (t) { if (t) tagSeen[t] = true; });
+      });
+      values = Object.keys(tagSeen).sort();
     } else {
       // Gather distinct non-empty values from data
       var seen = Object.create(null);
@@ -2610,6 +2807,12 @@ def build_grid_html(run_date: str) -> str:
       if (activeFilter.gte) {
         var threshold = Number(fv);
         rows = rows.filter(function (p) { return (p[fc] || 0) >= threshold; });
+      } else if (fc === 'secondary_tags') {
+        // Array-contains filter: keep papers where the tag appears in secondary_tags
+        rows = rows.filter(function (p) {
+          var tags = Array.isArray(p.secondary_tags) ? p.secondary_tags : [];
+          return tags.indexOf(fv) !== -1;
+        });
       } else {
         rows = rows.filter(function (p) {
           var pv = p[fc];
@@ -2754,6 +2957,26 @@ def build_grid_html(run_date: str) -> str:
       citTd.innerHTML = citationBadge(p.CitationTier);
       tr.appendChild(citTd);
 
+      // Also In — secondary topic tags (clickable chips filter by tag)
+      var secTd = document.createElement('td');
+      var tags = Array.isArray(p.secondary_tags) ? p.secondary_tags : [];
+      if (tags.length === 0) {
+        secTd.textContent = '';
+      } else {
+        tags.forEach(function (tag) {
+          var chip = document.createElement('span');
+          chip.className = 'badge-secondary-tag';
+          chip.textContent = tag;
+          chip.title = 'Filter by: ' + tag;
+          chip.onclick = function (e) {
+            e.stopPropagation();
+            applyFilter('secondary_tags', tag, 'Also In: ' + tag, false);
+          };
+          secTd.appendChild(chip);
+        });
+      }
+      tr.appendChild(secTd);
+
       tbody.appendChild(tr);
     });
 
@@ -2783,6 +3006,7 @@ def build_grid_html(run_date: str) -> str:
     var idx = {
       'title': 0, 'ss_tldr': 1, 'abstract': 2, 'url': 3,
       'date_added': 4, 'Prominence': 5, 'author_count': 6, 'CitationTier': 7
+      // col 8 (Also In / secondary_tags) is not sortable
     }[sortCol];
     if (idx !== undefined) {
       var ths = document.querySelectorAll('#grid-table th');
