@@ -1418,15 +1418,23 @@ def embed_and_project(df: pd.DataFrame, model_name: str = "specter2") -> pd.Data
     n = len(all_vectors)
     print(f"  Projecting {n} papers with UMAP (two-stage, {model_name.upper()})...")
 
+    # Cap n_neighbors to avoid UMAP crash when the dataset is very small
+    # (e.g. weekend runs with only a handful of new papers and a thin DB).
+    # UMAP requires n_neighbors < n; scipy's eigsh requires k < N for sparse mode.
+    n_neighbors = min(15, max(2, n - 1))
+    if n_neighbors < 15:
+        print(f"  WARNING: only {n} papers — reducing n_neighbors to {n_neighbors}.")
+
     # Stage 1: 768D → 50D (for clustering)
-    reducer_50d = umap_lib.UMAP(n_components=50, metric="cosine",
-                                random_state=42, n_neighbors=15)
+    n_components_50d = min(50, n - 1)
+    reducer_50d = umap_lib.UMAP(n_components=n_components_50d, metric="cosine",
+                                random_state=42, n_neighbors=n_neighbors)
     coords_50d = reducer_50d.fit_transform(all_vectors)
     df[col_embed_50d] = [row.tolist() for row in coords_50d]
 
     # Stage 2: 768D → 2D (for display / direction vectors)
     reducer_2d = umap_lib.UMAP(n_components=2, metric="cosine",
-                               random_state=42, n_neighbors=15, min_dist=0.1)
+                               random_state=42, n_neighbors=n_neighbors, min_dist=0.1)
     coords_2d = reducer_2d.fit_transform(all_vectors)
     df[col_proj_x] = coords_2d[:, 0].astype(float)
     df[col_proj_y] = coords_2d[:, 1].astype(float)
