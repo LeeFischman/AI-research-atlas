@@ -5,7 +5,7 @@
 #
 # Discovers and maintains a pool of highly-cited cs.AI papers from the last
 # 15–180 days using the Semantic Scholar search API. Writes significant.parquet,
-# which the daily pipeline (update_map_v2.py) loads and merges at Stage 1.
+# which the daily pipeline (update_map_v3.py) loads and merges at Stage 1.
 #
 # Run schedule: Monday 06:00 UTC (0 6 * * 1) — see weekly_significant.yml.
 # Also triggerable via workflow_dispatch for testing.
