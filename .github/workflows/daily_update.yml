@@ -133,6 +133,12 @@ jobs:
           echo "=== Running main script ==="
           python update_map_v3.py
 
+      - name: Run Daily Significant Papers
+        env:
+          SEMANTIC_SCHOLAR_API_KEY: ${{ secrets.SEMANTIC_SCHOLAR_API_KEY }}
+          OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
+        run: python daily_significant.py
+
       - name: Run nightly assertions
         run: python nightly_assert.py
 
