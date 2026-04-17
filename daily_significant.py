@@ -8,18 +8,22 @@
 # What this does:
 #   1. Loads database.parquet (the live 14-day rolling window of all papers).
 #   2. Filters to papers added yesterday (UTC) by date_added.
-#   3. Retains only papers with Prominence >= Emerging (Elite / Enhanced /
-#      Emerging). Unverified papers are excluded.
-#   4. Sorts by composite score (tier_weight + ss_citation_count) descending.
-#   5. Writes significant_papers.json for the LinkedIn extension.
+#      Falls back to a 2-day window if fewer than SIG_JSON_MIN_PAPERS qualify.
+#   3. Scores every paper by composite score:
+#        max_author_hindex * 1_000
+#        + ss_influential_citations * 100
+#        + ss_citation_count
+#      No hard Prominence filter — ranking is purely signal-based so the feed
+#      works from day one regardless of author-cache enrichment state.
+#   4. Writes the top SIG_JSON_MAX_PAPERS by composite score to
+#      significant_papers.json for the LinkedIn extension.
 #      The file is replaced on every run — it represents yesterday's harvest
 #      only and is not cumulative.
 #
 # Relationship to weekly_significant.yml:
 #   The weekly job maintains significant.parquet (citation-rank pool) for
-#   Atlas display. This script is fully independent of that pool — it sources
-#   directly from database.parquet so the LinkedIn feed always reflects
-#   recent papers, not historically highly-cited ones.
+#   Atlas display. This script is fully independent — it sources directly
+#   from database.parquet so the LinkedIn feed always reflects recent papers.
 #
 # Normal run:
 #   python daily_significant.py
@@ -29,6 +33,7 @@ import json
 import os
 from datetime import datetime, timedelta, timezone
 
+import numpy as np
 import pandas as pd
 
 from atlas_utils import DB_PATH, load_ss_cache
@@ -39,19 +44,39 @@ from atlas_utils import DB_PATH, load_ss_cache
 
 SIGNIFICANT_PAPERS_JSON_PATH = "significant_papers.json"
 
-# Tier weights for composite score (must match LinkedIn extension logic)
-TIER_WEIGHTS = {
-    "Elite":      100_000,
-    "Enhanced":    50_000,
-    "Emerging":    10_000,
-    "Unverified":       0,
-}
-
-# Tiers that qualify as significant
-SIGNIFICANT_TIERS = {"Elite", "Enhanced", "Emerging"}
+# Score weights
+HINDEX_WEIGHT      = 1_000   # max author h-index — primary signal
+INFLUENTIAL_WEIGHT = 100     # influential citation count — strong signal
+CITATION_WEIGHT    = 1       # raw citation count — tiebreaker
 
 # Minimum papers before expanding window to 2 days
 SIG_JSON_MIN_PAPERS = 5
+
+# Maximum papers written to the feed per day
+SIG_JSON_MAX_PAPERS = 20
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# SCORING
+# ══════════════════════════════════════════════════════════════════════════════
+
+def max_hindex(val) -> int:
+    """Extract the maximum h-index from an author_hindices array/list/None."""
+    if val is None:
+        return 0
+    try:
+        arr = np.asarray(val, dtype=float)
+        arr = arr[~np.isnan(arr)]
+        return int(arr.max()) if len(arr) > 0 else 0
+    except Exception:
+        return 0
+
+
+def composite_score(row) -> float:
+    h   = max_hindex(row.get("author_hindices"))
+    inf = int(row.get("ss_influential_citations") or 0)
+    cit = int(row.get("ss_citation_count") or 0)
+    return h * HINDEX_WEIGHT + inf * INFLUENTIAL_WEIGHT + cit * CITATION_WEIGHT
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -78,34 +103,19 @@ def filter_by_date(df: pd.DataFrame, yesterday_str: str, two_days_str: str) -> t
         print(f"  {mask.sum()} paper(s) added on {yesterday_str}.")
         return df[mask].copy(), yesterday_str
 
-    # Expand to 2-day window
     mask = dates.isin([yesterday_str, two_days_str])
     print(f"  Fewer than {SIG_JSON_MIN_PAPERS} papers yesterday — "
           f"expanding to 2-day window ({mask.sum()} papers).")
     return df[mask].copy(), f"{two_days_str}–{yesterday_str}"
 
 
-def filter_significant(df: pd.DataFrame) -> pd.DataFrame:
-    """Retain only papers with Prominence in SIGNIFICANT_TIERS."""
-    if "Prominence" not in df.columns:
-        print("  WARNING: 'Prominence' column missing — cannot filter by tier.")
-        return df
-
-    before = len(df)
-    df = df[df["Prominence"].isin(SIGNIFICANT_TIERS)].copy()
-    print(f"  {len(df)} significant paper(s) after Prominence filter "
-          f"(dropped {before - len(df)} Unverified).")
-    return df
-
-
 def build_json(df: pd.DataFrame, ss_cache: dict) -> list[dict]:
-    """Build the output records sorted by composite score descending."""
+    """Score, sort, cap, and build output records."""
     today_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     papers = []
 
     for _, row in df.iterrows():
         arxiv_id = str(row.get("id", "")).strip()
-        tier     = str(row.get("Prominence", "Unverified"))
 
         # Best available TLDR: live ss_cache first, then parquet column
         ss_entry = ss_cache.get(arxiv_id, {})
@@ -119,10 +129,11 @@ def build_json(df: pd.DataFrame, ss_cache: dict) -> list[dict]:
 
         cite_count = int(row.get("ss_citation_count", 0) or 0)
         inf_count  = int(row.get("ss_influential_citations", 0) or 0)
-        composite  = TIER_WEIGHTS.get(tier, 0) + cite_count
+        h_max      = max_hindex(row.get("author_hindices"))
+        score      = h_max * HINDEX_WEIGHT + inf_count * INFLUENTIAL_WEIGHT + cite_count * CITATION_WEIGHT
 
         papers.append({
-            "_composite_score":         composite,
+            "_score":                   score,
             "id":                       arxiv_id,
             "title":                    str(row.get("title", "") or "").strip(),
             "url":                      str(row.get("url", "") or f"https://arxiv.org/pdf/{arxiv_id}"),
@@ -132,13 +143,17 @@ def build_json(df: pd.DataFrame, ss_cache: dict) -> list[dict]:
             "abstract":                 str(row.get("abstract", "") or "").strip(),
             "ss_citation_count":        cite_count,
             "ss_influential_citations": inf_count,
-            "prominence_tier":          tier,
+            "prominence_tier":          str(row.get("Prominence", "Unverified")),
             "publication_date":         str(row.get("publication_date", today_str) or today_str)[:10],
         })
 
-    papers.sort(key=lambda p: p["_composite_score"], reverse=True)
+    # Sort descending by composite score, cap at SIG_JSON_MAX_PAPERS
+    papers.sort(key=lambda p: p["_score"], reverse=True)
+    papers = papers[:SIG_JSON_MAX_PAPERS]
+
+    # Strip internal field before writing
     for p in papers:
-        del p["_composite_score"]
+        del p["_score"]
 
     return papers
 
@@ -156,16 +171,19 @@ if __name__ == "__main__":
     print("=" * 60)
     print("  AI Research Atlas — Daily Significant Papers Feed")
     print(f"  {run_date} UTC")
-    print(f"  Sourcing from: {DB_PATH}")
-    print(f"  Target date  : {yesterday_str}")
-    print(f"  Threshold    : Prominence >= Emerging")
+    print(f"  Sourcing from : {DB_PATH}")
+    print(f"  Target date   : {yesterday_str}")
+    print(f"  Scoring       : max_hindex × {HINDEX_WEIGHT:,}"
+          f" + influential × {INFLUENTIAL_WEIGHT}"
+          f" + citations × {CITATION_WEIGHT}")
+    print(f"  Output cap    : top {SIG_JSON_MAX_PAPERS} papers")
     print("=" * 60)
 
-    # ── Load data ─────────────────────────────────────────────────────────────
+    # ── Load ──────────────────────────────────────────────────────────────────
     db = load_database()
     ss_cache = load_ss_cache()
 
-    # ── Filter to yesterday's papers ──────────────────────────────────────────
+    # ── Filter to yesterday ───────────────────────────────────────────────────
     filtered, window_label = filter_by_date(db, yesterday_str, two_days_str)
 
     if filtered.empty:
@@ -173,29 +191,31 @@ if __name__ == "__main__":
               f"{SIGNIFICANT_PAPERS_JSON_PATH} not written.")
         raise SystemExit(0)
 
-    # ── Apply significance threshold ──────────────────────────────────────────
-    significant = filter_significant(filtered)
+    print(f"\n  {len(filtered)} paper(s) in window '{window_label}'.")
 
-    if significant.empty:
-        print(f"\n  No significant papers (Prominence >= Emerging) found for "
-              f"{window_label} — {SIGNIFICANT_PAPERS_JSON_PATH} not written.")
+    # ── Score and build ───────────────────────────────────────────────────────
+    papers = build_json(filtered, ss_cache)
+
+    if not papers:
+        print(f"  No papers to write — {SIGNIFICANT_PAPERS_JSON_PATH} not written.")
         raise SystemExit(0)
 
-    # ── Build and write JSON ──────────────────────────────────────────────────
-    papers = build_json(significant, ss_cache)
-
+    # ── Write ─────────────────────────────────────────────────────────────────
     with open(SIGNIFICANT_PAPERS_JSON_PATH, "w") as f:
         json.dump(papers, f, indent=2)
 
     print(f"\n  Wrote {len(papers)} paper(s) → {SIGNIFICANT_PAPERS_JSON_PATH}")
-    if papers:
-        top = papers[0]
-        print(f"  Top paper : [{top['prominence_tier']}] {top['title'][:70]}")
 
-    print("\n  Tier breakdown:")
-    for tier in ["Elite", "Enhanced", "Emerging"]:
-        count = sum(1 for p in papers if p["prominence_tier"] == tier)
-        if count:
-            print(f"    {tier}: {count}")
+    # ── Summary ───────────────────────────────────────────────────────────────
+    top = papers[0]
+    print(f"  Top paper     : {top['title'][:70]}")
+    print(f"  Prominence    : {top['prominence_tier']}")
+    print(f"  Citations     : {top['ss_citation_count']} "
+          f"({top['ss_influential_citations']} influential)")
+
+    tiers = {}
+    for p in papers:
+        tiers[p["prominence_tier"]] = tiers.get(p["prominence_tier"], 0) + 1
+    print(f"  Tier breakdown: " + ", ".join(f"{t}: {n}" for t, n in sorted(tiers.items())))
 
     print("\n✓  daily_significant.py complete.")
