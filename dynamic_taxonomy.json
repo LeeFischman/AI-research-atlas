@@ -1,5 +1,5 @@
 {
-  "next_id": 30,
+  "next_id": 38,
   "groups": {
     "16": {
       "name": "Intrinsic Motivation & Curiosity",
@@ -17,10 +17,12 @@
       "created": "2026-04-18",
       "last_seen": "2026-04-18",
       "confidence_history": [
-        0.8
+        0.8,
+        1.0
       ],
       "paper_count_history": [
-        5
+        5,
+        8
       ]
     },
     "17": {
@@ -28,10 +30,12 @@
       "created": "2026-04-18",
       "last_seen": "2026-04-18",
       "confidence_history": [
+        1.0,
         1.0
       ],
       "paper_count_history": [
-        1
+        1,
+        5
       ]
     },
     "18": {
@@ -39,10 +43,12 @@
       "created": "2026-04-18",
       "last_seen": "2026-04-18",
       "confidence_history": [
+        1.0,
         1.0
       ],
       "paper_count_history": [
-        2
+        2,
+        4
       ]
     },
     "26": {
@@ -50,9 +56,11 @@
       "created": "2026-04-18",
       "last_seen": "2026-04-18",
       "confidence_history": [
+        1.0,
         1.0
       ],
       "paper_count_history": [
+        6,
         6
       ]
     },
@@ -61,14 +69,133 @@
       "created": "2026-04-18",
       "last_seen": "2026-04-18",
       "confidence_history": [
+        1.0,
         1.0
       ],
       "paper_count_history": [
-        6
+        6,
+        3
       ]
     },
     "20": {
       "name": "Multi-Agent Coordination & Communication",
+      "created": "2026-04-18",
+      "last_seen": "2026-04-18",
+      "confidence_history": [
+        1.0,
+        1.0
+      ],
+      "paper_count_history": [
+        3,
+        5
+      ]
+    },
+    "21": {
+      "name": "Memory & Knowledge Management",
+      "created": "2026-04-18",
+      "last_seen": "2026-04-18",
+      "confidence_history": [
+        1.0,
+        1.0
+      ],
+      "paper_count_history": [
+        4,
+        2
+      ]
+    },
+    "14": {
+      "name": "LLM-Based Agents & Tool Use",
+      "created": "2026-04-18",
+      "last_seen": "2026-04-18",
+      "confidence_history": [
+        1.0,
+        1.0
+      ],
+      "paper_count_history": [
+        8,
+        7
+      ]
+    },
+    "23": {
+      "name": "Model Evaluation & Robustness",
+      "created": "2026-04-18",
+      "last_seen": "2026-04-18",
+      "confidence_history": [
+        1.0,
+        1.0
+      ],
+      "paper_count_history": [
+        5,
+        4
+      ]
+    },
+    "22": {
+      "name": "Prompt Engineering & In-Context Learning",
+      "created": "2026-04-18",
+      "last_seen": "2026-04-18",
+      "confidence_history": [
+        1.0,
+        1.0
+      ],
+      "paper_count_history": [
+        2,
+        3
+      ]
+    },
+    "25": {
+      "name": "Healthcare & Clinical AI",
+      "created": "2026-04-18",
+      "last_seen": "2026-04-18",
+      "confidence_history": [
+        1.0,
+        1.0
+      ],
+      "paper_count_history": [
+        9,
+        3
+      ]
+    },
+    "27": {
+      "name": "Continual Learning & Adaptation",
+      "created": "2026-04-18",
+      "last_seen": "2026-04-18",
+      "confidence_history": [
+        1.0,
+        1.0
+      ],
+      "paper_count_history": [
+        2,
+        2
+      ]
+    },
+    "15": {
+      "name": "Retrieval-Augmented Generation",
+      "created": "2026-04-18",
+      "last_seen": "2026-04-18",
+      "confidence_history": [
+        1.0,
+        1.0
+      ],
+      "paper_count_history": [
+        4,
+        5
+      ]
+    },
+    "29": {
+      "name": "Student Modeling & Educational AI",
+      "created": "2026-04-18",
+      "last_seen": "2026-04-18",
+      "confidence_history": [
+        1.0,
+        1.0
+      ],
+      "paper_count_history": [
+        2,
+        2
+      ]
+    },
+    "31": {
+      "name": "Reward Shaping & Learning from Rewards",
       "created": "2026-04-18",
       "last_seen": "2026-04-18",
       "confidence_history": [
@@ -78,8 +205,19 @@
         3
       ]
     },
-    "21": {
-      "name": "Memory & Knowledge Management",
+    "33": {
+      "name": "LLM Watermarking & Security",
+      "created": "2026-04-18",
+      "last_seen": "2026-04-18",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "30": {
+      "name": "Agent Reasoning & Verification",
       "created": "2026-04-18",
       "last_seen": "2026-04-18",
       "confidence_history": [
@@ -89,30 +227,41 @@
         4
       ]
     },
-    "14": {
-      "name": "LLM-Based Agents & Tool Use",
+    "36": {
+      "name": "Quantum Machine Learning",
       "created": "2026-04-18",
       "last_seen": "2026-04-18",
       "confidence_history": [
         1.0
       ],
       "paper_count_history": [
-        8
+        1
       ]
     },
-    "23": {
-      "name": "Model Evaluation & Robustness",
+    "34": {
+      "name": "Vision-Language Agent Systems",
       "created": "2026-04-18",
       "last_seen": "2026-04-18",
       "confidence_history": [
         1.0
       ],
       "paper_count_history": [
-        5
+        1
       ]
     },
-    "22": {
-      "name": "Prompt Engineering & In-Context Learning",
+    "32": {
+      "name": "Agent Simulation & Emergence",
+      "created": "2026-04-18",
+      "last_seen": "2026-04-18",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        3
+      ]
+    },
+    "37": {
+      "name": "Task Planning & Workflow Optimization",
       "created": "2026-04-18",
       "last_seen": "2026-04-18",
       "confidence_history": [
@@ -122,48 +271,15 @@
         2
       ]
     },
-    "25": {
-      "name": "Healthcare & Clinical AI",
+    "35": {
+      "name": "Hardware Design & Synthesis",
       "created": "2026-04-18",
       "last_seen": "2026-04-18",
       "confidence_history": [
         1.0
       ],
       "paper_count_history": [
-        9
-      ]
-    },
-    "27": {
-      "name": "Continual Learning & Adaptation",
-      "created": "2026-04-18",
-      "last_seen": "2026-04-18",
-      "confidence_history": [
-        1.0
-      ],
-      "paper_count_history": [
-        2
-      ]
-    },
-    "15": {
-      "name": "Retrieval-Augmented Generation",
-      "created": "2026-04-18",
-      "last_seen": "2026-04-18",
-      "confidence_history": [
-        1.0
-      ],
-      "paper_count_history": [
-        4
-      ]
-    },
-    "29": {
-      "name": "Student Modeling & Educational AI",
-      "created": "2026-04-18",
-      "last_seen": "2026-04-18",
-      "confidence_history": [
-        1.0
-      ],
-      "paper_count_history": [
-        2
+        1
       ]
     }
   }

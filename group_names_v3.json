@@ -15,7 +15,6 @@
   "13": "Planning & Search",
   "14": "LLM-Based Agents & Tool Use",
   "15": "Retrieval-Augmented Generation",
-  "16": "Intrinsic Motivation & Curiosity",
   "17": "Chain-of-Thought Reasoning",
   "18": "Knowledge Representation & Reasoning",
   "19": "Interpretability & Mechanistic Understanding",
@@ -27,5 +26,13 @@
   "25": "Healthcare & Clinical AI",
   "26": "Inference Optimization & Acceleration",
   "27": "Continual Learning & Adaptation",
-  "29": "Student Modeling & Educational AI"
+  "29": "Student Modeling & Educational AI",
+  "30": "Agent Reasoning & Verification",
+  "31": "Reward Shaping & Learning from Rewards",
+  "32": "Agent Simulation & Emergence",
+  "33": "LLM Watermarking & Security",
+  "34": "Vision-Language Agent Systems",
+  "35": "Hardware Design & Synthesis",
+  "36": "Quantum Machine Learning",
+  "37": "Task Planning & Workflow Optimization"
 }
