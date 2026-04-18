@@ -1,0 +1,170 @@
+{
+  "next_id": 30,
+  "groups": {
+    "16": {
+      "name": "Intrinsic Motivation & Curiosity",
+      "created": "2026-04-18",
+      "last_seen": "2026-04-18",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "19": {
+      "name": "Interpretability & Mechanistic Understanding",
+      "created": "2026-04-18",
+      "last_seen": "2026-04-18",
+      "confidence_history": [
+        0.8
+      ],
+      "paper_count_history": [
+        5
+      ]
+    },
+    "17": {
+      "name": "Chain-of-Thought Reasoning",
+      "created": "2026-04-18",
+      "last_seen": "2026-04-18",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "18": {
+      "name": "Knowledge Representation & Reasoning",
+      "created": "2026-04-18",
+      "last_seen": "2026-04-18",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        2
+      ]
+    },
+    "26": {
+      "name": "Inference Optimization & Acceleration",
+      "created": "2026-04-18",
+      "last_seen": "2026-04-18",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        6
+      ]
+    },
+    "24": {
+      "name": "Code Generation & Synthesis",
+      "created": "2026-04-18",
+      "last_seen": "2026-04-18",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        6
+      ]
+    },
+    "20": {
+      "name": "Multi-Agent Coordination & Communication",
+      "created": "2026-04-18",
+      "last_seen": "2026-04-18",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        3
+      ]
+    },
+    "21": {
+      "name": "Memory & Knowledge Management",
+      "created": "2026-04-18",
+      "last_seen": "2026-04-18",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        4
+      ]
+    },
+    "14": {
+      "name": "LLM-Based Agents & Tool Use",
+      "created": "2026-04-18",
+      "last_seen": "2026-04-18",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        8
+      ]
+    },
+    "23": {
+      "name": "Model Evaluation & Robustness",
+      "created": "2026-04-18",
+      "last_seen": "2026-04-18",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        5
+      ]
+    },
+    "22": {
+      "name": "Prompt Engineering & In-Context Learning",
+      "created": "2026-04-18",
+      "last_seen": "2026-04-18",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        2
+      ]
+    },
+    "25": {
+      "name": "Healthcare & Clinical AI",
+      "created": "2026-04-18",
+      "last_seen": "2026-04-18",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        9
+      ]
+    },
+    "27": {
+      "name": "Continual Learning & Adaptation",
+      "created": "2026-04-18",
+      "last_seen": "2026-04-18",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        2
+      ]
+    },
+    "15": {
+      "name": "Retrieval-Augmented Generation",
+      "created": "2026-04-18",
+      "last_seen": "2026-04-18",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        4
+      ]
+    },
+    "29": {
+      "name": "Student Modeling & Educational AI",
+      "created": "2026-04-18",
+      "last_seen": "2026-04-18",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        2
+      ]
+    }
+  }
+}
