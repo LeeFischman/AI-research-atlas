@@ -91,22 +91,37 @@ def load_database() -> pd.DataFrame:
     return df
 
 
-def filter_by_date(df: pd.DataFrame, yesterday_str: str, two_days_str: str) -> tuple[pd.DataFrame, str]:
-    """Filter df to yesterday's papers; expand to 2-day window if too few."""
+def filter_by_date(df: pd.DataFrame, today_str: str, yesterday_str: str, two_days_str: str) -> tuple[pd.DataFrame, str]:
+    """Filter df to yesterday's papers; expand window progressively if too few.
+
+    Order of preference:
+      1. Yesterday only (normal steady-state case)
+      2. Yesterday + today (catches manual runs or bootstrapping days)
+      3. Yesterday + today + 2 days ago (wide fallback for weekends / gaps)
+    """
     if "date_added" not in df.columns:
         raise ValueError("database.parquet is missing 'date_added' column.")
 
     dates = df["date_added"].astype(str).str[:10]
 
+    # Try yesterday first
     mask = dates == yesterday_str
     if mask.sum() >= SIG_JSON_MIN_PAPERS:
         print(f"  {mask.sum()} paper(s) added on {yesterday_str}.")
         return df[mask].copy(), yesterday_str
 
-    mask = dates.isin([yesterday_str, two_days_str])
-    print(f"  Fewer than {SIG_JSON_MIN_PAPERS} papers yesterday — "
-          f"expanding to 2-day window ({mask.sum()} papers).")
-    return df[mask].copy(), f"{two_days_str}–{yesterday_str}"
+    # Expand to include today (handles bootstrapping / manual runs)
+    mask = dates.isin([yesterday_str, today_str])
+    if mask.sum() >= SIG_JSON_MIN_PAPERS:
+        print(f"  Fewer than {SIG_JSON_MIN_PAPERS} papers yesterday — "
+              f"expanding to include today ({mask.sum()} papers).")
+        return df[mask].copy(), f"{yesterday_str}–{today_str}"
+
+    # Widen to 3-day window
+    mask = dates.isin([two_days_str, yesterday_str, today_str])
+    print(f"  Fewer than {SIG_JSON_MIN_PAPERS} papers in 2-day window — "
+          f"expanding to 3 days ({mask.sum()} papers).")
+    return df[mask].copy(), f"{two_days_str}–{today_str}"
 
 
 def build_json(df: pd.DataFrame, ss_cache: dict) -> list[dict]:
@@ -183,8 +198,11 @@ if __name__ == "__main__":
     db = load_database()
     ss_cache = load_ss_cache()
 
-    # ── Filter to yesterday ───────────────────────────────────────────────────
-    filtered, window_label = filter_by_date(db, yesterday_str, two_days_str)
+    # ── Filter to yesterday (with progressive fallback) ───────────────────────
+    today_str_filter = now.strftime("%Y-%m-%d")
+    filtered, window_label = filter_by_date(db, today_str_filter, yesterday_str, two_days_str)
+
+
 
     if filtered.empty:
         print(f"\n  No papers found for {window_label} — "
