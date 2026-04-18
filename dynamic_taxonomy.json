@@ -1,5 +1,5 @@
 {
-  "next_id": 38,
+  "next_id": 49,
   "groups": {
     "16": {
       "name": "Intrinsic Motivation & Curiosity",
@@ -18,11 +18,13 @@
       "last_seen": "2026-04-18",
       "confidence_history": [
         0.8,
+        1.0,
         1.0
       ],
       "paper_count_history": [
         5,
-        8
+        8,
+        2
       ]
     },
     "17": {
@@ -31,11 +33,13 @@
       "last_seen": "2026-04-18",
       "confidence_history": [
         1.0,
+        1.0,
         1.0
       ],
       "paper_count_history": [
         1,
-        5
+        5,
+        2
       ]
     },
     "18": {
@@ -44,10 +48,12 @@
       "last_seen": "2026-04-18",
       "confidence_history": [
         1.0,
-        1.0
+        1.0,
+        0.75
       ],
       "paper_count_history": [
         2,
+        4,
         4
       ]
     },
@@ -57,11 +63,13 @@
       "last_seen": "2026-04-18",
       "confidence_history": [
         1.0,
+        1.0,
         1.0
       ],
       "paper_count_history": [
         6,
-        6
+        6,
+        4
       ]
     },
     "24": {
@@ -70,10 +78,12 @@
       "last_seen": "2026-04-18",
       "confidence_history": [
         1.0,
-        1.0
+        1.0,
+        0.667
       ],
       "paper_count_history": [
         6,
+        3,
         3
       ]
     },
@@ -83,11 +93,13 @@
       "last_seen": "2026-04-18",
       "confidence_history": [
         1.0,
+        1.0,
         1.0
       ],
       "paper_count_history": [
         3,
-        5
+        5,
+        3
       ]
     },
     "21": {
@@ -96,11 +108,13 @@
       "last_seen": "2026-04-18",
       "confidence_history": [
         1.0,
+        1.0,
         1.0
       ],
       "paper_count_history": [
         4,
-        2
+        2,
+        3
       ]
     },
     "14": {
@@ -109,11 +123,13 @@
       "last_seen": "2026-04-18",
       "confidence_history": [
         1.0,
+        1.0,
         1.0
       ],
       "paper_count_history": [
         8,
-        7
+        7,
+        4
       ]
     },
     "23": {
@@ -122,11 +138,13 @@
       "last_seen": "2026-04-18",
       "confidence_history": [
         1.0,
+        1.0,
         1.0
       ],
       "paper_count_history": [
         5,
-        4
+        4,
+        6
       ]
     },
     "22": {
@@ -135,11 +153,13 @@
       "last_seen": "2026-04-18",
       "confidence_history": [
         1.0,
+        1.0,
         1.0
       ],
       "paper_count_history": [
         2,
-        3
+        3,
+        2
       ]
     },
     "25": {
@@ -148,11 +168,13 @@
       "last_seen": "2026-04-18",
       "confidence_history": [
         1.0,
+        1.0,
         1.0
       ],
       "paper_count_history": [
         9,
-        3
+        3,
+        2
       ]
     },
     "27": {
@@ -161,9 +183,11 @@
       "last_seen": "2026-04-18",
       "confidence_history": [
         1.0,
+        1.0,
         1.0
       ],
       "paper_count_history": [
+        2,
         2,
         2
       ]
@@ -174,11 +198,13 @@
       "last_seen": "2026-04-18",
       "confidence_history": [
         1.0,
+        1.0,
         1.0
       ],
       "paper_count_history": [
         4,
-        5
+        5,
+        4
       ]
     },
     "29": {
@@ -187,9 +213,11 @@
       "last_seen": "2026-04-18",
       "confidence_history": [
         1.0,
+        1.0,
         1.0
       ],
       "paper_count_history": [
+        2,
         2,
         2
       ]
@@ -199,9 +227,11 @@
       "created": "2026-04-18",
       "last_seen": "2026-04-18",
       "confidence_history": [
+        1.0,
         1.0
       ],
       "paper_count_history": [
+        3,
         3
       ]
     },
@@ -221,10 +251,12 @@
       "created": "2026-04-18",
       "last_seen": "2026-04-18",
       "confidence_history": [
+        1.0,
         1.0
       ],
       "paper_count_history": [
-        4
+        4,
+        2
       ]
     },
     "36": {
@@ -243,14 +275,55 @@
       "created": "2026-04-18",
       "last_seen": "2026-04-18",
       "confidence_history": [
+        1.0,
         1.0
       ],
       "paper_count_history": [
-        1
+        1,
+        2
       ]
     },
     "32": {
       "name": "Agent Simulation & Emergence",
+      "created": "2026-04-18",
+      "last_seen": "2026-04-18",
+      "confidence_history": [
+        1.0,
+        1.0
+      ],
+      "paper_count_history": [
+        3,
+        3
+      ]
+    },
+    "37": {
+      "name": "Task Planning & Workflow Optimization",
+      "created": "2026-04-18",
+      "last_seen": "2026-04-18",
+      "confidence_history": [
+        1.0,
+        1.0
+      ],
+      "paper_count_history": [
+        2,
+        2
+      ]
+    },
+    "35": {
+      "name": "Hardware Design & Synthesis",
+      "created": "2026-04-18",
+      "last_seen": "2026-04-18",
+      "confidence_history": [
+        1.0,
+        1.0
+      ],
+      "paper_count_history": [
+        1,
+        1
+      ]
+    },
+    "41": {
+      "name": "Domain-Specific LLM Applications",
       "created": "2026-04-18",
       "last_seen": "2026-04-18",
       "confidence_history": [
@@ -260,8 +333,41 @@
         3
       ]
     },
-    "37": {
-      "name": "Task Planning & Workflow Optimization",
+    "43": {
+      "name": "Rare Disease & Clinical Education",
+      "created": "2026-04-18",
+      "last_seen": "2026-04-18",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "45": {
+      "name": "Sparse Expert Model Design",
+      "created": "2026-04-18",
+      "last_seen": "2026-04-18",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        3
+      ]
+    },
+    "42": {
+      "name": "Multimodal Model Diagnostics",
+      "created": "2026-04-18",
+      "last_seen": "2026-04-18",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "44": {
+      "name": "Physics-Informed Neural Networks",
       "created": "2026-04-18",
       "last_seen": "2026-04-18",
       "confidence_history": [
@@ -271,8 +377,52 @@
         2
       ]
     },
-    "35": {
-      "name": "Hardware Design & Synthesis",
+    "40": {
+      "name": "Data Synthesis & Augmentation",
+      "created": "2026-04-18",
+      "last_seen": "2026-04-18",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        2
+      ]
+    },
+    "38": {
+      "name": "AI Governance & Policy Formalization",
+      "created": "2026-04-18",
+      "last_seen": "2026-04-18",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "48": {
+      "name": "Federated Learning & Privacy",
+      "created": "2026-04-18",
+      "last_seen": "2026-04-18",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "39": {
+      "name": "Compositional Reasoning & Abstraction",
+      "created": "2026-04-18",
+      "last_seen": "2026-04-18",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "46": {
+      "name": "Uncertainty Quantification & Calibration",
       "created": "2026-04-18",
       "last_seen": "2026-04-18",
       "confidence_history": [
