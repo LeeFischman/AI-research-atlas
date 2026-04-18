@@ -133,6 +133,12 @@ jobs:
           echo "=== Running main script ==="
           python update_map_v3.py
 
+      - name: Run Daily Significant Papers
+        env:
+          SEMANTIC_SCHOLAR_API_KEY: ${{ secrets.SEMANTIC_SCHOLAR_API_KEY }}
+          OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
+        run: python daily_significant.py
+
       - name: Run nightly assertions
         run: python nightly_assert.py
 
@@ -155,7 +161,7 @@ jobs:
             echo "No changes to commit"
           else
             git commit -m "Update rolling database: $(date -u +'%Y-%m-%d')"
-            git pull --rebase --autostash origin main
+            git pull --no-rebase --autostash origin main
             git push
           fi
 
