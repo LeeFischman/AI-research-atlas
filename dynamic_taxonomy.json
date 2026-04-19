@@ -1,5 +1,5 @@
 {
-  "next_id": 55,
+  "next_id": 109,
   "groups": {
     "16": {
       "name": "Intrinsic Motivation & Curiosity",
@@ -15,9 +15,10 @@
     "19": {
       "name": "Interpretability & Mechanistic Understanding",
       "created": "2026-04-18",
-      "last_seen": "2026-04-18",
+      "last_seen": "2026-04-19",
       "confidence_history": [
         0.8,
+        1.0,
         1.0,
         1.0,
         1.0
@@ -26,14 +27,16 @@
         5,
         8,
         2,
-        5
+        5,
+        3
       ]
     },
     "17": {
       "name": "Chain-of-Thought Reasoning",
       "created": "2026-04-18",
-      "last_seen": "2026-04-18",
+      "last_seen": "2026-04-19",
       "confidence_history": [
+        1.0,
         1.0,
         1.0,
         1.0,
@@ -42,6 +45,7 @@
       "paper_count_history": [
         1,
         5,
+        2,
         2,
         2
       ]
@@ -66,8 +70,9 @@
     "26": {
       "name": "Inference Optimization & Acceleration",
       "created": "2026-04-18",
-      "last_seen": "2026-04-18",
+      "last_seen": "2026-04-19",
       "confidence_history": [
+        1.0,
         1.0,
         1.0,
         1.0,
@@ -77,7 +82,8 @@
         6,
         6,
         4,
-        3
+        3,
+        2
       ]
     },
     "24": {
@@ -100,8 +106,9 @@
     "20": {
       "name": "Multi-Agent Coordination & Communication",
       "created": "2026-04-18",
-      "last_seen": "2026-04-18",
+      "last_seen": "2026-04-19",
       "confidence_history": [
+        1.0,
         1.0,
         1.0,
         1.0,
@@ -111,14 +118,16 @@
         3,
         5,
         3,
+        1,
         1
       ]
     },
     "21": {
       "name": "Memory & Knowledge Management",
       "created": "2026-04-18",
-      "last_seen": "2026-04-18",
+      "last_seen": "2026-04-19",
       "confidence_history": [
+        1.0,
         1.0,
         1.0,
         1.0,
@@ -128,14 +137,16 @@
         4,
         2,
         3,
-        4
+        4,
+        2
       ]
     },
     "14": {
       "name": "LLM-Based Agents & Tool Use",
       "created": "2026-04-18",
-      "last_seen": "2026-04-18",
+      "last_seen": "2026-04-19",
       "confidence_history": [
+        1.0,
         1.0,
         1.0,
         1.0,
@@ -145,14 +156,16 @@
         8,
         7,
         4,
-        6
+        6,
+        4
       ]
     },
     "23": {
       "name": "Model Evaluation & Robustness",
       "created": "2026-04-18",
-      "last_seen": "2026-04-18",
+      "last_seen": "2026-04-19",
       "confidence_history": [
+        1.0,
         1.0,
         1.0,
         1.0,
@@ -162,14 +175,16 @@
         5,
         4,
         6,
-        4
+        4,
+        2
       ]
     },
     "22": {
       "name": "Prompt Engineering & In-Context Learning",
       "created": "2026-04-18",
-      "last_seen": "2026-04-18",
+      "last_seen": "2026-04-19",
       "confidence_history": [
+        1.0,
         1.0,
         1.0,
         1.0
@@ -177,14 +192,16 @@
       "paper_count_history": [
         2,
         3,
-        2
+        2,
+        1
       ]
     },
     "25": {
       "name": "Healthcare & Clinical AI",
       "created": "2026-04-18",
-      "last_seen": "2026-04-18",
+      "last_seen": "2026-04-19",
       "confidence_history": [
+        1.0,
         1.0,
         1.0,
         1.0,
@@ -194,7 +211,8 @@
         9,
         3,
         2,
-        6
+        6,
+        4
       ]
     },
     "27": {
@@ -217,8 +235,9 @@
     "15": {
       "name": "Retrieval-Augmented Generation",
       "created": "2026-04-18",
-      "last_seen": "2026-04-18",
+      "last_seen": "2026-04-19",
       "confidence_history": [
+        1.0,
         1.0,
         1.0,
         1.0,
@@ -228,14 +247,16 @@
         4,
         5,
         4,
-        5
+        5,
+        1
       ]
     },
     "29": {
       "name": "Student Modeling & Educational AI",
       "created": "2026-04-18",
-      "last_seen": "2026-04-18",
+      "last_seen": "2026-04-19",
       "confidence_history": [
+        1.0,
         1.0,
         1.0,
         1.0,
@@ -245,14 +266,16 @@
         2,
         2,
         2,
-        1
+        1,
+        2
       ]
     },
     "31": {
       "name": "Reward Shaping & Learning from Rewards",
       "created": "2026-04-18",
-      "last_seen": "2026-04-18",
+      "last_seen": "2026-04-19",
       "confidence_history": [
+        1.0,
         1.0,
         1.0,
         1.0
@@ -260,7 +283,8 @@
       "paper_count_history": [
         3,
         3,
-        2
+        2,
+        1
       ]
     },
     "33": {
@@ -279,8 +303,9 @@
     "30": {
       "name": "Agent Reasoning & Verification",
       "created": "2026-04-18",
-      "last_seen": "2026-04-18",
+      "last_seen": "2026-04-19",
       "confidence_history": [
+        1.0,
         1.0,
         1.0,
         1.0
@@ -288,17 +313,20 @@
       "paper_count_history": [
         4,
         2,
-        3
+        3,
+        2
       ]
     },
     "36": {
       "name": "Quantum Machine Learning",
       "created": "2026-04-18",
-      "last_seen": "2026-04-18",
+      "last_seen": "2026-04-19",
       "confidence_history": [
+        1.0,
         1.0
       ],
       "paper_count_history": [
+        1,
         1
       ]
     },
@@ -320,8 +348,9 @@
     "32": {
       "name": "Agent Simulation & Emergence",
       "created": "2026-04-18",
-      "last_seen": "2026-04-18",
+      "last_seen": "2026-04-19",
       "confidence_history": [
+        1.0,
         1.0,
         1.0,
         1.0
@@ -329,14 +358,16 @@
       "paper_count_history": [
         3,
         3,
-        2
+        2,
+        1
       ]
     },
     "37": {
       "name": "Task Planning & Workflow Optimization",
       "created": "2026-04-18",
-      "last_seen": "2026-04-18",
+      "last_seen": "2026-04-19",
       "confidence_history": [
+        1.0,
         1.0,
         1.0,
         1.0
@@ -344,7 +375,8 @@
       "paper_count_history": [
         2,
         2,
-        2
+        2,
+        1
       ]
     },
     "35": {
@@ -365,12 +397,14 @@
     "41": {
       "name": "Domain-Specific LLM Applications",
       "created": "2026-04-18",
-      "last_seen": "2026-04-18",
+      "last_seen": "2026-04-19",
       "confidence_history": [
+        1.0,
         1.0
       ],
       "paper_count_history": [
-        3
+        3,
+        2
       ]
     },
     "43": {
@@ -402,14 +436,16 @@
     "42": {
       "name": "Multimodal Model Diagnostics",
       "created": "2026-04-18",
-      "last_seen": "2026-04-18",
+      "last_seen": "2026-04-19",
       "confidence_history": [
+        1.0,
         1.0,
         1.0
       ],
       "paper_count_history": [
         1,
-        2
+        2,
+        3
       ]
     },
     "44": {
@@ -428,14 +464,16 @@
     "40": {
       "name": "Data Synthesis & Augmentation",
       "created": "2026-04-18",
-      "last_seen": "2026-04-18",
+      "last_seen": "2026-04-19",
       "confidence_history": [
+        1.0,
         1.0,
         1.0
       ],
       "paper_count_history": [
         2,
-        2
+        2,
+        1
       ]
     },
     "38": {
@@ -478,14 +516,16 @@
     "46": {
       "name": "Uncertainty Quantification & Calibration",
       "created": "2026-04-18",
-      "last_seen": "2026-04-18",
+      "last_seen": "2026-04-19",
       "confidence_history": [
+        1.0,
         1.0,
         1.0
       ],
       "paper_count_history": [
         1,
-        1
+        1,
+        2
       ]
     },
     "52": {
@@ -552,6 +592,556 @@
       ],
       "paper_count_history": [
         2
+      ]
+    },
+    "55": {
+      "name": "Constraint-Based Combinatorial Optimization",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        2
+      ]
+    },
+    "56": {
+      "name": "Multimodal Medical Examination & Benchmarking",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "57": {
+      "name": "Financial System Surveillance & Risk Detection",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "58": {
+      "name": "Quantum Machine Learning for Radar/Sensor Data",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "63": {
+      "name": "Iterative Data Exploration & Reification",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "64": {
+      "name": "Streaming Data Agent Infrastructure",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "65": {
+      "name": "Culturally-Grounded LLM Counseling",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "66": {
+      "name": "Transformer Architecture Innovation",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "67": {
+      "name": "Adversarial Audio-Language Model Security",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "68": {
+      "name": "Human Cognition & AI Attribution Errors",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "69": {
+      "name": "Complex Research Agent Evaluation",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "70": {
+      "name": "Agent Trajectory Safety Benchmarking",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "71": {
+      "name": "Explainable AI Planning & Tree Search",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "72": {
+      "name": "Narrative-Structured Code Reasoning",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "73": {
+      "name": "Edge AI Deployment Automation",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "74": {
+      "name": "Limited Data CNN Generalization",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "75": {
+      "name": "Spatial Reasoning via ASCII Drawing",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "76": {
+      "name": "NP-Hard Problem Solving Algorithms",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "77": {
+      "name": "Legal AI Formalization & Verification",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "78": {
+      "name": "Transfer Learning for Condition Monitoring",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "79": {
+      "name": "Neural Architecture Search for Medical Imaging",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "80": {
+      "name": "Entropy-Controlled RL Exploration",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "59": {
+      "name": "Faithful Knowledge Graph Question Answering",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "60": {
+      "name": "Physiological & Wearable Data Prediction",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "61": {
+      "name": "Enterprise AI Safety & Access Control",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "62": {
+      "name": "Generative Privacy-Preserving Data Synthesis",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "82": {
+      "name": "State Space Models for Time Series",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "83": {
+      "name": "Conformal Prediction in Human-AI Decisions",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "84": {
+      "name": "Epistemic Scaffolding in AI Collaboration",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "85": {
+      "name": "Context Compression & Token Prediction",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "86": {
+      "name": "Hyperdimensional Computing Frameworks",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "87": {
+      "name": "Streaming Memory Systems & VSAs",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "88": {
+      "name": "Early Commitment in Transformer Behavior",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "89": {
+      "name": "Developmental Neural Circuit Simulation",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "90": {
+      "name": "Mobile Agent Task & Trajectory Generation",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "91": {
+      "name": "Agentic Workflow Serving & Orchestration",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "92": {
+      "name": "Hierarchical Multimodal Web Agents",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "93": {
+      "name": "LLM Judge Reliability & Conformal Methods",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "94": {
+      "name": "Symbolic Tensor Program Optimization",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "95": {
+      "name": "Agentic AI Population-Level Safety",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "96": {
+      "name": "Streaming Data Agents & Multi-Source Integration",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "98": {
+      "name": "Hallucination Analysis in Code Generation",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "101": {
+      "name": "Anomaly Detection in Time Series",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "102": {
+      "name": "Automatic Text Summarization Methods",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "103": {
+      "name": "Zero-Shot Reinforced Self-Play Reasoning",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "104": {
+      "name": "Text-to-SQL & Natural Language Interfaces",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "105": {
+      "name": "LLM-Assisted Hardware Design",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "106": {
+      "name": "Advanced Mathematical Reasoning Evaluation",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "107": {
+      "name": "Chain-of-Thought Monitoring for Safety",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "108": {
+      "name": "LLM Game Agents & Benchmarking",
+      "created": "2026-04-19",
+      "last_seen": "2026-04-19",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
       ]
     }
   }
