@@ -708,12 +708,22 @@ def _parse_pass2_response(
 
     # Parse assignments
     assignments: dict[int, dict] = {}
+    n_dropped_oor = 0
     for k, v in assignments_raw.items():
         try:
             local_i = int(k)
         except (ValueError, TypeError):
             print(f"    Non-integer paper index: {k!r}")
             return None
+
+        # Guard against Haiku hallucinating paper indices beyond the batch.
+        # (Observed 2026-04-20: Pass 2 returned 133 assignments for 128 uncertain
+        # papers, crashing the apply loop with IndexError. Drop the stray ones
+        # and let the 'Missing paper indices' check below decide if the real
+        # coverage is still complete.)
+        if local_i < 0 or local_i >= n_papers:
+            n_dropped_oor += 1
+            continue
 
         if not isinstance(v, dict) or "group" not in v or "confidence" not in v:
             print(f"    Assignment {local_i} missing 'group' or 'confidence'.")
@@ -750,6 +760,10 @@ def _parse_pass2_response(
 
         assignments[local_i] = {"group": gid, "confidence": conf,
                                  "secondary": secondary_ids}
+
+    if n_dropped_oor:
+        print(f"    Dropped {n_dropped_oor} out-of-range paper "
+              f"index(es) (expected 0..{n_papers - 1}).")
 
     missing = set(range(n_papers)) - set(assignments.keys())
     if missing:
@@ -1214,6 +1228,10 @@ def haiku_group_papers(
         secondary_map[i]    = p1_secondary_map.get(i, [])
 
     for local_i, asgn in p2_assignments.items():
+        if local_i < 0 or local_i >= len(uncertain_indices):
+            print(f"  ⚠ skipping out-of-range pass 2 local_i={local_i} "
+                  f"(valid 0..{len(uncertain_indices) - 1})")
+            continue
         global_i = uncertain_indices[local_i]
         final_assignment[global_i] = asgn["group"]
         confidence_map[global_i]   = asgn["confidence"]
@@ -1318,6 +1336,9 @@ def haiku_group_papers(
                 rev_assignments, rev_new_groups = rev_result
                 # Apply review overrides
                 for li, asgn in rev_assignments.items():
+                    if li not in l2g:
+                        print(f"  ⚠ skipping out-of-range review local_i={li}")
+                        continue
                     gi = l2g[li]
                     final_assignment[gi] = asgn["group"]
                     confidence_map[gi]   = asgn["confidence"]
