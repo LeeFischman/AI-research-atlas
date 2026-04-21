@@ -269,19 +269,68 @@ def discover_candidates(
     })
     print(f"  Saved {len(top_pool)} candidates to {SIG_CANDIDATES_PATH}.")
 
-    # ── Step 5: Select top-SIGNIFICANT_POOL_SIZE by influential citations ─────
-    top_sig = sorted(top_pool,
+    # ── Step 5: Filter by age window BEFORE ranking by influential citations ─────
+    # CRITICAL FIX: Must filter by publication_date BEFORE selecting top-N by citations.
+    # This prevents selecting very old papers just because they accumulated many citations.
+    # Papers outside the [date_from, date_to] window are rejected here, not later in
+    # apply_retirement. This ensures the pool maintains both recency AND citation strength.
+    
+    # Collect publication dates from existing_sig for papers already in the pool
+    existing_pub_dates: dict[str, str] = {}
+    if existing_sig is not None and not existing_sig.empty:
+        for _, row in existing_sig.iterrows():
+            pid = row.get("id")
+            pub_date = str(row.get("publication_date", "") or "").strip()
+            if pid and pub_date:
+                existing_pub_dates[pid] = pub_date
+    
+    # Fetch arXiv publication dates for new candidates not yet in existing_sig.
+    # This is necessary to apply age filtering before ranking by citations.
+    need_metadata_for_age = [p["id"] for p in top_pool 
+                             if p["id"] not in existing_ids 
+                             and p["id"] not in existing_pub_dates]
+    if need_metadata_for_age:
+        print(f"\n  Step 5a — Fetching publication dates for {len(need_metadata_for_age)} "
+              f"papers to apply age window filter...")
+        arxiv_papers = fetch_arxiv_metadata(need_metadata_for_age)
+        for ap in arxiv_papers:
+            bid = _arxiv_id_base(ap.entry_id.split("/")[-1])
+            existing_pub_dates[bid] = ap.publication_date
+        print(f"  Retrieved publication dates for {len(arxiv_papers)}/{len(need_metadata_for_age)} papers.")
+    
+    # Apply age window filter: keep only papers with date_from <= pub_date <= date_to
+    age_filtered = []
+    for p in top_pool:
+        pid = p["id"]
+        pub_date = existing_pub_dates.get(pid, "")
+        if pub_date and date_from_str <= pub_date <= date_to_str:
+            age_filtered.append(p)
+    
+    print(f"\n  Step 5b — Age filter applied: {len(top_pool)} candidates, "
+          f"{len(age_filtered)} within [{date_from_str}, {date_to_str}].")
+    
+    if not age_filtered:
+        print("  WARNING: Age filter eliminated all candidates! Widening window to accept "
+              "the newest papers...")
+        # Fallback: accept the 30 newest papers by publication_date
+        age_filtered = sorted(top_pool,
+                              key=lambda p: existing_pub_dates.get(p["id"], ""), 
+                              reverse=True)[:30]
+        print(f"  Fallback: accepting {len(age_filtered)} newest papers.")
+    
+    # Step 5c: Select top-SIGNIFICANT_POOL_SIZE by influential citations (from age-filtered set)
+    top_sig = sorted(age_filtered,
                      key=lambda p: p["ss_influential_citations"], reverse=True)
     top_sig = top_sig[:SIGNIFICANT_POOL_SIZE]
-    print(f"\n  Step 5 — Top {len(top_sig)} by influential citations: "
+    print(f"\n  Step 5c — Top {len(top_sig)} by influential citations: "
           f"range {top_sig[-1]['ss_influential_citations'] if top_sig else 0}"
           f"–{top_sig[0]['ss_influential_citations'] if top_sig else 0}")
 
-    # ── Step 6: Fetch arXiv metadata for new entrants ─────────────────────────
+    # ── Step 6: Fetch full arXiv metadata for new entrants ─────────────────────
     need_metadata = [p["id"] for p in top_sig if p["id"] not in existing_ids]
     metadata_map: dict[str, object] = {}
     if need_metadata:
-        print(f"\n  Step 6 — Fetching arXiv metadata for "
+        print(f"\n  Step 6 — Fetching full arXiv metadata for "
               f"{len(need_metadata)} new entrants...")
         arxiv_papers = fetch_arxiv_metadata(need_metadata)
         for ap in arxiv_papers:
