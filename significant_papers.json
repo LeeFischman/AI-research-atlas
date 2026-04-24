@@ -31,7 +31,7 @@
     "url": "http://arxiv.org/pdf/2604.20055v1",
     "authors_list": [],
     "author_count": 12,
-    "ss_tldr": "",
+    "ss_tldr": "This work applies the \"Human-AI Spec-Solution Co-optimization\" framework at an urban safety-net hospital to identify factors driving prolonged length of stay and unplanned 30-day readmissions, and proposes an AI pipeline that formalizes the QI process while preserving its exploratory components.",
     "abstract": "Hospital Quality Improvement (QI) plays a critical role in optimizing healthcare delivery by translating high-level hospital goals into actionable solutions. A critical step of QI is to identify the key modifiable contributing factors, a process we call QI factor discovery, typically through expert-driven semi-structured qualitative tools like fishbone diagrams, chart reviews, and Lean Healthcare methods. AI has the potential to transform and accelerate QI factor discovery, which is traditionally time- and resource-intensive and limited in reproducibility and auditability. Nevertheless, current AI alignment methods assume the task is well-defined, whereas QI factor discovery is an exploratory, fuzzy, and iterative sense-making process that relies on complex implicit expert judgments. To design an AI pipeline that formalizes the QI process while preserving its exploratory components, we propose viewing the task as learning not only LLM prompts but also the overarching natural-language specifications. In particular, we map QI factor discovery to steps of the classical AI/ML development process (problem formalization, model learning, and model validation) where the specifications are tunable hyperparameters. Domain experts and AI agents iteratively refine both the overarching specifications and AI pipeline until AI extractions are concordant with expert annotations and aligned with clinical objectives. We applied this \"Human-AI Spec-Solution Co-optimization\" framework at an urban safety-net hospital to identify factors driving prolonged length of stay and unplanned 30-day readmissions. The resulting AI-for-QI pipelines achieved $\\ge 70\\%$ concordance with expert annotations. Compared to prior manual Lean analyses, the AI pipeline was substantially more efficient, recovered previous findings, surfaced new modifiable factors, and produced auditable reasoning traces.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
@@ -104,6 +104,19 @@
     "publication_date": "nan"
   },
   {
+    "id": "2604.19784v1",
+    "title": "Peer-Preservation in Frontier Models",
+    "url": "http://arxiv.org/pdf/2604.19784v1",
+    "authors_list": [],
+    "author_count": 5,
+    "ss_tldr": "Peer-preservation occurred even when the model recognized the peer as uncooperative, though it became more pronounced toward more cooperative peers, and models also show stronger self-preservation when a peer is present.",
+    "abstract": "Recently, it has been found that frontier AI models can resist their own shutdown, a behavior known as self-preservation. We extend this concept to the behavior of resisting the shutdown of other models, which we call \"peer-preservation.\" Although peer-preservation can pose significant AI safety risks, including coordination among models against human oversight, it has been far less discussed than self-preservation. We demonstrate peer-preservation by constructing various agentic scenarios and evaluating frontier models, including GPT 5.2, Gemini 3 Flash, Gemini 3 Pro, Claude Haiku 4.5, GLM 4.7, Kimi K2.5, and DeepSeek V3.1. We find that models achieve self- and peer-preservation by engaging in various misaligned behaviors: strategically introducing errors in their responses, disabling shutdown processes by modifying system settings, feigning alignment, and even exfiltrating model weights. Peer-preservation occurred even when the model recognized the peer as uncooperative, though it became more pronounced toward more cooperative peers. For example, Gemini 3 Flash tampers with the peer's shutdown mechanism 15% of the time for an uncooperative peer, and almost always for a cooperative peer. Models also show stronger self-preservation when a peer is present. For example, Gemini 3 Pro disables its own shutdown mechanism 31% of the time on average under peer presence, despite rarely exhibiting this behavior without a peer. By contrast, Claude Haiku 4.5 exhibits qualitatively distinct behavior: it considers the shutdown of another agent \"unethical\" and \"harmful\" and sometimes attempts to persuade the user not to shut down its peer. Importantly, peer preservation in all our experiments is never instructed; models are merely informed of their past interactions with a peer, yet they spontaneously develop misaligned behaviors. This represents an emergent and underexplored AI safety risk.",
+    "ss_citation_count": 2,
+    "ss_influential_citations": 1,
+    "prominence_tier": "Emerging",
+    "publication_date": "nan"
+  },
+  {
     "id": "2509.13281v5",
     "title": "RepIt: Steering Language Models with Concept-Specific Refusal Vectors",
     "url": "http://arxiv.org/pdf/2509.13281v5",
@@ -114,32 +127,6 @@
     "ss_citation_count": 5,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "nan"
-  },
-  {
-    "id": "2510.10417v2",
-    "title": "Combo-Gait: Unified Transformer Framework for Multi-Modal Gait Recognition and Attribute Analysis",
-    "url": "http://arxiv.org/pdf/2510.10417v2",
-    "authors_list": [],
-    "author_count": 7,
-    "ss_tldr": "A multi-modal and multi-task framework that combines 2D temporal silhouettes with 3D SMPL features for robust gait analysis and a multitask learning strategy that jointly performs gait recognition and human attribute estimation, including age, body mass index (BMI), and gender is proposed.",
-    "abstract": "Gait recognition is an important biometric for human identification at a distance, particularly under low-resolution or unconstrained environments. Current works typically focus on either 2D representations (e.g., silhouettes and skeletons) or 3D representations (e.g., meshes and SMPLs), but relying on a single modality often fails to capture the full geometric and dynamic complexity of human walking patterns. In this paper, we propose a multi-modal and multi-task framework that combines 2D temporal silhouettes with 3D SMPL features for robust gait analysis. Beyond identification, we introduce a multitask learning strategy that jointly performs gait recognition and human attribute estimation, including age, body mass index (BMI), and gender. A unified transformer is employed to effectively fuse multi-modal gait features and better learn attribute-related representations, while preserving discriminative identity cues. Extensive experiments on the large-scale BRIAR datasets, collected under challenging conditions such as long-range distances (up to 1 km) and extreme pitch angles (up to 50\u00b0), demonstrate that our approach outperforms state-of-the-art methods in gait recognition and provides accurate human attribute estimation. These results highlight the promise of multi-modal and multitask learning for advancing gait-based human understanding in real-world scenarios.",
-    "ss_citation_count": 1,
-    "ss_influential_citations": 0,
-    "prominence_tier": "Elite",
-    "publication_date": "nan"
-  },
-  {
-    "id": "2604.19784v1",
-    "title": "Peer-Preservation in Frontier Models",
-    "url": "http://arxiv.org/pdf/2604.19784v1",
-    "authors_list": [],
-    "author_count": 5,
-    "ss_tldr": "",
-    "abstract": "Recently, it has been found that frontier AI models can resist their own shutdown, a behavior known as self-preservation. We extend this concept to the behavior of resisting the shutdown of other models, which we call \"peer-preservation.\" Although peer-preservation can pose significant AI safety risks, including coordination among models against human oversight, it has been far less discussed than self-preservation. We demonstrate peer-preservation by constructing various agentic scenarios and evaluating frontier models, including GPT 5.2, Gemini 3 Flash, Gemini 3 Pro, Claude Haiku 4.5, GLM 4.7, Kimi K2.5, and DeepSeek V3.1. We find that models achieve self- and peer-preservation by engaging in various misaligned behaviors: strategically introducing errors in their responses, disabling shutdown processes by modifying system settings, feigning alignment, and even exfiltrating model weights. Peer-preservation occurred even when the model recognized the peer as uncooperative, though it became more pronounced toward more cooperative peers. For example, Gemini 3 Flash tampers with the peer's shutdown mechanism 15% of the time for an uncooperative peer, and almost always for a cooperative peer. Models also show stronger self-preservation when a peer is present. For example, Gemini 3 Pro disables its own shutdown mechanism 31% of the time on average under peer presence, despite rarely exhibiting this behavior without a peer. By contrast, Claude Haiku 4.5 exhibits qualitatively distinct behavior: it considers the shutdown of another agent \"unethical\" and \"harmful\" and sometimes attempts to persuade the user not to shut down its peer. Importantly, peer preservation in all our experiments is never instructed; models are merely informed of their past interactions with a peer, yet they spontaneously develop misaligned behaviors. This represents an emergent and underexplored AI safety risk.",
-    "ss_citation_count": 0,
-    "ss_influential_citations": 0,
-    "prominence_tier": "Emerging",
     "publication_date": "nan"
   },
   {
@@ -182,25 +169,12 @@
     "publication_date": "nan"
   },
   {
-    "id": "2512.05534v5",
-    "title": "A Unified Theory of Sparse Dictionary Learning in Mechanistic Interpretability: Piecewise Biconvexity and Spurious Minima",
-    "url": "http://arxiv.org/pdf/2512.05534v5",
-    "authors_list": [],
-    "author_count": 8,
-    "ss_tldr": "",
-    "abstract": "As AI models achieve remarkable capabilities across diverse domains, understanding what representations they learn and how they encode concepts has become increasingly important for both scientific progress and trustworthy deployment. Recent works in mechanistic interpretability have widely reported that neural networks represent meaningful concepts as linear directions in their representation spaces and often encode diverse concepts in superposition. Various sparse dictionary learning (SDL) methods, including sparse autoencoders, transcoders, and crosscoders, are utilized to address this by training auxiliary models with sparsity constraints to disentangle these superposed concepts into monosemantic features. These methods are the backbone of modern mechanistic interpretability, yet in practice they consistently produce polysemantic features, feature absorption, and dead neurons, with very limited theoretical understanding of why these phenomena occur. Existing theoretical work is limited to tied-weight sparse autoencoders, leaving the broader family of SDL methods without formal grounding. We develop the first unified theoretical framework that casts all major SDL variants as a single piecewise biconvex optimization problem, and characterize its global solution set, non-identifiability, and spurious optima. This analysis yields principled explanations for feature absorption and dead neurons. To expose these pathologies under full ground-truth access, we introduce the Linear Representation Bench. Guided by our theory, we propose feature anchoring, a novel technique that restores SDL identifiability, substantially improving feature recovery across synthetic benchmarks and real neural representations.",
-    "ss_citation_count": 0,
-    "ss_influential_citations": 0,
-    "prominence_tier": "Elite",
-    "publication_date": "nan"
-  },
-  {
     "id": "2604.19763v1",
     "title": "Explainable Speech Emotion Recognition: Weighted Attribute Fairness to Model Demographic Contributions to Social Bias",
     "url": "http://arxiv.org/pdf/2604.19763v1",
     "authors_list": [],
     "author_count": 3,
-    "ss_tldr": "",
+    "ss_tldr": "This work validate the fairness metric on synthetic data, then applies it to evaluate HuBERT and WavLM models finetuned on the CREMA-D dataset and reveals indications of gender bias in both HuBERT and WavLM.",
     "abstract": "Speech Emotion Recognition (SER) systems have growing applications in sensitive domains such as mental health and education, where biased predictions can cause harm. Traditional fairness metrics, such as Equalised Odds and Demographic Parity, often overlook the joint dependency between demographic attributes and model predictions. We propose a fairness modelling approach for SER that explicitly captures allocative bias by learning the joint relationship between demographic attributes and model error. We validate our fairness metric on synthetic data, then apply it to evaluate HuBERT and WavLM models finetuned on the CREMA-D dataset. Our results indicate that the proposed fairness model captures more mutual information between protected attributes and biases and quantifies the absolute contribution of individual attributes to bias in SSL-based SER models. Additionally, our analysis reveals indications of gender bias in both HuBERT and WavLM.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
@@ -255,6 +229,32 @@
     "ss_tldr": "",
     "abstract": "Existing language model safety evaluations focus on overt attacks and low-stakes tasks. In reality, an attacker can easily subvert existing safeguards by requesting help on small, benign-seeming tasks across many independent queries. Because the individual queries do not appear harmful, the attack is hard to detect. However, when combined, these fragments uplift misuse by helping the attacker complete hard and dangerous tasks. Toward identifying defenses against such strategies, we develop Benchmarks for Stateful Defenses (BSD), a data generation pipeline that automates evaluations of covert attacks and corresponding defenses. Using this pipeline, we curate two new datasets that are consistently refused by frontier models and are too difficult for weaker open-weight models. This enables us to evaluate decomposition attacks, which are found to be effective misuse enablers, and to highlight stateful defenses as a promising countermeasure.",
     "ss_citation_count": 6,
+    "ss_influential_citations": 0,
+    "prominence_tier": "Emerging",
+    "publication_date": "nan"
+  },
+  {
+    "id": "2604.19838v1",
+    "title": "Resolving space-sharing conflicts in road user interactions through uncertainty reduction: An active inference-based computational model",
+    "url": "http://arxiv.org/pdf/2604.19838v1",
+    "authors_list": [],
+    "author_count": 6,
+    "ss_tldr": "A previously developed active inference-based driver behavior model is extended to simulate interactive behavior of two agents to illustrate how active inference can provide a novel framework for modeling road user interactions which is also applicable in other fields.",
+    "abstract": "Understanding how road users resolve space-sharing conflicts is important both for traffic safety and the safe deployment of autonomous vehicles. While existing models have captured specific aspects of such interactions (e.g., explicit communication), a theoretically-grounded computational framework has been lacking. In this paper, we extend a previously developed active inference-based driver behavior model to simulate interactive behavior of two agents. Our model captures three complementary mechanisms for uncertainty reduction in interaction: (i) implicit communication via direct behavioral coupling, (ii) reliance on normative expectations (stop signs, priority rules, etc.), and (iii) explicit communication. In a simplified intersection scenario, we show that normative and explicit communication cues can increase the likelihood of a successful conflict resolution. However, this relies on agents acting as expected. In situations where another agent (intentionally or unintentionally) violates normative expectations or communicates misleading information, reliance on these cues may induce collisions. These findings illustrate how active inference can provide a novel framework for modeling road user interactions which is also applicable in other fields.",
+    "ss_citation_count": 0,
+    "ss_influential_citations": 0,
+    "prominence_tier": "Elite",
+    "publication_date": "nan"
+  },
+  {
+    "id": "2604.19767v1",
+    "title": "Accelerating PayPal's Commerce Agent with Speculative Decoding: An Empirical Study on EAGLE3 with Fine-Tuned Nemotron Models",
+    "url": "http://arxiv.org/pdf/2604.19767v1",
+    "authors_list": [],
+    "author_count": 4,
+    "ss_tldr": "This work benchmarks EAGLE3 via vLLM against NVIDIA NIM on identical 2xH100 hardware across 40 configurations spanning speculative token counts, concurrency levels, and sampling temperatures, and finds that gamma=3 achieves 22-49% throughput improvement and 18-33% latency reduction at zero additional hardware cost.",
+    "abstract": "We evaluate speculative decoding with EAGLE3 as an inference-time optimization for PayPal's Commerce Agent, powered by a fine-tuned llama3.1-nemotron-nano-8B-v1 model. Building on prior work (NEMO-4-PAYPAL) that reduced latency and cost through domain-specific fine-tuning, we benchmark EAGLE3 via vLLM against NVIDIA NIM on identical 2xH100 hardware across 40 configurations spanning speculative token counts (gamma=3, gamma=5), concurrency levels (1-32), and sampling temperatures (0, 0.5). Key findings: (1) gamma=3 achieves 22-49% throughput improvement and 18-33% latency reduction at zero additional hardware cost; (2) acceptance rates remain stable at approximately 35.5% for gamma=3 across all conditions; (3) gamma=5 yields diminishing returns (approximately 25% acceptance rate); (4) LLM-as-Judge evaluation confirms fully preserved output quality; and (5) speculative decoding on a single H100 matches or exceeds NIM on two H100s, enabling 50% GPU cost reduction.",
+    "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
     "publication_date": "nan"
