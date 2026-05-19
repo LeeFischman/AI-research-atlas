@@ -8,7 +8,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 60
     # To enable OPENALEX_OFFLINE_MODE for all steps, add a job-level env block:
     env:
       SKIP_HAIKU: "true"          # Haiku runs weekly only (weekly_significant.yml)
