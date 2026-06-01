@@ -1,6 +1,1286 @@
 {
-  "last_fetched_date": "2026-05-10",
+  "last_fetched_date": "2026-05-17",
   "pool": [
+    {
+      "id": "2010.03496",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2302.12039",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.09519",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2504.11703",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2507.07969",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.11989",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2407.06576",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2512.24601",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2603.10165",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2410.02091",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2503.14434",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2502.09891",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2409.08290",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2410.14702",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.09528",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2304.10891",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2502.01941",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2409.10038",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2407.12173",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2501.03544",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2410.14022",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2505.23912",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2503.05066",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2403.18136",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2508.06202",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2505.07027",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2502.16060",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2603.02115",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2504.10766",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2508.06226",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2509.02510",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2507.23511",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2509.21892",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2510.27527",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2411.18104",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2502.00270",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2602.06718",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2405.17642",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2505.11577",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2505.18091",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2509.24244",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.05775",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2603.02175",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2511.18903",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2602.03814",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2505.19525",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2507.09788",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2510.04142",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2512.18880",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2602.22953",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2604.11790",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2402.07619",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2412.13050",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2511.21760",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2505.23617",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2409.19379",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2506.15787",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2508.11845",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2509.22746",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2603.04601",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2407.07639",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2507.11198",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2507.23009",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2510.18184",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2511.22963",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2601.20164",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2602.21204",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2508.01916",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2509.26100",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2603.24422",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2604.20329",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2502.11537",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2601.02950",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2602.06733",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2404.14442",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2503.05383",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2506.11578",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2508.05463",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2508.13813",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2510.20797",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2601.02954",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2601.12248",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2602.00318",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2602.03783",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2602.22480",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2603.04474",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2603.04783",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2601.23143",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2602.02350",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2602.03429",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2602.16246",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2604.02022",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2504.01571",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2509.23023",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2510.05213",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2511.08565",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2601.21714",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2601.21698",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2501.05614",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2502.08943",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2503.02972",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2507.07871",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2507.18847",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2512.04949",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2601.11258",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2601.21739",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2602.07940",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2603.21357",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2604.12812",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2604.16838",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.09942",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.10772",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2405.10271",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2407.00805",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2502.11981",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2602.00586",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.13030",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.13746",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.13821",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2504.18544",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2510.00231",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2510.15982",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2510.19973",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2511.16964",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2512.01977",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2512.11855",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2512.22317",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2601.19924",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2601.22197",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2602.01359",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2602.15019",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2603.12554",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2604.05306",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2604.09603",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.12034",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "1207.5293",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2508.13434",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2512.02066",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.00642",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.09238",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.09258",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.09477",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.09502",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2410.10247",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2503.13558",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2505.20654",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2508.20325",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2509.12635",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2509.13332",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2510.03761",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2510.10730",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2510.17671",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2512.19995",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2601.12374",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2602.02281",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2602.03688",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2602.04712",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2603.00918",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2603.03759",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2603.10126",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2603.26680",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2603.27977",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2603.28902",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2604.08178",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2604.13630",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2604.23750",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2604.24954",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2604.26805",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.02751",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.09650",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.09684",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.09698",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.09827",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.09842",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.09931",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.09998",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.10111",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.10194",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.10246",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.10281",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.10343",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.10515",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.10663",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.10831",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.10848",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2411.19517",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2501.19403",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2602.02977",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2602.22251",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2602.23161",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2603.15854",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2603.22267",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2604.10720",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2604.22966",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.06607",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.06651",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.07147",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.10005",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.10426",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.12835",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.12922",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.12953",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.12966",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.12978",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.13152",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.13181",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.13197",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.13255",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.13695",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.13724",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.13834",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2408.11186",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2408.16307",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2505.09246",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2505.11765",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2505.17353",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2507.21433",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2510.27258",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2511.18739",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2511.21740",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2512.07805",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2601.03969",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2602.04265",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2602.07045",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2602.07441",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2602.11626",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2602.14674",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2602.14881",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2603.11045",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2603.12529",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2603.16039",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2603.21250",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2604.09860",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2604.16813",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2604.21809",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.07931",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.08278",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.11853",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.12394",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.12968",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.13362",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.13527",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.13940",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.13941",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.14054",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.14061",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.14175",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.14224",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.14277",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.14517",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.14553",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.14555",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.14671",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.14791",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.15030",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
+    {
+      "id": "2605.15042",
+      "ss_citation_count": 0,
+      "ss_influential_citations": 0
+    },
     {
       "id": "2501.12948",
       "ss_citation_count": 0,
@@ -1218,1286 +2498,6 @@
     },
     {
       "id": "2508.01191",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2509.24695",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2505.17813",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2410.07076",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2402.06147",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2502.12119",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2310.05866",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2503.01422",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2504.04717",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2509.01055",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2511.07820",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2510.18866",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2510.02202",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2505.16834",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2501.19306",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2305.14934",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2403.14151",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2407.09450",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2502.05957",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2408.14033",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2205.09904",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2503.04812",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2506.07961",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2601.10611",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2502.03930",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2410.11842",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2505.11594",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2511.02864",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2504.07986",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2405.07406",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2312.05735",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2412.01928",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2504.01903",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2502.19130",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2506.06659",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2505.11475",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2510.02387",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2505.14489",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2501.16371",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2505.16932",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2510.20165",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2304.08637",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2505.01821",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2502.02649",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2507.10496",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2507.08838",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2407.13699",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2506.04207",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2507.06229",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2507.02735",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2501.19201",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2401.10061",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2408.16633",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2507.15855",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2407.21243",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2410.01215",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2501.00365",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2502.10818",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2411.06284",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2508.19982",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2502.03814",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2409.14634",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2512.21419",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2512.21421",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2602.19071",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2405.11619",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2503.22458",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2507.07982",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "1808.07645",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2506.01062",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2501.06425",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2505.15957",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2301.00712",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2408.11832",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2505.17022",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2308.07870",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2410.03131",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2405.16411",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2502.05206",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2502.18535",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2502.02871",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2503.21248",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2307.01139",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2411.08249",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2303.10971",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2502.13256",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2508.13755",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2505.16120",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2508.13998",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2505.12864",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2503.03480",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2508.07995",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2503.17239",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2401.12783",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2507.13266",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2508.07629",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2502.19918",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2506.10630",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2411.11683",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2305.16347",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2507.22025",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2301.12230",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2310.02635",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2505.19897",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2603.28052",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2604.05014",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2508.05170",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2408.11338",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2506.10848",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2510.17516",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2406.05984",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2502.04424",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2502.17403",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2410.05970",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2406.01253",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2504.11967",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2501.04410",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2503.12797",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2412.15803",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2604.07729",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2502.04419",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2506.00979",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2504.13129",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2510.10649",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2407.04183",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2505.12189",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2504.19467",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2511.19365",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2603.25158",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2505.04842",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2509.21976",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2503.13551",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2412.17574",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2603.25562",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2505.21996",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2505.11548",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2503.17181",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2309.09550",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2403.10853",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2604.00181",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2410.22177",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2506.09373",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2604.21312",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2509.25848",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2603.21687",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2501.09775",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2603.29291",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2505.16737",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2407.14971",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2506.21872",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2402.19088",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2504.10527",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2511.08577",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2604.25272",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2409.19894",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2507.21990",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2505.08392",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2505.15062",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2411.06812",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2410.21086",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2512.00818",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2508.05318",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2410.01540",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2503.16683",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2506.19807",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2505.04278",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2511.07663",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2601.07155",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2506.19846",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2402.09664",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2406.10521",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2604.10885",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2008.07644",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2506.00239",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2411.15115",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2407.11041",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2508.21184",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2510.04573",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2505.19261",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2510.09378",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2505.18646",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2509.17995",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2601.18491",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2601.11044",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2408.05086",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2412.20718",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2506.01979",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2409.09298",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2512.10938",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2503.04798",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2505.14412",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2510.02798",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2511.15669",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2509.00761",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2504.19959",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2410.09635",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2510.12184",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2502.17421",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2510.06133",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2602.19208",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2509.21361",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2507.00435",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2505.17209",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2410.21316",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2508.17784",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2501.05067",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2504.10286",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2405.09806",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2504.11159",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2507.11737",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2512.21782",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2410.19940",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2510.09901",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2409.01579",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2601.08816",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2404.09005",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2406.09031",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2508.02343",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2601.21708",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2210.01881",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2412.03884",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2506.06975",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2504.04099",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2511.06101",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2410.17448",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2512.12069",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2503.07259",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2506.06414",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2411.11707",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2510.04371",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2510.18091",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2509.11481",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2511.07732",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2410.13903",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2509.00084",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2602.07605",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2505.13766",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2511.10788",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2601.11109",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2503.18018",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2603.03823",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2603.20179",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2506.10137",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2410.08491",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2401.00870",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2503.10183",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2508.13993",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2512.08829",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2510.00039",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2501.16154",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2503.10471",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2512.20798",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2604.06995",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2406.08334",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2411.12142",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2510.23807",
-      "ss_citation_count": 0,
-      "ss_influential_citations": 0
-    },
-    {
-      "id": "2411.09593",
       "ss_citation_count": 0,
       "ss_influential_citations": 0
     }
