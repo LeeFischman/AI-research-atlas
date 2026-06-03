@@ -1632,6 +1632,17 @@ def build_and_deploy_atlas(
             "paper_source":            "paper_source",
         })
 
+        # ── Enable label rendering for cluster names ────────────────────────
+        conf.setdefault("labels", {}).update({
+            "show": True,
+            "font_size": 13,
+            "opacity": 0.95,
+            "offset": [0, -18],
+            "background": True,
+            "background_opacity": 0.7,
+            "text_color": "#ffffff",
+        })
+
         with open(config_path, "w") as f:
             json.dump(conf, f, indent=4)
         print("  Config updated.")
