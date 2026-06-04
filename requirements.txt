@@ -8,7 +8,7 @@ umap-learn
 scikit-learn
 keybert
 pyyaml
-embedding-atlas
+embedding-atlas==0.20.0
 typing_extensions>=4.10.0
 transformers
 torch
