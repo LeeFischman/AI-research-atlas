@@ -9,51 +9,100 @@
         },
         "embeddingViewLabels": [
             {
-                "x": -2.3297916371152363,
-                "y": 1.0638904381147294,
-                "text": "Group 0",
+                "x": -0.06484691877734389,
+                "y": 0.5334060906232992,
+                "text": "Language Models & Pretraining",
                 "level": 0,
                 "priority": 10
             },
             {
-                "x": -3.0312620478280734,
-                "y": -0.40453091995480267,
-                "text": "Group 1",
+                "x": 3.3236685378225608,
+                "y": 0.6961192939903891,
+                "text": "Computer Vision",
                 "level": 0,
                 "priority": 10
             },
             {
-                "x": -0.6260799146431801,
-                "y": -1.4503104228666324,
-                "text": "Group 2",
+                "x": 0.29718029290549086,
+                "y": -0.576362914323384,
+                "text": "Multimodal Learning",
                 "level": 0,
                 "priority": 10
             },
             {
-                "x": 2.030632164819291,
-                "y": -0.7502824654758398,
-                "text": "Group 3",
+                "x": -1.6290761614920637,
+                "y": -0.044461199637090776,
+                "text": "Reinforcement Learning",
                 "level": 0,
                 "priority": 10
             },
             {
-                "x": -0.4464839952756637,
-                "y": -0.10468087519319202,
-                "text": "Group 4",
+                "x": 1.5036118221308263,
+                "y": 1.2188126530916916,
+                "text": "Robotics & Embodied AI",
                 "level": 0,
                 "priority": 10
             },
             {
-                "x": 3.235847725867558,
-                "y": 0.35621314847642566,
-                "text": "Group 5",
+                "x": -2.189557534366511,
+                "y": 1.083104901917745,
+                "text": "Safety, Alignment & Ethics",
                 "level": 0,
                 "priority": 10
             },
             {
-                "x": 1.1486431627714857,
-                "y": 1.3716604835386559,
-                "text": "Group 6",
+                "x": 3.1290658943308616,
+                "y": -0.42115177996476505,
+                "text": "Theory, Optimization & Efficient ML",
+                "level": 0,
+                "priority": 10
+            },
+            {
+                "x": -3.079254628555986,
+                "y": -0.6084464089132717,
+                "text": "Domain Applications",
+                "level": 0,
+                "priority": 10
+            },
+            {
+                "x": 1.9947507234563326,
+                "y": 0.14746390667389458,
+                "text": "Generative Models & Synthesis",
+                "level": 0,
+                "priority": 10
+            },
+            {
+                "x": 2.165987676720377,
+                "y": -1.1478601584693826,
+                "text": "Speech & Audio Processing",
+                "level": 0,
+                "priority": 10
+            },
+            {
+                "x": 0.12616243639437982,
+                "y": -1.465886554312443,
+                "text": "Graph Learning & Networks",
+                "level": 0,
+                "priority": 10
+            },
+            {
+                "x": -1.7294847769420678,
+                "y": -1.1909459159440223,
+                "text": "Data, Benchmarks & Evaluation",
+                "level": 0,
+                "priority": 10
+            },
+            {
+                "x": -0.4677720028348922,
+                "y": 1.3850342453261406,
+                "text": "Human-AI Interaction",
+                "level": 0,
+                "priority": 10
+            },
+            {
+                "x": -3.3842803113541065,
+                "y": 0.35517523739205714,
+                "text": "Planning & Search",
                 "level": 0,
                 "priority": 10
             }
