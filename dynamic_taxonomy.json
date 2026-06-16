@@ -1,4 +1,159 @@
 {
-  "next_id": 140,
-  "groups": {}
+  "next_id": 154,
+  "groups": {
+    "153": {
+      "name": "Interpretability & Mechanistic Understanding",
+      "created": "2026-06-16",
+      "last_seen": "2026-06-16",
+      "confidence_history": [
+        0.909
+      ],
+      "paper_count_history": [
+        11
+      ]
+    },
+    "142": {
+      "name": "Vision-Language Models & Multimodal Agents",
+      "created": "2026-06-16",
+      "last_seen": "2026-06-16",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        22
+      ]
+    },
+    "141": {
+      "name": "Reasoning & Problem-Solving",
+      "created": "2026-06-16",
+      "last_seen": "2026-06-16",
+      "confidence_history": [
+        0.903
+      ],
+      "paper_count_history": [
+        31
+      ]
+    },
+    "140": {
+      "name": "LLM Agents & Agentic Systems",
+      "created": "2026-06-16",
+      "last_seen": "2026-06-16",
+      "confidence_history": [
+        0.977
+      ],
+      "paper_count_history": [
+        43
+      ]
+    },
+    "145": {
+      "name": "Tool Use & API Integration",
+      "created": "2026-06-16",
+      "last_seen": "2026-06-16",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        4
+      ]
+    },
+    "152": {
+      "name": "AI Evaluation & Auditing",
+      "created": "2026-06-16",
+      "last_seen": "2026-06-16",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        15
+      ]
+    },
+    "146": {
+      "name": "Agent Safety & Verification",
+      "created": "2026-06-16",
+      "last_seen": "2026-06-16",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        20
+      ]
+    },
+    "143": {
+      "name": "Memory Systems for AI Agents",
+      "created": "2026-06-16",
+      "last_seen": "2026-06-16",
+      "confidence_history": [
+        0.909
+      ],
+      "paper_count_history": [
+        11
+      ]
+    },
+    "150": {
+      "name": "Preference Learning & Reward Modeling",
+      "created": "2026-06-16",
+      "last_seen": "2026-06-16",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        9
+      ]
+    },
+    "148": {
+      "name": "Knowledge Graphs & Retrieval",
+      "created": "2026-06-16",
+      "last_seen": "2026-06-16",
+      "confidence_history": [
+        0.727
+      ],
+      "paper_count_history": [
+        11
+      ]
+    },
+    "147": {
+      "name": "Multi-Agent Systems & Coordination",
+      "created": "2026-06-16",
+      "last_seen": "2026-06-16",
+      "confidence_history": [
+        0.889
+      ],
+      "paper_count_history": [
+        9
+      ]
+    },
+    "149": {
+      "name": "Code Generation & Synthesis",
+      "created": "2026-06-16",
+      "last_seen": "2026-06-16",
+      "confidence_history": [
+        0.667
+      ],
+      "paper_count_history": [
+        18
+      ]
+    },
+    "151": {
+      "name": "Inference Efficiency & Serving",
+      "created": "2026-06-16",
+      "last_seen": "2026-06-16",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        7
+      ]
+    },
+    "144": {
+      "name": "Prompt Optimization & Engineering",
+      "created": "2026-06-16",
+      "last_seen": "2026-06-16",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        4
+      ]
+    }
+  }
 }
