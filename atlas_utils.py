@@ -963,7 +963,12 @@ def _oai_fetch_ids_for_date(date_str: str, category: str = "cs.AI") -> list[str]
                     print(f"    OAI error: {e} — waiting {wait}s (attempt {attempt})...")
                     time.sleep(wait)
                 else:
-                    raise
+                    # Final attempt failed on a transient network/timeout error.
+                    # Do NOT raise: fall through to the for/else clause below so
+                    # we return the IDs collected so far (possibly none) and let
+                    # the pipeline rebuild from the existing rolling DB instead
+                    # of crashing on an arXiv outage.
+                    print(f"    OAI error: {e} — giving up after {attempt} attempts.")
         else:
             print(f"    OAI fetch failed after {MAX_RETRIES} attempts on page {page}.")
             break
@@ -1087,7 +1092,12 @@ def oai_fetch_ids_for_range(
                     print(f"    OAI error: {e} — waiting {wait}s (attempt {attempt})...")
                     time.sleep(wait)
                 else:
-                    raise
+                    # Final attempt failed on a transient network/timeout error.
+                    # Do NOT raise: fall through to the for/else clause below so
+                    # we return the IDs collected so far (possibly none) and let
+                    # the pipeline rebuild from the existing rolling DB instead
+                    # of crashing on an arXiv outage.
+                    print(f"    OAI error: {e} — giving up after {attempt} attempts.")
         else:
             print(f"    OAI range fetch failed after {MAX_RETRIES} attempts on page {page}.")
             break
