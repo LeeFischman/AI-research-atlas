@@ -1,54 +1,203 @@
 {
-  "next_id": 154,
+  "next_id": 173,
   "groups": {
     "153": {
       "name": "Interpretability & Mechanistic Understanding",
       "created": "2026-06-16",
-      "last_seen": "2026-06-16",
+      "last_seen": "2026-06-17",
       "confidence_history": [
-        0.909
+        0.909,
+        1.0
       ],
       "paper_count_history": [
-        11
+        11,
+        26
       ]
     },
     "142": {
       "name": "Vision-Language Models & Multimodal Agents",
       "created": "2026-06-16",
-      "last_seen": "2026-06-16",
+      "last_seen": "2026-06-17",
       "confidence_history": [
+        1.0,
         1.0
       ],
       "paper_count_history": [
-        22
+        22,
+        10
       ]
     },
     "141": {
       "name": "Reasoning & Problem-Solving",
       "created": "2026-06-16",
-      "last_seen": "2026-06-16",
+      "last_seen": "2026-06-17",
       "confidence_history": [
-        0.903
+        0.903,
+        1.0
       ],
       "paper_count_history": [
-        31
+        31,
+        20
       ]
     },
     "140": {
       "name": "LLM Agents & Agentic Systems",
       "created": "2026-06-16",
-      "last_seen": "2026-06-16",
+      "last_seen": "2026-06-17",
       "confidence_history": [
-        0.977
+        0.977,
+        1.0
       ],
       "paper_count_history": [
-        43
+        43,
+        25
       ]
     },
     "145": {
       "name": "Tool Use & API Integration",
       "created": "2026-06-16",
-      "last_seen": "2026-06-16",
+      "last_seen": "2026-06-17",
+      "confidence_history": [
+        1.0,
+        1.0
+      ],
+      "paper_count_history": [
+        4,
+        10
+      ]
+    },
+    "152": {
+      "name": "AI Evaluation & Auditing",
+      "created": "2026-06-16",
+      "last_seen": "2026-06-17",
+      "confidence_history": [
+        1.0,
+        1.0
+      ],
+      "paper_count_history": [
+        15,
+        20
+      ]
+    },
+    "146": {
+      "name": "Agent Safety & Verification",
+      "created": "2026-06-16",
+      "last_seen": "2026-06-17",
+      "confidence_history": [
+        1.0,
+        1.0
+      ],
+      "paper_count_history": [
+        20,
+        17
+      ]
+    },
+    "143": {
+      "name": "Memory Systems for AI Agents",
+      "created": "2026-06-16",
+      "last_seen": "2026-06-17",
+      "confidence_history": [
+        0.909,
+        1.0
+      ],
+      "paper_count_history": [
+        11,
+        15
+      ]
+    },
+    "150": {
+      "name": "Preference Learning & Reward Modeling",
+      "created": "2026-06-16",
+      "last_seen": "2026-06-17",
+      "confidence_history": [
+        1.0,
+        1.0
+      ],
+      "paper_count_history": [
+        9,
+        16
+      ]
+    },
+    "148": {
+      "name": "Knowledge Graphs & Retrieval",
+      "created": "2026-06-16",
+      "last_seen": "2026-06-17",
+      "confidence_history": [
+        0.727,
+        1.0
+      ],
+      "paper_count_history": [
+        11,
+        4
+      ]
+    },
+    "147": {
+      "name": "Multi-Agent Systems & Coordination",
+      "created": "2026-06-16",
+      "last_seen": "2026-06-17",
+      "confidence_history": [
+        0.889,
+        1.0
+      ],
+      "paper_count_history": [
+        9,
+        5
+      ]
+    },
+    "149": {
+      "name": "Code Generation & Synthesis",
+      "created": "2026-06-16",
+      "last_seen": "2026-06-17",
+      "confidence_history": [
+        0.667,
+        1.0
+      ],
+      "paper_count_history": [
+        18,
+        10
+      ]
+    },
+    "151": {
+      "name": "Inference Efficiency & Serving",
+      "created": "2026-06-16",
+      "last_seen": "2026-06-17",
+      "confidence_history": [
+        1.0,
+        1.0
+      ],
+      "paper_count_history": [
+        7,
+        2
+      ]
+    },
+    "144": {
+      "name": "Prompt Optimization & Engineering",
+      "created": "2026-06-16",
+      "last_seen": "2026-06-17",
+      "confidence_history": [
+        1.0,
+        1.0
+      ],
+      "paper_count_history": [
+        4,
+        1
+      ]
+    },
+    "156": {
+      "name": "Long-Context Learning & Scaling",
+      "created": "2026-06-17",
+      "last_seen": "2026-06-17",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "163": {
+      "name": "Neuro-Symbolic AI",
+      "created": "2026-06-17",
+      "last_seen": "2026-06-17",
       "confidence_history": [
         1.0
       ],
@@ -56,87 +205,65 @@
         4
       ]
     },
-    "152": {
-      "name": "AI Evaluation & Auditing",
-      "created": "2026-06-16",
-      "last_seen": "2026-06-16",
+    "154": {
+      "name": "Causal Inference & Fairness",
+      "created": "2026-06-17",
+      "last_seen": "2026-06-17",
       "confidence_history": [
         1.0
       ],
       "paper_count_history": [
-        15
+        4
       ]
     },
-    "146": {
-      "name": "Agent Safety & Verification",
-      "created": "2026-06-16",
-      "last_seen": "2026-06-16",
+    "157": {
+      "name": "Scientific AI & Automated Discovery",
+      "created": "2026-06-17",
+      "last_seen": "2026-06-17",
       "confidence_history": [
         1.0
       ],
       "paper_count_history": [
-        20
+        3
       ]
     },
-    "143": {
-      "name": "Memory Systems for AI Agents",
-      "created": "2026-06-16",
-      "last_seen": "2026-06-16",
-      "confidence_history": [
-        0.909
-      ],
-      "paper_count_history": [
-        11
-      ]
-    },
-    "150": {
-      "name": "Preference Learning & Reward Modeling",
-      "created": "2026-06-16",
-      "last_seen": "2026-06-16",
+    "161": {
+      "name": "Healthcare AI Applications",
+      "created": "2026-06-17",
+      "last_seen": "2026-06-17",
       "confidence_history": [
         1.0
       ],
       "paper_count_history": [
-        9
+        14
       ]
     },
-    "148": {
-      "name": "Knowledge Graphs & Retrieval",
-      "created": "2026-06-16",
-      "last_seen": "2026-06-16",
+    "158": {
+      "name": "Temporal & Sequential Modeling",
+      "created": "2026-06-17",
+      "last_seen": "2026-06-17",
       "confidence_history": [
-        0.727
+        1.0
       ],
       "paper_count_history": [
-        11
+        8
       ]
     },
-    "147": {
-      "name": "Multi-Agent Systems & Coordination",
-      "created": "2026-06-16",
-      "last_seen": "2026-06-16",
+    "155": {
+      "name": "Agentic Systems Design & Architecture",
+      "created": "2026-06-17",
+      "last_seen": "2026-06-17",
       "confidence_history": [
-        0.889
+        1.0
       ],
       "paper_count_history": [
-        9
+        13
       ]
     },
-    "149": {
-      "name": "Code Generation & Synthesis",
-      "created": "2026-06-16",
-      "last_seen": "2026-06-16",
-      "confidence_history": [
-        0.667
-      ],
-      "paper_count_history": [
-        18
-      ]
-    },
-    "151": {
-      "name": "Inference Efficiency & Serving",
-      "created": "2026-06-16",
-      "last_seen": "2026-06-16",
+    "160": {
+      "name": "Neural Architecture & Optimization Theory",
+      "created": "2026-06-17",
+      "last_seen": "2026-06-17",
       "confidence_history": [
         1.0
       ],
@@ -144,15 +271,114 @@
         7
       ]
     },
-    "144": {
-      "name": "Prompt Optimization & Engineering",
-      "created": "2026-06-16",
-      "last_seen": "2026-06-16",
+    "170": {
+      "name": "Synthetic Data & Data Generation",
+      "created": "2026-06-17",
+      "last_seen": "2026-06-17",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        5
+      ]
+    },
+    "167": {
+      "name": "Continual & Lifelong Learning",
+      "created": "2026-06-17",
+      "last_seen": "2026-06-17",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        3
+      ]
+    },
+    "168": {
+      "name": "Distributed & Federated Systems",
+      "created": "2026-06-17",
+      "last_seen": "2026-06-17",
       "confidence_history": [
         1.0
       ],
       "paper_count_history": [
         4
+      ]
+    },
+    "169": {
+      "name": "Quantization & Model Compression",
+      "created": "2026-06-17",
+      "last_seen": "2026-06-17",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        5
+      ]
+    },
+    "159": {
+      "name": "Embodied Reasoning & World Models",
+      "created": "2026-06-17",
+      "last_seen": "2026-06-17",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        6
+      ]
+    },
+    "165": {
+      "name": "Human Cognitive Alignment",
+      "created": "2026-06-17",
+      "last_seen": "2026-06-17",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        12
+      ]
+    },
+    "172": {
+      "name": "Interactive & Adaptive Systems",
+      "created": "2026-06-17",
+      "last_seen": "2026-06-17",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        3
+      ]
+    },
+    "171": {
+      "name": "Adversarial Robustness & Red-Teaming",
+      "created": "2026-06-17",
+      "last_seen": "2026-06-17",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        4
+      ]
+    },
+    "162": {
+      "name": "Privacy & Data Protection",
+      "created": "2026-06-17",
+      "last_seen": "2026-06-17",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        2
+      ]
+    },
+    "166": {
+      "name": "Visual Grounding & Spatial Reasoning",
+      "created": "2026-06-17",
+      "last_seen": "2026-06-17",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        2
       ]
     }
   }
