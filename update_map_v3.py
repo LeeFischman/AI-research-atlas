@@ -397,15 +397,38 @@ _PASS2_SYSTEM = (
 
 # ── Low-level API helper ──────────────────────────────────────────────────────
 
-def _haiku_call(client, system: str, user: str, max_tokens: int) -> str | None:
-    """Single Haiku API call. Returns raw response text or None on exception."""
+def _haiku_call(
+    client, system: str, user: str, max_tokens: int,
+    use_cache: bool = False,
+) -> str | None:
+    """Single Haiku API call. Returns raw response text or None on exception.
+
+    When use_cache=True the system prompt is sent with cache_control so that
+    the Anthropic API caches it across repeated calls within the same run.
+    Cache reads cost ~10% of normal input-token price; cache writes cost ~125%.
+    You break even after a single reuse, so enable this for all calls that
+    share a stable system prompt (Pass 1 batches, Pass 2, Review).
+    """
+    if use_cache and system:
+        system_param = [{"type": "text", "text": system,
+                         "cache_control": {"type": "ephemeral"}}]
+    else:
+        system_param = system  # plain string (or "" for reconciliation call)
+
     try:
         response = client.messages.create(
             model=HAIKU_MODEL,
             max_tokens=max_tokens,
-            system=system,
+            system=system_param,
             messages=[{"role": "user", "content": user}],
         )
+        # Log cache token usage when caching is enabled so we can verify hits.
+        if use_cache:
+            u = response.usage
+            cache_write = getattr(u, "cache_creation_input_tokens", 0) or 0
+            cache_read  = getattr(u, "cache_read_input_tokens", 0) or 0
+            input_tok   = getattr(u, "input_tokens", 0) or 0
+            print(f"    [cache] input={input_tok} write={cache_write} read={cache_read}")
         return response.content[0].text.strip()
     except Exception as e:
         err_str = str(e)
@@ -1123,7 +1146,8 @@ def haiku_group_papers(
         b_result = None
         for attempt in range(1, GROUPING_MAX_RETRIES + 1):
             print(f"    Attempt {attempt}/{GROUPING_MAX_RETRIES}...")
-            raw = _haiku_call(client, _PASS1_SYSTEM, p1_msg, max_tokens=4096)
+            raw = _haiku_call(client, _PASS1_SYSTEM, p1_msg, max_tokens=4096,
+                              use_cache=True)
             if raw is not None:
                 print(f"    Response length: {len(raw)} chars.")
                 b_result = _parse_pass1_response(raw, b_size)
@@ -1192,7 +1216,8 @@ def haiku_group_papers(
         p2_result = None
         for attempt in range(1, GROUPING_MAX_RETRIES + 1):
             print(f"  Attempt {attempt}/{GROUPING_MAX_RETRIES}...")
-            raw = _haiku_call(client, _PASS2_SYSTEM, p2_msg, max_tokens=8192)
+            raw = _haiku_call(client, _PASS2_SYSTEM, p2_msg, max_tokens=8192,
+                              use_cache=True)
             if raw is not None:
                 print(f"  Response length: {len(raw)} chars.")
                 p2_result = _parse_pass2_response(raw, n_uncertain,
@@ -1316,7 +1341,8 @@ def haiku_group_papers(
             rev_result = None
             for attempt in range(1, GROUPING_MAX_RETRIES + 1):
                 print(f"  Review attempt {attempt}/{GROUPING_MAX_RETRIES}...")
-                raw = _haiku_call(client, _PASS2_SYSTEM, rev_msg, max_tokens=4096)
+                raw = _haiku_call(client, _PASS2_SYSTEM, rev_msg, max_tokens=4096,
+                                  use_cache=True)
                 if raw is not None:
                     print(f"  Response length: {len(raw)} chars.")
                     # existing_dynamic_ids for review = all currently known
