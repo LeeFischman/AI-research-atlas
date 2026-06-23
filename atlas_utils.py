@@ -895,6 +895,14 @@ _OAI_UA = (
     "mailto:lee.fischman@gmail.com)"
 )
 
+# arXiv's CDN/WAF returns HTTP 406 (Not Acceptable) for requests that omit
+# an Accept header. urllib sends no Accept by default, so we set one
+# explicitly. OAI-PMH and the Search API both return XML.
+_OAI_HEADERS = {
+    "User-Agent": _OAI_UA,
+    "Accept": "application/xml, text/xml, */*;q=0.9",
+}
+
 
 @dataclass
 class _Author:
@@ -939,7 +947,7 @@ def _oai_fetch_ids_for_date(date_str: str, category: str = "cs.AI") -> list[str]
     while True:
         page += 1
         url = f"{_OAI_BASE_URL}?{urllib.parse.urlencode(params)}"
-        req = _ureq.Request(url, headers={"User-Agent": _OAI_UA})
+        req = _ureq.Request(url, headers=_OAI_HEADERS)
 
         for attempt in range(1, MAX_RETRIES + 1):
             try:
@@ -956,7 +964,14 @@ def _oai_fetch_ids_for_date(date_str: str, category: str = "cs.AI") -> list[str]
                     print(f"    OAI 429 — waiting {wait}s (attempt {attempt})...")
                     time.sleep(wait)
                 else:
-                    raise
+                    # Unexpected HTTP status (e.g. a 406 introduced by an
+                    # arXiv CDN/WAF change). Retrying with identical headers
+                    # will not help, and raising crashes the whole daily run,
+                    # so log and let the retry loop exhaust into the for/else
+                    # handler below, which returns the IDs collected so far
+                    # and lets the pipeline rebuild from the rolling DB.
+                    print(f"    OAI HTTP {e.code} ({e.reason}) — "
+                          f"not retryable (attempt {attempt}).")
             except Exception as e:
                 if attempt < MAX_RETRIES:
                     wait = BASE_WAIT * (2 ** (attempt - 1))
@@ -1068,7 +1083,7 @@ def oai_fetch_ids_for_range(
     while True:
         page += 1
         url = f"{_OAI_BASE_URL}?{urllib.parse.urlencode(params)}"
-        req = _ureq.Request(url, headers={"User-Agent": _OAI_UA})
+        req = _ureq.Request(url, headers=_OAI_HEADERS)
 
         for attempt in range(1, MAX_RETRIES + 1):
             try:
@@ -1085,7 +1100,14 @@ def oai_fetch_ids_for_range(
                     print(f"    OAI 429 — waiting {wait}s (attempt {attempt})...")
                     time.sleep(wait)
                 else:
-                    raise
+                    # Unexpected HTTP status (e.g. a 406 introduced by an
+                    # arXiv CDN/WAF change). Retrying with identical headers
+                    # will not help, and raising crashes the whole daily run,
+                    # so log and let the retry loop exhaust into the for/else
+                    # handler below, which returns the IDs collected so far
+                    # and lets the pipeline rebuild from the rolling DB.
+                    print(f"    OAI HTTP {e.code} ({e.reason}) — "
+                          f"not retryable (attempt {attempt}).")
             except Exception as e:
                 if attempt < MAX_RETRIES:
                     wait = BASE_WAIT * (2 ** (attempt - 1))
@@ -1189,7 +1211,7 @@ def _search_fetch_metadata(arxiv_ids: list[str]) -> list[_ArxivPaper]:
         batch   = arxiv_ids[batch_start:batch_start + _SEARCH_BATCH_SIZE]
         id_list = ",".join(batch)
         url     = f"{_SEARCH_BASE_URL}?id_list={id_list}&max_results={len(batch)}"
-        req     = _ureq.Request(url, headers={"User-Agent": _OAI_UA})
+        req     = _ureq.Request(url, headers=_OAI_HEADERS)
 
         for attempt in range(1, MAX_RETRIES + 1):
             try:
