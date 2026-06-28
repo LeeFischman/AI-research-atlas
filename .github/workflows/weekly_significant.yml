@@ -21,7 +21,7 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt anthropic
+          pip install -r requirements.txt
       # ════════════════════════════════════════════════════════════════════
       # WEEKLY SIGNIFICANT PAPERS DISCOVERY
       #
@@ -64,17 +64,20 @@ jobs:
           fi
 
       # ════════════════════════════════════════════════════════════════════
-      # WEEKLY FULL PIPELINE RUN (with Haiku grouping)
+      # WEEKLY FULL PIPELINE RUN (Gemini grouping)
       #
       # Runs immediately after the significant papers scan so the atlas
-      # reflects the updated pool. This is the only weekly run that calls
-      # Haiku — daily runs use SKIP_HAIKU=true (nearest-centroid only).
+      # reflects the updated pool. Two-pass Gemini 2.5 Flash-Lite grouping
+      # runs here on the refreshed pool.
       #
-      # SKIP_HAIKU is intentionally absent here → full two-pass grouping.
+      # NOTE: SKIP_HAIKU in daily_update.yml is currently inert — nothing in
+      # the pipeline reads it — so the daily run ALSO performs full grouping.
+      # Both runs now use Gemini 2.5 Flash-Lite. To gate grouping to weekly
+      # only, a SKIP_HAIKU check would have to be added to update_map_v3.py.
       # ════════════════════════════════════════════════════════════════════
       - name: Run Weekly Atlas Pipeline
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
           OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
           SEMANTIC_SCHOLAR_API_KEY: ${{ secrets.SEMANTIC_SCHOLAR_API_KEY }}
