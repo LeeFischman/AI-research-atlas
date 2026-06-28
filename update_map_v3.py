@@ -4,17 +4,17 @@
 # AI Research Atlas — v3 pipeline.
 #
 # Key difference from update_map.py (v1):
-#   v1: HDBSCAN groups papers by SPECTER2 geometry, Haiku labels each cluster.
-#   v2: Haiku groups papers by research meaning, geometry follows from those groups.
+#   v1: HDBSCAN groups papers by SPECTER2 geometry, Gemini labels each cluster.
+#   v2: Gemini groups papers by research meaning, geometry follows from those groups.
 #   v3: Adds secondary_tags (multi-label) and end-of-run dynamic-group reconciliation.
 #
 # Pipeline (4 stages + build)
 # ──────────────────────────────────────────────
 # 1. FETCH       arXiv → new papers
 # 2. EMBED       SPECTER2 incremental embed + UMAP → projection_x/y for direction vectors
-# 3. GROUP       Single Haiku call → group_id_v3 + group_name per paper (12-18 groups)
-#                Haiku names the groups as it forms them; no second labeling call needed.
-#                If Haiku returns > GROUP_COUNT_MAX groups, excess groups are merged
+# 3. GROUP       Single Gemini call → group_id_v3 + group_name per paper (12-18 groups)
+#                Gemini names the groups as it forms them; no second labeling call needed.
+#                If Gemini returns > GROUP_COUNT_MAX groups, excess groups are merged
 #                by repeatedly absorbing the closest pair (SPECTER2 distance).
 #                Returns secondary_tags: 0-2 additional groups per paper (for Grid View).
 #                End-of-run reconciliation merges near-duplicate dynamic groups.
@@ -26,7 +26,7 @@
 # 5. BUILD       embedding-atlas CLI + deploy
 #
 # Projection columns written (coexist with v1 columns in database.parquet):
-#   group_id_v3     — Haiku group assignment (int, post-merge)
+#   group_id_v3     — Gemini group assignment (int, post-merge)
 #   projection_v3_x — v3 layout x
 #   projection_v3_y — v3 layout y
 #   secondary_tags  — list of 0-2 additional group names per paper (Grid View only)
@@ -37,7 +37,7 @@
 #             group_names_v3.json saved from a previous normal run.
 #
 # Normal run:
-#   ANTHROPIC_API_KEY=sk-... python update_map_v3.py
+#   GOOGLE_API_KEY=... python update_map_v3.py
 # ──────────────────────────────────────────────────────────────────────────────
 
 import json
@@ -84,7 +84,7 @@ from atlas_utils import (
 # ══════════════════════════════════════════════════════════════════════════════
 
 # ── Offline mode ─────────────────────────────────────────────────────────────
-# When True: skip arXiv fetch, SPECTER2 embedding, and Haiku API calls entirely.
+# When True: skip arXiv fetch, SPECTER2 embedding, and Gemini API calls entirely.
 # Re-runs MDS layout, scatter, and Atlas build using data already in the parquet.
 # Set via env var:  OFFLINE_MODE=true python update_map_v2.py
 OFFLINE_MODE = os.environ.get("OFFLINE_MODE", "false").strip().lower() == "true"
@@ -105,11 +105,11 @@ BACKFILL_HINDICES = os.environ.get("BACKFILL_HINDICES", "false").strip().lower()
 # Set via env var:  OPENALEX_OFFLINE_MODE=true python update_map_v2.py
 OPENALEX_OFFLINE_MODE = os.environ.get("OPENALEX_OFFLINE_MODE", "false").strip().lower() == "true"
 
-# Cache file written after every successful Haiku grouping call.
+# Cache file written after every successful Gemini grouping call.
 # Loaded automatically in offline mode.
 GROUP_NAMES_CACHE = "group_names_v3.json"
 
-# ── Haiku grouping — two-pass + persistent taxonomy ─────────────────────────
+# ── Gemini grouping — two-pass + persistent taxonomy ─────────────────────────
 #
 # Pass 1: All papers assigned to stable categories (IDs 0-13) using titles.
 #         Papers that do not clearly fit a stable category are flagged uncertain.
@@ -128,10 +128,10 @@ GROUP_STABLE_COUNT = 14    # fixed; IDs 0-13
 # Hard cap on total groups (stable + dynamic).
 GROUP_COUNT_MAX = 60
 
-# Characters of each abstract sent to Haiku in pass 2.
+# Characters of each abstract sent to Gemini in pass 2.
 ABSTRACT_GROUPING_CHARS = 300
 
-# Maximum papers Haiku may flag as uncertain in pass 1.
+# Maximum papers Gemini may flag as uncertain in pass 1.
 # Papers above this cap are force-assigned to their pass 1 stable best-guess.
 PASS1_UNCERTAIN_CAP = 400
 
@@ -140,7 +140,7 @@ PASS1_UNCERTAIN_CAP = 400
 # Input: ~100 titles × ~90 chars ÷ 4 ≈ 2K tokens. ~21 batches at 2000 papers.
 PASS1_BATCH_SIZE = 100
 
-# Retry policy — shared across all Haiku calls in Stage 3.
+# Retry policy — shared across all Gemini calls in Stage 3.
 # Wait schedule: GROUPING_RETRY_BASE_WAIT × 2^(attempt-1) seconds.
 GROUPING_MAX_RETRIES     = 5
 GROUPING_RETRY_BASE_WAIT = 60   # seconds
@@ -215,7 +215,7 @@ LAYOUT_Y_SCALE     = 0.7   # compress y to fit landscape view (<1.0 = shorter)
 #
 # Ready for production (fresh papers + re-grouping):
 #   → Remove OFFLINE_MODE from the workflow YAML.
-#     First normal run re-embeds, calls Haiku, and commits updated
+#     First normal run re-embeds, calls Gemini, and commits updated
 #     group_names_v3.json to the repo for future offline runs.
 
 # ── Atlas CLI ────────────────────────────────────────────────────────────────
@@ -229,8 +229,10 @@ PROJ_Y_COL = "projection_v3_y"
 # Loaded at Stage 1 and merged with the recent-window papers.
 SIGNIFICANT_PATH = "significant.parquet"
 
-# ── Haiku model ──────────────────────────────────────────────────────────────
-HAIKU_MODEL = "claude-haiku-4-5-20251001"
+# ── Grouping model ────────────────────────────────────────────────────────────
+# Gemini 2.5 Flash-Lite (GA alias). Do NOT pin the -preview-09-2025 snapshot:
+# it is scheduled for discontinuation on 2026-07-09.
+GEMINI_MODEL = "gemini-2.5-flash-lite"
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -314,7 +316,7 @@ ID 0 — Language Models & Pretraining
   mark the paper uncertain."""
 
 
-# Canonical names for stable buckets — used to normalise Haiku's output.
+# Canonical names for stable buckets — used to normalise Gemini's output.
 _STABLE_BUCKET_NAMES: dict[int, str] = {
     0:  "Language Models & Pretraining",
     1:  "Computer Vision",
@@ -397,43 +399,63 @@ _PASS2_SYSTEM = (
 
 # ── Low-level API helper ──────────────────────────────────────────────────────
 
-def _haiku_call(
+def _gemini_call(
     client, system: str, user: str, max_tokens: int,
     use_cache: bool = False,
 ) -> str | None:
-    """Single Haiku API call. Returns raw response text or None on exception.
+    """Single Gemini API call. Returns raw response text or None on exception.
 
-    When use_cache=True the system prompt is sent with cache_control so that
-    the Anthropic API caches it across repeated calls within the same run.
-    Cache reads cost ~10% of normal input-token price; cache writes cost ~125%.
-    You break even after a single reuse, so enable this for all calls that
-    share a stable system prompt (Pass 1 batches, Pass 2, Review).
+    Model: GEMINI_MODEL (Gemini 2.5 Flash-Lite). Output is forced to JSON via
+    response_mime_type, so the pass-1/pass-2 parsers receive clean JSON with no
+    markdown fences or trailing prose (their defensive stripping becomes a
+    harmless no-op).
+
+    Implicit caching is automatic for Gemini 2.5 models: when consecutive calls
+    share a common prefix (the system prompt), Google applies a cached-token
+    discount with no code and no explicit cache object to manage. The use_cache
+    flag here only controls whether per-call cache metadata is logged so hits
+    can be verified. Keep the stable prompt in `system` (sent as
+    system_instruction — the cacheable prefix) and the per-batch papers in
+    `user`, so the prefix stays byte-identical across a run.
+
+    Note: thinking is disabled (budget 0) — Flash-Lite's default, set explicitly
+    so a future default change cannot silently add thinking-token cost. If a
+    given SDK/snapshot rejects thinking_budget=0, delete that one line; the
+    model is non-thinking by default regardless. temperature=0.0 is a
+    deliberate change from the previous model's default (~1.0) for run-to-run
+    taxonomy stability; raise it if you want more variability.
     """
-    if use_cache and system:
-        system_param = [{"type": "text", "text": system,
-                         "cache_control": {"type": "ephemeral"}}]
-    else:
-        system_param = system  # plain string (or "" for reconciliation call)
+    from google.genai import types
+
+    config = types.GenerateContentConfig(
+        system_instruction=(system if system else None),
+        max_output_tokens=max_tokens,
+        temperature=0.0,
+        thinking_config=types.ThinkingConfig(thinking_budget=0),
+        response_mime_type="application/json",
+    )
 
     try:
-        response = client.messages.create(
-            model=HAIKU_MODEL,
-            max_tokens=max_tokens,
-            system=system_param,
-            messages=[{"role": "user", "content": user}],
+        response = client.models.generate_content(
+            model=GEMINI_MODEL,
+            contents=user,
+            config=config,
         )
-        # Log cache token usage when caching is enabled so we can verify hits.
+        # Log cache token usage so implicit cache hits can be verified.
         if use_cache:
-            u = response.usage
-            cache_write = getattr(u, "cache_creation_input_tokens", 0) or 0
-            cache_read  = getattr(u, "cache_read_input_tokens", 0) or 0
-            input_tok   = getattr(u, "input_tokens", 0) or 0
-            print(f"    [cache] input={input_tok} write={cache_write} read={cache_read}")
-        return response.content[0].text.strip()
+            u = getattr(response, "usage_metadata", None)
+            prompt_tok = getattr(u, "prompt_token_count", 0) or 0
+            cached_tok = getattr(u, "cached_content_token_count", 0) or 0
+            print(f"    [cache] prompt={prompt_tok} cached={cached_tok}")
+        text = response.text
+        return text.strip() if text else None
     except Exception as e:
         err_str = str(e)
-        is_529  = "529" in err_str or "overloaded" in err_str.lower()
-        label   = "API overloaded (529)" if is_529 else "API error"
+        is_overload = (
+            any(s in err_str for s in ("429", "503", "RESOURCE_EXHAUSTED", "UNAVAILABLE"))
+            or "overload" in err_str.lower()
+        )
+        label = "API rate-limited / overloaded" if is_overload else "API error"
         print(f"    {label}: {e}")
         return None
 
@@ -559,7 +581,7 @@ def _parse_pass1_response(
         print(f"    'uncertain' must be a list, got {type(uncertain_raw).__name__}.")
         return None
 
-    # Allow short arrays: Haiku occasionally drops a few trailing entries.
+    # Allow short arrays: Gemini occasionally drops a few trailing entries.
     # Hard-fail only if the array is more than 10% short (likely garbage).
     n_received = len(assignments_raw)
     if n_received > n_papers:
@@ -579,14 +601,14 @@ def _parse_pass1_response(
             return None
         assignments[i] = v
 
-    # Fill any gaps (trailing entries Haiku dropped) with group 0
+    # Fill any gaps (trailing entries Gemini dropped) with group 0
     # and route them to uncertain for pass 2 review.
     gap_indices: list[int] = []
     for i in range(len(assignments_raw), n_papers):
         assignments[i] = 0
         gap_indices.append(i)
     if gap_indices:
-        print(f"    {len(gap_indices)} trailing paper(s) not returned by Haiku "
+        print(f"    {len(gap_indices)} trailing paper(s) not returned by Gemini "
               f"— defaulted to group 0, routed to uncertain.")
 
     uncertain: list[int] = list(gap_indices)  # gaps go to uncertain first
@@ -697,7 +719,7 @@ def _parse_pass2_response(
     """
     text = re.sub(r"^```(?:json)?\s*", "", text.strip())
     text = re.sub(r"\s*```$", "", text)
-    # Truncate at last } to strip any trailing explanation Haiku appends after the JSON
+    # Truncate at last } to strip any trailing explanation Gemini appends after the JSON
     last_brace = text.rfind("}")
     if last_brace != -1:
         text = text[:last_brace + 1]
@@ -739,7 +761,7 @@ def _parse_pass2_response(
             print(f"    Non-integer paper index: {k!r}")
             return None
 
-        # Guard against Haiku hallucinating paper indices beyond the batch.
+        # Guard against Gemini hallucinating paper indices beyond the batch.
         # (Observed 2026-04-20: Pass 2 returned 133 assignments for 128 uncertain
         # papers, crashing the apply loop with IndexError. Drop the stray ones
         # and let the 'Missing paper indices' check below decide if the real
@@ -1004,7 +1026,7 @@ def reconcile_dynamic_groups(
     final_assignment: dict[int, int],
     client,
 ) -> dict[int, int]:
-    """Ask Haiku to identify near-duplicate dynamic groups and return a merge map.
+    """Ask Gemini to identify near-duplicate dynamic groups and return a merge map.
 
     Only operates on dynamic groups (IDs >= 14).
     Returns {absorb_id: keep_id} — may be empty if no merges warranted.
@@ -1040,7 +1062,7 @@ def reconcile_dynamic_groups(
     )
 
     print(f"\n  Reconciliation — checking {len(dynamic)} dynamic groups for duplicates...")
-    raw = _haiku_call(client, "", prompt, max_tokens=1024)
+    raw = _gemini_call(client, "", prompt, max_tokens=1024)
     if raw is None:
         print("  Reconciliation: API call failed — skipping.")
         return {}
@@ -1081,7 +1103,7 @@ def haiku_group_papers(
     df: pd.DataFrame,
     client,
 ) -> tuple[pd.DataFrame, dict[int, str]]:
-    """Stage 3: Two-pass Haiku grouping with persistent dynamic taxonomy.
+    """Stage 3: Two-pass Gemini grouping with persistent dynamic taxonomy.
 
     Pass 1 — All papers, titles only (single call):
       Assigns each paper to a stable category (0-13).
@@ -1093,7 +1115,7 @@ def haiku_group_papers(
 
     Review — Optional targeted call:
       Papers in groups whose rolling confidence has fallen below the
-      maturity-modulated threshold are re-evaluated by Haiku.
+      maturity-modulated threshold are re-evaluated by Gemini.
 
     Taxonomy is loaded, updated, and saved each run. Groups absent for
     TAXONOMY_RETIRE_DAYS are retired automatically.
@@ -1103,7 +1125,7 @@ def haiku_group_papers(
     df    = df.reset_index(drop=True)
     n     = len(df)
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    print(f"\n▶  Stage 3 — Haiku grouping + naming ({n} papers, two-pass)...")
+    print(f"\n▶  Stage 3 — Gemini grouping + naming ({n} papers, two-pass)...")
 
     # ── Load or seed dynamic taxonomy ────────────────────────────────────────
     if os.path.exists(TAXONOMY_PATH):
@@ -1146,7 +1168,7 @@ def haiku_group_papers(
         b_result = None
         for attempt in range(1, GROUPING_MAX_RETRIES + 1):
             print(f"    Attempt {attempt}/{GROUPING_MAX_RETRIES}...")
-            raw = _haiku_call(client, _PASS1_SYSTEM, p1_msg, max_tokens=4096,
+            raw = _gemini_call(client, _PASS1_SYSTEM, p1_msg, max_tokens=4096,
                               use_cache=True)
             if raw is not None:
                 print(f"    Response length: {len(raw)} chars.")
@@ -1216,7 +1238,7 @@ def haiku_group_papers(
         p2_result = None
         for attempt in range(1, GROUPING_MAX_RETRIES + 1):
             print(f"  Attempt {attempt}/{GROUPING_MAX_RETRIES}...")
-            raw = _haiku_call(client, _PASS2_SYSTEM, p2_msg, max_tokens=8192,
+            raw = _gemini_call(client, _PASS2_SYSTEM, p2_msg, max_tokens=8192,
                               use_cache=True)
             if raw is not None:
                 print(f"  Response length: {len(raw)} chars.")
@@ -1341,7 +1363,7 @@ def haiku_group_papers(
             rev_result = None
             for attempt in range(1, GROUPING_MAX_RETRIES + 1):
                 print(f"  Review attempt {attempt}/{GROUPING_MAX_RETRIES}...")
-                raw = _haiku_call(client, _PASS2_SYSTEM, rev_msg, max_tokens=4096,
+                raw = _gemini_call(client, _PASS2_SYSTEM, rev_msg, max_tokens=4096,
                                   use_cache=True)
                 if raw is not None:
                     print(f"  Response length: {len(raw)} chars.")
@@ -1476,7 +1498,7 @@ def _load_group_names_cache(df: pd.DataFrame | None = None) -> dict[int, str]:
 
 
 def _hdbscan_fallback_grouping(df: pd.DataFrame) -> dict[int, int]:
-    """Fallback HDBSCAN grouping if all Haiku calls fail."""
+    """Fallback HDBSCAN grouping if all Gemini calls fail."""
     from sklearn.cluster import HDBSCAN
     from sklearn.metrics.pairwise import cosine_distances
     from sklearn.preprocessing import normalize as sk_normalize
@@ -1743,7 +1765,7 @@ def write_labels_parquet(
 # ══════════════════════════════════════════════════════════════════════════════
 
 if __name__ == "__main__":
-    import anthropic
+    from google import genai
 
     now      = datetime.now(timezone.utc)
     run_date = now.strftime("%B %d, %Y")
@@ -1842,13 +1864,13 @@ if __name__ == "__main__":
     # NORMAL MODE — full pipeline
     # ══════════════════════════════════════════════════════════════════════════
     else:
-        api_key = os.environ.get("ANTHROPIC_API_KEY", "").strip()
+        api_key = os.environ.get("GOOGLE_API_KEY", "").strip()
         if not api_key:
             raise RuntimeError(
-                "ANTHROPIC_API_KEY is not set. Add it to GitHub repo secrets "
+                "GOOGLE_API_KEY is not set. Add it to GitHub repo secrets "
                 "and expose it in the workflow YAML under env:."
             )
-        haiku_client = anthropic.Anthropic(api_key=api_key)
+        grouping_client = genai.Client(api_key=api_key)
 
         # ── Stage 1: Load & prune rolling DB ────────────────────────────────
         print("\n▶  Stage 1 -- Loading rolling database...")
@@ -2126,8 +2148,8 @@ if __name__ == "__main__":
         print("\n▶  Stage 2 — SPECTER2 embedding + UMAP...")
         df = embed_and_project(df, model_name="specter2")
 
-        # ── Stage 3: Haiku grouping + naming ────────────────────────────────
-        df, group_names = haiku_group_papers(df, haiku_client)
+        # ── Stage 3: Gemini grouping + naming ────────────────────────────────
+        df, group_names = haiku_group_papers(df, grouping_client)
 
     # ══════════════════════════════════════════════════════════════════════════
     # STAGES 4-5: Layout + build — run in both normal AND offline modes
