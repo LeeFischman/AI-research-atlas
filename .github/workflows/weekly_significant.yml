@@ -78,6 +78,7 @@ jobs:
       - name: Run Weekly Atlas Pipeline
         env:
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+          GEMINI_TARGET_RPM: "8"   # free-tier pacing: 8 req/min (20% under the 10 RPM cap); set 6 for more margin, 0 to disable on paid
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
           OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
           SEMANTIC_SCHOLAR_API_KEY: ${{ secrets.SEMANTIC_SCHOLAR_API_KEY }}
