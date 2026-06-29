@@ -9,100 +9,65 @@
         },
         "embeddingViewLabels": [
             {
-                "x": 0.2594767711881769,
-                "y": 0.7043418371153997,
-                "text": "Language Models & Pretraining",
+                "x": 3.6491885851374977,
+                "y": 0.20169677984552642,
+                "text": "Group 0",
                 "level": 0,
                 "priority": 10
             },
             {
-                "x": 3.2233443556224675,
-                "y": 0.5687647626040649,
-                "text": "Computer Vision",
+                "x": 1.8934412810545307,
+                "y": -0.34376374728726133,
+                "text": "Group 1",
                 "level": 0,
                 "priority": 10
             },
             {
-                "x": -2.993980363452743,
-                "y": -0.37849557582906734,
-                "text": "Multimodal Learning",
+                "x": -1.8662609193133177,
+                "y": -0.7762114634304439,
+                "text": "Group 2",
                 "level": 0,
                 "priority": 10
             },
             {
-                "x": -1.2310417301272318,
-                "y": 0.08113570691289623,
-                "text": "Reinforcement Learning",
+                "x": -0.6937351708024426,
+                "y": -1.6070087797999564,
+                "text": "Group 3",
                 "level": 0,
                 "priority": 10
             },
             {
-                "x": 1.9006773257673724,
-                "y": 1.1577478439580529,
-                "text": "Robotics & Embodied AI",
+                "x": 2.1712349246875946,
+                "y": -1.2940527427160302,
+                "text": "Group 4",
                 "level": 0,
                 "priority": 10
             },
             {
-                "x": -2.127865384476747,
-                "y": 1.1625141820089344,
-                "text": "Safety, Alignment & Ethics",
+                "x": -0.726205980370086,
+                "y": 0.4113602984378686,
+                "text": "Group 5",
                 "level": 0,
                 "priority": 10
             },
             {
-                "x": 3.469343870010317,
-                "y": -0.32725817417027364,
-                "text": "Theory, Optimization & Efficient ML",
+                "x": -4.0720078145794645,
+                "y": 0.4321644203617561,
+                "text": "Group 6",
                 "level": 0,
                 "priority": 10
             },
             {
-                "x": -2.333486504877657,
-                "y": -1.2151424601219614,
-                "text": "Domain Applications",
+                "x": -1.5314124885559532,
+                "y": 1.3553952584096338,
+                "text": "Group 7",
                 "level": 0,
                 "priority": 10
             },
             {
-                "x": 1.486039225769089,
-                "y": -0.27120010536418765,
-                "text": "Generative Models & Synthesis",
-                "level": 0,
-                "priority": 10
-            },
-            {
-                "x": 2.316457108796602,
-                "y": -1.1045197631922359,
-                "text": "Speech & Audio Processing",
-                "level": 0,
-                "priority": 10
-            },
-            {
-                "x": 0.5112649491396432,
-                "y": -1.5573373524746088,
-                "text": "Graph Learning & Networks",
-                "level": 0,
-                "priority": 10
-            },
-            {
-                "x": -0.7097743960855758,
-                "y": -0.9445232210069161,
-                "text": "Data, Benchmarks & Evaluation",
-                "level": 0,
-                "priority": 10
-            },
-            {
-                "x": -0.3067184232559203,
-                "y": 1.558261245234914,
-                "text": "Human-AI Interaction",
-                "level": 0,
-                "priority": 10
-            },
-            {
-                "x": -3.4601463781686776,
-                "y": 0.4536083841631429,
-                "text": "Planning & Search",
+                "x": 1.1362078580926511,
+                "y": 1.3485712177387137,
+                "text": "Group 8",
                 "level": 0,
                 "priority": 10
             }
