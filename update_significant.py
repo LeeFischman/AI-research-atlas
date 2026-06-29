@@ -706,8 +706,15 @@ if __name__ == "__main__":
     print(f"\n▶  Writing {len(sig_df)} papers -> {SIGNIFICANT_PATH}...")
 
     if "date_added" in sig_df.columns:
+        # Detach from any pyarrow-backed string dtype (the pandas>=3.0 default)
+        # before to_datetime. Converting an Arrow-backed column in place can
+        # segfault in pandas' native take_nd path; a plain object ndarray routes
+        # through the stable code path. Safe under pandas 2.x and 3.x alike.
+        _da = pd.Series(
+            sig_df["date_added"].to_numpy(dtype="object"), index=sig_df.index
+        )
         sig_df["date_added"] = pd.to_datetime(
-            sig_df["date_added"], utc=True, errors="coerce"
+            _da, utc=True, errors="coerce"
         ).dt.strftime("%Y-%m-%dT%H:%M:%SZ")
 
     sig_df.to_parquet(SIGNIFICANT_PATH, index=False)
