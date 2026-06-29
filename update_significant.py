@@ -45,6 +45,7 @@
 import json
 import os
 import time
+import faulthandler
 from datetime import datetime, timedelta, timezone
 
 import pandas as pd
@@ -64,6 +65,11 @@ from atlas_utils import (
     fetch_arxiv_metadata,
     _arxiv_id_base,
 )
+
+# Dump a C-level traceback to stderr if a native extension (e.g. pyarrow on a
+# corrupted parquet) segfaults, so the Actions log shows WHERE it died instead
+# of a bare "exit code 139". Cheap, always-on, no effect on normal runs.
+faulthandler.enable()
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -105,8 +111,15 @@ SIGNIFICANT_STRIKES_LIMIT    = 2     # retire after this many consecutive absenc
 def load_sig_candidates() -> dict | None:
     """Load the candidate pool state from disk. Returns None on first run."""
     if os.path.exists(SIG_CANDIDATES_PATH):
-        with open(SIG_CANDIDATES_PATH) as f:
-            return json.load(f)
+        try:
+            with open(SIG_CANDIDATES_PATH) as f:
+                return json.load(f)
+        except (json.JSONDecodeError, ValueError) as e:
+            raise ValueError(
+                f"{SIG_CANDIDATES_PATH} is present but not valid JSON "
+                f"({e}). The file is likely corrupted — restore it from the "
+                f"last good commit or delete it to force a full backfill."
+            ) from e
     return None
 
 
@@ -114,6 +127,63 @@ def save_sig_candidates(state: dict) -> None:
     """Persist the candidate pool state to disk."""
     with open(SIG_CANDIDATES_PATH, "w") as f:
         json.dump(state, f, indent=2)
+
+
+def _print_env_diagnostics() -> None:
+    """Log native-lib versions once at startup. A segfault is almost always a
+    compiled-extension issue, so the versions are the first thing to check."""
+    import sys
+    print(f"  python  : {sys.version.split()[0]}")
+    print(f"  pandas  : {pd.__version__}")
+    try:
+        import numpy as _np
+        print(f"  numpy   : {_np.__version__}")
+    except Exception as e:                       # pragma: no cover
+        print(f"  numpy   : import failed ({e})")
+    try:
+        import pyarrow as _pa
+        print(f"  pyarrow : {_pa.__version__}")
+    except Exception as e:                       # pragma: no cover
+        print(f"  pyarrow : import failed ({e})")
+
+
+def _safe_read_parquet(path: str, **kwargs) -> "pd.DataFrame":
+    """Read a parquet file, validating it is well-formed FIRST so a corrupted
+    file raises a clear Python error instead of segfaulting pyarrow.
+
+    pyarrow can SIGSEGV (exit 139) on a truncated or garbage parquet rather
+    than raising. The size + PAR1 magic-byte + footer-metadata checks below
+    convert the common corruption modes (0-byte, truncated, bad trailer, partial
+    commit) into catchable ValueErrors that name the file and suggest recovery.
+    A clean file passes these in microseconds and reads normally.
+    """
+    size = os.path.getsize(path)
+    if size < 8:  # must hold at least the 4-byte PAR1 head + tail magics
+        raise ValueError(
+            f"{path} is {size} bytes — too small to be a valid parquet "
+            f"(truncated/corrupted). Restore it from the last good commit."
+        )
+    with open(path, "rb") as fh:
+        head = fh.read(4)
+        fh.seek(-4, os.SEEK_END)
+        tail = fh.read(4)
+    if head != b"PAR1" or tail != b"PAR1":
+        raise ValueError(
+            f"{path} is missing the PAR1 parquet magic "
+            f"(head={head!r}, tail={tail!r}) — file is corrupted. "
+            f"Restore it from the last good commit."
+        )
+    # Footer parse raises ArrowInvalid cleanly on most remaining corruption,
+    # before the full row-group read that is where segfaults actually occur.
+    import pyarrow.parquet as pq
+    try:
+        pq.read_metadata(path)
+    except Exception as e:
+        raise ValueError(
+            f"{path} has a valid magic but an unreadable footer ({e}) — "
+            f"file is corrupted. Restore it from the last good commit."
+        ) from e
+    return pd.read_parquet(path, **kwargs)
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -537,7 +607,7 @@ def refresh_recent_citations(ss_cache: dict) -> None:
         print(f"  {DB_PATH} not found — skipping recent-window refresh.")
         return
 
-    db_full    = pd.read_parquet(DB_PATH, columns=["id"])
+    db_full    = _safe_read_parquet(DB_PATH, columns=["id"])
     db_all_ids = [str(i) for i in db_full["id"].tolist()]
     print(f"  {len(db_all_ids)} recent-window papers to refresh.")
 
@@ -570,6 +640,8 @@ if __name__ == "__main__":
     print(f"  Author h-index enrichment and S2 citation refresh are handled")
     print(f"  by the daily job (daily_significant.py).")
     print("=" * 60)
+    print("  Environment:")
+    _print_env_diagnostics()
 
     # ── Date window ──────────────────────────────────────────────────────────
     date_from = now - timedelta(days=SIGNIFICANT_LOOKBACK_DAYS)
@@ -578,7 +650,7 @@ if __name__ == "__main__":
     # ── Load existing significant pool ───────────────────────────────────────
     print("\n▶  Loading existing significant pool...")
     if os.path.exists(SIGNIFICANT_PATH):
-        existing_sig = pd.read_parquet(SIGNIFICANT_PATH)
+        existing_sig = _safe_read_parquet(SIGNIFICANT_PATH)
         print(f"  Loaded {len(existing_sig)} papers from {SIGNIFICANT_PATH}.")
     else:
         existing_sig = None
@@ -588,7 +660,7 @@ if __name__ == "__main__":
     print("\n▶  Loading recent-window IDs from database.parquet...")
     db_ids: set[str] = set()
     if os.path.exists(DB_PATH):
-        db_df  = pd.read_parquet(DB_PATH, columns=["id"])
+        db_df  = _safe_read_parquet(DB_PATH, columns=["id"])
         db_ids = {_arxiv_id_base(str(i)) for i in db_df["id"].tolist()}
         print(f"  {len(db_ids)} recent-window papers to exclude.")
     else:
