@@ -435,9 +435,27 @@ def _gemini_pace() -> None:
     _gemini_last_call_ts = now
 
 
+def _retry_temperature(attempt: int) -> float:
+    """Temperature schedule for retry attempts.
+
+    attempt 1 stays at 0.0 for taxonomy stability on the common (successful)
+    path. If attempt 1 fails — whether from a genuine 429/503 overload or from
+    the model degenerating into a repetition loop — attempt 1's temperature=0.0
+    combined with Gemini's automatic implicit caching means a byte-identical
+    retry reproduces a byte-identical response, including a byte-identical
+    failure. (Confirmed in production: attempt 1 and attempt 5 of a failed
+    Pass 1 batch returned the exact same 7,151-char truncated/repeating JSON.)
+    Retries therefore escalate temperature so each retry is an actual new
+    sample rather than a guaranteed replay of the same output.
+    """
+    if attempt <= 1:
+        return 0.0
+    return min(0.2 * (attempt - 1), 0.8)
+
+
 def _gemini_call(
     client, system: str, user: str, max_tokens: int,
-    use_cache: bool = False,
+    use_cache: bool = False, temperature: float = 0.0,
 ) -> str | None:
     """Single Gemini API call. Returns raw response text or None on exception.
 
@@ -459,14 +477,16 @@ def _gemini_call(
     given SDK/snapshot rejects thinking_budget=0, delete that one line; the
     model is non-thinking by default regardless. temperature=0.0 is a
     deliberate change from the previous model's default (~1.0) for run-to-run
-    taxonomy stability; raise it if you want more variability.
+    taxonomy stability on the first attempt; callers should raise it (see
+    _retry_temperature) on retries so a retry is not a guaranteed replay of a
+    prior failure.
     """
     from google.genai import types
 
     config = types.GenerateContentConfig(
         system_instruction=(system if system else None),
         max_output_tokens=max_tokens,
-        temperature=0.0,
+        temperature=temperature,
         thinking_config=types.ThinkingConfig(thinking_budget=0),
         response_mime_type="application/json",
     )
@@ -1204,9 +1224,11 @@ def haiku_group_papers(
 
         b_result = None
         for attempt in range(1, GROUPING_MAX_RETRIES + 1):
-            print(f"    Attempt {attempt}/{GROUPING_MAX_RETRIES}...")
-            raw = _gemini_call(client, _PASS1_SYSTEM, p1_msg, max_tokens=4096,
-                              use_cache=True)
+            temp = _retry_temperature(attempt)
+            print(f"    Attempt {attempt}/{GROUPING_MAX_RETRIES} "
+                  f"(temperature={temp:.1f})...")
+            raw = _gemini_call(client, _PASS1_SYSTEM, p1_msg, max_tokens=6144,
+                              use_cache=True, temperature=temp)
             if raw is not None:
                 print(f"    Response length: {len(raw)} chars.")
                 b_result = _parse_pass1_response(raw, b_size)
@@ -1274,9 +1296,11 @@ def haiku_group_papers(
 
         p2_result = None
         for attempt in range(1, GROUPING_MAX_RETRIES + 1):
-            print(f"  Attempt {attempt}/{GROUPING_MAX_RETRIES}...")
+            temp = _retry_temperature(attempt)
+            print(f"  Attempt {attempt}/{GROUPING_MAX_RETRIES} "
+                  f"(temperature={temp:.1f})...")
             raw = _gemini_call(client, _PASS2_SYSTEM, p2_msg, max_tokens=8192,
-                              use_cache=True)
+                              use_cache=True, temperature=temp)
             if raw is not None:
                 print(f"  Response length: {len(raw)} chars.")
                 p2_result = _parse_pass2_response(raw, n_uncertain,
@@ -1399,9 +1423,11 @@ def haiku_group_papers(
 
             rev_result = None
             for attempt in range(1, GROUPING_MAX_RETRIES + 1):
-                print(f"  Review attempt {attempt}/{GROUPING_MAX_RETRIES}...")
+                temp = _retry_temperature(attempt)
+                print(f"  Review attempt {attempt}/{GROUPING_MAX_RETRIES} "
+                      f"(temperature={temp:.1f})...")
                 raw = _gemini_call(client, _PASS2_SYSTEM, rev_msg, max_tokens=4096,
-                                  use_cache=True)
+                                  use_cache=True, temperature=temp)
                 if raw is not None:
                     print(f"  Response length: {len(raw)} chars.")
                     # existing_dynamic_ids for review = all currently known
