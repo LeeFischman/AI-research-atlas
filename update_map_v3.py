@@ -141,9 +141,27 @@ PASS1_UNCERTAIN_CAP = 400
 PASS1_BATCH_SIZE = 100
 
 # Retry policy — shared across all Gemini calls in Stage 3.
-# Wait schedule: GROUPING_RETRY_BASE_WAIT × 2^(attempt-1) seconds.
+# Wait schedule for genuine overload (429/503): GROUPING_RETRY_BASE_WAIT × 2^(attempt-1) seconds.
 GROUPING_MAX_RETRIES     = 5
 GROUPING_RETRY_BASE_WAIT = 60   # seconds
+
+# Wait before retrying a non-overload failure — a bad/degenerate generation
+# (e.g. repetition-loop output that failed to parse) or a non-rate-limit
+# exception. There's nothing to "back off" from here: the server answered
+# fine, the *content* was bad. Waiting doesn't help; a different temperature
+# sample (see _retry_temperature) does. Kept small and non-zero purely so
+# logs are readable and so back-to-back failures don't spam requests faster
+# than _gemini_pace's RPM throttle would otherwise allow anyway.
+PARSE_FAILURE_RETRY_WAIT = 5   # seconds
+
+# If a Pass 1 batch exhausts all retries (repetition-loop degeneration and/or
+# a real API outage), its papers are routed to Pass 2 as best-guess-uncertain
+# rather than aborting the entire run to HDBSCAN. Full HDBSCAN fallback is
+# only triggered if MORE than this fraction of batches fail — a signal of a
+# systemic problem (e.g. a sustained Gemini outage) rather than one unlucky
+# batch. At 31 batches/day, one bad batch (~3%) no longer costs every group
+# name for the whole run.
+PASS1_BATCH_FAILURE_FALLBACK_FRACTION = 0.5
 
 # ── Dynamic taxonomy persistence ──────────────────────────────────────────────
 # Committed to repo alongside group_names_v3.json.
@@ -456,8 +474,20 @@ def _retry_temperature(attempt: int) -> float:
 def _gemini_call(
     client, system: str, user: str, max_tokens: int,
     use_cache: bool = False, temperature: float = 0.0,
-) -> str | None:
-    """Single Gemini API call. Returns raw response text or None on exception.
+) -> tuple[str | None, bool]:
+    """Single Gemini API call.
+
+    Returns (text, is_overload):
+      - success:                 (response_text, False)
+      - genuine 429/503 overload: (None, True)
+      - any other exception:      (None, False)
+
+    The is_overload flag lets callers use a fast retry for non-overload
+    failures (a bad/degenerate generation gets no benefit from waiting —
+    only from resampling at a different temperature) while still backing off
+    properly for real rate-limit/capacity errors. A caller that gets text
+    back but then fails to *parse* it (e.g. a repetition-loop degeneration)
+    should treat that as non-overload too — see call sites.
 
     Model: GEMINI_MODEL (Gemini 2.5 Flash-Lite). Output is forced to JSON via
     response_mime_type, so the pass-1/pass-2 parsers receive clean JSON with no
@@ -505,7 +535,7 @@ def _gemini_call(
             cached_tok = getattr(u, "cached_content_token_count", 0) or 0
             print(f"    [cache] prompt={prompt_tok} cached={cached_tok}")
         text = response.text
-        return text.strip() if text else None
+        return (text.strip() if text else None), False
     except Exception as e:
         err_str = str(e)
         is_overload = (
@@ -514,7 +544,7 @@ def _gemini_call(
         )
         label = "API rate-limited / overloaded" if is_overload else "API error"
         print(f"    {label}: {e}")
-        return None
+        return None, is_overload
 
 
 # ── Dynamic taxonomy I/O ──────────────────────────────────────────────────────
@@ -1119,7 +1149,7 @@ def reconcile_dynamic_groups(
     )
 
     print(f"\n  Reconciliation — checking {len(dynamic)} dynamic groups for duplicates...")
-    raw = _gemini_call(client, "", prompt, max_tokens=1024)
+    raw, _ = _gemini_call(client, "", prompt, max_tokens=1024)
     if raw is None:
         print("  Reconciliation: API call failed — skipping.")
         return {}
@@ -1211,6 +1241,7 @@ def haiku_group_papers(
     uncertain_indices:  list[int]      = []
     p1_secondary_map:   dict[int, list[int]] = {}   # paper_idx → secondary gids (pass 1)
     p1_failed = False
+    failed_batches: list[int] = []
 
     for b in range(n_p1_batches):
         b_start  = b * PASS1_BATCH_SIZE
@@ -1227,8 +1258,8 @@ def haiku_group_papers(
             temp = _retry_temperature(attempt)
             print(f"    Attempt {attempt}/{GROUPING_MAX_RETRIES} "
                   f"(temperature={temp:.1f})...")
-            raw = _gemini_call(client, _PASS1_SYSTEM, p1_msg, max_tokens=6144,
-                              use_cache=True, temperature=temp)
+            raw, is_overload = _gemini_call(client, _PASS1_SYSTEM, p1_msg,
+                              max_tokens=6144, use_cache=True, temperature=temp)
             if raw is not None:
                 print(f"    Response length: {len(raw)} chars.")
                 b_result = _parse_pass1_response(raw, b_size)
@@ -1237,16 +1268,27 @@ def haiku_group_papers(
                     break
                 else:
                     print(f"    Full response dump:\n{raw}")
+                    is_overload = False  # got a response; it just didn't parse
 
             if attempt < GROUPING_MAX_RETRIES:
-                wait = GROUPING_RETRY_BASE_WAIT * (2 ** (attempt - 1))
-                print(f"    Retrying in {wait}s...")
+                if is_overload:
+                    wait = GROUPING_RETRY_BASE_WAIT * (2 ** (attempt - 1))
+                    print(f"    API overloaded — backing off {wait}s...")
+                else:
+                    wait = PARSE_FAILURE_RETRY_WAIT
+                    print(f"    Not an overload — retrying in {wait}s "
+                          f"at a higher temperature...")
                 time.sleep(wait)
 
         if b_result is None:
-            print(f"  ✗ Pass 1 batch {b+1} failed — falling back to HDBSCAN.")
-            p1_failed = True
-            break
+            print(f"  ✗ Pass 1 batch {b+1} failed after {GROUPING_MAX_RETRIES} "
+                  f"attempts — routing its {b_size} paper(s) to uncertain "
+                  f"(Pass 2) with best-guess group 0, continuing to next batch.")
+            failed_batches.append(b + 1)
+            for local_i in range(b_size):
+                stable_assignments[b_start + local_i] = 0
+                uncertain_indices.append(b_start + local_i)
+            continue
 
         b_assignments, b_uncertain, b_secondary = b_result
         # Merge into global: offset local indices by batch start
@@ -1256,6 +1298,20 @@ def haiku_group_papers(
             uncertain_indices.append(b_start + local_i)
         for local_i, sec in b_secondary.items():
             p1_secondary_map[b_start + local_i] = sec
+
+    if failed_batches:
+        fail_fraction = len(failed_batches) / n_p1_batches
+        print(f"\n  Pass 1 batch failures: {len(failed_batches)}/{n_p1_batches} "
+              f"({fail_fraction:.0%}) — batches {failed_batches}.")
+        if fail_fraction > PASS1_BATCH_FAILURE_FALLBACK_FRACTION:
+            print(f"  ✗ Failure rate exceeds "
+                  f"{PASS1_BATCH_FAILURE_FALLBACK_FRACTION:.0%} threshold — "
+                  f"this looks systemic (not one unlucky batch). "
+                  f"Falling back to HDBSCAN for the whole run.")
+            p1_failed = True
+        else:
+            print(f"  Below fallback threshold — keeping partial Pass 1 results; "
+                  f"failed batches' papers will get a best-guess review in Pass 2.")
 
     if p1_failed:
         print("  ✗ Pass 1 failed — falling back to HDBSCAN.")
@@ -1299,8 +1355,8 @@ def haiku_group_papers(
             temp = _retry_temperature(attempt)
             print(f"  Attempt {attempt}/{GROUPING_MAX_RETRIES} "
                   f"(temperature={temp:.1f})...")
-            raw = _gemini_call(client, _PASS2_SYSTEM, p2_msg, max_tokens=8192,
-                              use_cache=True, temperature=temp)
+            raw, is_overload = _gemini_call(client, _PASS2_SYSTEM, p2_msg,
+                              max_tokens=8192, use_cache=True, temperature=temp)
             if raw is not None:
                 print(f"  Response length: {len(raw)} chars.")
                 p2_result = _parse_pass2_response(raw, n_uncertain,
@@ -1308,9 +1364,16 @@ def haiku_group_papers(
                 if p2_result is not None:
                     print(f"  ✓ Pass 2 parsed.")
                     break
+                else:
+                    is_overload = False  # got a response; it just didn't parse
             if attempt < GROUPING_MAX_RETRIES:
-                wait = GROUPING_RETRY_BASE_WAIT * (2 ** (attempt - 1))
-                print(f"  Retrying in {wait}s...")
+                if is_overload:
+                    wait = GROUPING_RETRY_BASE_WAIT * (2 ** (attempt - 1))
+                    print(f"  API overloaded — backing off {wait}s...")
+                else:
+                    wait = PARSE_FAILURE_RETRY_WAIT
+                    print(f"  Not an overload — retrying in {wait}s "
+                          f"at a higher temperature...")
                 time.sleep(wait)
 
         if p2_result is None:
@@ -1426,8 +1489,8 @@ def haiku_group_papers(
                 temp = _retry_temperature(attempt)
                 print(f"  Review attempt {attempt}/{GROUPING_MAX_RETRIES} "
                       f"(temperature={temp:.1f})...")
-                raw = _gemini_call(client, _PASS2_SYSTEM, rev_msg, max_tokens=4096,
-                                  use_cache=True, temperature=temp)
+                raw, is_overload = _gemini_call(client, _PASS2_SYSTEM, rev_msg,
+                                  max_tokens=4096, use_cache=True, temperature=temp)
                 if raw is not None:
                     print(f"  Response length: {len(raw)} chars.")
                     # existing_dynamic_ids for review = all currently known
@@ -1438,9 +1501,16 @@ def haiku_group_papers(
                     if rev_result is not None:
                         print("  ✓ Review parsed.")
                         break
+                    else:
+                        is_overload = False  # got a response; it just didn't parse
                 if attempt < GROUPING_MAX_RETRIES:
-                    wait = GROUPING_RETRY_BASE_WAIT * (2 ** (attempt - 1))
-                    print(f"  Retrying in {wait}s...")
+                    if is_overload:
+                        wait = GROUPING_RETRY_BASE_WAIT * (2 ** (attempt - 1))
+                        print(f"  API overloaded — backing off {wait}s...")
+                    else:
+                        wait = PARSE_FAILURE_RETRY_WAIT
+                        print(f"  Not an overload — retrying in {wait}s "
+                              f"at a higher temperature...")
                     time.sleep(wait)
 
             if rev_result is not None:
