@@ -131,18 +131,30 @@ GROUP_COUNT_MAX = 60
 # Characters of each abstract sent to Gemini in pass 2.
 ABSTRACT_GROUPING_CHARS = 300
 
+# Pass 1 batching is now driven by REQUEST COUNT, not convenience.
+# Originally PASS1_BATCH_SIZE=100 was chosen purely to keep each output array
+# short and reliable — but at ~31 batches/day that alone can burn 31+ Gemini
+# requests before a single retry, and production quota for this project
+# (confirmed via AI Studio) is:
+#   20 requests/day, 10 requests/minute, 250K input tokens/minute
+# Request count is now the scarce resource (input/output token budgets are
+# not remotely close to binding at these paper volumes), so batches are sized
+# to hit a small TARGET count, not a small per-batch size. PASS1_MAX_BATCH_SIZE
+# is a safety ceiling so batches don't balloon uncontrollably on a heavy day.
+PASS1_TARGET_BATCHES  = 4
+PASS1_MAX_BATCH_SIZE  = 1200
+
 # Maximum papers Gemini may flag as uncertain in pass 1.
 # Papers above this cap are force-assigned to their pass 1 stable best-guess.
 PASS1_UNCERTAIN_CAP = 400
 
-# Pass 1 is batched to keep output arrays short and reliable.
-# At 100 papers: ~100 integers output ≈ 300 tokens — trivially reliable.
-# Input: ~100 titles × ~90 chars ÷ 4 ≈ 2K tokens. ~21 batches at 2000 papers.
-PASS1_BATCH_SIZE = 100
-
 # Retry policy — shared across all Gemini calls in Stage 3.
+# Lowered from 5: at a 20/day request budget, 5 retries per call across
+# 4 Pass 1 batches + Pass 2 + Review + reconciliation could alone approach
+# or exceed the entire day's quota. See GEMINI_DAILY_REQUEST_BUDGET below
+# for the hard governor that backs this up regardless of this setting.
 # Wait schedule for genuine overload (429/503): GROUPING_RETRY_BASE_WAIT × 2^(attempt-1) seconds.
-GROUPING_MAX_RETRIES     = 5
+GROUPING_MAX_RETRIES     = 3
 GROUPING_RETRY_BASE_WAIT = 60   # seconds
 
 # Wait before retrying a non-overload failure — a bad/degenerate generation
@@ -256,13 +268,41 @@ GEMINI_MODEL = "gemini-2.5-flash-lite"
 # The Gemini free tier caps Flash-Lite at 10 requests/minute. We deliberately
 # target a slower rate so bursts AND retries (each retry is another
 # generate_content call = another request against quota) never trip a 429.
-# Default 8 RPM = one request every 7.5s, a built-in 20% margin under the cap;
-# at this pipeline's volume (tens of calls/run) the daily 1,500-RPD ceiling is
-# never in play. Tune via env: lower GEMINI_TARGET_RPM for more cushion (6 ≈ a
-# 40% margin, costs only a few extra minutes overnight); set it to 0 to disable
-# pacing entirely on a paid tier where the RPM limit is far higher.
+# Default 8 RPM = one request every 7.5s, a built-in 20% margin under the cap.
+# Tune via env: lower GEMINI_TARGET_RPM for more cushion (6 ≈ a 40% margin,
+# costs only a few extra minutes overnight); set it to 0 to disable pacing
+# entirely on a paid tier where the RPM limit is far higher.
 GEMINI_TARGET_RPM = float(os.environ.get("GEMINI_TARGET_RPM", "8"))
 _GEMINI_MIN_INTERVAL = (60.0 / GEMINI_TARGET_RPM) if GEMINI_TARGET_RPM > 0 else 0.0
+
+# ── Free-tier DAILY request budget ────────────────────────────────────────────
+# CORRECTION (2026-07): this project's live AI Studio quota for
+# gemini-2.5-flash-lite is 20 requests/DAY — not the ~1,500 RPD once assumed
+# here. Google cut free-tier daily quotas sharply in Dec 2025; this project
+# landed near the low end. RPM pacing above is necessary but not sufficient:
+# it prevents bursts within a minute, but does nothing to stop a run from
+# spending the whole day's budget on retries for one stuck batch, only to
+# 429 on every subsequent batch/pass for the rest of the run (confirmed in
+# production logs — batch 2's retries alone exhausted the day's quota, and
+# batch 3 onward 429'd on attempt 1).
+#
+# _gemini_call enforces this as a hard governor: every call (success or
+# failure) counts against GEMINI_DAILY_REQUEST_BUDGET, and the moment either
+# the local counter is exhausted OR Google returns a genuine
+# per-day RESOURCE_EXHAUSTED error, ALL further Gemini calls for the rest of
+# this run are skipped outright (no wasted retry, no wasted backoff sleep —
+# a daily quota does not refill on a per-minute timescale, so waiting
+# GROUPING_RETRY_BASE_WAIT seconds and trying again cannot help). Callers see
+# this the same way they see a real failure and route papers to best-guess.
+#
+# Budget defaults to 18, not 20 — a 2-request safety margin, since a
+# rejected-for-quota request may still count against the metric depending on
+# how Google enforces it, and because this same budget is shared across
+# Pass 1 + Pass 2 + Review + reconciliation in one run. Override via env if
+# AI Studio shows a different live number for this project.
+GEMINI_DAILY_REQUEST_BUDGET = int(os.environ.get("GEMINI_DAILY_REQUEST_BUDGET", "18"))
+_gemini_calls_made_today = 0
+_gemini_quota_exhausted  = False
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -475,12 +515,20 @@ def _gemini_call(
     client, system: str, user: str, max_tokens: int,
     use_cache: bool = False, temperature: float = 0.0,
 ) -> tuple[str | None, bool]:
-    """Single Gemini API call.
+    """Single Gemini API call, governed by the daily request budget.
 
     Returns (text, is_overload):
-      - success:                 (response_text, False)
-      - genuine 429/503 overload: (None, True)
-      - any other exception:      (None, False)
+      - success:                      (response_text, False)
+      - retry-worthy overload/limit:  (None, True)   — 429/503, quota not yet
+                                                         confirmed exhausted
+      - daily quota confirmed exhausted, or budget
+        already spent this run:       (None, True)   — check module-level
+                                                         `_gemini_quota_exhausted`
+                                                         to distinguish from a
+                                                         transient overload if
+                                                         a caller needs to skip
+                                                         its backoff sleep
+      - any other exception:          (None, False)
 
     The is_overload flag lets callers use a fast retry for non-overload
     failures (a bad/degenerate generation gets no benefit from waiting —
@@ -488,6 +536,17 @@ def _gemini_call(
     properly for real rate-limit/capacity errors. A caller that gets text
     back but then fails to *parse* it (e.g. a repetition-loop degeneration)
     should treat that as non-overload too — see call sites.
+
+    DAILY BUDGET GOVERNOR: this project's live free-tier quota for
+    gemini-2.5-flash-lite is 20 requests/DAY (confirmed via AI Studio) — far
+    below what the RPM pacing alone protects against. Every call, success or
+    failure, counts against GEMINI_DAILY_REQUEST_BUDGET. Once the budget is
+    spent, or Google has returned a genuine per-day RESOURCE_EXHAUSTED error,
+    this function stops making API calls entirely for the rest of the run —
+    immediately, with no backoff sleep, since a daily quota does not refill
+    on a per-minute timescale and waiting cannot help. Callers should check
+    the module-level `_gemini_quota_exhausted` flag after a failed call to
+    decide whether to keep retrying at all.
 
     Model: GEMINI_MODEL (Gemini 2.5 Flash-Lite). Output is forced to JSON via
     response_mime_type, so the pass-1/pass-2 parsers receive clean JSON with no
@@ -511,6 +570,20 @@ def _gemini_call(
     _retry_temperature) on retries so a retry is not a guaranteed replay of a
     prior failure.
     """
+    global _gemini_calls_made_today, _gemini_quota_exhausted
+
+    if _gemini_quota_exhausted:
+        print("    Daily Gemini quota already confirmed exhausted this run "
+              "— skipping call (no API request made).")
+        return None, True
+
+    if _gemini_calls_made_today >= GEMINI_DAILY_REQUEST_BUDGET:
+        print(f"    Daily Gemini request budget ({GEMINI_DAILY_REQUEST_BUDGET}) "
+              f"reached this run — skipping call to preserve remaining quota "
+              f"for other passes (no API request made).")
+        _gemini_quota_exhausted = True
+        return None, True
+
     from google.genai import types
 
     config = types.GenerateContentConfig(
@@ -521,6 +594,7 @@ def _gemini_call(
         response_mime_type="application/json",
     )
 
+    _gemini_calls_made_today += 1
     try:
         _gemini_pace()  # free-tier RPM throttle (covers retries too)
         response = client.models.generate_content(
@@ -533,7 +607,9 @@ def _gemini_call(
             u = getattr(response, "usage_metadata", None)
             prompt_tok = getattr(u, "prompt_token_count", 0) or 0
             cached_tok = getattr(u, "cached_content_token_count", 0) or 0
-            print(f"    [cache] prompt={prompt_tok} cached={cached_tok}")
+            print(f"    [cache] prompt={prompt_tok} cached={cached_tok} "
+                  f"(request {_gemini_calls_made_today}/{GEMINI_DAILY_REQUEST_BUDGET} "
+                  f"of today's budget)")
         text = response.text
         return (text.strip() if text else None), False
     except Exception as e:
@@ -542,8 +618,21 @@ def _gemini_call(
             any(s in err_str for s in ("429", "503", "RESOURCE_EXHAUSTED", "UNAVAILABLE"))
             or "overload" in err_str.lower()
         )
-        label = "API rate-limited / overloaded" if is_overload else "API error"
-        print(f"    {label}: {e}")
+        # Distinguish a genuine PER-DAY quota exhaustion from a transient
+        # RPM/capacity 429 or 503: only the former means further retries or
+        # subsequent batches are guaranteed to fail too, since a daily quota
+        # doesn't refill within this run's lifetime.
+        is_daily_quota_error = (
+            "RESOURCE_EXHAUSTED" in err_str and "day" in err_str.lower()
+        )
+        if is_daily_quota_error:
+            _gemini_quota_exhausted = True
+            print(f"    Daily Gemini quota exhausted (confirmed by API, "
+                  f"{_gemini_calls_made_today} request(s) made this run) — "
+                  f"halting all further Gemini calls for the rest of this run: {e}")
+        else:
+            label = "API rate-limited / overloaded" if is_overload else "API error"
+            print(f"    {label}: {e}")
         return None, is_overload
 
 
@@ -1230,28 +1319,43 @@ def haiku_group_papers(
     }
 
     # ── Pass 1: stable assignment (batched, titles only) ─────────────────────
-    # Batched to keep each output array short and reliable.
-    # Each batch returns an array of integers; merge by concatenation.
+    # Batch size is now request-count-driven (see PASS1_TARGET_BATCHES):
+    # sized to hit ~PASS1_TARGET_BATCHES total requests, capped at
+    # PASS1_MAX_BATCH_SIZE so a heavy day doesn't produce one unwieldy batch.
     import math as _math
-    n_p1_batches = _math.ceil(n / PASS1_BATCH_SIZE)
+    p1_batch_size = min(PASS1_MAX_BATCH_SIZE,
+                        max(1, _math.ceil(n / PASS1_TARGET_BATCHES)))
+    n_p1_batches  = _math.ceil(n / p1_batch_size)
     print(f"\n  Pass 1 — stable assignment ({n} papers, titles only, "
-          f"{n_p1_batches} batch{'es' if n_p1_batches > 1 else ''})...")
+          f"{n_p1_batches} batch{'es' if n_p1_batches > 1 else ''} of up to "
+          f"{p1_batch_size} papers each)...")
 
     stable_assignments: dict[int, int] = {}
     uncertain_indices:  list[int]      = []
     p1_secondary_map:   dict[int, list[int]] = {}   # paper_idx → secondary gids (pass 1)
     p1_failed = False
     failed_batches: list[int] = []
+    quota_aborted_at_batch: int | None = None
 
     for b in range(n_p1_batches):
-        b_start  = b * PASS1_BATCH_SIZE
-        b_end    = min(b_start + PASS1_BATCH_SIZE, n)
+        b_start  = b * p1_batch_size
+        b_end    = min(b_start + p1_batch_size, n)
         b_size   = b_end - b_start
         batch_df = df.iloc[b_start:b_end].reset_index(drop=True)
         p1_msg   = _build_pass1_message(batch_df)
         approx_tk = len(p1_msg) // 4
         print(f"  Batch {b+1}/{n_p1_batches} "
               f"(papers {b_start}–{b_end-1}, ≈{approx_tk:,} tokens)...")
+
+        if _gemini_quota_exhausted:
+            print(f"  Daily quota already exhausted — routing this batch's "
+                  f"{b_size} paper(s) to uncertain without calling Gemini.")
+            failed_batches.append(b + 1)
+            quota_aborted_at_batch = b
+            for local_i in range(b_size):
+                stable_assignments[b_start + local_i] = 0
+                uncertain_indices.append(b_start + local_i)
+            continue
 
         b_result = None
         for attempt in range(1, GROUPING_MAX_RETRIES + 1):
@@ -1269,6 +1373,12 @@ def haiku_group_papers(
                 else:
                     print(f"    Full response dump:\n{raw}")
                     is_overload = False  # got a response; it just didn't parse
+
+            if _gemini_quota_exhausted:
+                print(f"    Daily quota exhausted — abandoning remaining "
+                      f"retries for this batch (no point waiting; quota "
+                      f"won't refill until tomorrow).")
+                break
 
             if attempt < GROUPING_MAX_RETRIES:
                 if is_overload:
@@ -1351,30 +1461,39 @@ def haiku_group_papers(
         print(f"  Prompt ≈ {approx_tokens2:,} tokens.")
 
         p2_result = None
-        for attempt in range(1, GROUPING_MAX_RETRIES + 1):
-            temp = _retry_temperature(attempt)
-            print(f"  Attempt {attempt}/{GROUPING_MAX_RETRIES} "
-                  f"(temperature={temp:.1f})...")
-            raw, is_overload = _gemini_call(client, _PASS2_SYSTEM, p2_msg,
-                              max_tokens=8192, use_cache=True, temperature=temp)
-            if raw is not None:
-                print(f"  Response length: {len(raw)} chars.")
-                p2_result = _parse_pass2_response(raw, n_uncertain,
-                                                   existing_dynamic_ids)
-                if p2_result is not None:
-                    print(f"  ✓ Pass 2 parsed.")
+        if _gemini_quota_exhausted:
+            print("  Daily quota already exhausted — skipping Pass 2 "
+                  "entirely (no API request made); uncertain papers keep "
+                  "their stable best-guess.")
+        else:
+            for attempt in range(1, GROUPING_MAX_RETRIES + 1):
+                temp = _retry_temperature(attempt)
+                print(f"  Attempt {attempt}/{GROUPING_MAX_RETRIES} "
+                      f"(temperature={temp:.1f})...")
+                raw, is_overload = _gemini_call(client, _PASS2_SYSTEM, p2_msg,
+                                  max_tokens=8192, use_cache=True, temperature=temp)
+                if raw is not None:
+                    print(f"  Response length: {len(raw)} chars.")
+                    p2_result = _parse_pass2_response(raw, n_uncertain,
+                                                       existing_dynamic_ids)
+                    if p2_result is not None:
+                        print(f"  ✓ Pass 2 parsed.")
+                        break
+                    else:
+                        is_overload = False  # got a response; it just didn't parse
+                if _gemini_quota_exhausted:
+                    print(f"  Daily quota exhausted — abandoning remaining "
+                          f"Pass 2 retries (no point waiting).")
                     break
-                else:
-                    is_overload = False  # got a response; it just didn't parse
-            if attempt < GROUPING_MAX_RETRIES:
-                if is_overload:
-                    wait = GROUPING_RETRY_BASE_WAIT * (2 ** (attempt - 1))
-                    print(f"  API overloaded — backing off {wait}s...")
-                else:
-                    wait = PARSE_FAILURE_RETRY_WAIT
-                    print(f"  Not an overload — retrying in {wait}s "
-                          f"at a higher temperature...")
-                time.sleep(wait)
+                if attempt < GROUPING_MAX_RETRIES:
+                    if is_overload:
+                        wait = GROUPING_RETRY_BASE_WAIT * (2 ** (attempt - 1))
+                        print(f"  API overloaded — backing off {wait}s...")
+                    else:
+                        wait = PARSE_FAILURE_RETRY_WAIT
+                        print(f"  Not an overload — retrying in {wait}s "
+                              f"at a higher temperature...")
+                    time.sleep(wait)
 
         if p2_result is None:
             print("  ✗ Pass 2 failed — uncertain papers kept at stable best-guess.")
@@ -1485,33 +1604,41 @@ def haiku_group_papers(
             print(f"  Review prompt ≈ {approx_tkr:,} tokens.")
 
             rev_result = None
-            for attempt in range(1, GROUPING_MAX_RETRIES + 1):
-                temp = _retry_temperature(attempt)
-                print(f"  Review attempt {attempt}/{GROUPING_MAX_RETRIES} "
-                      f"(temperature={temp:.1f})...")
-                raw, is_overload = _gemini_call(client, _PASS2_SYSTEM, rev_msg,
-                                  max_tokens=4096, use_cache=True, temperature=temp)
-                if raw is not None:
-                    print(f"  Response length: {len(raw)} chars.")
-                    # existing_dynamic_ids for review = all currently known
-                    all_known_now = existing_dynamic_ids | set(new_group_names.keys())
-                    rev_result    = _parse_pass2_response(
-                        raw, len(review_df), all_known_now
-                    )
-                    if rev_result is not None:
-                        print("  ✓ Review parsed.")
+            if _gemini_quota_exhausted:
+                print("  Daily quota already exhausted — skipping Review "
+                      "entirely (no API request made).")
+            else:
+                for attempt in range(1, GROUPING_MAX_RETRIES + 1):
+                    temp = _retry_temperature(attempt)
+                    print(f"  Review attempt {attempt}/{GROUPING_MAX_RETRIES} "
+                          f"(temperature={temp:.1f})...")
+                    raw, is_overload = _gemini_call(client, _PASS2_SYSTEM, rev_msg,
+                                      max_tokens=4096, use_cache=True, temperature=temp)
+                    if raw is not None:
+                        print(f"  Response length: {len(raw)} chars.")
+                        # existing_dynamic_ids for review = all currently known
+                        all_known_now = existing_dynamic_ids | set(new_group_names.keys())
+                        rev_result    = _parse_pass2_response(
+                            raw, len(review_df), all_known_now
+                        )
+                        if rev_result is not None:
+                            print("  ✓ Review parsed.")
+                            break
+                        else:
+                            is_overload = False  # got a response; it just didn't parse
+                    if _gemini_quota_exhausted:
+                        print(f"  Daily quota exhausted — abandoning remaining "
+                              f"Review retries (no point waiting).")
                         break
-                    else:
-                        is_overload = False  # got a response; it just didn't parse
-                if attempt < GROUPING_MAX_RETRIES:
-                    if is_overload:
-                        wait = GROUPING_RETRY_BASE_WAIT * (2 ** (attempt - 1))
-                        print(f"  API overloaded — backing off {wait}s...")
-                    else:
-                        wait = PARSE_FAILURE_RETRY_WAIT
-                        print(f"  Not an overload — retrying in {wait}s "
-                              f"at a higher temperature...")
-                    time.sleep(wait)
+                    if attempt < GROUPING_MAX_RETRIES:
+                        if is_overload:
+                            wait = GROUPING_RETRY_BASE_WAIT * (2 ** (attempt - 1))
+                            print(f"  API overloaded — backing off {wait}s...")
+                        else:
+                            wait = PARSE_FAILURE_RETRY_WAIT
+                            print(f"  Not an overload — retrying in {wait}s "
+                                  f"at a higher temperature...")
+                        time.sleep(wait)
 
             if rev_result is not None:
                 rev_assignments, rev_new_groups = rev_result
@@ -1909,8 +2036,9 @@ if __name__ == "__main__":
     print(f"  BACKFILL_HINDICES  : {BACKFILL_HINDICES}")
     print(f"  OPENALEX_OFFLINE   : {OPENALEX_OFFLINE_MODE}")
     print(f"  GROUP_COUNT        : up to {GROUP_COUNT_MAX} ({GROUP_STABLE_COUNT} stable + dynamic)")
-    print(f"  PASS1_BATCH_SIZE   : {PASS1_BATCH_SIZE}")
+    print(f"  PASS1_TARGET_BATCHES: {PASS1_TARGET_BATCHES} (max size {PASS1_MAX_BATCH_SIZE})")
     print(f"  PASS1_UNCERTAIN_CAP: {PASS1_UNCERTAIN_CAP}")
+    print(f"  GEMINI_DAILY_BUDGET: {GEMINI_DAILY_REQUEST_BUDGET} requests")
     print(f"  TAXONOMY_PATH      : {TAXONOMY_PATH}")
     print(f"  LAYOUT_SCALE       : {LAYOUT_SCALE}")
     print(f"  SCATTER_FRACTION   : {SCATTER_FRACTION}")
