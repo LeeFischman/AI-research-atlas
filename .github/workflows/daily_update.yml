@@ -136,6 +136,7 @@ jobs:
         env:
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
           GEMINI_TARGET_RPM: "8"   # free-tier pacing: 8 req/min (20% under the 10 RPM cap); set 6 for more margin, 0 to disable on paid
+          GEMINI_DAILY_REQUEST_BUDGET: "18"   # free-tier pacing: this project's live AI Studio quota is 20 req/day; 18 leaves a 2-request safety margin. Raise if AI Studio shows a higher live limit, or set much higher on a paid tier.
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
           PYTHONUNBUFFERED: "1"
           OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
