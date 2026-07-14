@@ -5,12 +5,12 @@
     "url": "http://arxiv.org/pdf/2607.09142v1",
     "authors_list": [],
     "author_count": 13,
-    "ss_tldr": "",
+    "ss_tldr": "A large-scale benchmark for multimodal online medical consultation built from de-identified patient-doctor interactions collected from a nationwide Chinese internet hospital, MedRealMM offers a realistic and reproducible benchmark for evaluating multimodal medical reasoning in real-world online consultation.",
     "abstract": "Large language models (LLMs) are increasingly deployed in online medical consultation, yet existing benchmarks remain poorly aligned with real clinical practice. Many rely on synthetic conversations or patient simulators, omit patient-uploaded medical images, or evaluate open-ended clinical responses using multiple-choice or lexical-overlap metrics that poorly reflect clinical quality. We introduce \\textbf{MedRealMM}, a large-scale benchmark for multimodal online medical consultation built from de-identified patient-doctor interactions collected from a nationwide Chinese internet hospital. MedRealMM uses a Multimodal Clinical Challenge Point (MCCP) extraction framework to identify clinically demanding moments in authentic consultation trajectories and converts each into a standardized next-response generation task while preserving the preceding text-image context. Each instance is paired with a case-specific rubric refined by physicians that rewards clinically desirable behaviors and penalizes unsafe, unsupported, or contradictory responses. The current release contains 5,620 real-world multimodal cases spanning 64 clinical departments. We evaluate 19 general-purpose and medical-specialized LLMs, including text-only and multimodal systems. Our results show that image information is critical for reliable clinical performance and that current frontier models remain below the online physician response. Although some frontier models satisfy as many or more positive clinical criteria than physicians, they trigger more negative criteria, indicating that safety-sensitive error avoidance remains a central bottleneck. MedRealMM offers a realistic and reproducible benchmark for evaluating multimodal medical reasoning in real-world online consultation. The dataset will be publicly available on Hugging Face at https://huggingface.co/datasets/jdh-algo/MedRealMM.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-13"
+    "publication_date": "2026-07-14"
   },
   {
     "id": "2607.08837v1",
@@ -18,12 +18,12 @@
     "url": "http://arxiv.org/pdf/2607.08837v1",
     "authors_list": [],
     "author_count": 9,
-    "ss_tldr": "",
+    "ss_tldr": "This procedure realizes posterior sampling, a classical RL exploration framework, at the level of prompts: the VLM maintains an implicit distribution over useful prompts and updates it from observed rollouts, and improves sample efficiency more broadly.",
     "abstract": "Exploration is essential to RL since a policy cannot improve by repeatedly sampling the behaviors it already prefers. Standard methods inject stochasticity in the action space, but such jitter only yields rollouts close to the original. Escaping a weak policy often requires global perturbations that action noise cannot produce. Large language models (LLMs) and vision-language-action (VLA) models offer a pathway: they condition the policy on a natural language prompt, and since the rollout follows from it, modifying the prompt induces global changes. The challenge is finding prompts that induce useful global changes. With a weak policy that rarely succeeds, reward is too sparse to select on. Our idea is to refine prompts from the rollouts themselves: a vision-language model (VLM) reasons over the rollout video, diagnoses how the policy responded, and rewrites the prompt to elicit better behavior next time. This procedure realizes posterior sampling, a classical RL exploration framework, at the level of prompts: the VLM maintains an implicit distribution over useful prompts and updates it from observed rollouts. We call this strategy Prompt-Driven Exploration (PDE). Across manipulation and reasoning tasks, PDE enables RL to learn successful policies even from zero-reward starts, and improves sample efficiency more broadly. Our website is available at https://xinyunsunshine.github.io/prompt-rl.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-07-13"
+    "publication_date": "2026-07-14"
   },
   {
     "id": "2606.18613v3",
@@ -36,7 +36,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-13"
+    "publication_date": "2026-07-14"
   },
   {
     "id": "2607.09025v1",
@@ -44,12 +44,12 @@
     "url": "http://arxiv.org/pdf/2607.09025v1",
     "authors_list": [],
     "author_count": 4,
-    "ss_tldr": "",
+    "ss_tldr": "A five-dimensional analytical framework is introduced that clarifies how EI transforms isolated search trajectories into cumulative scientific insight, and identifies critical bottlenecks regarding evaluation, process traceability, and shared infrastructure.",
     "abstract": "Artificial intelligence (AI) is shifting scientific discovery from task-specific workflows towards autonomous systems that organize exploration with experimental and human feedback in open-ended candidate spaces. Evolutionary computation (EC) provides a computational basis for feedback-driven discovery because population-based search can maintain diverse scientific candidates while steering exploration through accumulated evidence. However, EC predominantly focuses on candidate refinement for predefined problems, whereas cumulative discovery requires experience retention. To bridge this gap, this review introduces evolutionary intelligence (EI) for scientific discovery. EI characterizes scientific AI systems that sustain exploration by linking candidate refinement with experience retention across evolutionary cycles. We introduce a five-dimensional analytical framework that asks what evolves, how candidates change, why candidates are selected, where feedback originates, and when evolution occurs. This framework clarifies how EI transforms isolated search trajectories into cumulative scientific insight. We further demonstrate this paradigm across diverse discovery modes, from evolving concrete scientific entities to orchestrating automated research workflows. Finally, we identify critical bottlenecks regarding evaluation, process traceability, and shared infrastructure, providing a concrete roadmap for advancing the transition from EC to EI in scientific discovery.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-13"
+    "publication_date": "2026-07-14"
   },
   {
     "id": "2607.09133v1",
@@ -57,12 +57,12 @@
     "url": "http://arxiv.org/pdf/2607.09133v1",
     "authors_list": [],
     "author_count": 7,
-    "ss_tldr": "",
+    "ss_tldr": "This work re-examines the distillation procedure through the theoretical lens of Information Theory, formally modeling it as a dynamic mutual information game constrained by the Information Bottleneck (IB) principle, and dismantle traditional blind assumptions via a dual-track adaptive framework.",
     "abstract": "While large-scale text-to-image generative models have achieved unprecedented visual performance, their inherent reliance on multi-step iterative solvers incurs severe inference latency. Few-step distillation targeting the Classifier-Free Guidance (CFG) trajectory has emerged as the prevalent dual-dimensional compression paradigm. However, existing frameworks remain subjugated by a coarse-grained blind injection paradigm that perpetually enforces a globally static guidance strength while indiscriminately sampling the supervisor timestep. This state-agnostic design completely disregards the intrinsic nature of image generation as a dynamic evolutionary process characterized by progressive entropy reduction, which not only restricts the performance boundary of few-step compression but also precipitates severe CFG over-conditioning artifacts. To transcend these limitations, we re-examine the distillation procedure through the theoretical lens of Information Theory, formally modeling it as a dynamic mutual information game constrained by the Information Bottleneck (IB) principle. Specifically, we dismantle traditional blind assumptions via a dual-track adaptive framework. To determine the injection target, we propose an instance-aware selection mechanism that transmutes the intractable KL divergence constraint into a zero-overhead closed-form solution predicated on the local vector field norm. To regulate the injection strength, we introduce an entropy-aware schedule that dynamically decays alongside the SNR, applying maximal thrust for initial structural anchoring before smoothly reverting to the natural manifold to refine micro-details. Extensive empirical evaluations corroborate that our framework fundamentally eradicates over-conditioning artifacts, shattering the performance ceiling to achieve SOTA generative fidelity under extremely stringent 2-step configurations.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-13"
+    "publication_date": "2026-07-14"
   },
   {
     "id": "2607.08783v1",
@@ -70,12 +70,12 @@
     "url": "http://arxiv.org/pdf/2607.08783v1",
     "authors_list": [],
     "author_count": 5,
-    "ss_tldr": "",
+    "ss_tldr": "LieBN is proposed, a framework for Riemannian Batch Normalization (RBN) over Lie groups that leverages the theoretically convenient left- and right-invariant metrics, which naturally exist in every Lie group, and provides theoretical guarantees for controlling the Riemannian mean and variance.",
     "abstract": "Manifold-valued measurements are prevalent in various machine learning tasks. Recent advances have extended Deep Neural Networks (DNNs) to operate on manifolds, accompanied by normalization techniques tailored to different geometries, collectively referred to as Riemannian normalization. However, most existing Riemannian normalization methods are either designed for specific manifolds or fail to effectively normalize manifold-valued sample distributions. To address these limitations, we propose LieBN, a framework for Riemannian Batch Normalization (RBN) over Lie groups. Our approach leverages the theoretically convenient left- and right-invariant metrics, which naturally exist in every Lie group, and provides theoretical guarantees for controlling the Riemannian mean and variance. We instantiate LieBN across nine distinct geometries: four on the Symmetric Positive Definite (SPD) manifold, one on the group of rotation matrices, and four on the manifold of full-rank correlation matrices. Notably, among the SPD metrics, we introduce a novel right-invariant metric and extend three existing Lie group structures via matrix power deformation. Extensive experiments on different manifolds validate the effectiveness of our framework. The code is available at https://github.com/GitZH-Chen/LieBN.git.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-13"
+    "publication_date": "2026-07-14"
   },
   {
     "id": "2510.08891v2",
@@ -88,7 +88,7 @@
     "ss_citation_count": 1,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-13"
+    "publication_date": "2026-07-14"
   },
   {
     "id": "2508.15806v2",
@@ -101,7 +101,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-13"
+    "publication_date": "2026-07-14"
   },
   {
     "id": "2607.09330v1",
@@ -109,12 +109,12 @@
     "url": "http://arxiv.org/pdf/2607.09330v1",
     "authors_list": [],
     "author_count": 5,
-    "ss_tldr": "",
+    "ss_tldr": "LDT-Coord is proposed, a networked coordination framework built upon a lightweight digital twin that achieves a task success rate comparable to conventional coordination methods while reducing communication overhead by more than 70x and maintaining robustness under LLM heterogeneity.",
     "abstract": "Embodied agent teams powered by heterogeneous large language models (LLMs) are being widely deployed in physical artificial intelligence such as smart factories, warehouses, and service robotics. To enable collaboration among such an agent team, efficient coordination mechanisms that operate reliably under limited network resources are required. However, existing heterogeneous LLM-agent coordination frameworks that rely on multi-round natural-language-based conversations introduce three coupled challenges. First, inter-agent dialogue incurs communication overhead that grows rapidly with team size. Second, the quality of coordination is constrained by the heterogeneous capabilities of the agent team's LLMs. Third, agents may suffer from action delays due to iterative negotiation. To address these challenges, we propose LDT-Coord, a networked coordination framework built upon a lightweight digital twin (DT). Specifically, each agent independently selects its intended action and reports both the action decision and a structured temporal constraint over shared resources to the DT server, thereby decoupling coordination performance from natural-language reasoning ability. Then, DT executes a training-free, rule-based orchestrator algorithm to resolve cross-agent conflicts and returns coordination instructions to prevent such conflicts. To further reduce communication overhead, we formulate agent reporting control as a constrained partially observable Markov decision process (C-POMDP) and solve it with the PPO-Lagrangian algorithm. Simulation results show that LDT-Coord achieves a task success rate comparable to conventional coordination methods while reducing communication overhead by more than 70x and maintaining robustness under LLM heterogeneity.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-13"
+    "publication_date": "2026-07-14"
   },
   {
     "id": "2607.09059v1",
@@ -122,12 +122,12 @@
     "url": "http://arxiv.org/pdf/2607.09059v1",
     "authors_list": [],
     "author_count": 5,
-    "ss_tldr": "",
+    "ss_tldr": "The design combines structured program search with adaptive multi turn correction, improving reasoning efficiency and solution quality on challenging abstract transformation tasks.",
     "abstract": "We present ARCANA, a collaborative multi agent framework for solving ARC AGI 2 tasks under strict test time and hardware constraints. ARCANA decomposes each task into iterative perception, hypothesis generation, symbolic execution, and reflective refinement. A perceptual grounding agent builds object centric scene graphs from raw grids, a latent program policy proposes diverse DSL programs, a symbolic executor verifies candidates on demonstrations, and a reflective agent synthesizes failure driven feedback for the next turn. These agents communicate through a shared differentiable blackboard and are scheduled by a learned meta controller. The design combines structured program search with adaptive multi turn correction, improving reasoning efficiency and solution quality on challenging abstract transformation tasks.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-13"
+    "publication_date": "2026-07-14"
   },
   {
     "id": "2607.09415v1",
@@ -135,12 +135,12 @@
     "url": "http://arxiv.org/pdf/2607.09415v1",
     "authors_list": [],
     "author_count": 13,
-    "ss_tldr": "",
+    "ss_tldr": "A simple method, Self-Guided TTT (S-TTT), which improves accuracy for both Qwen3-4B-Thinking-2507 and Llama-3.1-8B-Instruct, achieving up to a 15% relative improvement.",
     "abstract": "Long-context processing has become increasingly important for large language models (LLMs), but simply extending the context window does not guarantee effective utilization of long inputs. As input length grows, accuracy often degrades, indicating that models still struggle to identify and use the evidence most relevant to a question. A promising way to improve long-context utilization is test-time training (TTT), which treats the test context as a training example for instance-specific parameter adaptation. However, applying TTT to the entire long context is prohibitively expensive, while adapting on randomly sampled spans introduces severe noise. Because most spans in a long context are irrelevant to the specific question, training on them may even degrade the base model's performance. Our preliminary study shows that TTT is highly sensitive to training-span quality: on LongBench-v2, TTT on randomly sampled spans hurts performance, whereas TTT on oracle spans substantially improves it. Motivated by this, we propose a simple method, Self-Guided TTT (S-TTT): before adaptation, the model identifies the evidence spans it should learn from, and the standard language-modeling training objective is applied only to those selected spans. On two challenging long-context reasoning benchmarks, LongBench-v2 and LongBench-Pro, S-TTT improves accuracy for both Qwen3-4B-Thinking-2507 and Llama-3.1-8B-Instruct, achieving up to a 15% relative improvement.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-13"
+    "publication_date": "2026-07-14"
   },
   {
     "id": "2511.20305v2",
@@ -153,7 +153,7 @@
     "ss_citation_count": 5,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-13"
+    "publication_date": "2026-07-14"
   },
   {
     "id": "2607.09024v1",
@@ -161,12 +161,12 @@
     "url": "http://arxiv.org/pdf/2607.09024v1",
     "authors_list": [],
     "author_count": 12,
-    "ss_tldr": "",
+    "ss_tldr": "GenCeption is introduced, which leverages a pre-trained video generative diffusion backbone to define a feed-forward perception model, capable of performing various vision tasks steered by text instructions, and suggests that video generation is not merely a synthesis tool, but a foundational path toward generalist vision intelligence for the physical world.",
     "abstract": "Driven by next-token prediction, NLP shifted from task-specific models into powerful generalist foundation models. What, then, is the equivalent catalyst needed to achieve a general-purpose model in computer vision? In this paper, we contend that large-scale text-to-video generation serves as a strong pre-training paradigm for computer vision, providing the necessary spatiotemporal priors, vision-language alignment, and scalability required for general visual intelligence. We introduce GenCeption, which leverages a pre-trained video generative diffusion backbone to define a feed-forward perception model, capable of performing various vision tasks steered by text instructions. Empirical results demonstrate that GenCeption achieves state-of-the-art performance across a diverse suite of tasks, including depth, surface normal, and camera pose estimation, expression-referring segmentation, and 3D keypoint prediction, often matching or surpassing specialized models (e.g. DepthAnything3, SAM3, D4RT, VGGT-Omega, Sapiens, David, Genmo, and Lotus-2). Furthermore, the video generative pretrained backbone outperforms alternative pretraining paradigms (e.g., V-JEPA, and Video MAE) under comparable settings. Importantly, GenCeption exhibits preliminary data and model scaling properties along with exceptional data efficiency, where it achieves comparable performance with leading models like D4RT and VGGT-Omega with 7 to 500 less training data. Finally, GenCeption also exhibits intriguing emergent behaviors: a model trained exclusively on synthetic human videos generalizes to real-world footage and out-of-distribution object categories (e.g., animals and robots). These findings suggest that video generation is not merely a synthesis tool, but a foundational path toward generalist vision intelligence for the physical world. Project page: https://genception.github.io",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-13"
+    "publication_date": "2026-07-14"
   },
   {
     "id": "2506.10915v2",
@@ -179,7 +179,7 @@
     "ss_citation_count": 14,
     "ss_influential_citations": 1,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-13"
+    "publication_date": "2026-07-14"
   },
   {
     "id": "2504.03129v1",
@@ -192,7 +192,7 @@
     "ss_citation_count": 2,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-13"
+    "publication_date": "2026-07-14"
   },
   {
     "id": "2607.09385v1",
@@ -200,12 +200,12 @@
     "url": "http://arxiv.org/pdf/2607.09385v1",
     "authors_list": [],
     "author_count": 6,
-    "ss_tldr": "",
+    "ss_tldr": "STEEL introduces a dataflow formulation of prefill attention, enabling efficient exploitation of spatial parallelism and on-chip memory and addresses the load imbalance induced by the causal mask by leveraging a sparsity-aware pipeline placement onto the NPU array, reducing synchronization overhead and improving utilization.",
     "abstract": "The growing adoption of large language model-based agents within operating system workflows has increased the importance of energy-efficient inference on laptop-class systems-on-chip (SoCs). While cloud offloading remains common, it introduces reliability and privacy concerns that are particularly problematic for agentic workloads. Recent laptop SoCs, therefore, incorporate neural processing engines (NPUs) optimized for energy efficiency; however, effectively mapping attention mechanisms onto NPUs remains challenging due to architectural diversity and explicit data-movement programming models. In this work, we present STEEL, the first open-source implementation of FlashAttention targeting XDNA-like NPUs. STEEL introduces a dataflow formulation of prefill attention, enabling efficient exploitation of spatial parallelism and on-chip memory. Furthermore, STEEL addresses the load imbalance induced by the causal mask by leveraging a sparsity-aware pipeline placement onto the NPU array, reducing synchronization overhead and improving utilization. We evaluate STEEL on the AMD Ryzen AI 9 HX 370 SoC and compare its performance against optimized CPU and GPU implementations. Experimental results show that STEEL reduces energy consumption by an average of 9.17x and 1.75x relative to CPU and GPU baselines, respectively. On XDNA 1, STEEL achieves an average 9.6x latency reduction over the prior state of the art, and delivers a 22.8x speedup on average compared to a layer-by-layer attention implementation on XDNA 2.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-07-13"
+    "publication_date": "2026-07-14"
   },
   {
     "id": "2511.20297v2",
@@ -218,7 +218,7 @@
     "ss_citation_count": 1,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-07-13"
+    "publication_date": "2026-07-14"
   },
   {
     "id": "2607.09020v1",
@@ -226,12 +226,12 @@
     "url": "http://arxiv.org/pdf/2607.09020v1",
     "authors_list": [],
     "author_count": 11,
-    "ss_tldr": "",
+    "ss_tldr": "It is argued that phonetic structure is already latent in the representations of self-supervised speech models (S3Ms), and one only needs to steer them to solve both segmentation and recognition tasks.",
     "abstract": "Phone segmentation and recognition are inherently related tasks, yet modern approaches typically model them separately. We argue that phonetic structure is already latent in the representations of self-supervised speech models (S3Ms), and one only needs to steer them to solve both tasks. We leverage S3M-based Phonological Activation Mapping (SPAM), which maps each S3M representation frame to a vector of phonological feature activations, such as voicing and nasality. On top of SPAM, we introduce two simple but effective lightweight, gradient-descent-free prediction heads: a recognition head and a segmentation head. Our method requires less than a minute of phonetic transcriptions, and generalizes to unseen phones during training. Across a diverse range of datasets, our approach attains strong segmentation and recognition performance.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-07-13"
+    "publication_date": "2026-07-14"
   },
   {
     "id": "2607.09165v1",
@@ -239,12 +239,12 @@
     "url": "http://arxiv.org/pdf/2607.09165v1",
     "authors_list": [],
     "author_count": 6,
-    "ss_tldr": "",
+    "ss_tldr": "Feature Sufficiency Analysis (FSA) provides a generic computational approach for determining whether incomplete clinical information is sufficient to support trustworthy AI-assisted clinical decision-making, thereby facilitating the prospective deployment of healthcare AI systems across diverse clinical settings.",
     "abstract": "Achieving early and timely diagnosis and treatment for disease is a major challenge. Recent applications of machine learning (ML) algorithms trained on patient data have shown promise in many different settings for predicting the patient health state. A challenge often faced when applying these ML algorithms is that at any given time, not all clinical variables (features) needed as input to perform prediction tasks are available. We define the concept of full-feature-capacity (FFC) to refer to prediction performance when such algorithms make use of all features on which they were trained. We then introduce Feature Sufficiency Analysis (FSA) - an analysis for determining whether a subset of all clinical features needed by an AI model is sufficient to achieve FFC. FSA estimates the underlying distributions of missing variables conditioned on features that are available. FSA provides a patient-specific assessment of whether the existing set of measured features achieves FFC. If yes, then there is no need to acquire further inputs and a ML-based prediction. We provide two case studies: prediction of need for postoperative prolonged ventilation in patients recovering from heart surgery; 10-year mortality prediction in an outpatient cohort. We also demonstrate that FSA also provides a clinically interpretable feature-ranking methodology based on prediction sufficiency, identifies intrinsically hard-to-predict patient populations, and has the potential to perform cost-aware optimization for clinical data acquisition. FSA provides a generic computational approach for determining whether incomplete clinical information is sufficient to support trustworthy AI-assisted clinical decision-making, thereby facilitating the prospective deployment of healthcare AI systems across diverse clinical settings.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Enhanced",
-    "publication_date": "2026-07-13"
+    "publication_date": "2026-07-14"
   },
   {
     "id": "2607.09259v1",
@@ -252,11 +252,11 @@
     "url": "http://arxiv.org/pdf/2607.09259v1",
     "authors_list": [],
     "author_count": 4,
-    "ss_tldr": "",
+    "ss_tldr": "This paper reframes fraud control as blockchain-linked auditable decision management for synthetic telecom/IoT fraud-control requests, and its main result is that the QLoRA-tuned LLM branch becomes much more usable than zero-shot prompting but mainly approaches, rather than outperforms, a lower-cost centralized ensemble.",
     "abstract": "Telecom fraud-control studies often stop at detector-level classification, but deployment use requires request-level policy resolution, lifecycle traceability, and auditability. This paper reframes fraud control as blockchain-linked auditable decision management for synthetic telecom/IoT fraud-control requests, and its main result is that the QLoRA-tuned LLM branch becomes much more usable than zero-shot prompting but mainly approaches, rather than outperforms, a lower-cost centralized ensemble. The framework maps each synthetic deployment record to a managed request, blocks explicit out-of-boundary cases through a deterministic hard-fraud gate, scores non-hard requests using centralized ML (M1), federated meta-learning (M2), or LLM-family risk sources (M3), and resolves actions through a shared five-state policy, two-zone refinement mechanism, and local Ethereum-compatible audit layer. Evaluation uses separate synthetic training data and a 100,000-record deployment replay corpus, so the study should be read as controlled drift-replay evidence rather than field validation or proof of live deployability. On validation, M1 gives the strongest balance, with legitimate-request FPR 0.0890 under the 0.10 operating cap and soft-fraud recall 0.8341. On labeled deployment replay, however, the legitimate-FPR gap becomes large: M1 rises to 0.1646 and M3-QLoRA to 0.1801, while M3-QLoRA reduces the M3-Base legitimate FPR from 0.3915 and reaches 0.8240 soft-fraud recall. Blockchain telemetry shows that lifecycle gas, cost, latency, and throughput differences are driven by submitted off-chain decision profiles rather than changes in fraud logic.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-13"
+    "publication_date": "2026-07-14"
   }
 ]
