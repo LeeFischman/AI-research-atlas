@@ -5,12 +5,12 @@
     "url": "http://arxiv.org/pdf/2606.16624v2",
     "authors_list": [],
     "author_count": 7,
-    "ss_tldr": "",
+    "ss_tldr": "This study proposes a geometry-aware variational neural operator for Mindlin-Reissner plate problems, termed MR-GVNO, which achieves millisecond-level full-field inference and favorable cross-geometry generalization.",
     "abstract": "Plate and shell structures are widely used in engineering fields. Rapid response prediction for such structures under complex geometries, heterogeneous materials, and varying loads is important for engineering design, but conventional numerical methods usually require repeated modeling and solution when the physical configuration changes. To address this issue, this study proposes a geometry-aware variational physics-informed neural operator (GA-VINO) for Mindlin-Reissner plates. GA-VINO represents the plate geometry using boundary point clouds and incorporates a material encoder, a load encoder, and a scalar-parameter branch to handle spatially random material fields, spatially varying pressure loads, and sample-level uniform parameters. Through multi-branch point cloud encoding and cross-attention, GA-VINO fuses geometric, material, loading, and query point information, and predicts the transverse deflection and rotations at arbitrary query locations. Unlike conventional data-driven neural operators, GA-VINO requires no labeled solution data during training. Instead, it minimizes a variational physics-informed loss constructed from the discretized total potential energy of the Mindlin-Reissner plate. Compared with grid-based neural operators, GA-VINO directly processes irregular point clouds and allows different physical fields to be discretized on different point sets, avoiding forced interpolation onto a common grid. The method is validated on multiple examples involving different geometries, material fields, and load distributions. The results show that GA-VINO achieves promising accuracy in deflection, rotation, gradient-sensitive, and energy-based metrics, completes full-field inference for new samples within milliseconds, and exhibits promising cross-geometry generalization capability.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-20"
+    "publication_date": "2026-07-21"
   },
   {
     "id": "2607.13921v2",
@@ -23,7 +23,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-20"
+    "publication_date": "2026-07-21"
   },
   {
     "id": "2509.18127v3",
@@ -36,7 +36,7 @@
     "ss_citation_count": 4,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-07-20"
+    "publication_date": "2026-07-21"
   },
   {
     "id": "2205.04599v2",
@@ -49,7 +49,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-20"
+    "publication_date": "2026-07-21"
   },
   {
     "id": "2607.16038v1",
@@ -57,12 +57,12 @@
     "url": "http://arxiv.org/pdf/2607.16038v1",
     "authors_list": [],
     "author_count": 13,
-    "ss_tldr": "",
+    "ss_tldr": "SciForge is a multimodal research-native AI workbench that reserves the graphical interface for human judgment while search, parsing, model routing, workflow execution, plotting, writing, and presentation generation run as modular agent-accessible services.",
     "abstract": "Scientific work increasingly spans heterogeneous artifacts -- papers, code, datasets, scientific file formats, model outputs, figures, manuscripts, and team decisions -- yet general-purpose AI assistants rarely preserve these objects as a coherent, auditable research state. We present SciForge, a multimodal research-native AI workbench that reserves the graphical interface for human judgment while search, parsing, model routing, workflow execution, plotting, writing, and presentation generation run as modular agent-accessible services. SciForge is built around five pillars: (i) \\emph{goal-scoped scientific decision governance} for \\textbf{goal-oriented} research, with review gates and shared review surfaces; (ii) \\emph{translate-then-reason} for \\textbf{multimodal} input, routing scientific objects through domain translators before the agent reasons; (iii) \\emph{evidence governance} for \\textbf{auditable} traceability, linking claims to provenance chains and audit findings; (iv) \\emph{collaborative team science} for \\textbf{collaborative} research, enabling multi-role decision governance, with shared team workspaces planned for future releases; and (v) \\emph{real-world application scenarios} for \\textbf{practical} impact, demonstrated through eight end-to-end user cases, with flagship demonstrations including multi-day agentic research sprints for gene discovery, AI-guided de novo protein design, molecular optimization, and genome-to-BGC discovery. The system combines a thin interaction layer, contextual research capability patterns, an Agent Runtime and Workflow Engine, an Evidence-DAG audit sidecar and a Scientific Model Router. SciForge currently runs as a desktop application, with mobile supervision support; future releases will deepen team collaboration. The system is open-source and available at https://github.com/AGI4Sci/SciForge",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-20"
+    "publication_date": "2026-07-21"
   },
   {
     "id": "2607.16031v1",
@@ -70,12 +70,12 @@
     "url": "http://arxiv.org/pdf/2607.16031v1",
     "authors_list": [],
     "author_count": 3,
-    "ss_tldr": "",
+    "ss_tldr": "This work addresses the limitations of data-driven pre-fault dynamic security assessment by using a tabular foundation model (TFM) that assesses stability through in-context learning, requiring no retraining or hyperparameter optimization.",
     "abstract": "Data-driven pre-fault dynamic security assessment (DSA) rapidly evaluates the dynamic risk of credible contingencies on a power system using machine learning. Existing approaches face two limitations. First, they require a large labelled database for training, with a separate model trained, tuned, and maintained for each contingency in a potentially long list of credible contingencies. Second, the trained models generalize poorly to unseen contingencies. This work addresses the limitations by using a tabular foundation model (TFM) that assesses stability through in-context learning, requiring no retraining or hyperparameter optimization. A single TFM can assess many contingencies at once, removing the need for one model per classifier. We also characterize when the use of electrical distance coordinates (EDC) as continuous features enables generalization of TFM to unseen contingencies and when they do not, demonstrating how a few labelled samples can reliably improve generalization. Through comprehensive case studies on the IEEE 68-bus system, we show that a single TFM attains an average Macro F1 score of about 90% with only 120 labelled samples per contingency, roughly two orders of magnitude fewer than conventionally assumed, without any model retraining or hyperparameter tuning. For new/unseen contingencies, we show that using just 10 labelled samples of the new contingency with EDC encoding matches the best achievable transfer learning oracle model, which requires fully labelled data and is not deployable in practice. Overall, this initial study paves the way towards developing and deploying foundation models for power system operations, with possible applications across multiple operational tasks.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-20"
+    "publication_date": "2026-07-21"
   },
   {
     "id": "2605.22759v3",
@@ -88,7 +88,7 @@
     "ss_citation_count": 1,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-20"
+    "publication_date": "2026-07-21"
   },
   {
     "id": "2607.15660v1",
@@ -96,12 +96,12 @@
     "url": "http://arxiv.org/pdf/2607.15660v1",
     "authors_list": [],
     "author_count": 8,
-    "ss_tldr": "",
+    "ss_tldr": "Experimental results demonstrate that the ToolVerse framework significantly strengthens LLMs'capabilities in long-horizon tool use, achieving a marked performance boost and showcasing robust reasoning within dynamic environments.",
     "abstract": "While LLM agents demonstrate strong reasoning abilities in compact and well-defined scenarios, they struggle to maintain robustness and effectiveness when faced with large-scale, diverse, and dynamic real-world environments that demand seamless tool integration. To address this gap, we introduce ToolVerse, a comprehensive framework that scales up agentic RL environments and enables agents to perform complex long-horizon reasoning in Tool-Integrated Reasoning (TIR) tasks. First, ToolVerse automatically builds the massive executable agent training environments from nearly 400 real-world Model Context Protocols (MCPs) that contain about 4500 tools. Second, we propose a task design strategy based on a tool dependency graph, utilizing Dynamic Unlocking Sampling Algorithm to generate long-horizon tasks, and produce GUST (Graph Unlocking Sampling Tasks) dataset. Third, to alleviate the credit assigment problem in long-horizon agentic RL, we propose a fine-grained Turn-Aware Relative Advantage algorithm. We conduct extensive Agentic RL training using ToolVerse and evaluate our framework on serveral agentic benchmarks. Experimental results demonstrate that our framework significantly strengthens LLMs' capabilities in long-horizon tool use, achieving a marked performance boost and showcasing robust reasoning within dynamic environments.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-20"
+    "publication_date": "2026-07-21"
   },
   {
     "id": "2607.15079v2",
@@ -114,7 +114,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-20"
+    "publication_date": "2026-07-21"
   },
   {
     "id": "2509.08269v6",
@@ -127,7 +127,7 @@
     "ss_citation_count": 11,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-20"
+    "publication_date": "2026-07-21"
   },
   {
     "id": "2604.12069v4",
@@ -140,7 +140,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-20"
+    "publication_date": "2026-07-21"
   },
   {
     "id": "2607.11436v2",
@@ -153,7 +153,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-20"
+    "publication_date": "2026-07-21"
   },
   {
     "id": "2607.15380v1",
@@ -166,7 +166,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-07-20"
+    "publication_date": "2026-07-21"
   },
   {
     "id": "2607.15711v1",
@@ -174,12 +174,12 @@
     "url": "http://arxiv.org/pdf/2607.15711v1",
     "authors_list": [],
     "author_count": 7,
-    "ss_tldr": "",
+    "ss_tldr": "A Difficulty-aware Dynamic Routing (DDR) strategy that overcomes the rigid, one-size-fits-all processing paradigm for Real-ISR approaches, and builds a set of Real-ISR networks with varying model capacities by modulating the spatial downsampling ratio of the VAE in the SD backbone.",
     "abstract": "Diffusion-based methods have achieved impressive performance in real-world image super-resolution (Real-ISR) by leveraging large pre-trained stable diffusion (SD) models as powerful generative priors. However, these methods still face two key limitations. First, existing SD-based one-step and multi-step Real-ISR approaches adopt a unified processing paradigm for all input samples, ignoring the varying restoration difficulty across images. Second, the aggressive resolution reduction of the VAE in SD models (e.g., 8x downsampling) leads to irreversible loss of fine-scale details, which cannot be recovered by the subsequent diffusion process.   To address these limitations, we propose a Difficulty-aware Dynamic Routing (DDR) strategy that overcomes the rigid, one-size-fits-all processing paradigm. Specifically, we first design a difficulty estimator to predict the restoration cost of each input image, enabling automatic assignment to a network of appropriate capacity. Then, we construct a set of Real-ISR networks with varying model capacities by modulating the spatial downsampling ratio of the VAE in the SD backbone, thereby preserving more high-frequency information for challenging cases while maintaining efficiency for simpler inputs.   Extensive experiments have demonstrated the superior efficiency and effectiveness of the proposed model compared to recent state-of-the-art methods.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-20"
+    "publication_date": "2026-07-21"
   },
   {
     "id": "2607.15898v1",
@@ -187,12 +187,12 @@
     "url": "http://arxiv.org/pdf/2607.15898v1",
     "authors_list": [],
     "author_count": 7,
-    "ss_tldr": "",
+    "ss_tldr": "A generic two-stage training paradigm that pretrains the model with diffusion forcing and fine-tunes with teacher forcing, combining the representational benefits of the former with the rollout stability of the latter, achieves state-of-the-art results across the standard suite of driving world model evaluations on established benchmarks.",
     "abstract": "Current world models operate at a single level of abstraction, with most prioritizing perceptual fidelity while lacking the spatial reasoning and semantic understanding required for real-world downstream tasks. We present a hierarchical driving world model that factorizes future prediction across two levels operating at distinct temporal and abstraction scales: a high-level predictor that forecasts coarse scene structure over extended temporal horizons, and a low-level generator that produces detailed predictions conditioned on the high-level output. This decomposition yields high perceptual fidelity while also capturing strong spatial and semantic representations. We further show that pretraining with a diffusion forcing objective yields substantially richer internal representations than the standard teacher forcing objective, while teacher forcing -- predicting only the next frame from clean context -- produces more stable autoregressive rollouts. We therefore introduce a generic two-stage training paradigm that pretrains the model with diffusion forcing and fine-tunes with teacher forcing, combining the representational benefits of the former with the rollout stability of the latter. Our approach achieves state-of-the-art results across the standard suite of driving world model evaluations on established benchmarks, including long-horizon generation fidelity, steering responsiveness evaluated on counterfactual scenarios, and internal representation quality. Project page with code, demo, checkpoints and qualitative results: https://lmb-freiburg.github.io/orbis2.github.io/",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-07-20"
+    "publication_date": "2026-07-21"
   },
   {
     "id": "2603.01875v3",
@@ -205,7 +205,7 @@
     "ss_citation_count": 4,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-20"
+    "publication_date": "2026-07-21"
   },
   {
     "id": "2606.11042v4",
@@ -218,7 +218,20 @@
     "ss_citation_count": 1,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-20"
+    "publication_date": "2026-07-21"
+  },
+  {
+    "id": "2606.13669v3",
+    "title": "Agents-K1: Towards Agent-native Knowledge Orchestration",
+    "url": "http://arxiv.org/pdf/2606.13669v3",
+    "authors_list": [],
+    "author_count": 28,
+    "ss_tldr": "An end-to-end knowledge orchestration pipeline that converts raw documents into agent-native scientific knowledge graphs, and can be extended to general-domain corpora and to schema-conformant data synthesis.",
+    "abstract": "Current LLM-based research agents have advanced through agent orchestration, yet largely overlook scientific knowledge orchestration. Existing works often reduce papers to abstracts, surface mentions, and flat \\texttt{cites} edges, omitting key entities, claims, evidence, mechanisms, and method lineages essential for scientific reasoning. To this end, we introduce \\textbf{Agents-K1}, an end-to-end knowledge orchestration pipeline that converts raw documents into agent-native scientific knowledge graphs. Agents-K1 integrates three components under a unifying theoretical foundation: a multimodal parser whose five-module schema captures entities, multimodal evidence, citations, and typed inter-entity relations across the full paper rather than abstracts alone; a 4B information-extraction backbone trained with GRPO under a rule-based reward; and a graphanything CLI, a tri-source agent interface that unifies web search, multimodal graph retrieval, and cross-document traversal. On top of this, we process 2.46 million scientific papers across six subjects to produce \\textbf{Scholar-KG}, of which we release a one-million-paper subset, and the full Scholar-KG is accessible via the SCP link below. The same pipeline can be extended to general-domain corpora and to schema-conformant data synthesis. Extensive experiments demonstrate that Agents-K1 achieves superior performance in scientific information extraction, knowledge graph construction, and multi-hop scientific reasoning.",
+    "ss_citation_count": 2,
+    "ss_influential_citations": 0,
+    "prominence_tier": "Elite",
+    "publication_date": "2026-07-21"
   },
   {
     "id": "2604.04593v2",
@@ -231,20 +244,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-20"
-  },
-  {
-    "id": "2606.13669v3",
-    "title": "Agents-K1: Towards Agent-native Knowledge Orchestration",
-    "url": "http://arxiv.org/pdf/2606.13669v3",
-    "authors_list": [],
-    "author_count": 28,
-    "ss_tldr": "",
-    "abstract": "Current LLM-based research agents have advanced through agent orchestration, yet largely overlook scientific knowledge orchestration. Existing works often reduce papers to abstracts, surface mentions, and flat \\texttt{cites} edges, omitting key entities, claims, evidence, mechanisms, and method lineages essential for scientific reasoning. To this end, we introduce \\textbf{Agents-K1}, an end-to-end knowledge orchestration pipeline that converts raw documents into agent-native scientific knowledge graphs. Agents-K1 integrates three components under a unifying theoretical foundation: a multimodal parser whose five-module schema captures entities, multimodal evidence, citations, and typed inter-entity relations across the full paper rather than abstracts alone; a 4B information-extraction backbone trained with GRPO under a rule-based reward; and a graphanything CLI, a tri-source agent interface that unifies web search, multimodal graph retrieval, and cross-document traversal. On top of this, we process 2.46 million scientific papers across six subjects to produce \\textbf{Scholar-KG}, of which we release a one-million-paper subset, and the full Scholar-KG is accessible via the SCP link below. The same pipeline can be extended to general-domain corpora and to schema-conformant data synthesis. Extensive experiments demonstrate that Agents-K1 achieves superior performance in scientific information extraction, knowledge graph construction, and multi-hop scientific reasoning.",
-    "ss_citation_count": 0,
-    "ss_influential_citations": 0,
-    "prominence_tier": "Elite",
-    "publication_date": "2026-07-20"
+    "publication_date": "2026-07-21"
   },
   {
     "id": "2607.15565v1",
@@ -252,11 +252,11 @@
     "url": "http://arxiv.org/pdf/2607.15565v1",
     "authors_list": [],
     "author_count": 4,
-    "ss_tldr": "",
+    "ss_tldr": "The question-first paradox reveals a trade-off between steering perception and preserving question access; echoing resolves it through prompt design alone.",
     "abstract": "Where should the question go in a vision-language model (VLM) prompt: before the image or after it? Intuition says before: knowing what is asked should tell the model where to look. Yet across visual question answering benchmarks, question-first prompting consistently underperforms the image-first ordering recommended for frontier VLMs, a phenomenon we term the question-first paradox. We trace the paradox to a conflict between two stages of VLM computation. Logit-lens and attention probes show the intuition is half right: a question placed before the image genuinely steers perception, moving image patch representations toward question-relevant concepts. The failure lies downstream. Stranded behind hundreds of image tokens, the question is barely attended by the answer token, which instead commits to image-driven (often wrong) answers; a causal attention knockout confirms that the answer reads the question only when the question follows the image. The diagnosis yields a training-free fix: question echoing, restating the question on both sides of the image so that one copy steers perception while the other is read out at answer time. The same division of labor appears in a fifty-year-old finding on human ``adjunct questions'', where repeating a question before and after a passage aids comprehension more than either position alone. Echoing the image as well brings further gains, restoring the whole-image view a causal decoder otherwise loses. The paradox holds across five open VLMs, costing up to 17.5 group-accuracy points. Echoed prompts close it and surpass the best single-pass ordering on NaturalBench, POPE, Winoground, and open-ended VQAv2, by up to 19 Winoground group-accuracy points, with no training, fine-tuning, or architecture change. The paradox reveals a trade-off between steering perception and preserving question access; echoing resolves it through prompt design alone.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-07-20"
+    "publication_date": "2026-07-21"
   }
 ]
