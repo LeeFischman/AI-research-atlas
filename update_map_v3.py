@@ -505,15 +505,44 @@ def _retry_temperature(attempt: int) -> float:
     Pass 1 batch returned the exact same 7,151-char truncated/repeating JSON.)
     Retries therefore escalate temperature so each retry is an actual new
     sample rather than a guaranteed replay of the same output.
+
+    NOTE: temperature alone does not reliably prevent the repetition-loop
+    failure mode itself — confirmed in production on 2026-07-09, where a
+    Pass 1 batch degenerated into a run of repeated "1" tokens at
+    temperature=0.4, not just at 0.0. Temperature changes *which* sample is
+    drawn; it doesn't penalize the model for repeating a token it already
+    emitted. See _retry_frequency_penalty for the parameter that actually
+    targets that failure mode directly.
     """
     if attempt <= 1:
         return 0.0
     return min(0.2 * (attempt - 1), 0.8)
 
 
+def _retry_frequency_penalty(attempt: int) -> tuple[float, float]:
+    """(frequency_penalty, presence_penalty) schedule for retry attempts.
+
+    Returns escalating penalties starting from attempt 2. These directly
+    penalize the model for re-emitting tokens it has already used in the
+    response — frequency_penalty scales with how many times a token has
+    repeated (the exact failure observed: "1, 1, 1, 1, ..." hundreds of
+    times), while presence_penalty gives a flat penalty to any token used at
+    all, encouraging broader coverage across the array. Kept at 0.0 on
+    attempt 1 to avoid distorting the model's default (best-calibrated)
+    behavior on the common successful path; only engaged once a first
+    attempt has already shown a problem.
+    """
+    if attempt <= 1:
+        return 0.0, 0.0
+    freq = min(0.4 * (attempt - 1), 1.5)
+    pres = min(0.2 * (attempt - 1), 0.6)
+    return freq, pres
+
+
 def _gemini_call(
     client, system: str, user: str, max_tokens: int,
     use_cache: bool = False, temperature: float = 0.0,
+    frequency_penalty: float = 0.0, presence_penalty: float = 0.0,
 ) -> tuple[str | None, bool]:
     """Single Gemini API call, governed by the daily request budget.
 
@@ -532,10 +561,10 @@ def _gemini_call(
 
     The is_overload flag lets callers use a fast retry for non-overload
     failures (a bad/degenerate generation gets no benefit from waiting —
-    only from resampling at a different temperature) while still backing off
-    properly for real rate-limit/capacity errors. A caller that gets text
-    back but then fails to *parse* it (e.g. a repetition-loop degeneration)
-    should treat that as non-overload too — see call sites.
+    only from resampling at a different temperature/penalty) while still
+    backing off properly for real rate-limit/capacity errors. A caller that
+    gets text back but then fails to *parse* it (e.g. a repetition-loop
+    degeneration) should treat that as non-overload too — see call sites.
 
     DAILY BUDGET GOVERNOR: this project's live free-tier quota for
     gemini-2.5-flash-lite is 20 requests/DAY (confirmed via AI Studio) — far
@@ -564,11 +593,12 @@ def _gemini_call(
     Note: thinking is disabled (budget 0) — Flash-Lite's default, set explicitly
     so a future default change cannot silently add thinking-token cost. If a
     given SDK/snapshot rejects thinking_budget=0, delete that one line; the
-    model is non-thinking by default regardless. temperature=0.0 is a
-    deliberate change from the previous model's default (~1.0) for run-to-run
-    taxonomy stability on the first attempt; callers should raise it (see
-    _retry_temperature) on retries so a retry is not a guaranteed replay of a
-    prior failure.
+    model is non-thinking by default regardless. temperature=0.0 and
+    frequency_penalty=presence_penalty=0.0 are deliberate defaults for
+    run-to-run taxonomy stability on the first attempt; callers should raise
+    them on retries (see _retry_temperature / _retry_frequency_penalty) so a
+    retry is not a guaranteed replay of a prior failure and directly
+    discourages the repetition-loop degeneration seen in production.
     """
     global _gemini_calls_made_today, _gemini_quota_exhausted
 
@@ -590,6 +620,8 @@ def _gemini_call(
         system_instruction=(system if system else None),
         max_output_tokens=max_tokens,
         temperature=temperature,
+        frequency_penalty=frequency_penalty,
+        presence_penalty=presence_penalty,
         thinking_config=types.ThinkingConfig(thinking_budget=0),
         response_mime_type="application/json",
     )
@@ -1360,10 +1392,13 @@ def haiku_group_papers(
         b_result = None
         for attempt in range(1, GROUPING_MAX_RETRIES + 1):
             temp = _retry_temperature(attempt)
+            freq_p, pres_p = _retry_frequency_penalty(attempt)
             print(f"    Attempt {attempt}/{GROUPING_MAX_RETRIES} "
-                  f"(temperature={temp:.1f})...")
+                  f"(temperature={temp:.1f}, freq_penalty={freq_p:.1f}, "
+                  f"presence_penalty={pres_p:.1f})...")
             raw, is_overload = _gemini_call(client, _PASS1_SYSTEM, p1_msg,
-                              max_tokens=6144, use_cache=True, temperature=temp)
+                              max_tokens=6144, use_cache=True, temperature=temp,
+                              frequency_penalty=freq_p, presence_penalty=pres_p)
             if raw is not None:
                 print(f"    Response length: {len(raw)} chars.")
                 b_result = _parse_pass1_response(raw, b_size)
@@ -1468,10 +1503,13 @@ def haiku_group_papers(
         else:
             for attempt in range(1, GROUPING_MAX_RETRIES + 1):
                 temp = _retry_temperature(attempt)
+                freq_p, pres_p = _retry_frequency_penalty(attempt)
                 print(f"  Attempt {attempt}/{GROUPING_MAX_RETRIES} "
-                      f"(temperature={temp:.1f})...")
+                      f"(temperature={temp:.1f}, freq_penalty={freq_p:.1f}, "
+                      f"presence_penalty={pres_p:.1f})...")
                 raw, is_overload = _gemini_call(client, _PASS2_SYSTEM, p2_msg,
-                                  max_tokens=8192, use_cache=True, temperature=temp)
+                                  max_tokens=8192, use_cache=True, temperature=temp,
+                                  frequency_penalty=freq_p, presence_penalty=pres_p)
                 if raw is not None:
                     print(f"  Response length: {len(raw)} chars.")
                     p2_result = _parse_pass2_response(raw, n_uncertain,
@@ -1610,10 +1648,13 @@ def haiku_group_papers(
             else:
                 for attempt in range(1, GROUPING_MAX_RETRIES + 1):
                     temp = _retry_temperature(attempt)
+                    freq_p, pres_p = _retry_frequency_penalty(attempt)
                     print(f"  Review attempt {attempt}/{GROUPING_MAX_RETRIES} "
-                          f"(temperature={temp:.1f})...")
+                          f"(temperature={temp:.1f}, freq_penalty={freq_p:.1f}, "
+                          f"presence_penalty={pres_p:.1f})...")
                     raw, is_overload = _gemini_call(client, _PASS2_SYSTEM, rev_msg,
-                                      max_tokens=4096, use_cache=True, temperature=temp)
+                                      max_tokens=4096, use_cache=True, temperature=temp,
+                                      frequency_penalty=freq_p, presence_penalty=pres_p)
                     if raw is not None:
                         print(f"  Response length: {len(raw)} chars.")
                         # existing_dynamic_ids for review = all currently known
