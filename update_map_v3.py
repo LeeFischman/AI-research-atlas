@@ -634,14 +634,52 @@ def _gemini_call(
             contents=user,
             config=config,
         )
-        # Log cache token usage so implicit cache hits can be verified.
+
+        # ── Diagnostics: always logged, not just when use_cache. These exist
+        # to distinguish "the model genuinely finished but wrote garbage"
+        # from "the response was cut off mid-generation" from "Google
+        # blocked/filtered something" — three very different problems that
+        # looked identical from the outside before this was added (all three
+        # just produced text that failed to json.parse()). Added 2026-07-22
+        # after repeated repetition-loop failures whose root cause couldn't
+        # be confirmed from response text alone.
+        u = getattr(response, "usage_metadata", None)
+        prompt_tok    = getattr(u, "prompt_token_count", 0) or 0
+        cached_tok    = getattr(u, "cached_content_token_count", 0) or 0
+        output_tok    = getattr(u, "candidates_token_count", 0) or 0
+        thoughts_tok  = getattr(u, "thoughts_token_count", 0) or 0
+
+        candidates = getattr(response, "candidates", None) or []
+        finish_reason = getattr(candidates[0], "finish_reason", None) if candidates else None
+        safety_ratings = getattr(candidates[0], "safety_ratings", None) if candidates else None
+        flagged_safety = [
+            sr for sr in (safety_ratings or [])
+            if getattr(sr, "probability", None) not in (None, "NEGLIGIBLE", "LOW")
+        ]
+        prompt_feedback = getattr(response, "prompt_feedback", None)
+        block_reason = getattr(prompt_feedback, "block_reason", None)
+
+        hit_max_tokens = (str(finish_reason) == "MAX_TOKENS") or (
+            max_tokens > 0 and output_tok >= max_tokens
+        )
+
+        diag = (f"    [diag] finish_reason={finish_reason} "
+                f"output_tok={output_tok}/{max_tokens} "
+                f"prompt_tok={prompt_tok} cached_tok={cached_tok} "
+                f"thoughts_tok={thoughts_tok}")
+        if hit_max_tokens:
+            diag += "  ⚠ TRUNCATED (hit max_output_tokens)"
+        if block_reason:
+            diag += f"  ⚠ BLOCKED: {block_reason}"
+        if flagged_safety:
+            diag += f"  ⚠ SAFETY: {flagged_safety}"
+        print(diag)
+
         if use_cache:
-            u = getattr(response, "usage_metadata", None)
-            prompt_tok = getattr(u, "prompt_token_count", 0) or 0
-            cached_tok = getattr(u, "cached_content_token_count", 0) or 0
             print(f"    [cache] prompt={prompt_tok} cached={cached_tok} "
                   f"(request {_gemini_calls_made_today}/{GEMINI_DAILY_REQUEST_BUDGET} "
                   f"of today's budget)")
+
         text = response.text
         return (text.strip() if text else None), False
     except Exception as e:
@@ -754,6 +792,39 @@ def _build_pass1_message(df: pd.DataFrame) -> str:
     for _, row in df.iterrows():
         lines.append(str(row['title']).strip())
     return "\n".join(lines)
+
+
+def _find_repetition_onset(raw_text: str, min_run: int = 8) -> tuple[int, str, int] | None:
+    """Find the first run of >= min_run identical consecutive tokens in a
+    flat JSON-array-of-scalars response (as produced by Pass 1/Pass 2).
+
+    Returns (onset_index, repeated_value, run_length) — onset_index is the
+    0-based position in the array where the run begins, so callers can map
+    it directly back to the input paper at that index and check whether a
+    specific paper's title/content is triggering the degeneration, versus
+    this being a purely positional (context-length) failure. Returns None if
+    no run meeting the threshold is found (e.g. a truncation cut off before
+    a repeat pattern had room to establish itself).
+    """
+    # Match the flat list of scalar tokens inside "assignments": [...]  —
+    # tolerant of an unterminated/truncated array (no closing bracket needed).
+    m = re.search(r'"assignments"\s*:\s*\[(.*)', raw_text, re.DOTALL)
+    if not m:
+        return None
+    body = m.group(1)
+    tokens = re.findall(r'"[^"]*"|-?\d+(?:\.\d+)?|true|false|null', body)
+    if not tokens:
+        return None
+
+    run_val, run_start, run_len = None, 0, 0
+    for i, tok in enumerate(tokens):
+        if tok == run_val:
+            run_len += 1
+        else:
+            run_val, run_start, run_len = tok, i, 1
+        if run_len >= min_run:
+            return run_start, run_val, run_len
+    return None
 
 
 def _parse_pass1_response(
@@ -1406,6 +1477,25 @@ def haiku_group_papers(
                     print(f"    ✓ Parsed.")
                     break
                 else:
+                    onset = _find_repetition_onset(raw)
+                    if onset is not None:
+                        onset_idx, onset_val, run_len = onset
+                        title_at_onset = None
+                        if 0 <= onset_idx < len(batch_df):
+                            title_at_onset = str(batch_df.iloc[onset_idx].get("title", ""))[:120]
+                        print(f"    Repetition onset: array index {onset_idx} "
+                              f"(of {b_size} papers in this batch), value "
+                              f"'{onset_val}' repeated {run_len}+ times.")
+                        if title_at_onset is not None:
+                            print(f"    Paper at onset index {onset_idx}: "
+                                  f"\"{title_at_onset}\"")
+                            print(f"    Paper immediately before it (idx "
+                                  f"{onset_idx-1}): "
+                                  f"\"{str(batch_df.iloc[onset_idx-1].get('title',''))[:120] if onset_idx > 0 else '(batch start)'}\"")
+                    else:
+                        print(f"    No repetition run found (>=8 identical "
+                              f"consecutive tokens) — likely a different "
+                              f"failure mode; see raw dump below.")
                     print(f"    Full response dump:\n{raw}")
                     is_overload = False  # got a response; it just didn't parse
 
