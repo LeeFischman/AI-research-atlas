@@ -11385,7 +11385,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2404.12353": {
     "citation_count": 0,
@@ -45147,7 +45147,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2511.03732": {
     "citation_count": 0,
@@ -67641,7 +67641,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2511.20347": {
     "citation_count": 18,
@@ -82053,7 +82053,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2512.08743": {
     "citation_count": 0,
@@ -83817,7 +83817,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2512.13089": {
     "citation_count": 1,
@@ -101283,7 +101283,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2601.05172": {
     "citation_count": 0,
@@ -120099,7 +120099,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2601.18799": {
     "citation_count": 0,
@@ -147243,7 +147243,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2602.12828": {
     "citation_count": 0,
@@ -150783,7 +150783,7 @@
     "citation_count": 5,
     "influential_citation_count": 2,
     "tldr": "This work reframe instruction hierarchy resolution as a reasoning task, establishing reasoning over instruction hierarchies as a practical mechanism for improving AI reliability, where targeted updates to system prompts produce predictable, controllable, and robust changes in model behavior.",
-    "fetched_at": "2026-07-19T05:41:39.682454+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2511.10515": {
     "citation_count": 0,
@@ -160671,7 +160671,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2510.22512": {
     "citation_count": 1,
@@ -169335,7 +169335,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2603.04289": {
     "citation_count": 0,
@@ -171711,7 +171711,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2603.08177": {
     "citation_count": 0,
@@ -180273,7 +180273,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2603.18719": {
     "citation_count": 0,
@@ -185709,7 +185709,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2603.26660": {
     "citation_count": 0,
@@ -186423,7 +186423,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2603.28589": {
     "citation_count": 0,
@@ -187593,7 +187593,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "TSHA is introduced, a comprehensive benchmark comprising 66,668 validated question-answer pairs, including 64,961 carefully curated training QA pairs drawn from existing indoor datasets, internet frames/images, AIGC images, newly captured images, and Hunyuan panoramic images, used to evaluate the model's robustness in complex safety scenarios.",
-    "fetched_at": "2026-07-19T05:41:39.682454+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2603.29761": {
     "citation_count": 0,
@@ -194385,7 +194385,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2604.21277": {
     "citation_count": 0,
@@ -235911,7 +235911,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2605.26898": {
     "citation_count": 0,
@@ -245991,7 +245991,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2606.00995": {
     "citation_count": 0,
@@ -249315,7 +249315,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2606.06635": {
     "citation_count": 0,
@@ -251205,7 +251205,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2604.09609": {
     "citation_count": 0,
@@ -257691,7 +257691,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2606.13276": {
     "citation_count": 0,
@@ -278031,7 +278031,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2606.26107": {
     "citation_count": 0,
@@ -282387,7 +282387,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2507.18632": {
     "citation_count": 8,
@@ -285771,7 +285771,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2606.30966": {
     "citation_count": 0,
@@ -287954,8 +287954,8 @@
   "2606.29932": {
     "citation_count": 0,
     "influential_citation_count": 0,
-    "tldr": "SAGA is presented, an LLM multi-agent framework that addresses these challenges with three mechanisms: a Map-Semantic Scene Graph that renders typed entity relations as concise per-entity text, a Tool-Augmented Planner that retrieves state on demand and routes disjoint per-domain directives to specialist controllers, and a Dual-Horizon Feedback Loop that sets intermediate goals within a game and distills causal lessons across games.",
-    "fetched_at": "2026-07-19T05:41:39.682454+00:00"
+    "tldr": "SAGA, an LLM multi-agent framework pairing one mechanism with each weakness, leads five LLM baselines on mean final score and is the only method significantly ahead of all of them on city development, the first investment baselines sacrifice, with 27% fewer output tokens.",
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.01255": {
     "citation_count": 0,
@@ -292653,7 +292653,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "Student-Aware CoT Optimization for Recommendation Distillation (SCOReD), a CoT optimization framework tailored to recommendation that first parses each teacher trace into typed segments and uses the student LLM's attention to score the importance of each segment.",
-    "fetched_at": "2026-07-19T05:41:39.682454+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.05842": {
     "citation_count": 0,
@@ -292665,7 +292665,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "This work argues latency is a property of where the store lives, not the in-loop pattern: an in-process store answers in ~100us, three orders of magnitude below the network regime, and at that speed the per-step tax collapses.",
-    "fetched_at": "2026-07-19T05:41:39.682454+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.05666": {
     "citation_count": 0,
@@ -292911,7 +292911,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "The analysis shows why endpoint prediction can work without straightening the trajectory, providing inference acceleration without trajectory redesign, and why TJS requires no retraining, distillation, or architecture change.",
-    "fetched_at": "2026-07-19T05:41:39.682454+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.06109": {
     "citation_count": 0,
@@ -293019,7 +293019,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "A framework for considering curiosity as an ecosystem suggests that a single agent's inquiry policy depends on how the agent values immediate uncertainty reduction, costs, delayed return, and the value of keeping the question open.",
-    "fetched_at": "2026-07-19T05:41:39.682454+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.05956": {
     "citation_count": 0,
@@ -293043,7 +293043,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.06105": {
     "citation_count": 0,
@@ -293097,7 +293097,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "This work introduces TOFFEE, a system for synthesizing high-quality data agent trajectories from given data environments via Monte Carlo Tree Search (MCTS) with adaptive model selection and cross-task prefix reuse, and shows that TOFFEE can effectively generate scalable trajectory data for complex analytical tasks across heterogeneous environments.",
-    "fetched_at": "2026-07-19T05:41:39.682454+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.06349": {
     "citation_count": 0,
@@ -293259,7 +293259,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "It is found that prompting models to reason in English while keeping questions in low-resource languages substantially improves UE performance, suggesting that comprehension of low-resource languages is largely intact, and that the reliability bottleneck lies in generation rather than understanding.",
-    "fetched_at": "2026-07-19T05:41:39.682454+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.06326": {
     "citation_count": 0,
@@ -293300,8 +293300,8 @@
   "2607.06411": {
     "citation_count": 0,
     "influential_citation_count": 0,
-    "tldr": "RuBench 1.0 is introduced, a benchmark of 25 tasks mined from recent fix commits in five live open-source repositories, where each task is specified natively in Russian -- written from scratch in the style of an actual customer request, not translated -- and judged by the upstream maintainer's regression tests, which are withheld from release.",
-    "fetched_at": "2026-07-19T05:41:39.682454+00:00"
+    "tldr": "RuBench 1.0 is introduced, a benchmark of 25 tasks mined from recent fix commits in five live open-source repositories, each specified natively in Russian and judged by the upstream maintainer's regression tests, which are withheld with a SHA-256 manifest.",
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.06407": {
     "citation_count": 0,
@@ -294189,7 +294189,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "Deterministic gates do not guarantee task success, but they can deterministically prevent a known class of silent policy-violating writes at the action boundary.",
-    "fetched_at": "2026-07-19T05:41:39.682454+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.07391": {
     "citation_count": 0,
@@ -294243,7 +294243,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "This work asks whether LLM-generated skills offer a useful low-curation alternative: do they improve performance over the task prompt alone, and whether any part of the skill is useful by ablating different skill components, and finds no reliable improvement from full generated skills over No-Skill prompting.",
-    "fetched_at": "2026-07-19T05:41:39.682454+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.07492": {
     "citation_count": 0,
@@ -295317,7 +295317,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.08716": {
     "citation_count": 0,
@@ -295743,7 +295743,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.09217": {
     "citation_count": 0,
@@ -295779,7 +295779,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.09153": {
     "citation_count": 0,
@@ -296049,7 +296049,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.09586": {
     "citation_count": 0,
@@ -296097,7 +296097,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.09424": {
     "citation_count": 0,
@@ -296187,13 +296187,13 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.09566": {
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.09562": {
     "citation_count": 0,
@@ -296235,7 +296235,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.09417": {
     "citation_count": 0,
@@ -297147,7 +297147,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2606.23047": {
     "citation_count": 0,
@@ -298065,7 +298065,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.09891": {
     "citation_count": 0,
@@ -298161,7 +298161,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.09762": {
     "citation_count": 0,
@@ -298221,7 +298221,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.09752": {
     "citation_count": 0,
@@ -298335,7 +298335,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.10197": {
     "citation_count": 0,
@@ -298485,7 +298485,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.09971": {
     "citation_count": 0,
@@ -298569,7 +298569,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.10231": {
     "citation_count": 0,
@@ -298581,7 +298581,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.10358": {
     "citation_count": 0,
@@ -298593,7 +298593,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.10578": {
     "citation_count": 0,
@@ -298971,7 +298971,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.10649": {
     "citation_count": 0,
@@ -298995,7 +298995,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.10836": {
     "citation_count": 0,
@@ -299055,7 +299055,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.10707": {
     "citation_count": 0,
@@ -299115,7 +299115,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.10880": {
     "citation_count": 0,
@@ -299139,7 +299139,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.10795": {
     "citation_count": 0,
@@ -299211,7 +299211,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.10992": {
     "citation_count": 3,
@@ -299589,7 +299589,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.11327": {
     "citation_count": 0,
@@ -299607,7 +299607,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.11892": {
     "citation_count": 0,
@@ -299697,7 +299697,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.11947": {
     "citation_count": 0,
@@ -299715,7 +299715,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.11906": {
     "citation_count": 0,
@@ -299733,7 +299733,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.11967": {
     "citation_count": 0,
@@ -300045,7 +300045,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.12257": {
     "citation_count": 0,
@@ -300075,7 +300075,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.12792": {
     "citation_count": 0,
@@ -300129,7 +300129,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.12468": {
     "citation_count": 0,
@@ -300327,7 +300327,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.12584": {
     "citation_count": 0,
@@ -300447,7 +300447,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.12924": {
     "citation_count": 0,
@@ -300471,7 +300471,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.12946": {
     "citation_count": 0,
@@ -300495,7 +300495,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.04605": {
     "citation_count": 0,
@@ -300615,7 +300615,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.13035": {
     "citation_count": 0,
@@ -300681,7 +300681,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.13077": {
     "citation_count": 0,
@@ -300729,7 +300729,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.13091": {
     "citation_count": 0,
@@ -300741,7 +300741,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.13239": {
     "citation_count": 0,
@@ -300753,7 +300753,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.13104": {
     "citation_count": 0,
@@ -300849,7 +300849,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.13049": {
     "citation_count": 0,
@@ -300987,7 +300987,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.13305": {
     "citation_count": 0,
@@ -301071,7 +301071,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.13579": {
     "citation_count": 1,
@@ -301293,7 +301293,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.14024": {
     "citation_count": 0,
@@ -301335,7 +301335,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.13624": {
     "citation_count": 0,
@@ -301401,7 +301401,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.13940": {
     "citation_count": 0,
@@ -301665,7 +301665,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.14114": {
     "citation_count": 0,
@@ -301923,7 +301923,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.14474": {
     "citation_count": 0,
@@ -302037,7 +302037,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.14327": {
     "citation_count": 0,
@@ -302067,7 +302067,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.14431": {
     "citation_count": 0,
@@ -302115,7 +302115,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.14514": {
     "citation_count": 0,
@@ -302517,7 +302517,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.14611": {
     "citation_count": 0,
@@ -302763,7 +302763,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.14943": {
     "citation_count": 0,
@@ -302817,7 +302817,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.15263": {
     "citation_count": 0,
@@ -303141,7 +303141,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.15592": {
     "citation_count": 0,
@@ -303411,7 +303411,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.15898": {
     "citation_count": 0,
@@ -303477,7 +303477,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.15768": {
     "citation_count": 0,
@@ -303549,7 +303549,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.16175": {
     "citation_count": 0,
@@ -304905,7 +304905,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2604.09757": {
     "citation_count": 0,
@@ -305067,7 +305067,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.16250": {
     "citation_count": 0,
@@ -305211,7 +305211,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.16269": {
     "citation_count": 0,
@@ -305295,7 +305295,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.16236": {
     "citation_count": 0,
@@ -305553,7 +305553,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.16597": {
     "citation_count": 0,
@@ -305679,7 +305679,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.16848": {
     "citation_count": 0,
@@ -305775,7 +305775,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.16997": {
     "citation_count": 0,
@@ -305829,7 +305829,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.16715": {
     "citation_count": 0,
@@ -306165,7 +306165,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.17074": {
     "citation_count": 0,
@@ -306399,13 +306399,13 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.17508": {
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.17504": {
     "citation_count": 0,
@@ -306447,7 +306447,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.17528": {
     "citation_count": 0,
@@ -306519,7 +306519,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2509.08654": {
     "citation_count": 0,
@@ -306735,7 +306735,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.18245": {
     "citation_count": 0,
@@ -306801,7 +306801,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.17855": {
     "citation_count": 0,
@@ -306849,7 +306849,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.18433": {
     "citation_count": 0,
@@ -306873,7 +306873,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.18332": {
     "citation_count": 0,
@@ -307017,7 +307017,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.18310": {
     "citation_count": 0,
@@ -307041,7 +307041,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.18429": {
     "citation_count": 0,
@@ -307053,7 +307053,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.18344": {
     "citation_count": 0,
@@ -307065,7 +307065,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.18340": {
     "citation_count": 0,
@@ -307155,7 +307155,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.18603": {
     "citation_count": 0,
@@ -307317,7 +307317,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.18719": {
     "citation_count": 0,
@@ -307377,7 +307377,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.18570": {
     "citation_count": 0,
@@ -307413,7 +307413,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.19088": {
     "citation_count": 0,
@@ -307485,7 +307485,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.18927": {
     "citation_count": 0,
@@ -307839,7 +307839,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.19306": {
     "citation_count": 0,
@@ -308025,7 +308025,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.19409": {
     "citation_count": 0,
@@ -308319,7 +308319,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.19592": {
     "citation_count": 0,
@@ -308337,7 +308337,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.19824": {
     "citation_count": 0,
@@ -308397,7 +308397,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.19674": {
     "citation_count": 0,
@@ -308487,7 +308487,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.19749": {
     "citation_count": 0,
@@ -308499,7 +308499,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.19691": {
     "citation_count": 0,
@@ -308535,7 +308535,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.19845": {
     "citation_count": 0,
@@ -308637,7 +308637,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.20328": {
     "citation_count": 0,
@@ -308883,7 +308883,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.20253": {
     "citation_count": 0,
@@ -309081,7 +309081,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.20430": {
     "citation_count": 0,
@@ -309357,7 +309357,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.20499": {
     "citation_count": 0,
@@ -309447,7 +309447,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.20536": {
     "citation_count": 0,
@@ -309561,7 +309561,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.20533": {
     "citation_count": 0,
@@ -309789,7 +309789,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.20803": {
     "citation_count": 0,
@@ -309807,7 +309807,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.20709": {
     "citation_count": 0,
@@ -309837,7 +309837,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.20582": {
     "citation_count": 0,
@@ -310137,13 +310137,13 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.21187": {
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.20988": {
     "citation_count": 0,
@@ -310185,7 +310185,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.21495": {
     "citation_count": 0,
@@ -310293,7 +310293,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.21300": {
     "citation_count": 0,
@@ -310317,7 +310317,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.21402": {
     "citation_count": 0,
@@ -310437,7 +310437,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.21458": {
     "citation_count": 0,
@@ -310521,7 +310521,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.21552": {
     "citation_count": 0,
@@ -310545,7 +310545,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-07-25T05:34:41.521004+00:00"
+    "fetched_at": "2026-07-26T05:50:26.961608+00:00"
   },
   "2607.21559": {
     "citation_count": 0,
