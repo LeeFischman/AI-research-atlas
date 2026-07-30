@@ -10,20 +10,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-29"
-  },
-  {
-    "id": "2501.14249v11",
-    "title": "Humanity's Last Exam",
-    "url": "http://arxiv.org/pdf/2501.14249v11",
-    "authors_list": [],
-    "author_count": 1158,
-    "ss_tldr": "",
-    "abstract": "Benchmarks are important tools for tracking the rapid advancements in large language model (LLM) capabilities. However, benchmarks are not keeping pace in difficulty: LLMs now achieve over 90\\% accuracy on popular benchmarks like MMLU, limiting informed measurement of state-of-the-art LLM capabilities. In response, we introduce Humanity's Last Exam (HLE), a multi-modal benchmark at the frontier of human knowledge, designed to be the final closed-ended academic benchmark of its kind with broad subject coverage. HLE consists of 2,500 questions across dozens of subjects, including mathematics, humanities, and the natural sciences. HLE is developed globally by subject-matter experts and consists of multiple-choice and short-answer questions suitable for automated grading. Each question has a known solution that is unambiguous and easily verifiable, but cannot be quickly answered via internet retrieval. State-of-the-art LLMs demonstrate low accuracy and calibration on HLE, highlighting a significant gap between current LLM capabilities and the expert human frontier on closed-ended academic questions. To inform research and policymaking upon a clear understanding of model capabilities, we publicly release HLE at https://lastexam.ai.",
-    "ss_citation_count": 0,
-    "ss_influential_citations": 0,
-    "prominence_tier": "Enhanced",
-    "publication_date": "2026-07-29"
+    "publication_date": "2026-07-30"
   },
   {
     "id": "2607.25275v1",
@@ -36,7 +23,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-29"
+    "publication_date": "2026-07-30"
   },
   {
     "id": "2607.25543v1",
@@ -49,7 +36,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-29"
+    "publication_date": "2026-07-30"
   },
   {
     "id": "2607.25253v1",
@@ -57,12 +44,12 @@
     "url": "http://arxiv.org/pdf/2607.25253v1",
     "authors_list": [],
     "author_count": 6,
-    "ss_tldr": "",
+    "ss_tldr": "LLM-based user agents enable a different recommendation process: a user specifies a need before choosing a platform, leaving platforms to compete for the user's attention, which is referred to as an agentic recommendation market.",
     "abstract": "Online recommendation has traditionally taken place after a user enters a platform, which determines the candidate pool and the ranking shown to the user. LLM-based user agents enable a different recommendation process: a user specifies a need before choosing a platform, leaving platforms to compete for the user's attention, which we refer to as an agentic recommendation market. In our controlled LLM-based experiments across three product domains, we find this new setting of recommendation creates a tension between access and attention. Compared with traditional platform-centric recommendation, user-centric recommendation greatly expands the opportunity for relevant items to enter comparison; yet broader participation does not translate directly into effective exposure. Competition directly triggers platforms' strategic play: selectively positive explanations occupy 73--78% of first-ranked positions. When the user agent relates platforms' actions to subsequent user feedback, this share falls to 36--41%, while the chance of a user purchasing the relevant item increases. A user agent is therefore more than a ranker over a larger pool of candidates: its querying, ranking, and feedback mechanism governing who can compete, how scarce attention is allocated, and how earlier outcomes shape the evaluation of platforms directly affect user utility. Designing agentic recommendation therefore requires treating access, attention, and accountability as a joint mechanism design problem.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-29"
+    "publication_date": "2026-07-30"
   },
   {
     "id": "2607.25270v1",
@@ -75,7 +62,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-29"
+    "publication_date": "2026-07-30"
   },
   {
     "id": "2508.02929v3",
@@ -88,7 +75,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-29"
+    "publication_date": "2026-07-30"
   },
   {
     "id": "2607.25164v1",
@@ -101,7 +88,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-29"
+    "publication_date": "2026-07-30"
   },
   {
     "id": "2607.25299v1",
@@ -114,7 +101,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-29"
+    "publication_date": "2026-07-30"
   },
   {
     "id": "2607.25057v1",
@@ -122,12 +109,12 @@
     "url": "http://arxiv.org/pdf/2607.25057v1",
     "authors_list": [],
     "author_count": 8,
-    "ss_tldr": "",
+    "ss_tldr": "This work proposes a set of aspirational directions for guiding the behavior of general-purpose AI systems in ways that may reduce potential psychological harms and support user well-being, and identifies open questions and areas requiring deeper study.",
     "abstract": "As conversational AI systems become increasingly integrated into daily life, their potential effects on user well-being require ongoing attention. While consumer-facing generalist models can provide benefits, including improved access to information, learning, productivity, self-reflection, and companionship, they also introduce risks, such as emotional entanglement, unhealthy dependence, and the amplification of psychological vulnerabilities. Drawing on prior research and empirical observations of AI chatbot behavior, we propose a set of aspirational directions for guiding the behavior of general-purpose AI systems in ways that may reduce potential psychological harms and support user well-being. We acknowledge the difficulty of systematically assessing the long-term impacts of AI chatbot use and frame these directions as hypotheses for studying how AI behavior may influence users across general interactions, role-playing scenarios, and contexts that could be characterized as providing psychological support. While some proposed directions are supported by existing research and expert insights, others identify open questions and areas requiring deeper study. We hope that this formulation and these hypotheses encourage further discussion, empirical investigation, and exploration of interactive design approaches aimed at better accommodating users' psychological needs and promoting their well-being.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-29"
+    "publication_date": "2026-07-30"
   },
   {
     "id": "2607.25529v1",
@@ -140,7 +127,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-29"
+    "publication_date": "2026-07-30"
   },
   {
     "id": "2607.25675v1",
@@ -153,7 +140,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-29"
+    "publication_date": "2026-07-30"
   },
   {
     "id": "2607.25145v1",
@@ -166,85 +153,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-07-29"
-  },
-  {
-    "id": "2604.19341v2",
-    "title": "Structured Scaling of AI Discovery Across Diverse Scientific Domains",
-    "url": "http://arxiv.org/pdf/2604.19341v2",
-    "authors_list": [],
-    "author_count": 33,
-    "ss_tldr": "",
-    "abstract": "Scientific discovery often requires many cycles of proposing, testing, and refining candidate solutions. Language models can increasingly participate in these loops, but simply generating more attempts does not ensure progress: parallel searches may duplicate one another and iterative refinement may become trapped in poor directions. The central challenge is therefore not only to scale AI-driven discovery, but to structure that scaling so that evaluation signals compound over time. Here we introduce SimpleTES (Simple Test-time Evaluation-driven Scaling), a framework that focuses on the structured scaling of AI discovery loops, organizing evaluator queries across independent trajectories, iterative refinement, local candidate selection, and the selective reuse of evaluated histories. Drawing on structural features of scientific communities, SimpleTES uses a single open-source GPT-OSS model to establish new state-of-the-art solutions across 28 open-ended problems in diverse scientific domains ranging from quantum physics and astronomy to biology, AI, and mathematics. These include a 24.5% reduction in quantum circuit compilation overhead, up to 23% lower propulsive cost for deep-space trajectories, a 2.17x faster lasso-path solver, an 8.5% lower-error whole-brain neural-activity predictor, the fastest reported TriMul kernel, and new mathematical constructions beyond prior human or AI records. We further post-train the model for long-horizon discovery by assigning each attempt the final outcome of the trajectory it helped produce. This improves performance on both training and held-out mathematics problems, further advancing the frontier. Together, these results establish structured scaling as a general mechanism for advancing AI scientific discovery.",
-    "ss_citation_count": 0,
-    "ss_influential_citations": 0,
-    "prominence_tier": "Elite",
-    "publication_date": "2026-07-29"
-  },
-  {
-    "id": "2607.13454v2",
-    "title": "GeoAnchor: Collaborative Reasoning via Latent Decomposition for 3D Spatial Understanding",
-    "url": "http://arxiv.org/pdf/2607.13454v2",
-    "authors_list": [],
-    "author_count": 11,
-    "ss_tldr": "GeoAnchor decomposes 3D spatial information into three complementary components: position latents for object grounding, direction latents for relational orientation, and geometry latents for scene structure, and is introduced a collaborative training strategy that guides the model from local spatial perception to comprehensive 3D understanding.",
-    "abstract": "Although multimodal large language models (MLLMs) have achieved remarkable progress, understanding 3D spatial relationships from 2D images remains a critical challenge. Existing methods primarily rely on symbolic text tokens, which inherently lack the fidelity to represent continuous geometric information. While recent methods use latent representations to enhance reasoning, relying on a single latent type cannot adapt to the diversity of spatial tasks, leading to misalignment in complex geometric scenarios. To address these limitations, we propose GeoAnchor, an interleaved text-latent reasoning framework. GeoAnchor decomposes 3D spatial information into three complementary components: position latents for object grounding, direction latents for relational orientation, and geometry latents for scene structure. These components are recombined in a structured space to construct local evidence while capturing global context, enabling dynamic and interpretable reasoning. Furthermore, we introduce a collaborative training strategy that guides the model from local spatial perception to comprehensive 3D understanding. Extensive experiments on diverse and complex 3D reasoning tasks demonstrate that GeoAnchor outperforms the state of the art, validating its effectiveness and generalization capabilities.",
-    "ss_citation_count": 0,
-    "ss_influential_citations": 0,
-    "prominence_tier": "Elite",
-    "publication_date": "2026-07-29"
-  },
-  {
-    "id": "2512.06276v3",
-    "title": "RefBench-PRO: Perceptual and Reasoning Oriented Benchmark for Referring Expression Comprehension",
-    "url": "http://arxiv.org/pdf/2512.06276v3",
-    "authors_list": [],
-    "author_count": 11,
-    "ss_tldr": "",
-    "abstract": "Referring Expression Comprehension (REC) is a vision-language task that localizes a specific image region based on a textual description. Existing REC benchmarks primarily evaluate perceptual capabilities and lack interpretable scoring mechanisms, which cannot reveal the grounding capability of Multi-modal Large Language Model (MLLM) across different cognitive abilities. To address this limitation, we introduce RefBench-PRO, a comprehensive REC benchmark, which decomposes referring expressions into two core dimensions, i.e., perception and reasoning, and further subdivides them into six progressively challenging tasks, such as attribute, position, interaction, commonsense, relation and reject. We also develop a fully automated data-generation pipeline that produces diverse referring expressions across these six sub-dimensions. Furthermore, We propose Ref-R1, an RL-based learning scheme, which incorporates Dynamic IoU-based GRPO to improve localization accuracy under increasingly complex reasoning conditions, establishing a stronger baseline for REC. Extensive experiments demonstrate that our RefBench-PRO enables interpretable evaluation of MLLM on referring expression comprehension, presenting greater challenges in both perception and reasoning.",
-    "ss_citation_count": 0,
-    "ss_influential_citations": 0,
-    "prominence_tier": "Elite",
-    "publication_date": "2026-07-29"
-  },
-  {
-    "id": "2604.27720v2",
-    "title": "Why Does Grounding Hurt Medical VQA? Benchmarking, Diagnosis, and Fine-Tuning of Vision-Language Models",
-    "url": "http://arxiv.org/pdf/2604.27720v2",
-    "authors_list": [],
-    "author_count": 8,
-    "ss_tldr": "",
-    "abstract": "Vision-language models (VLMs) are increasingly applied to medical visual question answering (Med-VQA), yet whether they can \\emph{localize} the evidence behind their answers---a prerequisite for clinical auditability---is poorly characterized. We separately evaluate VQA reasoning and visual grounding for four recent frontier VLMs (GPT-5.1, GPT-5.5, Gemini-2.5-Pro, Gemini-3-Flash), two domain-specific medical VLMs (Lingshu, MedGemma), and a dedicated open-vocabulary detector (Grounding DINO) on VQA-RAD and SLAKE. Two findings challenge the intuition that ``add grounding to improve VQA.'' First, \\textbf{no model localizes medical targets well}: every off-the-shelf system---frontier, medical-specialized, or dedicated detector---scores mean IoU 0.05--0.24 on our SLAKE grounding split, at or barely above a trivial center-box baseline (0.10), with Acc@0.5 below 20\\%. Second, and counter to the common ``localize-then-answer'' paradigm, \\textbf{cropping to a bounding box degrades VQA even when the box is a perfect oracle}: on the matched subset where oracle ground-truth boxes are applied, GT-grounding \\emph{lowers} closed-ended accuracy for every model (by 0.9--18.0 points versus using the full image)---consistent with the crop discarding global context the model relies on. Because the oracle box removes localization error by construction, the problem is not that perception is a recoverable bottleneck, but that grounding-by-cropping is itself the wrong interface. Finally, we show constructively that the two channels need not conflict: supervised fine-tuning of Qwen-2.5-VL-7B on answers \\emph{alone} silently destroys box-evidence emission (0/418 parseable boxes), whereas mixing in a small amount of grounding supervision restores localization to 0.36 IoU---above every zero-shot model---while preserving answer accuracy.",
-    "ss_citation_count": 0,
-    "ss_influential_citations": 0,
-    "prominence_tier": "Elite",
-    "publication_date": "2026-07-29"
-  },
-  {
-    "id": "2607.23929v2",
-    "title": "MemTX: Transactional Belief Commit for Stateful Agent Memory",
-    "url": "http://arxiv.org/pdf/2607.23929v2",
-    "authors_list": [],
-    "author_count": 8,
-    "ss_tldr": "",
-    "abstract": "LLM agents increasingly coordinate through persistent shared memory: one agent's write becomes another agent's premise, and eventually a tool call with real side effects. Current agent memory systems treat every accepted write as immediately actionable truth, so a polluted tool result, a stale update, or a teammate's half-finished note can silently drive an irreversible action. We argue that a memory write is not a belief commit. We present MemTX, a transactional belief-commit protocol. Each record carries evidence, permissions, provenance, and validity. Writes are staged inside snapshot-isolated transactions and admitted by a validate-and-commit pipeline, irreversible tool calls are gated on in-flight belief state, and retracting a belief triggers typed cascading repair of its derived records and tool side effects. Two invariants, action-safety gating and cascade-repair completeness, are machine-checked by property-based testing and bounded exhaustive enumeration of 5.5 million protocol states, with zero violations. Across five backbones from three model families, MemTX leads all eight baselines with paired-McNemar significance on four backbones and statistically ties the best baseline on the fifth and strongest, while remaining the only method with zero downstream harm on every backbone. Backbone capability does not substitute for commit discipline.",
-    "ss_citation_count": 0,
-    "ss_influential_citations": 0,
-    "prominence_tier": "Elite",
-    "publication_date": "2026-07-29"
-  },
-  {
-    "id": "2607.22205v2",
-    "title": "Filling Before Advancing: Capability-Gap-Driven Post-Training for Scenario-Specialized Remote Sensing MLLMs",
-    "url": "http://arxiv.org/pdf/2607.22205v2",
-    "authors_list": [],
-    "author_count": 6,
-    "ss_tldr": "",
-    "abstract": "Remote sensing multimodal large language models (RS-MLLMs) have improved general aerial-image understanding. However, Earth observation applications require fine-grained scenario specialization, constrained by scarce high-quality scenario data and incomplete capability coverage. We formulate this adaptation as a capability-gap-driven post-training problem and propose filling before advancing (FBA). Rather than relying on single-stage supervised fine-tuning (SFT) over target-domain samples, FBA first fills prerequisite capability gaps before advancing toward scenario specialization. We instantiate FBA for coastal harbor understanding, a representative multi-source scenario, by constructing CPRS (Coastal-Port Remote Sensing), a three-layer supervision dataset coupled with three ordered stages: (1) RS semantic anchoring for overhead-view visual-language alignment; (2) domain-bridge convergence for shared RS priors across target and bridging scenarios under different modalities; and (3) evidence-grounded scenario tuning for downstream performance. We construct HarborEval, an eight-track diagnostic benchmark covering perception, spatial understanding, robustness, and generation. Under comparable training budgets, HarborEval increases from 57.95 with Direct-SFT to 70.29 with FBA on LLaVA-v1.5, and from 81.09 to 83.37 on Qwen3-VL. FBA also outperforms Collapsed-SFT and leads on harbor-related VRSBench/RSVQA subsets and OpenEval. Stage-wise and role-replacement analyses validate progressive gap filling and stage-specific roles. Public examples and release updates for CPRS, HarborEval, code, and trained weights are available at https://github.com/Z0ngL1ng/filling-before-advancing.",
-    "ss_citation_count": 0,
-    "ss_influential_citations": 0,
-    "prominence_tier": "Elite",
-    "publication_date": "2026-07-29"
+    "publication_date": "2026-07-30"
   },
   {
     "id": "2607.25579v1",
@@ -257,6 +166,97 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-07-29"
+    "publication_date": "2026-07-30"
+  },
+  {
+    "id": "2607.25948v1",
+    "title": "MODUS: Decoder-Only Any-to-Any Modeling of Diverse Modalities",
+    "url": "http://arxiv.org/pdf/2607.25948v1",
+    "authors_list": [],
+    "author_count": 14,
+    "ss_tldr": "",
+    "abstract": "Any-to-any models predict any modality from any combination of others within a single network, a formulation used in multimodal vision and vision-language models, and increasingly in scientific domains such as ecology and astronomy. Existing any-to-any models are typically trained from scratch using encoder-decoder or diffusion architectures, impacting their performance and preventing them from using strong pre-trained decoder-only models as a prior. In this work, we investigate decoder-only any-to-any multimodal modeling, which treats all modalities symmetrically and supports arbitrary modalities as inputs and outputs without modality-specific heads, losses, or task pipelines. Because every modality is both an input and an output of the same model, the resulting model, named Modus, can support a range of applications, such as chained generation through intermediate modalities or cross-modal self-verification by scoring the model's own outputs with another generated modality. Modus demonstrates strong out-of-the-box performance and is competitive with specialist and multitask baselines using a single model across various benchmarks. All materials are open-sourced at https://modus-multimodal.epfl.ch/.",
+    "ss_citation_count": 0,
+    "ss_influential_citations": 0,
+    "prominence_tier": "Enhanced",
+    "publication_date": "2026-07-30"
+  },
+  {
+    "id": "2505.12650v2",
+    "title": "AutoMat: Enabling Automated Crystal Structure Reconstruction from Microscopy via Agentic Tool Use",
+    "url": "http://arxiv.org/pdf/2505.12650v2",
+    "authors_list": [],
+    "author_count": 17,
+    "ss_tldr": "",
+    "abstract": "Reconstructing atomistic crystal structures from a single noisy STEM projection is an ill-posed inverse problem: multiple lattices can explain similar contrast, and purely feed-forward models cannot verify physical validity. We present AutoMat, a failure-aware agentic controller that performs inference-time hypothesis search with closed-loop verification to convert Scanning Transmission Electron Microscopy (STEM) images into simulation-ready crystal structures and downstream properties. AutoMat composes perception and physics modules---pattern-adaptive denoising, physics-guided template retrieval as a state-dependent auxiliary branch, symmetry-constrained atomic reconstruction, and MLIP-based relaxation/validation---and triggers rollback-and-retry when verification fails. For systematic evaluation, we introduce STEM2Mat-Bench, a benchmark dataset containing 450+ annotated samples. Performance is assessed using lattice root-mean-square deviation (RMSD), formation energy mean absolute error (MAE), and structure matching accuracy. Results demonstrate that AutoMat outperforms existing approaches including SOTA models, specialized domain tools, and closed-source multimodal large models. This work establishes a direct pathway from microscopic characterization to atomic-scale modeling, addressing a fundamental challenge in materials science.",
+    "ss_citation_count": 0,
+    "ss_influential_citations": 0,
+    "prominence_tier": "Elite",
+    "publication_date": "2026-07-30"
+  },
+  {
+    "id": "2607.25357v1",
+    "title": "Raven: High-Recall Sequence Modeling with Sparse Memory Routing",
+    "url": "http://arxiv.org/pdf/2607.25357v1",
+    "authors_list": [],
+    "author_count": 5,
+    "ss_tldr": "",
+    "abstract": "Long-context recall in linear-time sequence models highlights a tradeoff in how they write to memory. State-based linear models, such as state-space models (SSMs) and linear Transformers, write densely, updating the entire state for each newly arrived token, which leads to interference and makes specific past tokens hard to recover. Sliding-window attention (SWA) exhibits the opposite behavior: it writes sparsely by storing explicit token representations, but only within a fixed window, so recall drops once the relevant token is evicted. Interpolating between these models, we introduce Raven, a linear-time sequence model that maintains a fixed set of memory slots and, at each step, decays and updates only a selected subset via learned, input-dependent routing. This lets Raven mitigate SWA's position-based overwriting and hard eviction while reducing interference from dense state updates in SSMs, thereby preserving long-range content much more effectively. Across recall-intensive benchmarks, Raven is competitive with or outperforms prior linear-time baselines, achieving strong long-context recall where both SWA and SSMs sharply degrade. It remains effective when extrapolating to context lengths as large as 16x its training length, with similar gains in hybrid architectures.",
+    "ss_citation_count": 0,
+    "ss_influential_citations": 0,
+    "prominence_tier": "Elite",
+    "publication_date": "2026-07-30"
+  },
+  {
+    "id": "2607.25560v1",
+    "title": "Agent Skills Matter: Inferring Proprietary Skills from Execution Trajectories",
+    "url": "http://arxiv.org/pdf/2607.25560v1",
+    "authors_list": [],
+    "author_count": 9,
+    "ss_tldr": "",
+    "abstract": "Agent skills package reusable procedures that improve downstream performance. Their lightweight, portable form enables marketplace monetization and private deployment behind cloud-hosted agent interfaces, giving providers incentives to keep high-value skills proprietary. Yet hiding the artifacts does not conceal their behavioral effects, which remain observable in execution trajectories and form a behavioral side channel. We define this exposure as Skill Leakage: reconstructing proprietary skills from trajectories elicited by benign queries, without reference answers or success labels. We introduce SigLeak, a black-box framework that exploits recurring skill signatures in agent behavior. It constructs diverse, decision-rich diagnostic tasks, contrasts matched skill-enabled and skill-disabled trajectories, and iteratively refines a reconstructed skill from the isolated patterns. Across five scenarios, three model families, and three agent frameworks, SigLeak outperforms or matches three baselines in nearly every setting. It raises the success rate by 6.88 percentage points over the skill-disabled reference on average and achieves the highest overall SkillSim, our metric for coarse- and fine-grained semantic similarity. These results show that benign execution trajectories can expose proprietary procedural knowledge. The code is available at https://anonymous.4open.science/r/SigLeak-D1DB.",
+    "ss_citation_count": 0,
+    "ss_influential_citations": 0,
+    "prominence_tier": "Elite",
+    "publication_date": "2026-07-30"
+  },
+  {
+    "id": "2607.25885v1",
+    "title": "A Machine-Learning-Based Gas Lift Optimization Workflow for Unconventional Fields",
+    "url": "http://arxiv.org/pdf/2607.25885v1",
+    "authors_list": [],
+    "author_count": 15,
+    "ss_tldr": "",
+    "abstract": "In this paper, we present an automated data-driven workflow using Machine Learning (ML) for gas lift optimization in unconventional fields. This workflow integrates a ML model that accurately forecasts the Gas Lift Performance Curve, and a Bayesian Optimization Framework to solve for the optimal gas injection rates under the constraints of facility capacity. The ML model leverages the historical production time series data without requiring downhole gauges or multi-rate well tests. We piloted this workflow on 30 wells across 5 well pads in Bakken and obtained >5% production uplift on average. With the success of the pilot, we have now fully-deployed this workflow in Bakken across 200+ gas lift and plunger-assisted gas lift (PAGL) wells. Moreover, the ML-based gas lift optimization workflow presented in this paper is an effective and economic solution for other assets where downhole data or multi-rate testing are not available/feasible due to cost or facility constraints.",
+    "ss_citation_count": 0,
+    "ss_influential_citations": 0,
+    "prominence_tier": "Elite",
+    "publication_date": "2026-07-30"
+  },
+  {
+    "id": "2509.03059v2",
+    "title": "Loong: Synthesize Long Chain-of-Thoughts at Scale through Verifiers",
+    "url": "http://arxiv.org/pdf/2509.03059v2",
+    "authors_list": [],
+    "author_count": 46,
+    "ss_tldr": "",
+    "abstract": "Recent advances in Large Language Models (LLMs) have shown that their reasoning capabilities can be significantly improved through Reinforcement Learning with Verifiable Reward (RLVR), particularly in domains like mathematics and programming, where ground-truth correctness can be automatically evaluated. However, extending this success to other reasoning-intensive domains remains challenging due to the scarcity of high-quality, verifiable datasets and the high cost of human supervision. In this work, we introduce the Loong Project: an open-source framework for scalable synthetic data generation and verification across a diverse range of reasoning-intensive domains. The framework consists of two key components: (1) LoongBench, a curated seed dataset containing 8,729 human-vetted examples across 12 domains (e.g., Advanced Mathematics, Chemistry, Logic), each paired with executable code and rich metadata; and (2) LoongEnv, a modular synthetic data generation environment that supports multiple prompting strategies to produce new question-answer-code triples. Together, these components form an agent-environment loop that enables reinforcement learning, where an LLM-based agent is rewarded for generating Chain-of-Thought (CoT) solutions that align with code-executed answers. Empirically, we benchmark LoongBench on a broad suite of both open-source and proprietary LLMs to evaluate domain coverage and reveal performance bottlenecks. In addition, we conduct a comprehensive analysis of synthetic data generated by LoongEnv, examining correctness, difficulty, and diversity. Code and documentation are available at https://github.com/camel-ai/loong.",
+    "ss_citation_count": 0,
+    "ss_influential_citations": 0,
+    "prominence_tier": "Elite",
+    "publication_date": "2026-07-30"
+  },
+  {
+    "id": "2607.24772v1",
+    "title": "RSMeM: Knowledge-Enhanced Memory Evolution for Remote Sensing Agents with Systematic Evaluation",
+    "url": "http://arxiv.org/pdf/2607.24772v1",
+    "authors_list": [],
+    "author_count": 12,
+    "ss_tldr": "RSMeM is a knowledge-enhanced memory evolution mechanism that bootstraps RS agents with pre-distilled domain knowledge and iteratively integrates online experience for robust multi-step tool execution, demonstrating the strong knowledge density of the distilled experience.",
+    "abstract": "Geoscience research requires complex analysis and domain expertise, with remote sensing (RS) observations as a key foundation. However, existing RS agents built on general-purpose LLMs remain largely domain-agnostic, resulting in brittle and error-prone workflows. Moreover, these failures are seldom consolidated into a reusable experience for subsequent analyses. To address this issue, we introduce RSMeM, a knowledge-enhanced memory evolution mechanism that bootstraps RS agents with pre-distilled domain knowledge and iteratively integrates online experience for robust multi-step tool execution. RSMeM is composed of two components: (i) Hierarchical Knowledge Grounding, which performs taxonomy-aware retrieval over a hierarchical domain corpus to guide planning and tool selection; and (ii) Failure-Aware Experience Refinement, which distills failure-annotated tool-use traces into reusable constraints for next-round tool execution. By iteratively employing these two processes, RS agents can evolve to absorb task-level domain knowledge and effectively translate it into instance-level execution experience. Extensive experiments on EarthBench demonstrate that RSMeM consistently improves tool-use performance and end-to-end answer across a diverse set of LLM backbones. Notably, RSMeM achieves a 6% accuracy improvement on DeepSeek-V3.2 with less than 1% additional experience tokens, demonstrating the strong knowledge density of our distilled experience. Our code is available at https://github.com/AI9Stars/RSMeM",
+    "ss_citation_count": 0,
+    "ss_influential_citations": 0,
+    "prominence_tier": "Elite",
+    "publication_date": "2026-07-30"
   }
 ]
