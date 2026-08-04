@@ -10,7 +10,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-03"
+    "publication_date": "2026-08-04"
   },
   {
     "id": "2510.12953v4",
@@ -23,7 +23,7 @@
     "ss_citation_count": 1,
     "ss_influential_citations": 1,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-03"
+    "publication_date": "2026-08-04"
   },
   {
     "id": "2605.00015v2",
@@ -36,7 +36,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-03"
+    "publication_date": "2026-08-04"
   },
   {
     "id": "2607.29169v1",
@@ -44,12 +44,12 @@
     "url": "http://arxiv.org/pdf/2607.29169v1",
     "authors_list": [],
     "author_count": 6,
-    "ss_tldr": "",
+    "ss_tldr": "ActFovea is introduced, a plug-and-play safeguarding framework that detects and mitigates runtime failures of vision-language-action policies without retraining or modifying the underlying VLA policy.",
     "abstract": "Vision-language-action (VLA) policies achieve strong performance in robotic manipulation but remain vulnerable to runtime disturbances that break the temporal alignment among visual observations, robot states, and executed actions. We introduce ActFovea, a plug-and-play safeguarding framework that detects and mitigates such failures without retraining or modifying the underlying VLA policy. ActFovea uses robot kinematics, proprioceptive states, and recent actions to construct action-conditioned foveated regions that retain contact-relevant areas and predicted motion corridors while suppressing task-irrelevant visual content. It detects runtime risks by evaluating whether visual motion and observation freshness remain consistent with geometric, proprioceptive, and action transitions. For recoverable disturbances, ActFovea constructs disturbance-specific candidate observations and accepts a recovery only after verifying the resulting action chunk. When stale or replayed observations make reliable recovery impossible, it invokes a bounded safe-failure procedure. In closed-loop evaluations of $\u03c0_0$ across multiple LIBERO suites, ActFovea increases success under localized visual overlays from 49.3\\% to 90.3\\%, closing 93.7\\% of the gap to clean performance. It further improves success under action drift and visual delay by 7.0 and 9.8 percentage points, respectively, while preserving clean-task performance. Under frozen-observation replay, ActFovea triggers timely safe failure in all trials, with no unprotected failures. These results demonstrate that spatiotemporal visual-action consistency provides an effective basis for runtime safeguarding of VLA policies.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-03"
+    "publication_date": "2026-08-04"
   },
   {
     "id": "2607.29135v1",
@@ -57,12 +57,12 @@
     "url": "http://arxiv.org/pdf/2607.29135v1",
     "authors_list": [],
     "author_count": 9,
-    "ss_tldr": "",
+    "ss_tldr": "Experiments show that HERO consistently improves long-horizon accuracy, stable rollout length, and out-of-distribution robustness at no inference-time cost, indicating that history-enriched relative supervision is effective for stabilizing long-horizon autoregressive prediction.",
     "abstract": "Neural operators provide fast surrogates for time-dependent partial differential equations (PDEs) by applying a learned evolution operator recursively to its own predictions, but this autoregressive rollout feeds every prediction error back as input, so local errors accumulate. Existing rollout-training strategies reduce the mismatch between training inputs and self-generated states, yet their supervision still measures only the absolute discrepancy from the ground-truth trajectory. Such supervision is therefore uninformative about whether the operator has overcome the long-horizon failure behaviors it exhibited earlier during optimization. We propose history-enriched rollout training (HERO), which augments conventional absolute trajectory supervision with relative supervision derived from the model's optimization history. HERO ranks detached candidate rollouts from a periodically refreshed lagged operator, the current model, and a perturbed input by rollout error, spectral discrepancy, energy drift, and error growth, and selects the strongest failure trajectory as reference. This reference enters a margin-based objective as a fixed comparison baseline, inducing a bounded, sample-dependent reweighting of the ground-truth rollout gradient rather than an independent gradient direction, which we further analyze theoretically. Experiments on nine PDE benchmarks with spectral and attention-based backbones show that HERO consistently improves long-horizon accuracy, stable rollout length, and out-of-distribution robustness at no inference-time cost. These results indicate that history-enriched relative supervision is effective for stabilizing long-horizon autoregressive prediction.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-03"
+    "publication_date": "2026-08-04"
   },
   {
     "id": "2607.19063v3",
@@ -75,7 +75,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-08-03"
+    "publication_date": "2026-08-04"
   },
   {
     "id": "2603.03322v2",
@@ -88,7 +88,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-03"
+    "publication_date": "2026-08-04"
   },
   {
     "id": "2607.29240v1",
@@ -96,12 +96,12 @@
     "url": "http://arxiv.org/pdf/2607.29240v1",
     "authors_list": [],
     "author_count": 3,
-    "ss_tldr": "",
+    "ss_tldr": "This work proposes Selective Prior Calibration (SPC), which subtracts candidate-level prior-preference estimates from image-conditioned scores with an instance-dependent strength and revises the original prediction only when the resulting score pattern strongly supports an alternative.",
     "abstract": "In vision--language models, commonsense-driven hallucination (CDH) occurs when a model's commonsense prior overrides clear visual evidence of an atypical state. For example, a model may report that a visibly six-fingered hand has five fingers. We show that these errors are systematically directed: when a model answers a question about a counterfactual (CF) image incorrectly, its answer often coincides with the candidate it prefers without access to the image. Suppressing this prior indiscriminately can repair CF errors, but may also disrupt correct answers on matched commonsense (CS) images, where the same prior is helpful. We therefore propose Selective Prior Calibration (SPC), which subtracts candidate-level prior-preference estimates from image-conditioned scores with an instance-dependent strength and revises the original prediction only when the resulting score pattern strongly supports an alternative. Extensive experiments demonstrate that SPC substantially improves accuracy on CF images while largely preserving accuracy on matched CS images. Furthermore, these gains generalize across CDH categories, candidate-answer permutations, and other conflict benchmarks, while SPC rarely alters predictions on benchmarks without such conflicts.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-03"
+    "publication_date": "2026-08-04"
   },
   {
     "id": "2512.03438v3",
@@ -114,7 +114,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-03"
+    "publication_date": "2026-08-04"
   },
   {
     "id": "2607.29347v1",
@@ -122,12 +122,12 @@
     "url": "http://arxiv.org/pdf/2607.29347v1",
     "authors_list": [],
     "author_count": 29,
-    "ss_tldr": "",
+    "ss_tldr": "SeekerBrain integrated behavioral, neural, and anatomical data to reveal structured, distributed neural representations of larval zebrafish behavior and a shared axis of regional decoding strength across the brain in a mouse decision-making task, establishing SeekBrain as a scalable and practical tool for accelerating data-driven discoveries in neuroscience.",
     "abstract": "Modern neuroscience relies on integrating multi-scale, multimodal datasets to uncover the neural principles underlying intelligence. However, analytical challenges posed by highly heterogeneous data and fragmented workflows increasingly constrain discoveries. Here we introduce SeekBrain, an autonomous multi-agent framework designed to accelerate neuroscience discovery through domain-grounded hierarchical planning and cross-modal data analysis. SeekBrain dynamically constructs a repertoire of analysis recipes extracted from code-paper pairs. By coupling this codified expertise with agentic planning and execution engines, the framework scalably generates hypotheses and analytical pipelines on demand. Systematic evaluation on the expert-annotated BrainArena benchmark demonstrates that SeekBrain substantially outperforms state-of-the-art agent baselines across various analysis tasks. Crucially, when deployed in real-world research, SeekBrain integrated behavioral, neural, and anatomical data to reveal structured, distributed neural representations of larval zebrafish behavior and a shared axis of regional decoding strength across the brain in a mouse decision-making task. These results establish SeekBrain as a scalable and practical tool for accelerating data-driven discoveries in neuroscience.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-03"
+    "publication_date": "2026-08-04"
   },
   {
     "id": "2607.29218v1",
@@ -135,12 +135,12 @@
     "url": "http://arxiv.org/pdf/2607.29218v1",
     "authors_list": [],
     "author_count": 9,
-    "ss_tldr": "",
+    "ss_tldr": "MirrorCraft is introduced, a paired benchmark for evaluating agents under hidden rule changes in Minecraft and provides a controlled setting for studying how agents use gameplay outcomes when the rules of the current world differ from familiar ones.",
     "abstract": "With the prosperity of the large language models (LLMs), it has become an interesting topic: how do LLM-based agents work in Minecraft? Unfortunately, most existing benchmarks evaluate them under fixed game mechanics. High performance in these settings does not show whether an agent can continue making progress when familiar recipes, drops, and other rules change. In this paper, we introduce MirrorCraft, a paired benchmark for evaluating agents under hidden rule changes in Minecraft. Each Mirror world is a copy of its paired Vanilla world, with selected server-side rules modified by the corresponding datapack. Terrain, spawn, resource placement, objective, interface, and action budget remain matched within every Vanilla-Mirror pair. MirrorCraft includes five controlled biomes, six rule suites, three progression objectives, two model families, and six agent configurations under a shared Mineflayer interface. We evaluate task progress with deterministic advancement milestones and success rate and use the Rule Intervention Effect (RIE) to measure the performance change between matched Vanilla and Mirror worlds. The experiments show that hidden rule changes have strongly different effects across suites. Among the configurations evaluated without rule descriptions, ReAct achieves the highest pooled Mirror score. Providing the exact rules yields modest gains in average progress and completion across all three objectives. MirrorCraft extends Minecraft evaluation beyond fixed mechanics and provides a controlled setting for studying how agents use gameplay outcomes when the rules of the current world differ from familiar ones.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-03"
+    "publication_date": "2026-08-04"
   },
   {
     "id": "2607.29252v1",
@@ -148,12 +148,12 @@
     "url": "http://arxiv.org/pdf/2607.29252v1",
     "authors_list": [],
     "author_count": 8,
-    "ss_tldr": "",
+    "ss_tldr": "CalibratedRubric is introduced, a task-adaptive framework that combines type-specific scoring, Bayesian rubric-measurability filtering, and item response theory (IRT)-based bank assembly that supports CalibratedRubric as an efficient, uncertainty-aware approach to open-ended LLM evaluation.",
     "abstract": "Reliable evaluation of open-ended LLM outputs requires fine-grained rubrics, yet expert curation is costly and difficult to scale. Existing automated pipelines rely on strict judge unanimity and binary variance filters, which cannot distinguish measurable rubrics from informative ones. We introduce CalibratedRubric, a task-adaptive framework that combines type-specific scoring, Bayesian rubric-measurability filtering, and item response theory (IRT)-based bank assembly. CalibratedRubric estimates each rubric's measurability with a Beta--Bernoulli agreement posterior and uses a submodular information-coverage objective to construct compact rubric banks over the observed capability range. Across financial, healthcare, general, and legal benchmarks, measurability filtering improves human-gold agreement on JudgmentBench from $\u03ba=0.604$ to $0.743$. IRT-based greedy selection improves cross-fitted rank fidelity over random selection across all six evaluated response blocks and requires only 49 rather than 131 rubrics to reach the target correlation on FinResearchBench decision-support tasks. Task-label perturbations further reduce system separation, confirming the practical relevance of task-adaptive scoring. These results support CalibratedRubric as an efficient, uncertainty-aware approach to open-ended LLM evaluation, with calibration gains depending on sufficient judge redundancy.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-03"
+    "publication_date": "2026-08-04"
   },
   {
     "id": "2603.17205v3",
@@ -166,7 +166,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-03"
+    "publication_date": "2026-08-04"
   },
   {
     "id": "2605.23986v2",
@@ -179,7 +179,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-03"
+    "publication_date": "2026-08-04"
   },
   {
     "id": "2607.29172v1",
@@ -187,12 +187,12 @@
     "url": "http://arxiv.org/pdf/2607.29172v1",
     "authors_list": [],
     "author_count": 10,
-    "ss_tldr": "",
+    "ss_tldr": "CLIFT: Closed-Loop Iterative Fine-Tuning is introduced, which turns deployment-time reward feedback into API-compatible supervised data and enables closed-loop policy improvement without accessing weights, gradients, likelihoods, or losses-pushing GROD to near-perfect success after two flywheel cycles, all without opening the model box.",
     "abstract": "While robot foundation models are growing increasingly capable, the strongest models are typically trained on proprietary data and remain closed-source, limiting downstream users' ability to adapt them to new tasks, embodiments, and deployment settings. Following the LLM community, an emerging access paradigm for closed-weight robot foundation models is the managed supervised fine-tuning (SFT) API, where users submit training data and receive a tuned policy without access to model weights, gradients, or training internals. While such APIs let downstream users leverage powerful proprietary foundation models, they restrict policy improvement to pure imitation, ruling out reinforcement learning and other closed-loop methods that rely on internal training signals. This limitation is particularly acute for agile, contact-rich humanoid manipulation, where the gap between policy outputs and deployed behavior is large due to novel states, action tracking dynamics, latency, and controller-specific failure modes. We study how effective this managed-API regime is for humanoid adaptation, and how closed-loop improvement can be realized within it to push policies toward task mastery. We conduct one of the first empirical studies of managed-API adaptation on a real humanoid, instantiated on Gemini Robotics On-Device (GROD). We find that direct SFT through the API substantially outperforms a leading open-weight VLA trained on the same demonstrations, yet still falls short of deployment-level mastery on agile, contact-rich tasks. To close this gap, we introduce CLIFT: Closed-Loop Iterative Fine-Tuning, which turns deployment-time reward feedback into API-compatible supervised data and enables closed-loop policy improvement without accessing weights, gradients, likelihoods, or losses-pushing GROD to near-perfect success after two flywheel cycles, all without \"opening the model box.\"",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-03"
+    "publication_date": "2026-08-04"
   },
   {
     "id": "2607.28896v1",
@@ -200,12 +200,12 @@
     "url": "http://arxiv.org/pdf/2607.28896v1",
     "authors_list": [],
     "author_count": 4,
-    "ss_tldr": "",
+    "ss_tldr": "Among the evaluated audio models (specialized and unified), limited self-coherence is observed, and thus the first self-coherence test for audio-native unified models is presented, positioning self-coherence as an essential test for future audio systems.",
     "abstract": "Unified audio models capable of audio understanding, audio generation and, increasingly, audio editing are proliferating rapidly. Yet a basic question about them remains unanswered: do the two heads of a unified model agree about the same audio? Current practice evaluates each capability in isolation on specialized benchmarks, and never asks whether a model can make sense of its own generations. We present TORUS, the first self-coherence test for audio-native unified models. TORUS comprises 48 three-stage self-coherence tests carrying 432 six-option questions spanning speech, sound and music across five task families. We holistically evaluate five open unified models alongside a Cascaded Baseline that combines state-of-the-art specialized generation, editing and understanding models. The best unified model answers 50.5% of questions against the Cascaded Baseline's 63.2% and a 16.7% chance floor. Models struggle on audio editing. Among the evaluated audio models (specialized and unified), we observe limited self-coherence, and thus position self-coherence as an essential test for future audio systems.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-08-03"
+    "publication_date": "2026-08-04"
   },
   {
     "id": "2604.02330v2",
@@ -218,7 +218,7 @@
     "ss_citation_count": 1,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-08-03"
+    "publication_date": "2026-08-04"
   },
   {
     "id": "2606.21072v2",
@@ -231,7 +231,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-03"
+    "publication_date": "2026-08-04"
   },
   {
     "id": "2607.28632v1",
@@ -239,12 +239,12 @@
     "url": "http://arxiv.org/pdf/2607.28632v1",
     "authors_list": [],
     "author_count": 9,
-    "ss_tldr": "",
+    "ss_tldr": "A three stage pipeline for major conjecture discovery is presented, with region search from explicit local evidence modules, reflective validation for foundationality, novelty, and potential significance, and formal validation in Lean 4 and Mathlib.",
     "abstract": "Major mathematical conjectures still depend heavily on expert intuition, so a unified method for the systematic generation and validation of conjectures with substantial mathematical potential remains unavailable. We present a three stage pipeline for major conjecture discovery, with region search from explicit local evidence modules, reflective validation for foundationality, novelty, and potential significance, and formal validation in Lean 4 and Mathlib. The objective is the discovery of mathematical problems with high problem taste, namely problems whose proofs could reorganize the language of a research area and provide durable help to human mathematical research. Experiments on twenty candidates showstable passage from natural language to formal checks, with twenty out of twenty candidates passing Lean parsing and type checking, twenty out of twenty candidates not directly absorbed by exact?,twenty out of twenty candidates not automatically discharged by aesop, and no explicit duplicates or near duplicates.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-03"
+    "publication_date": "2026-08-04"
   },
   {
     "id": "2603.16870v3",
@@ -257,6 +257,6 @@
     "ss_citation_count": 6,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-03"
+    "publication_date": "2026-08-04"
   }
 ]
