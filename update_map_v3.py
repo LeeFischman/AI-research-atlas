@@ -411,7 +411,7 @@ _PASS1_SYSTEM = (
     "You are a research taxonomy expert. Assign each AI research paper "
     "(provided by title only) to exactly one stable category (IDs 0-13). "
     "For papers that do not clearly fit any stable category, still provide "
-    "your best stable assignment AND add the index to 'uncertain'.\n\n"
+    "your best stable assignment AND mark that line uncertain (see format below).\n\n"
     + _STABLE_BUCKETS + "\n\n"
     "ASSIGNMENT RULES:\n"
     "- When a paper could fit multiple categories, assign it to the one where "
@@ -420,22 +420,32 @@ _PASS1_SYSTEM = (
     "- Consider ALL categories before settling on one. Categories are listed "
     "with ID 0 last deliberately — exhaust all other options before using it.\n"
     "- ID 0 (Language Models & Pretraining) is ONLY for papers studying the "
-    "model itself. Papers using LLMs as a tool belong elsewhere or in uncertain.\n"
-    "- Mark a paper 'uncertain' if it uses LLMs as a component but its main "
+    "model itself. Papers using LLMs as a tool belong elsewhere or are uncertain.\n"
+    "- Mark a paper uncertain if it uses LLMs as a component but its main "
     "contribution is agentic, applied, or not clearly core model research. "
     "Uncertain papers receive specialized dynamic-group review.\n"
     "- Prefer stable categories: only mark uncertain if genuinely ambiguous.\n\n"
-    "OUTPUT FORMAT — respond ONLY with JSON, no preamble, no markdown fences:\n"
-    '{"assignments": [3, 0, 7, 1, ...], "uncertain": [4, 17, ...], '
-    '"secondary": {"2": [6], "5": [3, 8]}}\n'
-    "- 'assignments': a JSON array of length N where assignments[i] is the\n"
-    "  stable group_id (0-13) for paper i. Index position = paper index.\n"
-    "- 'uncertain': list of paper indices where no stable category fits well.\n"
-    "- 'secondary': SPARSE dict — only include papers that clearly straddle a\n"
-    "  second stable category. Key = string index, value = list of 1-2 stable\n"
-    "  group_ids (0-13) that are also highly relevant. Omit papers with no\n"
-    "  strong secondary fit. Most papers should NOT appear here.\n"
-    "- Every paper index 0 to N-1 must be represented in 'assignments'."
+    "OUTPUT FORMAT — respond with PLAIN TEXT ONLY. No JSON, no preamble, no "
+    "markdown fences, no blank lines, no commentary before or after. Output "
+    "EXACTLY ONE LINE PER PAPER, in the SAME ORDER as the input list — line 1 "
+    "is paper 1, line 2 is paper 2, and so on (the line number IS the paper's "
+    "position; never write the position as a number on the line itself).\n\n"
+    "Each line has this exact shape and nothing else:\n"
+    "  <group_id>[u][+<secondary_id>[,<secondary_id2>]]\n"
+    "- <group_id>: REQUIRED, always first — the stable group id, 0-13.\n"
+    "- 'u' (optional): append directly after the group_id, no space, ONLY if "
+    "this paper is uncertain (you must still give your best group_id even when "
+    "uncertain).\n"
+    "- '+...' (optional, rare): append 1-2 secondary stable group ids "
+    "(comma-separated, no spaces) only when the paper clearly straddles a "
+    "second stable category. Omit for most papers.\n\n"
+    "Valid example lines:\n"
+    "  5\n"
+    "  3u\n"
+    "  7+2\n"
+    "  0u+4,9\n\n"
+    "Output exactly N lines (N = number of papers given), one per line, "
+    "nothing else — no headers, no numbering, no trailing text."
 )
 
 _PASS2_SYSTEM = (
@@ -511,38 +521,24 @@ def _retry_temperature(attempt: int) -> float:
     Pass 1 batch degenerated into a run of repeated "1" tokens at
     temperature=0.4, not just at 0.0. Temperature changes *which* sample is
     drawn; it doesn't penalize the model for repeating a token it already
-    emitted. See _retry_frequency_penalty for the parameter that actually
-    targets that failure mode directly.
+    emitted. frequency_penalty/presence_penalty were tried next (2026-08-06)
+    but gemini-2.5-flash-lite rejects them outright with a 400
+    INVALID_ARGUMENT ("Penalty is not enabled for this model") — not a
+    softer no-op, a hard failure on every retry that used them. Removed.
+    finish_reason diagnostics from that same run confirmed the actual
+    proximate cause is MAX_TOKENS truncation, not a "model rambles forever"
+    problem — see the newline-delimited Pass 1 output format below, which
+    targets that directly by cutting per-paper token overhead.
     """
     if attempt <= 1:
         return 0.0
     return min(0.2 * (attempt - 1), 0.8)
 
 
-def _retry_frequency_penalty(attempt: int) -> tuple[float, float]:
-    """(frequency_penalty, presence_penalty) schedule for retry attempts.
-
-    Returns escalating penalties starting from attempt 2. These directly
-    penalize the model for re-emitting tokens it has already used in the
-    response — frequency_penalty scales with how many times a token has
-    repeated (the exact failure observed: "1, 1, 1, 1, ..." hundreds of
-    times), while presence_penalty gives a flat penalty to any token used at
-    all, encouraging broader coverage across the array. Kept at 0.0 on
-    attempt 1 to avoid distorting the model's default (best-calibrated)
-    behavior on the common successful path; only engaged once a first
-    attempt has already shown a problem.
-    """
-    if attempt <= 1:
-        return 0.0, 0.0
-    freq = min(0.4 * (attempt - 1), 1.5)
-    pres = min(0.2 * (attempt - 1), 0.6)
-    return freq, pres
-
-
 def _gemini_call(
     client, system: str, user: str, max_tokens: int,
     use_cache: bool = False, temperature: float = 0.0,
-    frequency_penalty: float = 0.0, presence_penalty: float = 0.0,
+    response_mime_type: str = "application/json",
 ) -> tuple[str | None, bool]:
     """Single Gemini API call, governed by the daily request budget.
 
@@ -594,11 +590,13 @@ def _gemini_call(
     so a future default change cannot silently add thinking-token cost. If a
     given SDK/snapshot rejects thinking_budget=0, delete that one line; the
     model is non-thinking by default regardless. temperature=0.0 and
-    frequency_penalty=presence_penalty=0.0 are deliberate defaults for
-    run-to-run taxonomy stability on the first attempt; callers should raise
-    them on retries (see _retry_temperature / _retry_frequency_penalty) so a
-    retry is not a guaranteed replay of a prior failure and directly
-    discourages the repetition-loop degeneration seen in production.
+    temperature=0.0 is a deliberate default for run-to-run taxonomy
+    stability on the first attempt; callers should raise it on retries (see
+    _retry_temperature) so a retry is not a guaranteed replay of a prior
+    failure. response_mime_type defaults to JSON but Pass 1 overrides it to
+    "text/plain" — see _PASS1_SYSTEM for why (newline-delimited output cuts
+    per-paper token overhead and is truncation-tolerant in a way a single
+    global JSON array is not).
     """
     global _gemini_calls_made_today, _gemini_quota_exhausted
 
@@ -620,10 +618,8 @@ def _gemini_call(
         system_instruction=(system if system else None),
         max_output_tokens=max_tokens,
         temperature=temperature,
-        frequency_penalty=frequency_penalty,
-        presence_penalty=presence_penalty,
         thinking_config=types.ThinkingConfig(thinking_budget=0),
-        response_mime_type="application/json",
+        response_mime_type=response_mime_type,
     )
 
     _gemini_calls_made_today += 1
@@ -780,13 +776,18 @@ def _build_pass1_message(df: pd.DataFrame) -> str:
         f"Assign each of the following {n} AI research papers to a stable "
         "category using the title alone. The ONLY valid group IDs are 0 through 13 — "
         "do NOT use any other numbers as group IDs.\n"
-        "For papers that do not clearly fit any stable category, still provide your "
-        "best stable assignment AND include its position (0-based) in 'uncertain'.\n"
-        "Return JSON only — no preamble, no markdown:\n"
-        '{"assignments": [3, 0, 7, 1, ...], "uncertain": [4, 17, ...]}\n'
-        f"- 'assignments': array of exactly {n} integers, each between 0 and 13 inclusive.\n"
-        "- 'uncertain': list of 0-based positions where no stable category fits well.\n"
-        "- Every value in 'assignments' MUST be 0-13. Never use the paper's position as a group ID.\n"
+        "Respond with PLAIN TEXT — one line per paper, in the same order as the "
+        "list below, nothing else (no JSON, no preamble, no markdown):\n"
+        "  <group_id>[u][+<secondary_id>[,<secondary_id2>]]\n"
+        "Examples: '5'  '3u'  '7+2'  '0u+4,9'\n"
+        f"- Output exactly {n} lines. Line k corresponds to paper k in the list "
+        "below — do NOT write the paper's position anywhere in the line, only "
+        "the group_id (and optional 'u'/'+...' suffix).\n"
+        "- Every group_id MUST be an integer 0-13.\n"
+        "- Append 'u' (no space) if the paper does not clearly fit any stable "
+        "category, but still give your best group_id first.\n"
+        "- Append '+id' or '+id,id2' only for the rare paper that clearly "
+        "straddles a second stable category.\n"
     ]
     # No numeric prefixes — they confuse position with group ID
     for _, row in df.iterrows():
@@ -795,33 +796,27 @@ def _build_pass1_message(df: pd.DataFrame) -> str:
 
 
 def _find_repetition_onset(raw_text: str, min_run: int = 8) -> tuple[int, str, int] | None:
-    """Find the first run of >= min_run identical consecutive tokens in a
-    flat JSON-array-of-scalars response (as produced by Pass 1/Pass 2).
+    """Find the first run of >= min_run identical consecutive LINES in Pass 1's
+    newline-delimited output (one line per paper — see _PASS1_SYSTEM).
 
-    Returns (onset_index, repeated_value, run_length) — onset_index is the
-    0-based position in the array where the run begins, so callers can map
-    it directly back to the input paper at that index and check whether a
+    Returns (onset_index, repeated_line, run_length) — onset_index is the
+    0-based line/paper position where the run begins, so callers can map it
+    directly back to the input paper at that index and check whether a
     specific paper's title/content is triggering the degeneration, versus
     this being a purely positional (context-length) failure. Returns None if
     no run meeting the threshold is found (e.g. a truncation cut off before
     a repeat pattern had room to establish itself).
     """
-    # Match the flat list of scalar tokens inside "assignments": [...]  —
-    # tolerant of an unterminated/truncated array (no closing bracket needed).
-    m = re.search(r'"assignments"\s*:\s*\[(.*)', raw_text, re.DOTALL)
-    if not m:
-        return None
-    body = m.group(1)
-    tokens = re.findall(r'"[^"]*"|-?\d+(?:\.\d+)?|true|false|null', body)
-    if not tokens:
+    lines = [ln.strip() for ln in raw_text.strip().splitlines() if ln.strip()]
+    if not lines:
         return None
 
     run_val, run_start, run_len = None, 0, 0
-    for i, tok in enumerate(tokens):
-        if tok == run_val:
+    for i, ln in enumerate(lines):
+        if ln == run_val:
             run_len += 1
         else:
-            run_val, run_start, run_len = tok, i, 1
+            run_val, run_start, run_len = ln, i, 1
         if run_len >= min_run:
             return run_start, run_val, run_len
     return None
@@ -830,102 +825,75 @@ def _find_repetition_onset(raw_text: str, min_run: int = 8) -> tuple[int, str, i
 def _parse_pass1_response(
     text: str, n_papers: int
 ) -> tuple[dict[int, int], list[int]] | None:
-    """Parse pass 1 response.
+    """Parse pass 1 response — newline-delimited plain text, one line per paper.
+
+    Each line: "<group_id>[u][+<sec_id>[,<sec_id2>]]"  e.g. "5", "3u", "7+2",
+    "0u+4,9". See _PASS1_SYSTEM for the full format spec and rationale
+    (replaced a single global JSON array in 2026-08 after production
+    confirmed repeated MAX_TOKENS truncation on that format — this format
+    uses far fewer tokens per paper and degrades gracefully line-by-line
+    instead of needing one unbroken, syntactically-valid JSON blob).
 
     Returns (assignments, uncertain_indices, secondary) or None on hard failure.
       assignments:       {paper_idx: stable_group_id}  — all N papers
       uncertain_indices: [paper_idx, ...]               — subset for pass 2
       secondary:         {paper_idx: [gid, ...]}        — sparse, stable IDs only
     """
-    text = re.sub(r"^```(?:json)?\s*", "", text.strip())
+    # Defensive: strip markdown fences in case the model adds them anyway.
+    text = re.sub(r"^```(?:\w+)?\s*", "", text.strip())
     text = re.sub(r"\s*```$", "", text)
 
-    try:
-        data = json.loads(text)
-    except json.JSONDecodeError as e:
-        print(f"    JSON parse error: {e}")
-        return None
+    lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
 
-    if not isinstance(data, dict) or "assignments" not in data:
-        print("    Missing 'assignments' key.")
-        return None
-
-    assignments_raw = data["assignments"]
-    uncertain_raw   = data.get("uncertain", [])
-
-    if not isinstance(assignments_raw, list):
-        print(f"    'assignments' must be a list, got {type(assignments_raw).__name__}.")
-        return None
-    if not isinstance(uncertain_raw, list):
-        print(f"    'uncertain' must be a list, got {type(uncertain_raw).__name__}.")
-        return None
-
-    # Allow short arrays: Gemini occasionally drops a few trailing entries.
-    # Hard-fail only if the array is more than 10% short (likely garbage).
-    n_received = len(assignments_raw)
+    # Allow short output: Gemini occasionally drops a few trailing entries.
+    # Hard-fail only if it's more than 10% short (likely garbage/truncated
+    # before any complete lines).
+    n_received = len(lines)
     if n_received > n_papers:
-        print(f"    'assignments' length {n_received} > n_papers {n_papers} "
-              f"— truncating excess.")
-        assignments_raw = assignments_raw[:n_papers]
+        print(f"    {n_received} lines > n_papers {n_papers} — truncating excess.")
+        lines = lines[:n_papers]
+        n_received = n_papers
     elif n_received < int(n_papers * 0.90):
-        print(f"    'assignments' length {n_received} is >10% short of "
-              f"n_papers {n_papers} — hard fail.")
+        print(f"    {n_received} lines is >10% short of n_papers {n_papers} "
+              f"— hard fail.")
         return None
+
+    line_re = re.compile(r"^(\d{1,2})(u)?(?:\+(\d{1,2}(?:,\d{1,2})?))?$")
+    valid_stable = set(range(14))
 
     assignments: dict[int, int] = {}
-    for i, v in enumerate(assignments_raw):
-        if not isinstance(v, int) or v < 0 or v > 13:
-            print(f"    Invalid stable group_id {v!r} at index {i} "
+    uncertain:   list[int]      = []
+    secondary:   dict[int, list[int]] = {}
+
+    for i, ln in enumerate(lines):
+        m = line_re.match(ln)
+        if not m:
+            print(f"    Unparseable line {i}: {ln!r}")
+            return None
+        gid = int(m.group(1))
+        if gid not in valid_stable:
+            print(f"    Invalid stable group_id {gid} at line {i} "
                   f"(must be integer 0-13).")
             return None
-        assignments[i] = v
+        assignments[i] = gid
+        if m.group(2) == "u":
+            uncertain.append(i)
+        if m.group(3):
+            secs = [int(s) for s in m.group(3).split(",")]
+            secs = [s for s in secs if s in valid_stable and s != gid][:2]
+            if secs:
+                secondary[i] = secs
 
     # Fill any gaps (trailing entries Gemini dropped) with group 0
     # and route them to uncertain for pass 2 review.
     gap_indices: list[int] = []
-    for i in range(len(assignments_raw), n_papers):
+    for i in range(n_received, n_papers):
         assignments[i] = 0
         gap_indices.append(i)
+        uncertain.append(i)
     if gap_indices:
         print(f"    {len(gap_indices)} trailing paper(s) not returned by Gemini "
               f"— defaulted to group 0, routed to uncertain.")
-
-    uncertain: list[int] = list(gap_indices)  # gaps go to uncertain first
-    seen: set[int]       = set(gap_indices)
-    for idx in uncertain_raw:
-        try:
-            i = int(idx)
-        except (ValueError, TypeError):
-            print(f"    Non-integer uncertain index: {idx!r}")
-            return None
-        if i not in assignments:
-            print(f"    Uncertain index {i} not in assignments — skipping.")
-            continue
-        if i not in seen:
-            uncertain.append(i)
-            seen.add(i)
-
-    # Parse secondary sparse dict (new in v3)
-    secondary_raw = data.get("secondary", {})
-    secondary: dict[int, list[int]] = {}
-    if isinstance(secondary_raw, dict):
-        valid_stable = set(range(14))
-        for k, v in secondary_raw.items():
-            try:
-                idx = int(k)
-            except (ValueError, TypeError):
-                continue
-            if idx not in assignments:
-                continue
-            primary_gid = assignments[idx]
-            if not isinstance(v, list):
-                continue
-            cleaned = [
-                t for t in v
-                if isinstance(t, int) and t in valid_stable and t != primary_gid
-            ]
-            if cleaned:
-                secondary[idx] = cleaned[:2]
 
     n_certain = n_papers - len(uncertain)
     print(f"    Pass 1: {n_certain} certain → stable, "
@@ -1463,13 +1431,11 @@ def haiku_group_papers(
         b_result = None
         for attempt in range(1, GROUPING_MAX_RETRIES + 1):
             temp = _retry_temperature(attempt)
-            freq_p, pres_p = _retry_frequency_penalty(attempt)
             print(f"    Attempt {attempt}/{GROUPING_MAX_RETRIES} "
-                  f"(temperature={temp:.1f}, freq_penalty={freq_p:.1f}, "
-                  f"presence_penalty={pres_p:.1f})...")
+                  f"(temperature={temp:.1f})...")
             raw, is_overload = _gemini_call(client, _PASS1_SYSTEM, p1_msg,
-                              max_tokens=6144, use_cache=True, temperature=temp,
-                              frequency_penalty=freq_p, presence_penalty=pres_p)
+                              max_tokens=8192, use_cache=True, temperature=temp,
+                              response_mime_type="text/plain")
             if raw is not None:
                 print(f"    Response length: {len(raw)} chars.")
                 b_result = _parse_pass1_response(raw, b_size)
@@ -1593,13 +1559,10 @@ def haiku_group_papers(
         else:
             for attempt in range(1, GROUPING_MAX_RETRIES + 1):
                 temp = _retry_temperature(attempt)
-                freq_p, pres_p = _retry_frequency_penalty(attempt)
                 print(f"  Attempt {attempt}/{GROUPING_MAX_RETRIES} "
-                      f"(temperature={temp:.1f}, freq_penalty={freq_p:.1f}, "
-                      f"presence_penalty={pres_p:.1f})...")
+                      f"(temperature={temp:.1f})...")
                 raw, is_overload = _gemini_call(client, _PASS2_SYSTEM, p2_msg,
-                                  max_tokens=8192, use_cache=True, temperature=temp,
-                                  frequency_penalty=freq_p, presence_penalty=pres_p)
+                                  max_tokens=8192, use_cache=True, temperature=temp)
                 if raw is not None:
                     print(f"  Response length: {len(raw)} chars.")
                     p2_result = _parse_pass2_response(raw, n_uncertain,
@@ -1738,13 +1701,10 @@ def haiku_group_papers(
             else:
                 for attempt in range(1, GROUPING_MAX_RETRIES + 1):
                     temp = _retry_temperature(attempt)
-                    freq_p, pres_p = _retry_frequency_penalty(attempt)
                     print(f"  Review attempt {attempt}/{GROUPING_MAX_RETRIES} "
-                          f"(temperature={temp:.1f}, freq_penalty={freq_p:.1f}, "
-                          f"presence_penalty={pres_p:.1f})...")
+                          f"(temperature={temp:.1f})...")
                     raw, is_overload = _gemini_call(client, _PASS2_SYSTEM, rev_msg,
-                                      max_tokens=4096, use_cache=True, temperature=temp,
-                                      frequency_penalty=freq_p, presence_penalty=pres_p)
+                                      max_tokens=4096, use_cache=True, temperature=temp)
                     if raw is not None:
                         print(f"  Response length: {len(raw)} chars.")
                         # existing_dynamic_ids for review = all currently known
