@@ -1,4 +1,27 @@
 {
-  "next_id": 213,
-  "groups": {}
+  "next_id": 215,
+  "groups": {
+    "213": {
+      "name": "Agentic RAG & LLM Agents",
+      "created": "2026-08-08",
+      "last_seen": "2026-08-08",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "214": {
+      "name": "Autonomous ML System Optimization",
+      "created": "2026-08-08",
+      "last_seen": "2026-08-08",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    }
+  }
 }
