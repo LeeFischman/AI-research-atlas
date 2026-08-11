@@ -10,7 +10,7 @@
     "ss_citation_count": 1,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-10"
+    "publication_date": "2026-08-11"
   },
   {
     "id": "2608.07086v1",
@@ -18,12 +18,12 @@
     "url": "http://arxiv.org/pdf/2608.07086v1",
     "authors_list": [],
     "author_count": 12,
-    "ss_tldr": "",
+    "ss_tldr": "It is found that the efficacy of different components exhibits significant task-dependency, and naively stacking state-of-the-art techniques does not necessarily yield performance gains; instead, it often triggers emergent challenges, such as compounded non-stationarity.",
     "abstract": "Reinforcement learning systems are significantly more complex than other machine learning paradigms due to inherent properties, causing RL system design to jointly account for many tightly coupled factors. Despite advances in individual algorithmic components, their functional interdependencies remain underexplored: do they exhibit mutual synergy or counterproductive interference? To bridge this gap, we conduct a systematic investigation and find that the efficacy of different components exhibits significant task-dependency, and naively stacking state-of-the-art techniques does not necessarily yield performance gains; instead, it often triggers emergent challenges, such as compounded non-stationarity. Building upon these findings, we distill a suite of actionable insights into the principled coordination of these components. Guided by these insights, we propose ROSER, an RL framework that coordinates three critical dimensions: Model-based Representation, Optimization Stability, and Experience Replay. Across diverse continuous-control benchmarks, ROSER consistently outperforms vanilla baselines and achieves 17.60% gains over naive stack. Our findings underscore the necessity of a holistic perspective in RL system design and paves the way for developing sample-efficient agents.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-10"
+    "publication_date": "2026-08-11"
   },
   {
     "id": "2602.02276v2",
@@ -36,7 +36,7 @@
     "ss_citation_count": 318,
     "ss_influential_citations": 19,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-10"
+    "publication_date": "2026-08-11"
   },
   {
     "id": "2608.07418v1",
@@ -49,7 +49,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Enhanced",
-    "publication_date": "2026-08-10"
+    "publication_date": "2026-08-11"
   },
   {
     "id": "2608.06650v1",
@@ -57,12 +57,12 @@
     "url": "http://arxiv.org/pdf/2608.06650v1",
     "authors_list": [],
     "author_count": 12,
-    "ss_tldr": "",
+    "ss_tldr": "SoRoMoX (Soft Robot Models in JAX), a fully numerical, JIT-compilable Python/JAX framework, is presented, the first rod/strain-based soft-robot modeling framework that runs directly on GPUs and is end-to-end differentiable with respect to states, inputs, and parameters.",
     "abstract": "Reduced-order models based on Cosserat-rod theory are now well established, and modeling theory is no longer the primary bottleneck in soft-robot control. Their implementations, however, do not support the differentiable, GPU-parallel, and control-oriented workflows that underpin advanced rigid-robotics applications. Here, we fill this gap with SoRoMoX (Soft Robot Models in JAX), a fully numerical, JIT-compilable Python/JAX framework. SoRoMoX implements articulated, Piecewise Constant Strain, and Variable Strain models through a unified, control-ready interface that provides inertia matrices, gravitational and elastic forces, Jacobians, and their derivatives. To our knowledge, it is the first rod/strain-based soft-robot modeling framework that runs directly on GPUs and is end-to-end differentiable with respect to states, inputs, and parameters. Sequential CPU rollouts are up to 18.1x faster than state-of-the-art alternatives, while GPU-parallel rollouts increase throughput by up to 234.6x. This performance enables workflows that were previously impractical or impossible: static-equilibrium system identification with 66% lower marker RMSE; residual-force learning with a further 64% reduction; computed-torque tracking with RMSE reduced by a factor of approximately 500 relative to model-free PD; control-gain optimization with up to 62% lower loss than untuned gains; safety-constrained control using high-order control barrier functions to keep the peak contact force within a prescribed 5 N bound, compared with 33.5 N without the safety constraint; and reinforcement-learning policy training up to 7x faster than a CPU PyElastica discrete-rod baseline through massively parallel rollouts.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-08-10"
+    "publication_date": "2026-08-11"
   },
   {
     "id": "2510.09904v2",
@@ -75,7 +75,7 @@
     "ss_citation_count": 7,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-08-10"
+    "publication_date": "2026-08-11"
   },
   {
     "id": "2608.07250v1",
@@ -88,7 +88,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-08-10"
+    "publication_date": "2026-08-11"
   },
   {
     "id": "2608.07449v1",
@@ -101,7 +101,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-08-10"
+    "publication_date": "2026-08-11"
   },
   {
     "id": "2608.06416v1",
@@ -109,12 +109,12 @@
     "url": "http://arxiv.org/pdf/2608.06416v1",
     "authors_list": [],
     "author_count": 4,
-    "ss_tldr": "",
+    "ss_tldr": "WorldMark is introduced, a plug-and-play interface that uses World Knowledge Memory to organize semantic and episodic knowledge in a memory graph, converts the retrieved knowledge into a token-level knowledge saliency score, and adjusts the strength of a host watermark through Asymmetric Knowledge Modulation (AKM).",
     "abstract": "Watermarking traces the provenance of text produced by large language models by embedding statistically detectable signals during decoding. Existing schemes fall into logits-based, sampling-based, entropy-aware, and adaptive-strength families, yet all of them place watermark signals according to local token statistics. In the open-ended text-generation settings evaluated in this work, local statistics may provide insufficient guidance for placing robust watermark signals. We introduce WorldMark, a plug-and-play interface that uses World Knowledge Memory (WKM) to organize semantic and episodic knowledge in a memory graph, converts the retrieved knowledge into a token-level knowledge saliency score, and adjusts the strength of a host watermark through Asymmetric Knowledge Modulation (AKM). WorldMark requires no backbone retraining and introduces no additional detector-side model or parameter. On the primary C4 evaluation, the complete WorldMark interface improves clean and attacked detection across three adaptive-strength host variants while slightly reducing perplexity. Additional pilot experiments on C4 and OpenGen show that direct memory conditioning transfers across multiple watermark families but can be unstable without saliency-aware modulation. WorldMark requires no additional detector-side model or parameter and introduces negligible overhead under the primary protocol.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-10"
+    "publication_date": "2026-08-11"
   },
   {
     "id": "2608.07454v1",
@@ -127,7 +127,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-08-10"
+    "publication_date": "2026-08-11"
   },
   {
     "id": "2608.06659v1",
@@ -135,12 +135,12 @@
     "url": "http://arxiv.org/pdf/2608.06659v1",
     "authors_list": [],
     "author_count": 5,
-    "ss_tldr": "",
+    "ss_tldr": "It is shown that latent-space predictive pretraining can provide a scalable route to foundation models for spatial transcriptomics and introduces CellWorld, which predicts the latent representations of masked cells from visible spatial context and a limited partial-expression hint.",
     "abstract": "This paper shows that latent-space predictive pretraining can provide a scalable route to foundation models for spatial transcriptomics. Existing spatial transcriptomics foundation models primarily reconstruct masked gene identities or expression values, potentially encouraging the reproduction of assay-specific technical variation and limiting representation transferability. To avoid directly reconstructing such variation, we shift the prediction target from observed gene measurements to latent cell representations and introduce CellWorld, which predicts the latent representations of masked cells from visible spatial context and a limited partial-expression hint. We pretrain four CellWorld variants, spanning 5.74M to 94.56M trainable parameters, on a corpus of 46 million human cells. Our controlled scaling experiments show that performance improves with model capacity, particularly on spatial tasks, while spatial transfer depends more on sufficient optimization and broad biological source diversity than on cell count alone. Across four held-out datasets, even CellWorld-Small, with 5.74M trainable parameters, outperforms every baseline on all 11 linear-probe benchmarks and all seven fine-tuned spatial benchmarks. Most notably, a frozen CellWorld-Large pretrained on only 5\\% of the corpus with broad biological source coverage outperforms every fully fine-tuned baseline across all seven spatial benchmarks. Code is available at https://github.com/UoM-HealthAI/CellWorld.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-10"
+    "publication_date": "2026-08-11"
   },
   {
     "id": "2608.06471v1",
@@ -148,12 +148,12 @@
     "url": "http://arxiv.org/pdf/2608.06471v1",
     "authors_list": [],
     "author_count": 7,
-    "ss_tldr": "",
+    "ss_tldr": "CyberForge is a framework that synthesizes executable, repository-level security training data by injecting vulnerabilities into real C/C++ projects and holds 1034 validated vulnerabilities across 80 projects and 63 weakness categories, with edit locality similar to real CVE patches under a real-versus-real noise floor.",
     "abstract": "Despite recent advances, frontier large language model (LLM) agents remain limited in discovering and patching complex vulnerabilities in real-world software. Generally available agents can already aid attackers, who only need to find one exploitable weakness, while defenders must continuously identify and patch all vulnerabilities across fast-growing codebases. Stronger defensive agents would help close this gap, yet the scarcity of security training data with reproducible build and execution environments remains a bottleneck.   We present CyberForge, a framework that synthesizes executable, repository-level security training data by injecting vulnerabilities into real C/C++ projects. It validates each instance dynamically: the injected build must pass the project's unit tests, and generated proof-of-vulnerability (PoV) must trigger on the injected build and not on the clean one. CyberForge is not limited by the availability of disclosed vulnerabilities, therefore it can scale in comparison to data augmentation techniques which rely on historic CVE data. The resulting corpus holds 1034 validated vulnerabilities across 80 projects and 63 weakness categories, with edit locality similar to real CVE patches under a real-versus-real noise floor. Fine-tuning on trajectories collected over this corpus improves SEC-bench patch repair by +3.3 to +14.7 points, in all six configurations of three model scales and two teachers, with the 31B student reaching its GPT-5.4-mini teacher, 72.7% against 74.0%. These gains generalize out of distribution to PatchEval, a corpus containing other programming languages, where every configuration also improves and the 31B student passes its teacher.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-10"
+    "publication_date": "2026-08-11"
   },
   {
     "id": "2608.06940v1",
@@ -166,7 +166,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-10"
+    "publication_date": "2026-08-11"
   },
   {
     "id": "2608.05466v2",
@@ -179,7 +179,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-10"
+    "publication_date": "2026-08-11"
   },
   {
     "id": "2608.07154v1",
@@ -187,12 +187,12 @@
     "url": "http://arxiv.org/pdf/2608.07154v1",
     "authors_list": [],
     "author_count": 9,
-    "ss_tldr": "",
+    "ss_tldr": "This field report presents an OpenArm-based mobile manipulation prototype for laboratory-style tasks, built by integrating dual OpenArm manipulators with a mobile base, vertical slide, RGB-D sensing, lidar-based mapping, ROS2/MoveIt execution, and profile-defined skill interfaces.",
     "abstract": "Open-source robotics and foundation models have lowered the barrier to embodied AI, yet language-guided laboratory automation still requires reliable alignment from instructions and observations to safe actions. This field report presents an OpenArm-based mobile manipulation prototype for laboratory-style tasks, built by integrating dual OpenArm manipulators with a mobile base, vertical slide, RGB-D sensing, lidar-based mapping, ROS2/MoveIt execution, and profile-defined skill interfaces. The system is organized around representation handoffs: natural language requests are constrained into registered skill calls, sensor observations are grounded into maps and object poses, object priors provide role and skill constraints, and runtime bindings compile validated skills into executable motion goals. We use dry-run traces and startup checks to evaluate this integration path, showing how the prototype exposes missing calibration, incomplete object assets, and unfinished real-scene visual grounding as explicit deployment blockers. These intermediate representations serve as practical debugging interfaces for integrating language, perception, planning, and robot safety in embodied systems.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-10"
+    "publication_date": "2026-08-11"
   },
   {
     "id": "2608.05771v2",
@@ -205,7 +205,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Enhanced",
-    "publication_date": "2026-08-10"
+    "publication_date": "2026-08-11"
   },
   {
     "id": "2607.16999v2",
@@ -218,7 +218,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-10"
+    "publication_date": "2026-08-11"
   },
   {
     "id": "2608.07346v1",
@@ -231,7 +231,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-10"
+    "publication_date": "2026-08-11"
   },
   {
     "id": "2608.06745v1",
@@ -239,12 +239,12 @@
     "url": "http://arxiv.org/pdf/2608.06745v1",
     "authors_list": [],
     "author_count": 11,
-    "ss_tldr": "",
+    "ss_tldr": "Experiments on long-horizon embodied and web-agent benchmarks show that MemPrism consistently improves the task performance, especially as trajectories become longer, while reducing memory token consumption.",
     "abstract": "Long-horizon agents rely on memory to reuse experiences, yet existing memory systems often assume that evidence can be directly consumed through a fixed representation. This leads to representation mismatch, where relevant information is available but not organized for the current decision. To this end, we propose MemPrism, a task-conditioned relational memory framework that separates persistent experience storage from decision-time working memory. MemPrism records interactions as the event stream and dynamically constructs relational views according to the current task context. A lightweight view policy selects the relation structure, evidence range, outcome condition, and granularity, while a deterministic composer and render transform historical facts into a temporary optical working-memory view for a frozen task policy. Experiments on long-horizon embodied and web-agent benchmarks show that MemPrism consistently improves the task performance, especially as trajectories become longer, while reducing memory token consumption. Furthermore, the learned view policy transfers across different VLMs without additional adaptation, demonstrating the effectiveness of task-conditioned relational views as a general memory interface for agents.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-08-10"
+    "publication_date": "2026-08-11"
   },
   {
     "id": "2608.07368v1",
@@ -257,6 +257,6 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-10"
+    "publication_date": "2026-08-11"
   }
 ]
