@@ -12,5 +12,7 @@
   "10": "Graph Learning & Networks",
   "11": "Data, Benchmarks & Evaluation",
   "12": "Human-AI Interaction",
-  "13": "Planning & Search"
+  "13": "Planning & Search",
+  "213": "Agentic RAG & LLM Agents",
+  "215": "LLM Agents in Physical Environments"
 }

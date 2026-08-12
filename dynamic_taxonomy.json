@@ -1,8 +1,21 @@
 {
-  "next_id": 215,
+  "next_id": 216,
   "groups": {
     "213": {
       "name": "Agentic RAG & LLM Agents",
+      "created": "2026-08-08",
+      "last_seen": "2026-08-12",
+      "confidence_history": [
+        1.0,
+        1.0
+      ],
+      "paper_count_history": [
+        1,
+        1
+      ]
+    },
+    "214": {
+      "name": "Autonomous ML System Optimization",
       "created": "2026-08-08",
       "last_seen": "2026-08-08",
       "confidence_history": [
@@ -12,10 +25,10 @@
         1
       ]
     },
-    "214": {
-      "name": "Autonomous ML System Optimization",
-      "created": "2026-08-08",
-      "last_seen": "2026-08-08",
+    "215": {
+      "name": "LLM Agents in Physical Environments",
+      "created": "2026-08-12",
+      "last_seen": "2026-08-12",
       "confidence_history": [
         1.0
       ],
