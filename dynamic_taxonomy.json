@@ -28,12 +28,14 @@
     "215": {
       "name": "LLM Agents in Physical Environments",
       "created": "2026-08-12",
-      "last_seen": "2026-08-12",
+      "last_seen": "2026-08-17",
       "confidence_history": [
+        1.0,
         1.0
       ],
       "paper_count_history": [
-        1
+        1,
+        2
       ]
     }
   }
