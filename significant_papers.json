@@ -10,7 +10,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-26"
+    "publication_date": "2026-08-27"
   },
   {
     "id": "2608.23283v2",
@@ -23,7 +23,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-26"
+    "publication_date": "2026-08-27"
   },
   {
     "id": "2601.16520v2",
@@ -31,12 +31,12 @@
     "url": "http://arxiv.org/pdf/2601.16520v2",
     "authors_list": [],
     "author_count": 11,
-    "ss_tldr": "",
+    "ss_tldr": "TangramPuzzle is introduced, a benchmark comprising 668 validated configurations and 1,336 instances for evaluating compositional spatial reasoning under geometric constraints, and the Tangram Construction Expression is formulated to encode tangram configurations with machine-verifiable geometric specifications.",
     "abstract": "Multimodal Large Language Models (MLLMs) have achieved remarkable progress in visual recognition and semantic understanding, yet precise compositional spatial reasoning under geometric constraints remains underexplored. Existing benchmarks mainly assess coarse spatial relations and rarely support rigorous geometric verification or multiple valid solutions in constructive tasks. To address these limitations, we introduce TangramPuzzle, a benchmark comprising 668 validated configurations and 1,336 instances for evaluating compositional spatial reasoning under geometric constraints. We formulate the Tangram Construction Expression (TCE) to encode tangram configurations with machine-verifiable geometric specifications, together with a multi-solution-aware verifier that separately evaluates geometric validity and silhouette fidelity. TangramPuzzle covers two complementary evaluation tasks: part-to-whole Outline Prediction and whole-to-part End-to-End Assembly Generation. We conduct extensive evaluation experiments on advanced open-source and proprietary models, revealing an interesting insight: MLLMs tend to prioritize matching the target silhouette while neglecting geometric constraints, leading to distortions or deformations of the pieces.",
-    "ss_citation_count": 0,
+    "ss_citation_count": 4,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-26"
+    "publication_date": "2026-08-27"
   },
   {
     "id": "2607.13431v2",
@@ -44,12 +44,12 @@
     "url": "http://arxiv.org/pdf/2607.13431v2",
     "authors_list": [],
     "author_count": 23,
-    "ss_tldr": "",
+    "ss_tldr": "This work introduces a unified conceptual framework that views discrete diffusion models through the construction of the underlying discrete state space, and exposes common design trade-offs across training objectives, inference algorithms, scaling behavior, systems optimization, and evaluation protocols.",
     "abstract": "Discrete denoising diffusion models (DDMs) have recently emerged as a compelling alternative to autoregressive (AR) modeling for discrete data, offering parallel generation and iterative global refinement capabilities. Unlike continuous diffusion, where the state space is fixed, DDMs are fundamentally shaped by how the discrete state space is constructed: the tokenization scheme, the vocabulary topology, and domain-specific structural alphabets. This work introduces a unified conceptual framework that views discrete diffusion models through the construction of the underlying discrete state space. Within this framework, existing formulations, including transition-matrix, masking/absorbing-state, and score/ratio-based approaches, emerge as different instantiations of a common design space. The framework further exposes common design trade-offs across training objectives, inference algorithms, scaling behavior, systems optimization, and evaluation protocols, suggesting several promising directions for future research.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-26"
+    "publication_date": "2026-08-27"
   },
   {
     "id": "2608.21114v2",
@@ -57,12 +57,12 @@
     "url": "http://arxiv.org/pdf/2608.21114v2",
     "authors_list": [],
     "author_count": 7,
-    "ss_tldr": "",
+    "ss_tldr": "This design attacks value-sensitive recurrent dynamics while keeping the online optimization cheap and temporally coherent, and proposes Critic-Induced Value-Subspace Attacks (CIVA), which consistently outperforms five recent methods.",
     "abstract": "Visual world-model agents such as DreamerV3 act through a recurrent latent state rather than a single observation, which weakens frame-wise observation attacks and makes their perturbations vary sharply over time under a strict per-frame perturbation constraint. We study white-box, causal, online attacks on such agents and propose Critic-Induced Value-Subspace Attacks (\\textbf{CIVA}). Our key observation is that, along a rollout, critic-guided perturbations concentrate in a low-dimensional subspace induced by the victim's own critic. Based on this observation, CIVA first probes the frozen victim offline with critic-guided PGD and extracts a low-rank value-subspace by SVD. At test time, it optimizes only the subspace coefficients, smooths them with an exponential moving average (EMA), and maps them back to pixels. This design attacks value-sensitive recurrent dynamics while keeping the online optimization cheap and temporally coherent. Extensive experiments on DMC walker walk, Atari Pong, and Crafter show that CIVA consistently outperforms five recent methods; on DMC walker walk, it achieves the largest reward drop of 26.07\\% while keeping temporal variation low, with TempAbs of 0.646.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-26"
+    "publication_date": "2026-08-27"
   },
   {
     "id": "2608.24876v1",
@@ -75,7 +75,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-26"
+    "publication_date": "2026-08-27"
   },
   {
     "id": "2606.29717v3",
@@ -88,7 +88,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-26"
+    "publication_date": "2026-08-27"
   },
   {
     "id": "2511.08873v3",
@@ -96,12 +96,12 @@
     "url": "http://arxiv.org/pdf/2511.08873v3",
     "authors_list": [],
     "author_count": 6,
-    "ss_tldr": "",
+    "ss_tldr": "The Unidirectional Cognitive Optimization (UCO) method is proposed, a multi-turn interactive reinforcement learning paradigm where the innovation lies in two synergistic reward functions: the Progress Reward captures students' cognitive advancement and the Scaffold Reward dynamically identifies each student's Zone of Proximal Development.",
     "abstract": "Large language models (LLMs) are shifting from answer providers to intelligent tutors in educational settings, yet current supervised fine-tuning methods only learn surface teaching patterns without dynamic adaptation capabilities. Recent reinforcement learning approaches address this limitation but face two critical challenges. First, they evaluate teaching effectiveness solely based on whether students produce correct outputs, unable to distinguish whether students genuinely understand or echo teacher-provided answers during interaction. Second, they cannot perceive students' evolving cognitive states in real time through interactive dialogue, thus failing to adapt teaching strategies to match students' cognitive levels dynamically. We propose the Unidirectional Cognitive Optimization (UCO) method to address these challenges. UCO uses a multi-turn interactive reinforcement learning paradigm where the innovation lies in two synergistic reward functions: the Progress Reward captures students' cognitive advancement, evaluating whether students truly transition from confusion to comprehension, while the Scaffold Reward dynamically identifies each student's Zone of Proximal Development (ZPD), encouraging teachers to maintain productive teaching within this zone. We evaluate UCO by comparing it against 11 baseline models on BigMath and MathTutorBench benchmarks. Experimental results demonstrate that our UCO model outperforms all models of equivalent scale and achieves performance comparable to advanced closed-source models. The code and data are available at https://github.com/Mind-Lab-ECNU/UCO.",
-    "ss_citation_count": 0,
+    "ss_citation_count": 1,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-26"
+    "publication_date": "2026-08-27"
   },
   {
     "id": "2602.18532v3",
@@ -109,12 +109,12 @@
     "url": "http://arxiv.org/pdf/2602.18532v3",
     "authors_list": [],
     "author_count": 9,
-    "ss_tldr": "",
+    "ss_tldr": "This study systematically dissects design choices along three dimensions: foundational components, perception essentials, and action modelling perspectives to distill 12 key findings that together form a practical recipe for building strong VLA models.",
     "abstract": "Following the rise of large foundation models, Vision-Language-Action models (VLAs) emerged, leveraging strong visual and language understanding from Vision-Language Models for general-purpose policy learning. Yet, the current VLA landscape remains fragmented and exploratory. Although many groups have proposed their own VLA models, inconsistencies in training protocols and evaluation settings make it difficult to identify which design choices truly matter. To bring structure to this evolving space, we reexamine the VLA design space under a unified framework and evaluation setup. Starting from a simple VLA baseline similar to RT-2, which is the origin of VLA, we systematically dissect design choices along three dimensions: foundational components, perception essentials, and action modelling perspectives. From this study, we distill 12 key findings that together form a practical recipe for building strong VLA models. The outcome of this exploration is a simple yet effective model, VLANeXt. It outperforms the state-of-the-art methods on the LIBERO and LIBERO-plus benchmarks and demonstrates strong performance in real-world experiments. We release a unified and easy-to-use codebase to reproduce our findings, explore the design space, and develop new VLA variants on top of a shared foundation. The codebase is available at https://github.com/DravenALG/VLANeXt.",
-    "ss_citation_count": 0,
-    "ss_influential_citations": 0,
+    "ss_citation_count": 11,
+    "ss_influential_citations": 3,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-26"
+    "publication_date": "2026-08-27"
   },
   {
     "id": "2608.23258v1",
@@ -127,7 +127,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-26"
+    "publication_date": "2026-08-27"
   },
   {
     "id": "2608.23104v2",
@@ -140,7 +140,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-26"
+    "publication_date": "2026-08-27"
   },
   {
     "id": "2608.24534v1",
@@ -153,7 +153,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-08-26"
+    "publication_date": "2026-08-27"
   },
   {
     "id": "2608.24696v1",
@@ -166,72 +166,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Enhanced",
-    "publication_date": "2026-08-26"
-  },
-  {
-    "id": "2511.01870v3",
-    "title": "CytoNet: A Foundation Model for the Human Cerebral Cortex at Cellular Resolution",
-    "url": "http://arxiv.org/pdf/2511.01870v3",
-    "authors_list": [],
-    "author_count": 10,
-    "ss_tldr": "",
-    "abstract": "Studying the cellular architecture of the human cerebral cortex is essential for understanding how the brain is organized from the micro to the macro level, and how it functions. However, investigating complex texture patterns in histological images using automatic methods that can be scaled across whole brains remains a challenge. Here we introduce CytoNet, a foundation model trained on 1 million unlabeled microscopic image patches from over 4,000 histological sections from nine postmortem brains, and evaluated on over 2,000 sections from five additional brains excluded from self-supervised pretraining. Using co-localization in the cortical sheet for self-supervision, CytoNet learns to encode complex cellular patterns into expressive and anatomically meaningful feature representations. CytoNet supports multiple downstream applications, including area classification, laminar segmentation, quantification of microarchitectural variation, and exploratory mapping of cortical subdivisions. Functional parcellation analyses provided parcellation-dependent evidence for links between cytoarchitecture and macroscale functional organization. Together, these results establish CytoNet as a unified framework for scalable analysis of cortical microarchitecture and for testing links between cellular architecture and structure-function organization in the human cerebral cortex.",
-    "ss_citation_count": 0,
-    "ss_influential_citations": 0,
-    "prominence_tier": "Elite",
-    "publication_date": "2026-08-26"
-  },
-  {
-    "id": "2512.12703v2",
-    "title": "Robust Motion Generation using Part-level Reliable Data from Videos",
-    "url": "http://arxiv.org/pdf/2512.12703v2",
-    "authors_list": [],
-    "author_count": 5,
-    "ss_tldr": "",
-    "abstract": "Extracting human motion from large-scale web videos offers a scalable solution to the data scarcity issue in character animation. However, some human parts in many video frames cannot be seen due to off-screen captures or occlusions. It brings a dilemma: discarding the data missing any part limits scale and diversity, while retaining it compromises data quality and model performance.   To address this problem, we propose leveraging credible part-level data extracted from videos to enhance motion generation via a robust part-aware masked autoregression model. First, we decompose a human body into five parts and detect the parts clearly seen in a video frame as \"credible\". Second, the credible parts are encoded into latent tokens by our proposed part-aware variational autoencoder. Third, we propose a robust part-level masked generation model to predict masked credible parts, while ignoring those noisy parts.   In addition, we contribute K700-M, a challenging new benchmark comprising approximately 200k real-world motion sequences, for evaluation. Experimental results indicate that our method successfully outperforms baselines on both clean and noisy datasets in terms of motion quality, semantic consistency and diversity. Project page: https://boyuaner.github.io/ropar-main/",
-    "ss_citation_count": 0,
-    "ss_influential_citations": 0,
-    "prominence_tier": "Elite",
-    "publication_date": "2026-08-26"
-  },
-  {
-    "id": "2501.07237v6",
-    "title": "GWT: Scalable Optimizer State Compression for Large Language Model Training",
-    "url": "http://arxiv.org/pdf/2501.07237v6",
-    "authors_list": [],
-    "author_count": 7,
-    "ss_tldr": "",
-    "abstract": "Training large language models (LLMs) requires substantial memory, a significant fraction of which is consumed by the moment states maintained by adaptive optimizers such as Adam. Existing memory-efficient approaches commonly compress parameters or gradients through low-rank projections, which may discard information outside the selected subspace or incur additional costs from subspace construction and singular value decomposition (SVD). We introduce \\textbf{Gradient Wavelet Transform (GWT)}, an SVD-free framework that applies a multilevel Haar transform to matrix gradients. GWT maintains first- and second-moment states only for the compact approximation coefficients, while retaining all detail coefficients transiently in each update. We show that the orthogonal transform preserves the complete current gradient and establish gradient alignment and a stationary-point guarantee for smooth objectives under bounded preconditioning and a directly verifiable coarse-momentum coherence condition. Experiments on language-model pre-training and downstream fine-tuning show that GWT reduces estimated model-and-optimizer-state memory by up to 52\\% while maintaining competitive or improved model quality. On LLaMA-3B pre-training, GWT achieves $1.9\\times$ the throughput of 8-bit Adam and is compatible with multiple optimizer families, including Adam, Adam-mini, and Muon.",
-    "ss_citation_count": 0,
-    "ss_influential_citations": 0,
-    "prominence_tier": "Elite",
-    "publication_date": "2026-08-26"
-  },
-  {
-    "id": "2509.15959v2",
-    "title": "Review of Explainable Decision Support and Adaptive Human-Machine Interfaces for Automation Transparency in Maritime Autonomous Surface Ships",
-    "url": "http://arxiv.org/pdf/2509.15959v2",
-    "authors_list": [],
-    "author_count": 3,
-    "ss_tldr": "",
-    "abstract": "Autonomous navigation in maritime domains is accelerating alongside advances in artificial intelligence, sensing, and connectivity. Opaque decision-making and poorly calibrated human-automation interaction remain key barriers to safe adoption. This article synthesizes 100 studies on automation transparency for Maritime Autonomous Surface Ships (MASS) spanning situation awareness (SA), human factors, interface design, and regulation. We (i) map the Guidance-Navigation-Control stack to shore-based operational modes, namely remote supervision (RSM) and remote control (RCM), and identify where human unsafe control actions (Human-UCAs) concentrate in handover and emergency loops; (ii) summarize evidence that transparency features (decision rationales, alternatives, confidence/uncertainty, and rule-compliance indicators) improve understanding and support trust calibration, though reliability and predictability often dominate trust; (iii) distill design strategies for transparency at three layers: sensor/SA acquisition and fusion, HMI/eHMI presentation (textual/graphical overlays, color coding, conversational and immersive UIs), and engineer-facing processes (resilient interaction design, validation, and standardization). We integrate methods for Human-UCA identification (STPA-Cog + IDAC), quantitative trust/SA assessment, and operator workload monitoring, and outline regulatory and rule-based implications including COLREGs formalization and route exchange. We conclude with an adaptive transparency framework that couples operator state estimation with explainable decision support to reduce cognitive overload and improve takeover timeliness. The review highlights actionable figure-of-merit displays (e.g., CPA/TCPA risk bars, robustness heatmaps), transparent model outputs (rule traceability, confidence), and training pipelines (HIL/MIL, simulation) as near-term levers for safer MASS operations.",
-    "ss_citation_count": 0,
-    "ss_influential_citations": 0,
-    "prominence_tier": "Emerging",
-    "publication_date": "2026-08-26"
-  },
-  {
-    "id": "2408.05109v7",
-    "title": "A Survey of Text-to-SQL in the Era of LLMs: Where are we, and where are we going?",
-    "url": "http://arxiv.org/pdf/2408.05109v7",
-    "authors_list": [],
-    "author_count": 10,
-    "ss_tldr": "",
-    "abstract": "Translating users' natural language queries (NL) into SQL queries (i.e., Text-to-SQL, a.k.a. NL2SQL) can significantly reduce barriers to accessing relational databases and support various commercial applications. The performance of Text-to-SQL has been greatly enhanced with the emergence of Large Language Models (LLMs). In this survey, we provide a comprehensive review of Text-to-SQL techniques powered by LLMs, covering its entire lifecycle from the following four aspects: (1) Model: Text-to-SQL translation techniques that tackle not only NL ambiguity and under-specification, but also properly map NL with database schema and instances; (2) Data: From the collection of training data, data synthesis due to training data scarcity, to Text-to-SQL benchmarks; (3) Evaluation: Evaluating Text-to-SQL methods from multiple angles using different metrics and granularities; and (4) Error Analysis: analyzing Text-to-SQL errors to find the root cause and guiding Text-to-SQL models to evolve. Moreover, we offer a rule of thumb for developing Text-to-SQL solutions. Finally, we discuss the research challenges and open problems of Text-to-SQL in the LLMs era. Text-to-SQL Handbook: https://github.com/HKUSTDial/NL2SQL_Handbook",
-    "ss_citation_count": 0,
-    "ss_influential_citations": 0,
-    "prominence_tier": "Elite",
-    "publication_date": "2026-08-26"
+    "publication_date": "2026-08-27"
   },
   {
     "id": "2304.10041v2",
@@ -239,12 +174,12 @@
     "url": "http://arxiv.org/pdf/2304.10041v2",
     "authors_list": [],
     "author_count": 8,
-    "ss_tldr": "",
+    "ss_tldr": "This work investigates formal policy synthesis for continuous-state stochastic dynamic systems subject to high-level specifications expressed in linear temporal logic and presents an actor-critic reinforcement learning algorithm that applies whenever a topological order exists.",
     "abstract": "This work investigates formal policy synthesis for continuous-state stochastic dynamic systems subject to high-level specifications expressed in linear temporal logic. To learn an optimal policy that maximizes the satisfaction probability, we compose the dynamic system with the automaton translated from the specification and solve an optimal planning problem on the resulting product system. Because the product system has a hybrid state space, rewards are sparse. To mitigate this sparsity, we introduce a generalized optimal backup order, defined in reverse to the topological order, that guides value backups and accelerates learning, and we prove that planning under this order preserves optimality. We further present an actor-critic reinforcement learning algorithm that applies whenever a topological order exists. The algorithm evaluates policies by solving a constrained optimization problem with the augmented Lagrangian method, which endows it with hyperparameter self-tuning, and we prove its optimality and convergence in the tabular case. Neural networks approximate the value and policy functions over the hybrid state space. Since encoding automaton states as integers imposes a spurious ordinal relationship on the learned functions, we dedicate an individual neural network to the value (policy) function of each automaton state, a scheme we term modular learning. Two experiments validate the approach: on the classic control task CartPole, our algorithm matches or outperforms standard baselines, and a motion-planning case study of a Dubins car under a temporal specification demonstrates the efficacy of the overall synthesis framework.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-26"
+    "publication_date": "2026-08-27"
   },
   {
     "id": "2608.24114v1",
@@ -257,6 +192,71 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-26"
+    "publication_date": "2026-08-27"
+  },
+  {
+    "id": "2508.02609v3",
+    "title": "Entity Representation Learning Through Onsite-Offsite Graph for Pinterest Ads",
+    "url": "http://arxiv.org/pdf/2508.02609v3",
+    "authors_list": [],
+    "author_count": 13,
+    "ss_tldr": "",
+    "abstract": "Graph Neural Networks (GNN) have been extensively applied to industry recommendation systems, as seen in models like GraphSage\\cite{GraphSage}, TwHIM\\cite{TwHIM}, LiGNN\\cite{LiGNN} etc. In these works, graphs were constructed based on users' activities on the platforms, and various graph models were developed to effectively learn node embeddings. In addition to users' onsite activities, their offsite conversions are crucial for Ads models to capture their shopping interest. To better leverage offsite conversion data and explore the connection between onsite and offsite activities, we constructed a large-scale heterogeneous graph based on users' onsite ad interactions and opt-in offsite conversion activities. Furthermore, we introduced TransRA (TransR\\cite{TransR} with Anchors), a novel Knowledge Graph Embedding (KGE) model, to more efficiently integrate graph embeddings into Ads ranking models. However, our Ads ranking models initially struggled to directly incorporate Knowledge Graph Embeddings (KGE), and only modest gains were observed during offline experiments. To address this challenge, we employed the Large ID Embedding Table technique and innovated an attention based KGE finetuning approach within the Ads ranking models. As a result, we observed a significant AUC lift in Click-Through Rate (CTR) and Conversion Rate (CVR) prediction models. Moreover, this framework has been deployed in Pinterest's Ads Engagement Model and contributed to $2.69\\%$ CTR lift and $1.34\\%$ CPC reduction. We believe the techniques presented in this paper can be leveraged by other large-scale industrial models.",
+    "ss_citation_count": 0,
+    "ss_influential_citations": 0,
+    "prominence_tier": "Elite",
+    "publication_date": "2026-08-27"
+  },
+  {
+    "id": "2507.09924v2",
+    "title": "MixLoRA-DSI: Dynamically Expandable Mixture-of-LoRA Experts for Rehearsal-Free Generative Retrieval over Dynamic Corpora",
+    "url": "http://arxiv.org/pdf/2507.09924v2",
+    "authors_list": [],
+    "author_count": 7,
+    "ss_tldr": "",
+    "abstract": "Continually updating model-based indexes in generative retrieval with new documents remains challenging, as full retraining is computationally expensive and impractical under resource constraints. We propose MixLoRA-DSI, a novel framework that combines an expandable mixture of Low-Rank Adaptation experts with a layer-wise out-of-distribution (OOD)-driven expansion strategy. Instead of allocating new experts for each new corpus, our proposed expansion strategy enables sublinear parameter growth by selectively introducing new experts only when significant number of OOD documents are detected. Experiments on NQ320k and MS MARCO Passage demonstrate that MixLoRA-DSI outperforms full-model update baselines, with minimal parameter overhead and substantially lower training costs.",
+    "ss_citation_count": 0,
+    "ss_influential_citations": 0,
+    "prominence_tier": "Elite",
+    "publication_date": "2026-08-27"
+  },
+  {
+    "id": "2410.08949v6",
+    "title": "Quantum Information Fusion and Correction under the Transferable Belief Model",
+    "url": "http://arxiv.org/pdf/2410.08949v6",
+    "authors_list": [],
+    "author_count": 5,
+    "ss_tldr": "",
+    "abstract": "The transferable belief model (TBM), developed within Dempster-Shafer theory, represents ambiguity and partial ignorance through set-valued belief masses. Its classical operations, however, can grow combinatorially over the power set. We formulate TBM reasoning on quantum circuits using the mass function quantum state (MFQS). The resulting framework covers belief representation, credal-level fusion and correction, product-space operations, and the generalized Bayesian theorem. For prepared MFQS inputs, CCR and the entire $\u03b1$-junction use element-wise gate modules whose logical counts are linear in the number of frame elements. These circuits avoid explicit operation-stage updates over all $2^n$ focal-set coordinates. A noisy multi-domain classifier-fusion example further demonstrates interpretable source fusion and improved robustness to gate-control noise. The results establish Dempster-Shafer structures as a semantic layer for quantum information processing beyond singleton-probability representations.",
+    "ss_citation_count": 0,
+    "ss_influential_citations": 0,
+    "prominence_tier": "Elite",
+    "publication_date": "2026-08-27"
+  },
+  {
+    "id": "2608.23803v1",
+    "title": "LUCAID: Agentic Multimodal AI for Lung Cancer Precision Pathology",
+    "url": "http://arxiv.org/pdf/2608.23803v1",
+    "authors_list": [],
+    "author_count": 33,
+    "ss_tldr": "",
+    "abstract": "Lung cancer tissue diagnostics is complex, as therapy decisions in precision oncology rely on the integration of histomorphological, immunohistochemical, and molecular features. Yet pathological assessment remains largely visual and semi-quantitative and shows interobserver variability, while existing artificial intelligence (AI) tools cover only selected tasks, rarely reach generalizable expert-level performance, and lack prospective clinical validation. To address these challenges, we developed and clinically validated LUCAID, an agentic AI system for precision lung cancer pathology. An integrative agent couples diagnostic reasoning with nine modules that cover the full routine workflow, from quality control, tumor detection and segmentation, histological subtyping, tumor microenvironment profiling, tumor cellularity quantification, and predictive biomarker scoring (PD-L1, MET, TROP-2) to automated structured report generation. LUCAID enables users to interactively query the module outputs and generate reports that contextualize the results. Against large-scale expert ground-truth annotations, the analysis modules achieved F1 scores of 0.82-0.95. In prospective clinical validation, LUCAID reached 93.0% concordance with an expert-panel adjudicated reference standard across clinically actionable decisions, compared with 68.3-81.1% for five experienced thoracic pathologists.",
+    "ss_citation_count": 0,
+    "ss_influential_citations": 0,
+    "prominence_tier": "Emerging",
+    "publication_date": "2026-08-27"
+  },
+  {
+    "id": "2501.02189v7",
+    "title": "A Survey of State of the Art Large Vision Language Models: Alignment, Benchmark, Evaluations and Challenges",
+    "url": "http://arxiv.org/pdf/2501.02189v7",
+    "authors_list": [],
+    "author_count": 6,
+    "ss_tldr": "",
+    "abstract": "Large vision-language models (VLMs) have evolved rapidly from contrastive image-text encoders and adapter-based assistants into natively multimodal foundation models that support long-context reasoning, agentic workflows, and, increasingly, unified perception-generation-action loops. Since 2025, the frontier has consolidated around a small number of large pretraining families, including GPT, Gemini, Claude, Grok, Qwen, Gemma, DeepSeek, Kimi, and MiniMax, while evaluation has shifted from short-form visual question answering toward spatial, temporal, embodied, and calibration-sensitive benchmarks. In this survey, we provide an updated overview of VLMs through 2026 with an emphasis on three developments. First, we trace the architectural evolution from contrastive or bridged two-tower models to LLM-backbone adapter models, native multimodal-input models, omni-modal unified input/output models, and emerging world-action models. Second, we summarize how benchmarks expanded from classical OCR, VQA, and chart understanding toward long-video reasoning, embodied evaluation, reward-model judging, and domain-specific decision making. Third, we review the growing role of post-training, including supervised fine-tuning, preference optimization, and reinforcement learning methods such as GRPO-style multimodal alignment. Rather than exhaustively listing every release, we focus on representative frontier families, influential benchmarks, and the major open challenges that remain in hallucination, safety, efficiency, data quality, and multimodal alignment.",
+    "ss_citation_count": 0,
+    "ss_influential_citations": 0,
+    "prominence_tier": "Elite",
+    "publication_date": "2026-08-27"
   }
 ]

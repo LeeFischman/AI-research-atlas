@@ -1,5 +1,5 @@
 {
-  "next_id": 218,
+  "next_id": 219,
   "groups": {
     "213": {
       "name": "Agentic RAG & LLM Agents",
@@ -44,6 +44,17 @@
       "name": "LLM Hallucination Mitigation",
       "created": "2026-08-24",
       "last_seen": "2026-08-24",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "218": {
+      "name": "Video Agent Reasoning",
+      "created": "2026-08-27",
+      "last_seen": "2026-08-27",
       "confidence_history": [
         1.0
       ],
