@@ -1,16 +1,18 @@
 {
-  "next_id": 219,
+  "next_id": 220,
   "groups": {
     "213": {
       "name": "Agentic RAG & LLM Agents",
       "created": "2026-08-08",
-      "last_seen": "2026-08-18",
+      "last_seen": "2026-08-29",
       "confidence_history": [
+        1.0,
         1.0,
         1.0,
         1.0
       ],
       "paper_count_history": [
+        1,
         1,
         1,
         1
@@ -55,6 +57,17 @@
       "name": "Video Agent Reasoning",
       "created": "2026-08-27",
       "last_seen": "2026-08-27",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "219": {
+      "name": "Low-Resource Language Safety",
+      "created": "2026-08-29",
+      "last_seen": "2026-08-29",
       "confidence_history": [
         1.0
       ],
