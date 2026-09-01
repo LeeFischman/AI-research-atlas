@@ -10,7 +10,7 @@
     "ss_citation_count": 3,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-31"
+    "publication_date": "2026-09-01"
   },
   {
     "id": "2607.03162v2",
@@ -23,7 +23,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-31"
+    "publication_date": "2026-09-01"
   },
   {
     "id": "2603.26535v4",
@@ -36,7 +36,7 @@
     "ss_citation_count": 4,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-31"
+    "publication_date": "2026-09-01"
   },
   {
     "id": "2608.22149v3",
@@ -49,7 +49,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-08-31"
+    "publication_date": "2026-09-01"
   },
   {
     "id": "2608.28018v1",
@@ -62,7 +62,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-31"
+    "publication_date": "2026-09-01"
   },
   {
     "id": "2604.07809v2",
@@ -75,7 +75,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-31"
+    "publication_date": "2026-09-01"
   },
   {
     "id": "2603.18031v2",
@@ -88,7 +88,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-31"
+    "publication_date": "2026-09-01"
   },
   {
     "id": "2608.24696v2",
@@ -101,7 +101,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-31"
+    "publication_date": "2026-09-01"
   },
   {
     "id": "2604.12379v2",
@@ -114,7 +114,7 @@
     "ss_citation_count": 1,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-08-31"
+    "publication_date": "2026-09-01"
   },
   {
     "id": "2602.01335v2",
@@ -127,7 +127,7 @@
     "ss_citation_count": 3,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-31"
+    "publication_date": "2026-09-01"
   },
   {
     "id": "2608.27969v1",
@@ -140,7 +140,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-31"
+    "publication_date": "2026-09-01"
   },
   {
     "id": "2608.27847v1",
@@ -153,7 +153,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-08-31"
+    "publication_date": "2026-09-01"
   },
   {
     "id": "2603.05614v2",
@@ -166,7 +166,7 @@
     "ss_citation_count": 2,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-08-31"
+    "publication_date": "2026-09-01"
   },
   {
     "id": "2608.28497v1",
@@ -174,12 +174,12 @@
     "url": "http://arxiv.org/pdf/2608.28497v1",
     "authors_list": [],
     "author_count": 5,
-    "ss_tldr": "",
+    "ss_tldr": "An empirical study of Claude Code plugin marketplaces finds that the marketplace is expanding rapidly, plugin-touching commit activity growing 8.8x over six months after the October 2025 launch, and plugins targeting Software Engineering tasks accounting for 61.3% of all plugins.",
     "abstract": "AI coding agents, software tools that automate development tasks through reasoning and tool use, are increasingly extended through plugin marketplaces, yet the structure, maintenance, and co-evolution dynamics of these emerging repositories remain empirically unexplored. Unlike traditional software packages that deliver functionality through source code, agent plugins deliver functionality through a combination of natural-language instruction files, scripts, and configuration files, raising the question of whether these plugins are maintained artifacts that co-evolve across components, or one-off artifacts that developers write once and do not need to revisit. To study the maintenance and co-evolution of agent plugins, we conduct an empirical study of 1,926 repositories hosting Claude Code plugin marketplaces, analyzing 8,351 plugins and 77,773 commits across 2,018 marketplaces. We find that the marketplace is expanding rapidly, plugin-touching commit activity growing 8.8x over six months after the October 2025 launch, and plugins targeting Software Engineering tasks accounting for 61.3% of all plugins. Plugin development is predominantly feature-driven, with feature commits occurring at more than twice the rate of conventional open-source software (OSS) (39.6% vs. 17.2%). Claude co-authors 34.9% of all commits, and four commit types (docs, perf, style, and refactor) carry substantially different meanings in plugin repositories than in traditional software. Most component types evolve independently, but within skills directories, natural-language instruction files and implementation scripts co-evolve at above-chance rates, with 78% of co-changes being functionally coupled, representing a new class of maintenance dependency not observed in traditional software engineering.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-31"
+    "publication_date": "2026-09-01"
   },
   {
     "id": "2608.28399v1",
@@ -187,12 +187,12 @@
     "url": "http://arxiv.org/pdf/2608.28399v1",
     "authors_list": [],
     "author_count": 5,
-    "ss_tldr": "",
+    "ss_tldr": "Stable, recoverable directional structure in sequential LLM financial decisions is revealed and a behavioral signal for studying how another participant could respond to a predictable policy is revealed.",
     "abstract": "In financial markets, a sequential policy that reacts systematically to price movements may become predictable to other market participants. This paper studies whether large language model (LLM) agents exhibit such directional structure through RetailAgent, an experimental framework in which an LLM observes anonymized intraday equity price histories and permitted state, then repeatedly chooses long (hold the stock) or flat (stay out) before the subsequent interval return is revealed. We compare returns during long and flat intervals along the same stock's intraday path after removing the overall fraction of long decisions. This exposure-matched measure reveals persistent negative timing across modality, horizon, state, and model family. Shuffling saved action sequences substantially attenuates the effect, showing that alignment between actions and subsequent returns drives the negative score. Feeding self-authored memories into decisions further increases policy persistence, while timing becomes more negative among stock-days on which the agent uses both actions. These results reveal stable, recoverable directional structure in sequential LLM financial decisions and a behavioral signal for studying how another participant could respond to a predictable policy.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-31"
+    "publication_date": "2026-09-01"
   },
   {
     "id": "2511.08577v4",
@@ -205,7 +205,7 @@
     "ss_citation_count": 20,
     "ss_influential_citations": 1,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-31"
+    "publication_date": "2026-09-01"
   },
   {
     "id": "2505.18603v3",
@@ -218,7 +218,7 @@
     "ss_citation_count": 3,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-31"
+    "publication_date": "2026-09-01"
   },
   {
     "id": "2605.12015v3",
@@ -231,7 +231,7 @@
     "ss_citation_count": 10,
     "ss_influential_citations": 1,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-31"
+    "publication_date": "2026-09-01"
   },
   {
     "id": "2608.28065v1",
@@ -244,7 +244,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-08-31"
+    "publication_date": "2026-09-01"
   },
   {
     "id": "2608.27727v1",
@@ -257,6 +257,6 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-08-31"
+    "publication_date": "2026-09-01"
   }
 ]
