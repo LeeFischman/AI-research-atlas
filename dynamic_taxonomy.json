@@ -1,5 +1,5 @@
 {
-  "next_id": 222,
+  "next_id": 223,
   "groups": {
     "213": {
       "name": "Agentic RAG & LLM Agents",
@@ -38,6 +38,17 @@
       ],
       "paper_count_history": [
         1
+      ]
+    },
+    "222": {
+      "name": "LLM Quantization & Efficiency",
+      "created": "2026-09-07",
+      "last_seen": "2026-09-07",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        2
       ]
     }
   }
