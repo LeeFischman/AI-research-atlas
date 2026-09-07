@@ -18,17 +18,6 @@
         1
       ]
     },
-    "217": {
-      "name": "LLM Hallucination Mitigation",
-      "created": "2026-08-24",
-      "last_seen": "2026-08-24",
-      "confidence_history": [
-        1.0
-      ],
-      "paper_count_history": [
-        1
-      ]
-    },
     "218": {
       "name": "Video Agent Reasoning",
       "created": "2026-08-27",
