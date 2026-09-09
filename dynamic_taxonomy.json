@@ -1,17 +1,19 @@
 {
-  "next_id": 223,
+  "next_id": 224,
   "groups": {
     "213": {
       "name": "Agentic RAG & LLM Agents",
       "created": "2026-08-08",
-      "last_seen": "2026-08-29",
+      "last_seen": "2026-09-09",
       "confidence_history": [
+        1.0,
         1.0,
         1.0,
         1.0,
         1.0
       ],
       "paper_count_history": [
+        1,
         1,
         1,
         1,
@@ -57,6 +59,17 @@
       "name": "Continual Learning & Adaptation",
       "created": "2026-09-08",
       "last_seen": "2026-09-08",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "223": {
+      "name": "LLM Skill Representation",
+      "created": "2026-09-09",
+      "last_seen": "2026-09-09",
       "confidence_history": [
         1.0
       ],
