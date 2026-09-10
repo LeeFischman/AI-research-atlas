@@ -20,17 +20,6 @@
         1
       ]
     },
-    "218": {
-      "name": "Video Agent Reasoning",
-      "created": "2026-08-27",
-      "last_seen": "2026-08-27",
-      "confidence_history": [
-        1.0
-      ],
-      "paper_count_history": [
-        1
-      ]
-    },
     "219": {
       "name": "Low-Resource Language Safety",
       "created": "2026-08-29",
