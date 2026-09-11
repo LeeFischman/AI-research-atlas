@@ -1,5 +1,5 @@
 {
-  "next_id": 224,
+  "next_id": 225,
   "groups": {
     "213": {
       "name": "Agentic RAG & LLM Agents",
@@ -59,6 +59,17 @@
       "name": "LLM Skill Representation",
       "created": "2026-09-09",
       "last_seen": "2026-09-09",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "224": {
+      "name": "Agent Benchmarking & Simulation",
+      "created": "2026-09-11",
+      "last_seen": "2026-09-11",
       "confidence_history": [
         1.0
       ],
