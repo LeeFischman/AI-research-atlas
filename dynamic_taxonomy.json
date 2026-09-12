@@ -20,17 +20,6 @@
         1
       ]
     },
-    "219": {
-      "name": "Low-Resource Language Safety",
-      "created": "2026-08-29",
-      "last_seen": "2026-08-29",
-      "confidence_history": [
-        1.0
-      ],
-      "paper_count_history": [
-        1
-      ]
-    },
     "222": {
       "name": "LLM Quantization & Efficiency",
       "created": "2026-09-07",
