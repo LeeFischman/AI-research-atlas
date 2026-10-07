@@ -4,23 +4,27 @@
     "226": {
       "name": "LLM Agent Frameworks & Architectures",
       "created": "2026-10-06",
-      "last_seen": "2026-10-06",
+      "last_seen": "2026-10-07",
       "confidence_history": [
+        1.0,
         1.0
       ],
       "paper_count_history": [
+        1,
         1
       ]
     },
     "227": {
       "name": "LLM Agent Skill Management & Safety",
       "created": "2026-10-06",
-      "last_seen": "2026-10-06",
+      "last_seen": "2026-10-07",
       "confidence_history": [
+        1.0,
         1.0
       ],
       "paper_count_history": [
-        2
+        2,
+        1
       ]
     }
   }
