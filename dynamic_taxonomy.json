@@ -1,5 +1,5 @@
 {
-  "next_id": 228,
+  "next_id": 229,
   "groups": {
     "226": {
       "name": "LLM Agent Frameworks & Architectures",
@@ -27,6 +27,17 @@
         2,
         1,
         2
+      ]
+    },
+    "228": {
+      "name": "Agentic Code Generation & Evaluation",
+      "created": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
       ]
     }
   }
