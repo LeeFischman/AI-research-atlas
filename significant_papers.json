@@ -10,7 +10,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-12"
+    "publication_date": "2026-10-13"
   },
   {
     "id": "2606.05405v3",
@@ -23,7 +23,7 @@
     "ss_citation_count": 25,
     "ss_influential_citations": 1,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-12"
+    "publication_date": "2026-10-13"
   },
   {
     "id": "2610.02626v2",
@@ -36,7 +36,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-12"
+    "publication_date": "2026-10-13"
   },
   {
     "id": "2610.13057v1",
@@ -49,7 +49,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-12"
+    "publication_date": "2026-10-13"
   },
   {
     "id": "2605.11928v2",
@@ -62,7 +62,7 @@
     "ss_citation_count": 6,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-12"
+    "publication_date": "2026-10-13"
   },
   {
     "id": "2610.03861v2",
@@ -75,7 +75,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-12"
+    "publication_date": "2026-10-13"
   },
   {
     "id": "2608.09524v2",
@@ -88,7 +88,7 @@
     "ss_citation_count": 1,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-12"
+    "publication_date": "2026-10-13"
   },
   {
     "id": "2609.01216v2",
@@ -101,7 +101,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-12"
+    "publication_date": "2026-10-13"
   },
   {
     "id": "2610.07766v3",
@@ -114,7 +114,7 @@
     "ss_citation_count": 1,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-10-12"
+    "publication_date": "2026-10-13"
   },
   {
     "id": "2610.12655v1",
@@ -127,7 +127,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-12"
+    "publication_date": "2026-10-13"
   },
   {
     "id": "2610.13002v1",
@@ -140,7 +140,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-10-12"
+    "publication_date": "2026-10-13"
   },
   {
     "id": "2610.12845v1",
@@ -153,7 +153,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-12"
+    "publication_date": "2026-10-13"
   },
   {
     "id": "2510.19788v4",
@@ -166,7 +166,7 @@
     "ss_citation_count": 6,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-10-12"
+    "publication_date": "2026-10-13"
   },
   {
     "id": "2606.03678v2",
@@ -179,7 +179,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-12"
+    "publication_date": "2026-10-13"
   },
   {
     "id": "2609.35545v2",
@@ -192,7 +192,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-12"
+    "publication_date": "2026-10-13"
   },
   {
     "id": "2610.13886v1",
@@ -205,7 +205,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Enhanced",
-    "publication_date": "2026-10-12"
+    "publication_date": "2026-10-13"
   },
   {
     "id": "2610.12659v1",
@@ -218,7 +218,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-12"
+    "publication_date": "2026-10-13"
   },
   {
     "id": "2610.13194v1",
@@ -231,7 +231,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-12"
+    "publication_date": "2026-10-13"
   },
   {
     "id": "2610.13330v1",
@@ -239,12 +239,12 @@
     "url": "http://arxiv.org/pdf/2610.13330v1",
     "authors_list": [],
     "author_count": 4,
-    "ss_tldr": "",
+    "ss_tldr": "This work reformulates chemical reasoning as iterative denoising over interleaved reasoning and tool-use trajectories, enabling tool-use decisions to be jointly determined under full-trajectory context and thereby better aligning the agent's decision boundary with its knowledge boundary.",
     "abstract": "Designing tool-integrated reasoning agent systems for complex chemical tasks remains a fundamental challenge. Although recent chemical agents have demonstrated promising performance through the integration of external tools, they are still built on the autoregressive paradigm, which is inherently constrained by causal attention and left-to-right generation. As a result, they often struggle with bidirectional molecular understanding, global coordinated tool planning and multi-source evidence integration. To address this challenge, we introduce ChemDiffAgent, the first masked diffusion language agent for tool-integrated chemical reasoning. It reformulates chemical reasoning as iterative denoising over interleaved reasoning and tool-use trajectories, enabling tool-use decisions to be jointly determined under full-trajectory context and thereby better aligning the agent's decision boundary with its knowledge boundary. We further analyze how this paradigm benefits agentic reasoning through harder infilling subproblems during training and flexible arbitrary-order decoding during inference. Then we develop a two-stage post-training framework, comprising agentic supervised fine-tuning and variance-reduced preference optimization, to enhance tool-use and reasoning capabilities. We also construct a comprehensive benchmark covering six chemistry tasks across both single-turn and multi-turn tool-use scenarios. Under matched budgets and evaluation, ChemDiffAgent consistently outperforms autoregressive agents, achieving an overall improvement of approximately 20%. Notably, our 8B model achieves performance comparable to, in some cases surpassing, significantly larger frontier models, such as GPT 5.5 and Claude Opus 4.7. Code is available at https://github.com/bilemond/ChemDiffAgent.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-12"
+    "publication_date": "2026-10-13"
   },
   {
     "id": "2610.13832v1",
@@ -252,11 +252,11 @@
     "url": "http://arxiv.org/pdf/2610.13832v1",
     "authors_list": [],
     "author_count": 8,
-    "ss_tldr": "",
+    "ss_tldr": "SpatialASM is introduced, a scalable framework to internalize ASM into LVLMs through training-time spatial simulation and produces two complementary forms of supervision that teach LVLMs when and how to adaptively invoke view planning and imagination during spatial reasoning.",
     "abstract": "When solving complex spatial reasoning tasks, ordinary humans naturally revisit the scenes from task-relevant viewpoints and mentally reconstruct the spatial layouts from those viewpoints. But can Large Vision-Language Models (LVLMs) proactively think in the same way? We term this ability Active Spatial Mentalization (ASM), an intrinsic component of visual intelligence that remains substantially underdeveloped in current LVLMs. To bridge this gap, we introduce SpatialASM, a scalable framework to internalize ASM into LVLMs through training-time spatial simulation. SpatialASM employs an allocentric novel-view generator to ground hypothetical viewpoints in visual evidence and produces two complementary forms of supervision: i) explicit ASM trajectories that teach LVLMs when and how to adaptively invoke view planning and imagination during spatial reasoning, and ii) automatically-constructed perspective-taking tasks that further strengthens viewpoint-conditioned scene imagination. On seven benchmarks spanning relatively perception-oriented spatial understanding to more challenging tasks requiring multi-image, cross-view and viewpoint-transformation reasoning, SpatialASM yields performance gain on LVLMs of four LVLM backbones in spatial reasoning while retaining their original general vision capabilities. The experimental results demonstrate that our approach improves average accuracy across the seven spatial benchmarks. And the synthesis of ASM trajectories provides a scalable pathway to alleviate the scarcity of spatial Chain-of-Thought (CoT) supervision for eliciting active viewpoint exploration and mental scene simulation.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-12"
+    "publication_date": "2026-10-13"
   }
 ]
