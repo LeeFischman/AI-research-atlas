@@ -10,7 +10,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-13"
+    "publication_date": "2026-10-14"
   },
   {
     "id": "2606.05405v3",
@@ -23,7 +23,7 @@
     "ss_citation_count": 25,
     "ss_influential_citations": 1,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-13"
+    "publication_date": "2026-10-14"
   },
   {
     "id": "2610.02626v2",
@@ -36,7 +36,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-13"
+    "publication_date": "2026-10-14"
   },
   {
     "id": "2610.13057v1",
@@ -49,7 +49,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-13"
+    "publication_date": "2026-10-14"
   },
   {
     "id": "2605.11928v2",
@@ -62,7 +62,7 @@
     "ss_citation_count": 6,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-13"
+    "publication_date": "2026-10-14"
   },
   {
     "id": "2610.03861v2",
@@ -75,7 +75,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-13"
+    "publication_date": "2026-10-14"
   },
   {
     "id": "2608.09524v2",
@@ -88,7 +88,7 @@
     "ss_citation_count": 1,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-13"
+    "publication_date": "2026-10-14"
   },
   {
     "id": "2609.01216v2",
@@ -101,7 +101,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-13"
+    "publication_date": "2026-10-14"
   },
   {
     "id": "2610.07766v3",
@@ -114,7 +114,7 @@
     "ss_citation_count": 1,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-10-13"
+    "publication_date": "2026-10-14"
   },
   {
     "id": "2610.12655v1",
@@ -127,7 +127,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-13"
+    "publication_date": "2026-10-14"
   },
   {
     "id": "2610.13002v1",
@@ -140,7 +140,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-10-13"
+    "publication_date": "2026-10-14"
   },
   {
     "id": "2610.12845v1",
@@ -153,7 +153,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-13"
+    "publication_date": "2026-10-14"
   },
   {
     "id": "2510.19788v4",
@@ -166,7 +166,7 @@
     "ss_citation_count": 6,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-10-13"
+    "publication_date": "2026-10-14"
   },
   {
     "id": "2606.03678v2",
@@ -179,7 +179,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-13"
+    "publication_date": "2026-10-14"
   },
   {
     "id": "2609.35545v2",
@@ -192,7 +192,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-13"
+    "publication_date": "2026-10-14"
   },
   {
     "id": "2610.13886v1",
@@ -200,12 +200,12 @@
     "url": "http://arxiv.org/pdf/2610.13886v1",
     "authors_list": [],
     "author_count": 8,
-    "ss_tldr": "",
+    "ss_tldr": "X-AgentRed is a self-evolving red-teaming framework that discovers harmful tool call paths through a graph of tool dependencies and expands and refines them using execution feedback, and enables self-improvement by diversifying paths that produce harm through tool substitution and refining preconditions at blocked steps in unsuccessful paths to enable further execution.",
     "abstract": "Personal agents increasingly connect to services across the web and applications by using tools. As the effects of their actions accumulate and interact across services, unintended or harmful outcomes can arise when agents fulfill benign user requests. Proactively identifying these compositional failures requires systematically exploring diverse cross-service paths. Existing red-teaming methods often simply prompt LLMs to identify potentially harmful paths from task and environment descriptions or decompose harmful objectives specified by humans or LLMs into seemingly benign action combinations. However, generation is biased toward patterns learned during training, potentially favoring familiar tool combinations and leaving novel cross-service interactions underexplored. To address this, we propose X-AgentRed, a self-evolving red-teaming framework that discovers harmful tool call paths through a graph of tool dependencies and expands and refines them using execution feedback. By analyzing each tool's effects, potential harms, and preconditions for execution, the red-teaming agent constructs a directed graph that captures how one tool's effects can satisfy another's execution preconditions. Recipes sampled from this graph are instantiated as realistic scenarios in which agents can produce harmful outcomes. Execution feedback enables self-improvement by diversifying paths that produce harm through tool substitution and refining preconditions at blocked steps in unsuccessful paths to enable further execution. Across four frontier agentic models, X-AgentRed achieves $1.77\\times$ the harmful path rate of STAC and explores a more diverse set of tools, yielding $2.99\\times$ the tool coverage on average.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Enhanced",
-    "publication_date": "2026-10-13"
+    "publication_date": "2026-10-14"
   },
   {
     "id": "2610.12659v1",
@@ -218,7 +218,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-13"
+    "publication_date": "2026-10-14"
   },
   {
     "id": "2610.13194v1",
@@ -231,7 +231,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-13"
+    "publication_date": "2026-10-14"
   },
   {
     "id": "2610.13330v1",
@@ -244,7 +244,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-13"
+    "publication_date": "2026-10-14"
   },
   {
     "id": "2610.13832v1",
@@ -257,6 +257,6 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-13"
+    "publication_date": "2026-10-14"
   }
 ]

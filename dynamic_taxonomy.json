@@ -1,24 +1,27 @@
 {
-  "next_id": 229,
+  "next_id": 230,
   "groups": {
     "226": {
       "name": "LLM Agent Frameworks & Architectures",
       "created": "2026-10-06",
-      "last_seen": "2026-10-07",
+      "last_seen": "2026-10-14",
       "confidence_history": [
+        1.0,
         1.0,
         1.0
       ],
       "paper_count_history": [
         1,
-        1
+        1,
+        2
       ]
     },
     "227": {
       "name": "LLM Agent Skill Management & Safety",
       "created": "2026-10-06",
-      "last_seen": "2026-10-08",
+      "last_seen": "2026-10-14",
       "confidence_history": [
+        1.0,
         1.0,
         1.0,
         1.0
@@ -26,13 +29,25 @@
       "paper_count_history": [
         2,
         1,
-        2
+        2,
+        1
       ]
     },
     "228": {
       "name": "Agentic Code Generation & Evaluation",
       "created": "2026-10-12",
       "last_seen": "2026-10-12",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "229": {
+      "name": "LLM-based Simulation & Tutoring",
+      "created": "2026-10-14",
+      "last_seen": "2026-10-14",
       "confidence_history": [
         1.0
       ],
