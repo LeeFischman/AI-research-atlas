@@ -10,7 +10,7 @@
     "ss_citation_count": 5,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-19"
+    "publication_date": "2026-10-20"
   },
   {
     "id": "2610.22568v1",
@@ -23,7 +23,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Enhanced",
-    "publication_date": "2026-10-19"
+    "publication_date": "2026-10-20"
   },
   {
     "id": "2606.13535v5",
@@ -33,10 +33,10 @@
     "author_count": 5,
     "ss_tldr": "An automated workflow based on Large Language Models, referred to as AgentRivet, extracts the physics analysis information from published papers and writes the missing Rivet routines, with intermediate code- and physics- reviews as part of an autonomous quality control.",
     "abstract": "Particle physics collider experiments provide Rivet routines as part of the analysis preservation strategy for model-independent measurements. Rivet is a C++ toolkit that allow new theoretical models to be compared to the measurements, thus aiding the development and tuning of Monte Carlo event generators as well as searches for physics beyond the Standard Model. However, analysis coverage is known to be incomplete, with only 39% of measurements having documented and publicly available Rivet routines. In this article, we design and implement an automated workflow based on Large Language Models with the goal of providing the missing routines. This multi-step workflow, referred to as AgentRivet, extracts the physics analysis information from published papers and writes the missing Rivet routines, with intermediate code- and physics- reviews as part of an autonomous quality control. We report the results obtained using commercial Large Language Models, provided by OpenAI, Anthropic, and Google, for two recent measurements from the ATLAS and CMS experiments. We find that AgentRivet produces competent Rivet routines with few syntax errors. The physics fidelity of the routines is reasonable and follows the explanations given in the relevant publications. Nevertheless, physics-implementation issues do arise and are investigated using the artefacts produced by AgentRivet. The majority of physics implementation issues arise from subtle-but-ambiguous definitions in the given publication, although some models struggle to implement complex observables even when clear definitions are given.",
-    "ss_citation_count": 8,
+    "ss_citation_count": 9,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-19"
+    "publication_date": "2026-10-20"
   },
   {
     "id": "2605.00940v2",
@@ -49,7 +49,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-19"
+    "publication_date": "2026-10-20"
   },
   {
     "id": "2606.31148v3",
@@ -62,7 +62,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-10-19"
+    "publication_date": "2026-10-20"
   },
   {
     "id": "2608.05587v2",
@@ -75,20 +75,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-19"
-  },
-  {
-    "id": "2610.22928v1",
-    "title": "Multiple Turns, Short Horizons: Measuring Effective-Horizon Compression in Jailbreaks",
-    "url": "http://arxiv.org/pdf/2610.22928v1",
-    "authors_list": [],
-    "author_count": 3,
-    "ss_tldr": "This work studies the effective horizon by removing early attacker queries and running the remaining queries again in a new conversation while regenerating the victim's responses, finding that roughly half of the original query sequence is sufficient on average to recover the same attack progress.",
-    "abstract": "Multi-turn jailbreaks use feedback from a victim large language model to adapt their queries over several turns. However, once an effective trajectory has been found, it is unclear how much of the earlier query history is still needed. In this work, we study this by removing early attacker queries and running the remaining queries again in a new conversation while regenerating the victim's responses. We define the effective horizon as the shortest remaining query sequence that recovers the same attack progress. Empirically, we find that roughly half of the original query sequence is sufficient on average to recover the same attack progress. We call this phenomenon effective-horizon compression. We show that this shorter history can recover the best point reached during an unsuccessful attack and provide a better starting point for continuing the attack. It also helps identify which earlier queries should receive less learning signal during attacker training, and downweighting those queries improves performance. We further find that short reward-propagation windows preserve calibrated defense performance close to full-trajectory returns. These results show that multi-turn attacks can contain more queries than are needed to recover the progress reached later in the interaction.",
-    "ss_citation_count": 0,
-    "ss_influential_citations": 0,
-    "prominence_tier": "Elite",
-    "publication_date": "2026-10-19"
+    "publication_date": "2026-10-20"
   },
   {
     "id": "2610.23141v1",
@@ -101,7 +88,20 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-19"
+    "publication_date": "2026-10-20"
+  },
+  {
+    "id": "2610.22928v1",
+    "title": "Multiple Turns, Short Horizons: Measuring Effective-Horizon Compression in Jailbreaks",
+    "url": "http://arxiv.org/pdf/2610.22928v1",
+    "authors_list": [],
+    "author_count": 3,
+    "ss_tldr": "This work studies the effective horizon by removing early attacker queries and running the remaining queries again in a new conversation while regenerating the victim's responses, finding that roughly half of the original query sequence is sufficient on average to recover the same attack progress.",
+    "abstract": "Multi-turn jailbreaks use feedback from a victim large language model to adapt their queries over several turns. However, once an effective trajectory has been found, it is unclear how much of the earlier query history is still needed. In this work, we study this by removing early attacker queries and running the remaining queries again in a new conversation while regenerating the victim's responses. We define the effective horizon as the shortest remaining query sequence that recovers the same attack progress. Empirically, we find that roughly half of the original query sequence is sufficient on average to recover the same attack progress. We call this phenomenon effective-horizon compression. We show that this shorter history can recover the best point reached during an unsuccessful attack and provide a better starting point for continuing the attack. It also helps identify which earlier queries should receive less learning signal during attacker training, and downweighting those queries improves performance. We further find that short reward-propagation windows preserve calibrated defense performance close to full-trajectory returns. These results show that multi-turn attacks can contain more queries than are needed to recover the progress reached later in the interaction.",
+    "ss_citation_count": 0,
+    "ss_influential_citations": 0,
+    "prominence_tier": "Elite",
+    "publication_date": "2026-10-20"
   },
   {
     "id": "2610.23290v1",
@@ -109,12 +109,12 @@
     "url": "http://arxiv.org/pdf/2610.23290v1",
     "authors_list": [],
     "author_count": 7,
-    "ss_tldr": "",
+    "ss_tldr": "CoTA++ is proposed, a training-free, plug-and-play framework that counteracts each disruption where it originates, making approximate caching reliable for dMLLMs.",
     "abstract": "Diffusion-based multimodal large language models (dMLLMs) decode by iterative denoising with bidirectional attention, which precludes the standard autoregressive key--value cache. Practical deployments therefore rely on approximate caching that reuses intermediate states across denoising steps. Such caching, however, often makes a response repeat one token at adjacent positions in a run that breaks the sentence, a failure we term the \\emph{Repeat Curse}. Tracing the context-token information flow reveals three disruptions. Within a step, caching disperses the attention that anchors a position on nearby context tokens. Across steps, similarity-based refresh is not staleness-aware, so some positions are decoded against stale key--value states. Across layers, the deep-layer entropy of the context fails to converge where repetition arises. We accordingly propose CoTA++, a training-free, plug-and-play framework that counteracts each disruption where it originates: Context-Token Attention Re-anchoring re-forms the attention routing against the current context, Decode-Aware Refresh reserves part of the cache's refresh budget for the positions about to be committed, and Context-Token Entropy-Guided Voting discounts the confidence of a position by the deep-layer entropy of its context, which reorders the unmasking. The three components act at non-overlapping stages of a decoding step and compose freely with existing dMLLMs and caches. Across three dMLLMs and two caching backends, CoTA++ reduces the sample repetition rate of long responses from up to 99.6\\% to at most 17.0\\%, recovers most of the accuracy lost to caching on nine benchmarks, and keeps the speedup of caching at under 15\\% overhead, making approximate caching reliable for dMLLMs.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-19"
+    "publication_date": "2026-10-20"
   },
   {
     "id": "2610.23826v1",
@@ -122,12 +122,12 @@
     "url": "http://arxiv.org/pdf/2610.23826v1",
     "authors_list": [],
     "author_count": 7,
-    "ss_tldr": "",
+    "ss_tldr": "This work introduces the self-building laboratory (SBL), which designs, configures, and operates its own laboratory setup given a high-level scientific goal, and demonstrates the system working across different robots and setups, scaling from a single workstation to laboratories with several robots working together.",
     "abstract": "Self-driving laboratories (SDLs) accelerate scientific discovery by automating experimental execution and optimization. AI agents can increasingly propose new experiments, but existing SDLs can only run the procedures they were built for. Adapting them to a new experiment still takes extensive manual engineering, which makes laboratory flexibility the bottleneck for scaling discovery. We introduce the self-building laboratory (SBL), which designs, configures, and operates its own laboratory setup given a high-level scientific goal. SBL starts from whatever already exists, from an empty room to a working SDL, and builds the missing capabilities: the lab layout, its digital twin, robot skills, and experimental workflows. We demonstrate the system working across different robots and setups, scaling from a single workstation to laboratories with several robots working together. We validate SBL's end-to-end capabilities through a real-world quantum-dot synthesis experiment. By shifting the role of human researchers from manually configuring and programming device automation to specifying scientific objectives, SBL makes scientific automation more accessible, flexible, and scalable. Project website: https://self-building-labs.github.io/",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-19"
+    "publication_date": "2026-10-20"
   },
   {
     "id": "2603.14360v3",
@@ -140,7 +140,7 @@
     "ss_citation_count": 8,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-19"
+    "publication_date": "2026-10-20"
   },
   {
     "id": "2603.27727v2",
@@ -153,7 +153,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-19"
+    "publication_date": "2026-10-20"
   },
   {
     "id": "2610.23194v1",
@@ -161,12 +161,12 @@
     "url": "http://arxiv.org/pdf/2610.23194v1",
     "authors_list": [],
     "author_count": 13,
-    "ss_tldr": "",
+    "ss_tldr": "The introduction of OfficeTown, a generative simulation framework for professional organizations in which tasks and their context arise from continuing organizational work, highlights the value of organizational simulation in generating work-grounded data and environments for the continued development of generalist agents.",
     "abstract": "AI agents increasingly use files and software tools to produce professional deliverables. Such work draws on materials, decisions, and feedback accumulated across assignments. We introduce OfficeTown, a generative simulation framework for professional organizations in which tasks and their context arise from continuing organizational work. From a natural-language description of an organization's purpose and activities, OfficeTown initializes an organization whose members coordinate work, delegate bounded assignments to assistant agents, and review their deliverables. Artifacts, decisions, and unresolved matters persist and shape subsequent work, while responsibilities and permissions determine what each member can see and do. We curate work requests, their context, and review feedback into executable resources for evaluation and learning. We construct OfficeTown Bench with 406 tasks and 4,836 evaluation criteria from 23 simulated organizations across eight professional domains, incorporating domain-expert feedback. Frontier-model evaluations reveal substantial remaining headroom. Supervised fine-tuning and on-policy distillation on OfficeTown data substantially improve Qwen3.5-9B on external professional-work benchmarks, including GDPval. Supplementary evaluations show that the principal--assistant harness achieves higher scores than the single- and multi-agent baselines tested. These results highlight the value of organizational simulation in generating work-grounded data and environments for the continued development of generalist agents.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-19"
+    "publication_date": "2026-10-20"
   },
   {
     "id": "2603.17372v2",
@@ -179,7 +179,7 @@
     "ss_citation_count": 6,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-10-19"
+    "publication_date": "2026-10-20"
   },
   {
     "id": "2602.07891v2",
@@ -192,7 +192,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-19"
+    "publication_date": "2026-10-20"
   },
   {
     "id": "2604.20012v2",
@@ -205,7 +205,7 @@
     "ss_citation_count": 3,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-19"
+    "publication_date": "2026-10-20"
   },
   {
     "id": "2306.02002v2",
@@ -218,7 +218,7 @@
     "ss_citation_count": 1,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-19"
+    "publication_date": "2026-10-20"
   },
   {
     "id": "2610.22423v1",
@@ -231,7 +231,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-19"
+    "publication_date": "2026-10-20"
   },
   {
     "id": "2610.23104v1",
@@ -239,12 +239,12 @@
     "url": "http://arxiv.org/pdf/2610.23104v1",
     "authors_list": [],
     "author_count": 6,
-    "ss_tldr": "",
+    "ss_tldr": "This work introduces WebCoder, a general frontend development agent trained with artifact-grounded agentic reinforcement learning and builds Webdev-World, an executable environment that integrates code editing, application execution, browser inspection, and on-demand skills while preserving project state across interactions.",
     "abstract": "Real-world frontend development requires agents to compose reproduction, generation, modification, and repair over an evolving application state. Learning a general policy for this process requires translating heterogeneous execution feedback into task-aligned rewards and effective credit assignment across long sequences of interdependent actions. We introduce WebCoder, a general frontend development agent trained with artifact-grounded agentic reinforcement learning. Our key idea is to assess diverse development activities through their effects on a shared executable artifact and its satisfaction of task requirements. We build Webdev-World, an executable environment that integrates code editing, application execution, browser inspection, and on-demand skills while preserving project state across interactions. An independent verifier evaluates the final application against task requirements to provide terminal rewards, while changes in intermediate artifact progress redistribute the resulting rollout advantage across development segments. Context compaction and message-tree sample construction support training on trajectories beyond a single context window while avoiding repeated loss computation on shared generated history. We further introduce Webdev-Bench to evaluate composed development requirements within a single project. On Webdev-Bench, WebCoder-27B raises requirement satisfaction from 64.8 for its Qwen3.8-27B base model to 72.8, exceeding Claude-Opus-4.8 (65.1) and GPT-5.4 (59.6); on Vision2Web, it improves the average visual and functional score from 41.1 to 62.4, on par with Claude-Opus-4.8. Ablation studies confirm the contributions of artifact-grounded credit assignment and long-horizon training.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-19"
+    "publication_date": "2026-10-20"
   },
   {
     "id": "2610.23306v1",
@@ -252,11 +252,11 @@
     "url": "http://arxiv.org/pdf/2610.23306v1",
     "authors_list": [],
     "author_count": 9,
-    "ss_tldr": "",
+    "ss_tldr": "Inspired by contrastive learning's use of relationships between instances, SimOPD uses paired memory banks of student-generated responses to extract supervision from the teacher's internal representations as similarity distributions, which improves the overall average over the strongest baselines.",
     "abstract": "A key challenge in on-policy distillation (OPD) is extracting effective supervision from teacher knowledge. Supervision from token probabilities may underutilize internal knowledge, while direct hidden-state matching forces the student to shift to the teacher's feature space and complicates cross-architecture transfer. Inspired by contrastive learning's use of relationships between instances, we propose \\textbf{SimOPD} to transfer teacher internal knowledge through response similarities. Specifically, SimOPD uses paired memory banks of student-generated responses to extract supervision from the teacher's internal representations as similarity distributions. The student then matches these distributions within its own representation space, retaining representational freedom and removing the need for cross-model projection. Extensive experiments show that SimOPD improves the overall average over the strongest baselines by up to 2.6 and 3.1 percentage points in same- and cross-architecture settings.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-10-19"
+    "publication_date": "2026-10-20"
   }
 ]
