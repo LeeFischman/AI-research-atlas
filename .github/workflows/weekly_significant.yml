@@ -99,21 +99,18 @@ jobs:
           fi
 
       # ════════════════════════════════════════════════════════════════════
-      # WEEKLY FULL PIPELINE RUN (Gemini grouping)
+      # WEEKLY FULL PIPELINE RUN (Claude Haiku grouping)
       #
       # Runs immediately after the significant papers scan so the atlas
-      # reflects the updated pool. Two-pass Gemini 2.5 Flash-Lite grouping
+      # reflects the updated pool. Two-pass Claude Haiku 4.5 grouping
       # runs here on the refreshed pool.
       #
       # NOTE: SKIP_HAIKU in daily_update.yml is currently inert — nothing in
       # the pipeline reads it — so the daily run ALSO performs full grouping.
-      # Both runs now use Gemini 2.5 Flash-Lite. To gate grouping to weekly
-      # only, a SKIP_HAIKU check would have to be added to update_map_v3.py.
       # ════════════════════════════════════════════════════════════════════
       - name: Run Weekly Atlas Pipeline
         env:
-          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
-          GEMINI_TARGET_RPM: "8"   # free-tier pacing: 8 req/min (20% under the 10 RPM cap); set 6 for more margin, 0 to disable on paid
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
           OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
           SEMANTIC_SCHOLAR_API_KEY: ${{ secrets.SEMANTIC_SCHOLAR_API_KEY }}
