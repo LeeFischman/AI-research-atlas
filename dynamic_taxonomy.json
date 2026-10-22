@@ -1,5 +1,5 @@
 {
-  "next_id": 231,
+  "next_id": 232,
   "groups": {
     "226": {
       "name": "LLM Agent Frameworks & Architectures",
@@ -61,6 +61,17 @@
       "name": "LLM Uncertainty Quantification & Calibration",
       "created": "2026-10-20",
       "last_seen": "2026-10-20",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "231": {
+      "name": "Multimodal Reinforcement Learning",
+      "created": "2026-10-22",
+      "last_seen": "2026-10-22",
       "confidence_history": [
         1.0
       ],
