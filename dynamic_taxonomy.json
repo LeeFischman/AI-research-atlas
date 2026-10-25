@@ -1,5 +1,5 @@
 {
-  "next_id": 232,
+  "next_id": 233,
   "groups": {
     "226": {
       "name": "LLM Agent Frameworks & Architectures",
@@ -74,6 +74,17 @@
       "name": "Multimodal Reinforcement Learning",
       "created": "2026-10-22",
       "last_seen": "2026-10-22",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "232": {
+      "name": "LLM Reasoning & Generalization Analysis",
+      "created": "2026-10-25",
+      "last_seen": "2026-10-25",
       "confidence_history": [
         1.0
       ],
