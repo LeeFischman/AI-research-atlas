@@ -37,17 +37,6 @@
         1
       ]
     },
-    "228": {
-      "name": "Agentic Code Generation & Evaluation",
-      "created": "2026-10-12",
-      "last_seen": "2026-10-12",
-      "confidence_history": [
-        1.0
-      ],
-      "paper_count_history": [
-        1
-      ]
-    },
     "229": {
       "name": "LLM-based Simulation & Tutoring",
       "created": "2026-10-14",
