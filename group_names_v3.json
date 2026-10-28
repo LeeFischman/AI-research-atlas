@@ -11,6 +11,9 @@
   "9": "Speech & Audio Processing",
   "10": "Graph Learning & Networks",
   "11": "Data, Benchmarks & Evaluation",
-  "12": "Human-AI Interaction",
-  "13": "Planning & Search"
+  "230": "LLM Uncertainty Quantification & Calibration",
+  "13": "Planning & Search",
+  "234": "Scientific Discovery Agents",
+  "233": "AI Agent Evaluation & Reliability",
+  "12": "Human-AI Interaction"
 }

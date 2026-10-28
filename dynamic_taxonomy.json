@@ -1,5 +1,5 @@
 {
-  "next_id": 233,
+  "next_id": 235,
   "groups": {
     "226": {
       "name": "LLM Agent Frameworks & Architectures",
@@ -37,25 +37,16 @@
         1
       ]
     },
-    "229": {
-      "name": "LLM-based Simulation & Tutoring",
-      "created": "2026-10-14",
-      "last_seen": "2026-10-14",
-      "confidence_history": [
-        1.0
-      ],
-      "paper_count_history": [
-        1
-      ]
-    },
     "230": {
       "name": "LLM Uncertainty Quantification & Calibration",
       "created": "2026-10-20",
-      "last_seen": "2026-10-20",
+      "last_seen": "2026-10-28",
       "confidence_history": [
+        1.0,
         1.0
       ],
       "paper_count_history": [
+        1,
         1
       ]
     },
@@ -79,6 +70,28 @@
       ],
       "paper_count_history": [
         1
+      ]
+    },
+    "234": {
+      "name": "Scientific Discovery Agents",
+      "created": "2026-10-28",
+      "last_seen": "2026-10-28",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        1
+      ]
+    },
+    "233": {
+      "name": "AI Agent Evaluation & Reliability",
+      "created": "2026-10-28",
+      "last_seen": "2026-10-28",
+      "confidence_history": [
+        1.0
+      ],
+      "paper_count_history": [
+        2
       ]
     }
   }
