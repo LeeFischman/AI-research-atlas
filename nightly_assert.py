@@ -56,6 +56,12 @@ GROUP_COUNT_MAX            = 60
 GROUP_COUNT_MIN_WARN       = 3     # fewer than this is suspicious
 DOMINANT_GROUP_WARN_PCT    = 0.60  # one group owning > 60% of papers is suspicious
 DOMINANT_GROUP_FAIL_PCT    = 0.80  # one group owning > 80% is almost certainly broken
+# The Oct 2026 collapse put 98% of papers in 3 groups while no single group
+# passed 50%, so the single-group check above never fired. cs.AI genuinely
+# spreads across many of the 14 stable buckets; three of them holding most of
+# the map means grouping failed, not that the field changed overnight.
+TOP3_GROUPS_FAIL_PCT       = 0.85
+TOP3_GROUPS_WARN_PCT       = 0.75
 
 SIGNIFICANT_POOL_SIZE      = 75
 SIGNIFICANT_POOL_MIN       = 10    # below this something went badly wrong (FAIL)
@@ -361,6 +367,17 @@ def check_database(c: Checker, now: datetime) -> pd.DataFrame | None:
                             f"unusually dominant (>{DOMINANT_GROUP_WARN_PCT:.0%}).")
             else:
                 c.ok(sec, f"Group size distribution OK (largest: {max_frac:.1%}).")
+
+            top3_frac = float(group_fracs.iloc[:3].sum())
+            top3_ids  = [int(g) for g in group_fracs.index[:3]]
+            if n_groups > 3 and top3_frac > TOP3_GROUPS_FAIL_PCT:
+                c.fail(sec, f"Top 3 groups {top3_ids} hold {top3_frac:.1%} of papers "
+                            f"(>{TOP3_GROUPS_FAIL_PCT:.0%}) — grouping has collapsed.")
+            elif n_groups > 3 and top3_frac > TOP3_GROUPS_WARN_PCT:
+                c.warn(sec, f"Top 3 groups {top3_ids} hold {top3_frac:.1%} of papers "
+                            f"(>{TOP3_GROUPS_WARN_PCT:.0%}) — unusually concentrated.")
+            else:
+                c.ok(sec, f"Top 3 groups hold {top3_frac:.1%} of papers.")
 
     # ── Projection coordinates populated ─────────────────────────────────────
     for col in ("projection_v3_x", "projection_v3_y"):

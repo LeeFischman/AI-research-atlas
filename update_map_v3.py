@@ -4,17 +4,17 @@
 # AI Research Atlas — v3 pipeline.
 #
 # Key difference from update_map.py (v1):
-#   v1: HDBSCAN groups papers by SPECTER2 geometry, Gemini labels each cluster.
-#   v2: Gemini groups papers by research meaning, geometry follows from those groups.
+#   v1: HDBSCAN groups papers by SPECTER2 geometry, Haiku labels each cluster.
+#   v2: Haiku groups papers by research meaning, geometry follows from those groups.
 #   v3: Adds secondary_tags (multi-label) and end-of-run dynamic-group reconciliation.
 #
 # Pipeline (4 stages + build)
 # ──────────────────────────────────────────────
 # 1. FETCH       arXiv → new papers
 # 2. EMBED       SPECTER2 incremental embed + UMAP → projection_x/y for direction vectors
-# 3. GROUP       Single Gemini call → group_id_v3 + group_name per paper (12-18 groups)
-#                Gemini names the groups as it forms them; no second labeling call needed.
-#                If Gemini returns > GROUP_COUNT_MAX groups, excess groups are merged
+# 3. GROUP       Single Haiku call → group_id_v3 + group_name per paper (12-18 groups)
+#                Haiku names the groups as it forms them; no second labeling call needed.
+#                If Haiku returns > GROUP_COUNT_MAX groups, excess groups are merged
 #                by repeatedly absorbing the closest pair (SPECTER2 distance).
 #                Returns secondary_tags: 0-2 additional groups per paper (for Grid View).
 #                End-of-run reconciliation merges near-duplicate dynamic groups.
@@ -26,7 +26,7 @@
 # 5. BUILD       embedding-atlas CLI + deploy
 #
 # Projection columns written (coexist with v1 columns in database.parquet):
-#   group_id_v3     — Gemini group assignment (int, post-merge)
+#   group_id_v3     — Haiku group assignment (int, post-merge)
 #   projection_v3_x — v3 layout x
 #   projection_v3_y — v3 layout y
 #   secondary_tags  — list of 0-2 additional group names per paper (Grid View only)
@@ -37,7 +37,7 @@
 #             group_names_v3.json saved from a previous normal run.
 #
 # Normal run:
-#   GOOGLE_API_KEY=... python update_map_v3.py
+#   ANTHROPIC_API_KEY=... python update_map_v3.py
 # ──────────────────────────────────────────────────────────────────────────────
 
 import json
@@ -45,6 +45,7 @@ import os
 import random
 import re
 import time
+from collections import Counter
 from datetime import datetime, timedelta, timezone
 from math import sqrt
 
@@ -84,7 +85,7 @@ from atlas_utils import (
 # ══════════════════════════════════════════════════════════════════════════════
 
 # ── Offline mode ─────────────────────────────────────────────────────────────
-# When True: skip arXiv fetch, SPECTER2 embedding, and Gemini API calls entirely.
+# When True: skip arXiv fetch, SPECTER2 embedding, and Haiku API calls entirely.
 # Re-runs MDS layout, scatter, and Atlas build using data already in the parquet.
 # Set via env var:  OFFLINE_MODE=true python update_map_v2.py
 OFFLINE_MODE = os.environ.get("OFFLINE_MODE", "false").strip().lower() == "true"
@@ -105,11 +106,11 @@ BACKFILL_HINDICES = os.environ.get("BACKFILL_HINDICES", "false").strip().lower()
 # Set via env var:  OPENALEX_OFFLINE_MODE=true python update_map_v2.py
 OPENALEX_OFFLINE_MODE = os.environ.get("OPENALEX_OFFLINE_MODE", "false").strip().lower() == "true"
 
-# Cache file written after every successful Gemini grouping call.
+# Cache file written after every successful Haiku grouping call.
 # Loaded automatically in offline mode.
 GROUP_NAMES_CACHE = "group_names_v3.json"
 
-# ── Gemini grouping — two-pass + persistent taxonomy ─────────────────────────
+# ── Haiku grouping — two-pass + persistent taxonomy ─────────────────────────
 #
 # Pass 1: All papers assigned to stable categories (IDs 0-13) using titles.
 #         Papers that do not clearly fit a stable category are flagged uncertain.
@@ -128,31 +129,36 @@ GROUP_STABLE_COUNT = 14    # fixed; IDs 0-13
 # Hard cap on total groups (stable + dynamic).
 GROUP_COUNT_MAX = 60
 
-# Characters of each abstract sent to Gemini in pass 2.
+# Characters of each abstract sent to Haiku in pass 2.
 ABSTRACT_GROUPING_CHARS = 300
 
-# Pass 1 batching is now driven by REQUEST COUNT, not convenience.
-# Originally PASS1_BATCH_SIZE=100 was chosen purely to keep each output array
-# short and reliable — but at ~31 batches/day that alone can burn 31+ Gemini
-# requests before a single retry, and production quota for this project
-# (confirmed via AI Studio) is:
-#   20 requests/day, 10 requests/minute, 250K input tokens/minute
-# Request count is now the scarce resource (input/output token budgets are
-# not remotely close to binding at these paper volumes), so batches are sized
-# to hit a small TARGET count, not a small per-batch size. PASS1_MAX_BATCH_SIZE
-# is a safety ceiling so batches don't balloon uncontrollably on a heavy day.
-PASS1_TARGET_BATCHES  = 4
-PASS1_MAX_BATCH_SIZE  = 1200
+# Pass 1 batching — back to small, fixed-size batches (2026-10-30).
+# Under Gemini's 20 requests/day free tier, batches were inflated to ~1,000
+# papers each (4 batches/run). At that size Flash-Lite routinely degenerated
+# into long runs of one repeated group id, and because output was matched to
+# papers by LINE POSITION, whole batches (i.e. whole days, since the DB is
+# date-ordered) landed in a single group — the Oct 2026 "three giant
+# clusters" collapse. With Haiku there is no daily request cap, so batches
+# go back to a size where the model reliably attends to every title, and
+# every output line carries its paper's index (see _PASS1_SYSTEM).
+PASS1_BATCH_SIZE = int(os.environ.get("PASS1_BATCH_SIZE", "100"))
+# ~8 output tokens per line ("p57 12u+3"), so 100 papers ≈ 800 tokens.
+PASS1_MAX_TOKENS = max(4096, PASS1_BATCH_SIZE * 30)
 
-# Maximum papers Gemini may flag as uncertain in pass 1.
+# A batch whose answers are this concentrated in ONE group is treated as a
+# degenerate generation and retried (a 100-paper slice of cs.AI never
+# legitimately puts 85% of papers in one category). Only applied to batches
+# of at least PASS1_DEGENERATE_MIN_BATCH papers.
+PASS1_DEGENERATE_FRACTION  = 0.85
+PASS1_DEGENERATE_MIN_BATCH = 40
+
+# Maximum papers Haiku may flag as uncertain in pass 1.
 # Papers above this cap are force-assigned to their pass 1 stable best-guess.
 PASS1_UNCERTAIN_CAP = 400
 
-# Retry policy — shared across all Gemini calls in Stage 3.
-# Lowered from 5: at a 20/day request budget, 5 retries per call across
-# 4 Pass 1 batches + Pass 2 + Review + reconciliation could alone approach
-# or exceed the entire day's quota. See GEMINI_DAILY_REQUEST_BUDGET below
-# for the hard governor that backs this up regardless of this setting.
+# Retry policy — shared across all LLM calls in Stage 3.
+# The Anthropic SDK already retries transient 429/5xx/529 errors itself
+# (see HAIKU_SDK_MAX_RETRIES); this loop is mainly for bad generations.
 # Wait schedule for genuine overload (429/503): GROUPING_RETRY_BASE_WAIT × 2^(attempt-1) seconds.
 GROUPING_MAX_RETRIES     = 3
 GROUPING_RETRY_BASE_WAIT = 60   # seconds
@@ -162,15 +168,14 @@ GROUPING_RETRY_BASE_WAIT = 60   # seconds
 # exception. There's nothing to "back off" from here: the server answered
 # fine, the *content* was bad. Waiting doesn't help; a different temperature
 # sample (see _retry_temperature) does. Kept small and non-zero purely so
-# logs are readable and so back-to-back failures don't spam requests faster
-# than _gemini_pace's RPM throttle would otherwise allow anyway.
+# logs are readable and back-to-back failures don't hammer the API.
 PARSE_FAILURE_RETRY_WAIT = 5   # seconds
 
 # If a Pass 1 batch exhausts all retries (repetition-loop degeneration and/or
 # a real API outage), its papers are routed to Pass 2 as best-guess-uncertain
 # rather than aborting the entire run to HDBSCAN. Full HDBSCAN fallback is
 # only triggered if MORE than this fraction of batches fail — a signal of a
-# systemic problem (e.g. a sustained Gemini outage) rather than one unlucky
+# systemic problem (e.g. a sustained Haiku outage) rather than one unlucky
 # batch. At 31 batches/day, one bad batch (~3%) no longer costs every group
 # name for the whole run.
 PASS1_BATCH_FAILURE_FALLBACK_FRACTION = 0.5
@@ -245,7 +250,7 @@ LAYOUT_Y_SCALE     = 0.7   # compress y to fit landscape view (<1.0 = shorter)
 #
 # Ready for production (fresh papers + re-grouping):
 #   → Remove OFFLINE_MODE from the workflow YAML.
-#     First normal run re-embeds, calls Gemini, and commits updated
+#     First normal run re-embeds, calls Haiku, and commits updated
 #     group_names_v3.json to the repo for future offline runs.
 
 # ── Atlas CLI ────────────────────────────────────────────────────────────────
@@ -260,49 +265,25 @@ PROJ_Y_COL = "projection_v3_y"
 SIGNIFICANT_PATH = "significant.parquet"
 
 # ── Grouping model ────────────────────────────────────────────────────────────
-# Gemini 2.5 Flash-Lite (GA alias). Do NOT pin the -preview-09-2025 snapshot:
-# it is scheduled for discontinuation on 2026-07-09.
-GEMINI_MODEL = "gemini-2.5-flash-lite"
+# Reverted from Gemini 2.5 Flash-Lite to Anthropic Claude Haiku (2026-10-30).
+# Override with the HAIKU_MODEL env var if the model ID ever needs to change.
+HAIKU_MODEL = os.environ.get("HAIKU_MODEL", "claude-haiku-5-5").strip()
 
-# ── Free-tier request pacing ──────────────────────────────────────────────────
-# The Gemini free tier caps Flash-Lite at 10 requests/minute. We deliberately
-# target a slower rate so bursts AND retries (each retry is another
-# generate_content call = another request against quota) never trip a 429.
-# Default 8 RPM = one request every 7.5s, a built-in 20% margin under the cap.
-# Tune via env: lower GEMINI_TARGET_RPM for more cushion (6 ≈ a 40% margin,
-# costs only a few extra minutes overnight); set it to 0 to disable pacing
-# entirely on a paid tier where the RPM limit is far higher.
-GEMINI_TARGET_RPM = float(os.environ.get("GEMINI_TARGET_RPM", "8"))
-_GEMINI_MIN_INTERVAL = (60.0 / GEMINI_TARGET_RPM) if GEMINI_TARGET_RPM > 0 else 0.0
+# Transient API errors (429 rate limit, 5xx, 529 overloaded, connection
+# resets) are retried inside the Anthropic SDK with its own backoff before
+# _llm_call ever sees them.
+HAIKU_SDK_MAX_RETRIES = 4
 
-# ── Free-tier DAILY request budget ────────────────────────────────────────────
-# CORRECTION (2026-07): this project's live AI Studio quota for
-# gemini-2.5-flash-lite is 20 requests/DAY — not the ~1,500 RPD once assumed
-# here. Google cut free-tier daily quotas sharply in Dec 2025; this project
-# landed near the low end. RPM pacing above is necessary but not sufficient:
-# it prevents bursts within a minute, but does nothing to stop a run from
-# spending the whole day's budget on retries for one stuck batch, only to
-# 429 on every subsequent batch/pass for the rest of the run (confirmed in
-# production logs — batch 2's retries alone exhausted the day's quota, and
-# batch 3 onward 429'd on attempt 1).
-#
-# _gemini_call enforces this as a hard governor: every call (success or
-# failure) counts against GEMINI_DAILY_REQUEST_BUDGET, and the moment either
-# the local counter is exhausted OR Google returns a genuine
-# per-day RESOURCE_EXHAUSTED error, ALL further Gemini calls for the rest of
-# this run are skipped outright (no wasted retry, no wasted backoff sleep —
-# a daily quota does not refill on a per-minute timescale, so waiting
-# GROUPING_RETRY_BASE_WAIT seconds and trying again cannot help). Callers see
-# this the same way they see a real failure and route papers to best-guess.
-#
-# Budget defaults to 18, not 20 — a 2-request safety margin, since a
-# rejected-for-quota request may still count against the metric depending on
-# how Google enforces it, and because this same budget is shared across
-# Pass 1 + Pass 2 + Review + reconciliation in one run. Override via env if
-# AI Studio shows a different live number for this project.
-GEMINI_DAILY_REQUEST_BUDGET = int(os.environ.get("GEMINI_DAILY_REQUEST_BUDGET", "18"))
-_gemini_calls_made_today = 0
-_gemini_quota_exhausted  = False
+# ── Per-run request ceiling ───────────────────────────────────────────────────
+# Not a quota (Anthropic has no small daily cap) — a runaway guard so a bug
+# can't loop on the API. A full regroup of ~4,000 papers is ~40 Pass 1
+# batches + Pass 2 + Review + reconciliation, plus retries; 250 leaves room.
+# Once spent, _llm_call refuses further calls and callers degrade exactly as
+# they would on any other failure.
+LLM_MAX_REQUESTS_PER_RUN = int(os.environ.get("LLM_MAX_REQUESTS_PER_RUN", "250"))
+_llm_calls_made         = 0
+_llm_budget_exhausted   = False
+_llm_dropped_params: set[str] = set()   # optional params this model rejected
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -386,7 +367,7 @@ ID 0 — Language Models & Pretraining
   mark the paper uncertain."""
 
 
-# Canonical names for stable buckets — used to normalise Gemini's output.
+# Canonical names for stable buckets — used to normalise Haiku's output.
 _STABLE_BUCKET_NAMES: dict[int, str] = {
     0:  "Language Models & Pretraining",
     1:  "Computer Vision",
@@ -425,14 +406,15 @@ _PASS1_SYSTEM = (
     "contribution is agentic, applied, or not clearly core model research. "
     "Uncertain papers receive specialized dynamic-group review.\n"
     "- Prefer stable categories: only mark uncertain if genuinely ambiguous.\n\n"
+    "INPUT: each paper is given as 'p<k>: <title>', where p<k> is the paper's "
+    "label (the letter p followed by a number). The number in a label is NOT "
+    "a group id.\n\n"
     "OUTPUT FORMAT — respond with PLAIN TEXT ONLY. No JSON, no preamble, no "
     "markdown fences, no blank lines, no commentary before or after. Output "
-    "EXACTLY ONE LINE PER PAPER, in the SAME ORDER as the input list — line 1 "
-    "is paper 1, line 2 is paper 2, and so on (the line number IS the paper's "
-    "position; never write the position as a number on the line itself).\n\n"
-    "Each line has this exact shape and nothing else:\n"
-    "  <group_id>[u][+<secondary_id>[,<secondary_id2>]]\n"
-    "- <group_id>: REQUIRED, always first — the stable group id, 0-13.\n"
+    "EXACTLY ONE LINE PER PAPER, starting with that paper's label:\n"
+    "  p<k> <group_id>[u][+<secondary_id>[,<secondary_id2>]]\n"
+    "- p<k>: REQUIRED — copy the paper's label exactly as given.\n"
+    "- <group_id>: REQUIRED, after one space — the stable group id, 0-13.\n"
     "- 'u' (optional): append directly after the group_id, no space, ONLY if "
     "this paper is uncertain (you must still give your best group_id even when "
     "uncertain).\n"
@@ -440,12 +422,12 @@ _PASS1_SYSTEM = (
     "(comma-separated, no spaces) only when the paper clearly straddles a "
     "second stable category. Omit for most papers.\n\n"
     "Valid example lines:\n"
-    "  5\n"
-    "  3u\n"
-    "  7+2\n"
-    "  0u+4,9\n\n"
-    "Output exactly N lines (N = number of papers given), one per line, "
-    "nothing else — no headers, no numbering, no trailing text."
+    "  p0 5\n"
+    "  p1 3u\n"
+    "  p2 7+2\n"
+    "  p3 0u+4,9\n\n"
+    "Judge every paper on its own title. Answer every label exactly once, "
+    "nothing else — no headers and no trailing text."
 )
 
 _PASS2_SYSTEM = (
@@ -479,226 +461,158 @@ _PASS2_SYSTEM = (
 
 # ── Low-level API helper ──────────────────────────────────────────────────────
 
-# Timestamp (monotonic) of the last request start; module-global because the
-# pipeline is single-threaded and synchronous.
-_gemini_last_call_ts = 0.0
-
-
-def _gemini_pace() -> None:
-    """Block until at least _GEMINI_MIN_INTERVAL has elapsed since the previous
-    request *started*, so the effective request rate stays under the free-tier
-    RPM cap regardless of how fast the call loops fire. Spacing is measured
-    start-to-start (not by sleeping a fixed amount after each call), so variable
-    API latency cannot let two requests bunch inside the same minute. No-op when
-    GEMINI_TARGET_RPM<=0. Called at the top of every _gemini_call, so retries
-    are paced too."""
-    global _gemini_last_call_ts
-    if _GEMINI_MIN_INTERVAL <= 0:
-        return
-    now = time.monotonic()
-    wait = _GEMINI_MIN_INTERVAL - (now - _gemini_last_call_ts)
-    if wait > 0:
-        time.sleep(wait)
-        now = time.monotonic()
-    _gemini_last_call_ts = now
-
-
 def _retry_temperature(attempt: int) -> float:
-    """Temperature schedule for retry attempts.
+    """Nominal temperature per retry attempt — logged only.
 
-    attempt 1 stays at 0.0 for taxonomy stability on the common (successful)
-    path. If attempt 1 fails — whether from a genuine 429/503 overload or from
-    the model degenerating into a repetition loop — attempt 1's temperature=0.0
-    combined with Gemini's automatic implicit caching means a byte-identical
-    retry reproduces a byte-identical response, including a byte-identical
-    failure. (Confirmed in production: attempt 1 and attempt 5 of a failed
-    Pass 1 batch returned the exact same 7,151-char truncated/repeating JSON.)
-    Retries therefore escalate temperature so each retry is an actual new
-    sample rather than a guaranteed replay of the same output.
-
-    NOTE: temperature alone does not reliably prevent the repetition-loop
-    failure mode itself — confirmed in production on 2026-07-09, where a
-    Pass 1 batch degenerated into a run of repeated "1" tokens at
-    temperature=0.4, not just at 0.0. Temperature changes *which* sample is
-    drawn; it doesn't penalize the model for repeating a token it already
-    emitted. frequency_penalty/presence_penalty were tried next (2026-08-06)
-    but gemini-2.5-flash-lite rejects them outright with a 400
-    INVALID_ARGUMENT ("Penalty is not enabled for this model") — not a
-    softer no-op, a hard failure on every retry that used them. Removed.
-    finish_reason diagnostics from that same run confirmed the actual
-    proximate cause is MAX_TOKENS truncation, not a "model rambles forever"
-    problem — see the newline-delimited Pass 1 output format below, which
-    targets that directly by cutting per-paper token overhead.
+    The current Anthropic SDK (anthropic 2.x) has no `temperature` parameter
+    on messages.create, so nothing is sent; each call is already an
+    independent sample, which is what retries after a bad generation need.
+    Kept so the existing retry loops and their log lines stay unchanged.
     """
     if attempt <= 1:
         return 0.0
     return min(0.2 * (attempt - 1), 0.8)
 
 
-def _gemini_call(
+def make_grouping_client():
+    """Build the Anthropic client for Stage 3 and verify the model answers.
+
+    Reads ANTHROPIC_API_KEY. Transient errors (429, 5xx, 529 overloaded,
+    connection resets) are retried by the SDK itself with backoff.
+
+    A one-token preflight call runs first. A bad key, a retired or misspelled
+    HAIKU_MODEL, or a billing problem fails it immediately, and the run stops
+    here, before anything is regrouped or committed, instead of quietly
+    falling back to HDBSCAN and publishing a "Group N" map.
+    """
+    import anthropic
+
+    api_key = os.environ.get("ANTHROPIC_API_KEY", "").strip()
+    if not api_key:
+        raise RuntimeError(
+            "ANTHROPIC_API_KEY is not set. Add it to GitHub repo secrets "
+            "and expose it in the workflow YAML under env:."
+        )
+    client = anthropic.Anthropic(api_key=api_key,
+                                 max_retries=HAIKU_SDK_MAX_RETRIES,
+                                 timeout=300.0)
+
+    print(f"  Preflight: checking {HAIKU_MODEL} responds...")
+    raw, is_overload = _llm_call(client, "", "Reply with the single word OK.",
+                                 max_tokens=16)
+    if raw is None:
+        raise RuntimeError(
+            f"Preflight call to {HAIKU_MODEL} failed "
+            f"({'API overloaded/rate-limited' if is_overload else 'see API error above'}). "
+            f"Stopping before Stage 1 so nothing is overwritten. Check "
+            f"ANTHROPIC_API_KEY, account billing, and the HAIKU_MODEL id."
+        )
+    print(f"  Preflight OK ({HAIKU_MODEL} replied {raw[:20]!r}).")
+    return client
+
+
+def _llm_call(
     client, system: str, user: str, max_tokens: int,
     use_cache: bool = False, temperature: float = 0.0,
-    response_mime_type: str = "application/json",
 ) -> tuple[str | None, bool]:
-    """Single Gemini API call, governed by the daily request budget.
+    """Single Claude Haiku call (HAIKU_MODEL) via the Messages API.
 
     Returns (text, is_overload):
-      - success:                      (response_text, False)
-      - retry-worthy overload/limit:  (None, True)   — 429/503, quota not yet
-                                                         confirmed exhausted
-      - daily quota confirmed exhausted, or budget
-        already spent this run:       (None, True)   — check module-level
-                                                         `_gemini_quota_exhausted`
-                                                         to distinguish from a
-                                                         transient overload if
-                                                         a caller needs to skip
-                                                         its backoff sleep
-      - any other exception:          (None, False)
+      - success:                          (response_text, False)
+      - rate-limit / overload / outage
+        that outlasted the SDK's retries: (None, True)
+      - per-run request ceiling reached:  (None, True) and
+                                          `_llm_budget_exhausted` is set
+      - any other error:                  (None, False)
 
-    The is_overload flag lets callers use a fast retry for non-overload
-    failures (a bad/degenerate generation gets no benefit from waiting —
-    only from resampling at a different temperature/penalty) while still
-    backing off properly for real rate-limit/capacity errors. A caller that
-    gets text back but then fails to *parse* it (e.g. a repetition-loop
-    degeneration) should treat that as non-overload too — see call sites.
+    Callers that get text back but fail to *parse* it should treat that as a
+    non-overload failure and retry (see call sites).
 
-    DAILY BUDGET GOVERNOR: this project's live free-tier quota for
-    gemini-2.5-flash-lite is 20 requests/DAY (confirmed via AI Studio) — far
-    below what the RPM pacing alone protects against. Every call, success or
-    failure, counts against GEMINI_DAILY_REQUEST_BUDGET. Once the budget is
-    spent, or Google has returned a genuine per-day RESOURCE_EXHAUSTED error,
-    this function stops making API calls entirely for the rest of the run —
-    immediately, with no backoff sleep, since a daily quota does not refill
-    on a per-minute timescale and waiting cannot help. Callers should check
-    the module-level `_gemini_quota_exhausted` flag after a failed call to
-    decide whether to keep retrying at all.
+    `temperature` is accepted for call-site compatibility but not sent: the
+    anthropic 2.x SDK has no such parameter (see _retry_temperature).
+    `use_cache` only turns on the per-call request-count log line.
 
-    Model: GEMINI_MODEL (Gemini 2.5 Flash-Lite). Output is forced to JSON via
-    response_mime_type, so the pass-1/pass-2 parsers receive clean JSON with no
-    markdown fences or trailing prose (their defensive stripping becomes a
-    harmless no-op).
-
-    Implicit caching is automatic for Gemini 2.5 models: when consecutive calls
-    share a common prefix (the system prompt), Google applies a cached-token
-    discount with no code and no explicit cache object to manage. The use_cache
-    flag here only controls whether per-call cache metadata is logged so hits
-    can be verified. Keep the stable prompt in `system` (sent as
-    system_instruction — the cacheable prefix) and the per-batch papers in
-    `user`, so the prefix stays byte-identical across a run.
-
-    Note: thinking is disabled (budget 0) — Flash-Lite's default, set explicitly
-    so a future default change cannot silently add thinking-token cost. If a
-    given SDK/snapshot rejects thinking_budget=0, delete that one line; the
-    model is non-thinking by default regardless. temperature=0.0 and
-    temperature=0.0 is a deliberate default for run-to-run taxonomy
-    stability on the first attempt; callers should raise it on retries (see
-    _retry_temperature) so a retry is not a guaranteed replay of a prior
-    failure. response_mime_type defaults to JSON but Pass 1 overrides it to
-    "text/plain" — see _PASS1_SYSTEM for why (newline-delimited output cuts
-    per-paper token overhead and is truncation-tolerant in a way a single
-    global JSON array is not).
+    Extended thinking is disabled: this is high-volume classification, and
+    thinking tokens would eat into the small max_tokens budgets set per call.
     """
-    global _gemini_calls_made_today, _gemini_quota_exhausted
+    global _llm_calls_made, _llm_budget_exhausted
 
-    if _gemini_quota_exhausted:
-        print("    Daily Gemini quota already confirmed exhausted this run "
+    if _llm_budget_exhausted:
+        print("    LLM request ceiling already reached this run "
               "— skipping call (no API request made).")
         return None, True
 
-    if _gemini_calls_made_today >= GEMINI_DAILY_REQUEST_BUDGET:
-        print(f"    Daily Gemini request budget ({GEMINI_DAILY_REQUEST_BUDGET}) "
-              f"reached this run — skipping call to preserve remaining quota "
-              f"for other passes (no API request made).")
-        _gemini_quota_exhausted = True
+    if _llm_calls_made >= LLM_MAX_REQUESTS_PER_RUN:
+        print(f"    LLM request ceiling ({LLM_MAX_REQUESTS_PER_RUN}) reached "
+              f"this run — skipping call (no API request made). Raise "
+              f"LLM_MAX_REQUESTS_PER_RUN if this was a legitimate full run.")
+        _llm_budget_exhausted = True
         return None, True
 
-    from google.genai import types
+    import anthropic
 
-    config = types.GenerateContentConfig(
-        system_instruction=(system if system else None),
-        max_output_tokens=max_tokens,
-        temperature=temperature,
-        thinking_config=types.ThinkingConfig(thinking_budget=0),
-        response_mime_type=response_mime_type,
+    kwargs = dict(
+        model=HAIKU_MODEL,
+        max_tokens=max_tokens,
+        messages=[{"role": "user", "content": user}],
     )
+    if system:
+        kwargs["system"] = system
+    if "thinking" not in _llm_dropped_params:
+        kwargs["thinking"] = {"type": "disabled"}
 
-    _gemini_calls_made_today += 1
+    _llm_calls_made += 1
     try:
-        _gemini_pace()  # free-tier RPM throttle (covers retries too)
-        response = client.models.generate_content(
-            model=GEMINI_MODEL,
-            contents=user,
-            config=config,
-        )
+        try:
+            response = client.messages.create(**kwargs)
+        except anthropic.BadRequestError as e:
+            # Defensive: if this model rejects an optional parameter, drop it
+            # for the rest of the run instead of failing every call.
+            msg = str(e).lower()
+            optional = [k for k in ("thinking",) if k in kwargs and k in msg]
+            if not optional:
+                raise
+            print(f"    Model rejected {optional} — retrying without it for "
+                  f"the rest of this run: {e}")
+            for k in optional:
+                _llm_dropped_params.add(k)
+                kwargs.pop(k, None)
+            response = client.messages.create(**kwargs)
 
-        # ── Diagnostics: always logged, not just when use_cache. These exist
-        # to distinguish "the model genuinely finished but wrote garbage"
-        # from "the response was cut off mid-generation" from "Google
-        # blocked/filtered something" — three very different problems that
-        # looked identical from the outside before this was added (all three
-        # just produced text that failed to json.parse()). Added 2026-07-22
-        # after repeated repetition-loop failures whose root cause couldn't
-        # be confirmed from response text alone.
-        u = getattr(response, "usage_metadata", None)
-        prompt_tok    = getattr(u, "prompt_token_count", 0) or 0
-        cached_tok    = getattr(u, "cached_content_token_count", 0) or 0
-        output_tok    = getattr(u, "candidates_token_count", 0) or 0
-        thoughts_tok  = getattr(u, "thoughts_token_count", 0) or 0
+        usage       = getattr(response, "usage", None)
+        in_tok      = getattr(usage, "input_tokens", 0) or 0
+        out_tok     = getattr(usage, "output_tokens", 0) or 0
+        stop_reason = getattr(response, "stop_reason", None)
+        truncated   = stop_reason == "max_tokens"
 
-        candidates = getattr(response, "candidates", None) or []
-        finish_reason = getattr(candidates[0], "finish_reason", None) if candidates else None
-        safety_ratings = getattr(candidates[0], "safety_ratings", None) if candidates else None
-        flagged_safety = [
-            sr for sr in (safety_ratings or [])
-            if getattr(sr, "probability", None) not in (None, "NEGLIGIBLE", "LOW")
-        ]
-        prompt_feedback = getattr(response, "prompt_feedback", None)
-        block_reason = getattr(prompt_feedback, "block_reason", None)
-
-        hit_max_tokens = (str(finish_reason) == "MAX_TOKENS") or (
-            max_tokens > 0 and output_tok >= max_tokens
-        )
-
-        diag = (f"    [diag] finish_reason={finish_reason} "
-                f"output_tok={output_tok}/{max_tokens} "
-                f"prompt_tok={prompt_tok} cached_tok={cached_tok} "
-                f"thoughts_tok={thoughts_tok}")
-        if hit_max_tokens:
-            diag += "  ⚠ TRUNCATED (hit max_output_tokens)"
-        if block_reason:
-            diag += f"  ⚠ BLOCKED: {block_reason}"
-        if flagged_safety:
-            diag += f"  ⚠ SAFETY: {flagged_safety}"
+        diag = (f"    [diag] stop_reason={stop_reason} "
+                f"output_tok={out_tok}/{max_tokens} input_tok={in_tok}")
+        if truncated:
+            diag += "  ⚠ TRUNCATED (hit max_tokens)"
+        if stop_reason == "refusal":
+            diag += "  ⚠ REFUSAL"
         print(diag)
-
         if use_cache:
-            print(f"    [cache] prompt={prompt_tok} cached={cached_tok} "
-                  f"(request {_gemini_calls_made_today}/{GEMINI_DAILY_REQUEST_BUDGET} "
-                  f"of today's budget)")
+            print(f"    [requests] {_llm_calls_made}/{LLM_MAX_REQUESTS_PER_RUN} "
+                  f"used this run")
 
-        text = response.text
+        text = "".join(
+            getattr(block, "text", "") for block in (response.content or [])
+            if getattr(block, "type", None) == "text"
+        )
         return (text.strip() if text else None), False
+
     except Exception as e:
-        err_str = str(e)
+        status = getattr(e, "status_code", None)
         is_overload = (
-            any(s in err_str for s in ("429", "503", "RESOURCE_EXHAUSTED", "UNAVAILABLE"))
-            or "overload" in err_str.lower()
+            status in (429, 500, 502, 503, 504, 529)
+            or isinstance(e, (anthropic.APIConnectionError,
+                              anthropic.RateLimitError,
+                              anthropic.InternalServerError))
+            or "overload" in str(e).lower()
         )
-        # Distinguish a genuine PER-DAY quota exhaustion from a transient
-        # RPM/capacity 429 or 503: only the former means further retries or
-        # subsequent batches are guaranteed to fail too, since a daily quota
-        # doesn't refill within this run's lifetime.
-        is_daily_quota_error = (
-            "RESOURCE_EXHAUSTED" in err_str and "day" in err_str.lower()
-        )
-        if is_daily_quota_error:
-            _gemini_quota_exhausted = True
-            print(f"    Daily Gemini quota exhausted (confirmed by API, "
-                  f"{_gemini_calls_made_today} request(s) made this run) — "
-                  f"halting all further Gemini calls for the rest of this run: {e}")
-        else:
-            label = "API rate-limited / overloaded" if is_overload else "API error"
-            print(f"    {label}: {e}")
+        label = "API rate-limited / overloaded" if is_overload else "API error"
+        print(f"    {label} (status={status}, {type(e).__name__}): {e}")
         return None, is_overload
 
 
@@ -774,38 +688,46 @@ def _build_pass1_message(df: pd.DataFrame) -> str:
     n = len(df)
     lines = [
         f"Assign each of the following {n} AI research papers to a stable "
-        "category using the title alone. The ONLY valid group IDs are 0 through 13 — "
-        "do NOT use any other numbers as group IDs.\n"
-        "Respond with PLAIN TEXT — one line per paper, in the same order as the "
-        "list below, nothing else (no JSON, no preamble, no markdown):\n"
-        "  <group_id>[u][+<secondary_id>[,<secondary_id2>]]\n"
-        "Examples: '5'  '3u'  '7+2'  '0u+4,9'\n"
-        f"- Output exactly {n} lines. Line k corresponds to paper k in the list "
-        "below — do NOT write the paper's position anywhere in the line, only "
-        "the group_id (and optional 'u'/'+...' suffix).\n"
+        "category using the title alone. The ONLY valid group IDs are 0 through 13.\n"
+        "Respond with PLAIN TEXT — one line per paper, each starting with the "
+        "paper's label, nothing else (no JSON, no preamble, no markdown):\n"
+        "  p<k> <group_id>[u][+<secondary_id>[,<secondary_id2>]]\n"
+        "Examples: 'p0 5'  'p1 3u'  'p2 7+2'  'p3 0u+4,9'\n"
+        f"- Output exactly {n} lines, one for each label p0 to p{n-1}.\n"
         "- Every group_id MUST be an integer 0-13.\n"
         "- Append 'u' (no space) if the paper does not clearly fit any stable "
         "category, but still give your best group_id first.\n"
         "- Append '+id' or '+id,id2' only for the rare paper that clearly "
         "straddles a second stable category.\n"
+        "\nPAPERS:"
     ]
-    # No numeric prefixes — they confuse position with group ID
-    for _, row in df.iterrows():
-        lines.append(str(row['title']).strip())
+    # Labels use a 'p' prefix so the paper index can never be mistaken for a
+    # group id, and every answer line echoes it — so a dropped or repeated
+    # line can no longer shift every later paper into the wrong group.
+    for k, (_, row) in enumerate(df.iterrows()):
+        title = " ".join(str(row['title']).split())
+        lines.append(f"p{k}: {title}")
     return "\n".join(lines)
 
 
-def _find_repetition_onset(raw_text: str, min_run: int = 8) -> tuple[int, str, int] | None:
-    """Find the first run of >= min_run identical consecutive LINES in Pass 1's
-    newline-delimited output (one line per paper — see _PASS1_SYSTEM).
+_PASS1_LINE_RE = re.compile(
+    r"^\W*p\s*(\d{1,4})\s*[:=\-]?\s*(\d{1,2})\s*(u)?\s*"
+    r"(?:\+\s*(\d{1,2}(?:\s*,\s*\d{1,2})?))?\W*$",
+    re.IGNORECASE,
+)
 
-    Returns (onset_index, repeated_line, run_length) — onset_index is the
-    0-based line/paper position where the run begins, so callers can map it
-    directly back to the input paper at that index and check whether a
-    specific paper's title/content is triggering the degeneration, versus
-    this being a purely positional (context-length) failure. Returns None if
-    no run meeting the threshold is found (e.g. a truncation cut off before
-    a repeat pattern had room to establish itself).
+# Papers Pass 1 could not get an answer for (missing labels, failed batches)
+# and therefore defaulted to group 0. Reported at the end of Pass 1.
+_pass1_defaulted_total = 0
+
+
+def _find_repetition_onset(raw_text: str, min_run: int = 8) -> tuple[int, str, int] | None:
+    """Find the first run of >= min_run consecutive Pass 1 lines that give the
+    identical ANSWER (label prefix ignored — labels always differ).
+
+    Returns (onset_index, repeated_answer, run_length): onset_index is the
+    0-based line position where the run begins, so callers can map it back to
+    the input paper there. Returns None if no such run exists.
     """
     lines = [ln.strip() for ln in raw_text.strip().splitlines() if ln.strip()]
     if not lines:
@@ -813,10 +735,12 @@ def _find_repetition_onset(raw_text: str, min_run: int = 8) -> tuple[int, str, i
 
     run_val, run_start, run_len = None, 0, 0
     for i, ln in enumerate(lines):
-        if ln == run_val:
+        m = _PASS1_LINE_RE.match(ln)
+        val = (m.group(2) + (m.group(3) or "")) if m else ln
+        if val == run_val:
             run_len += 1
         else:
-            run_val, run_start, run_len = ln, i, 1
+            run_val, run_start, run_len = val, i, 1
         if run_len >= min_run:
             return run_start, run_val, run_len
     return None
@@ -824,76 +748,93 @@ def _find_repetition_onset(raw_text: str, min_run: int = 8) -> tuple[int, str, i
 
 def _parse_pass1_response(
     text: str, n_papers: int
-) -> tuple[dict[int, int], list[int]] | None:
-    """Parse pass 1 response — newline-delimited plain text, one line per paper.
+) -> tuple[dict[int, int], list[int], dict[int, list[int]]] | None:
+    """Parse a Pass 1 response — one 'p<k> <gid>[u][+sec[,sec2]]' line per paper.
 
-    Each line: "<group_id>[u][+<sec_id>[,<sec_id2>]]"  e.g. "5", "3u", "7+2",
-    "0u+4,9". See _PASS1_SYSTEM for the full format spec and rationale
-    (replaced a single global JSON array in 2026-08 after production
-    confirmed repeated MAX_TOKENS truncation on that format — this format
-    uses far fewer tokens per paper and degrades gracefully line-by-line
-    instead of needing one unbroken, syntactically-valid JSON blob).
+    Answers are matched to papers by the echoed label p<k>, never by line
+    position. So a skipped line costs only that one paper, and a repeated or
+    out-of-range label is simply ignored rather than shifting every later
+    answer onto the wrong paper (the failure that produced the Oct 2026
+    single-group collapse under positional parsing).
 
-    Returns (assignments, uncertain_indices, secondary) or None on hard failure.
+    Hard failure (returns None → the caller retries at a higher temperature):
+      - fewer than 90% of papers received a valid answer, or
+      - the answers are degenerate: one group holds more than
+        PASS1_DEGENERATE_FRACTION of a batch of >= PASS1_DEGENERATE_MIN_BATCH.
+
+    Papers still missing after a successful parse default to group 0 and are
+    routed to Pass 2 (uncertain) for a proper look with their abstract.
+
+    Returns (assignments, uncertain_indices, secondary):
       assignments:       {paper_idx: stable_group_id}  — all N papers
       uncertain_indices: [paper_idx, ...]               — subset for pass 2
       secondary:         {paper_idx: [gid, ...]}        — sparse, stable IDs only
     """
-    # Defensive: strip markdown fences in case the model adds them anyway.
+    global _pass1_defaulted_total
+
     text = re.sub(r"^```(?:\w+)?\s*", "", text.strip())
     text = re.sub(r"\s*```$", "", text)
-
     lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
 
-    # Allow short output: Gemini occasionally drops a few trailing entries.
-    # Hard-fail only if it's more than 10% short (likely garbage/truncated
-    # before any complete lines).
-    n_received = len(lines)
-    if n_received > n_papers:
-        print(f"    {n_received} lines > n_papers {n_papers} — truncating excess.")
-        lines = lines[:n_papers]
-        n_received = n_papers
-    elif n_received < int(n_papers * 0.90):
-        print(f"    {n_received} lines is >10% short of n_papers {n_papers} "
-              f"— hard fail.")
-        return None
-
-    line_re = re.compile(r"^(\d{1,2})(u)?(?:\+(\d{1,2}(?:,\d{1,2})?))?$")
     valid_stable = set(range(14))
-
     assignments: dict[int, int] = {}
     uncertain:   list[int]      = []
     secondary:   dict[int, list[int]] = {}
+    n_bad_lines = n_dupes = n_out_of_range = 0
 
-    for i, ln in enumerate(lines):
-        m = line_re.match(ln)
+    for ln in lines:
+        m = _PASS1_LINE_RE.match(ln)
         if not m:
-            print(f"    Unparseable line {i}: {ln!r}")
-            return None
-        gid = int(m.group(1))
+            n_bad_lines += 1
+            if n_bad_lines <= 5:
+                print(f"    Unparseable line: {ln[:120]!r}")
+            continue
+        idx, gid = int(m.group(1)), int(m.group(2))
+        if idx >= n_papers:
+            n_out_of_range += 1
+            continue
         if gid not in valid_stable:
-            print(f"    Invalid stable group_id {gid} at line {i} "
-                  f"(must be integer 0-13).")
-            return None
-        assignments[i] = gid
-        if m.group(2) == "u":
-            uncertain.append(i)
+            n_bad_lines += 1
+            if n_bad_lines <= 5:
+                print(f"    Invalid stable group_id {gid} for p{idx}.")
+            continue
+        if idx in assignments:
+            n_dupes += 1          # keep the first answer for this paper
+            continue
+        assignments[idx] = gid
         if m.group(3):
-            secs = [int(s) for s in m.group(3).split(",")]
+            uncertain.append(idx)
+        if m.group(4):
+            secs = [int(s) for s in re.split(r"\s*,\s*", m.group(4))]
             secs = [s for s in secs if s in valid_stable and s != gid][:2]
             if secs:
-                secondary[i] = secs
+                secondary[idx] = secs
 
-    # Fill any gaps (trailing entries Gemini dropped) with group 0
-    # and route them to uncertain for pass 2 review.
-    gap_indices: list[int] = []
-    for i in range(n_received, n_papers):
+    n_answered = len(assignments)
+    if n_bad_lines or n_dupes or n_out_of_range:
+        print(f"    Ignored lines: {n_bad_lines} unparseable/invalid, "
+              f"{n_dupes} duplicate label(s), {n_out_of_range} out-of-range label(s).")
+
+    if n_answered < int(n_papers * 0.90):
+        print(f"    Only {n_answered}/{n_papers} papers answered "
+              f"(<90%) — hard fail.")
+        return None
+
+    if n_papers >= PASS1_DEGENERATE_MIN_BATCH and n_answered:
+        top_gid, top_n = Counter(assignments.values()).most_common(1)[0]
+        if top_n / n_answered > PASS1_DEGENERATE_FRACTION:
+            print(f"    Degenerate output: group {top_gid} got {top_n}/{n_answered} "
+                  f"papers (>{PASS1_DEGENERATE_FRACTION:.0%}) — hard fail.")
+            return None
+
+    missing = [i for i in range(n_papers) if i not in assignments]
+    for i in missing:
         assignments[i] = 0
-        gap_indices.append(i)
         uncertain.append(i)
-    if gap_indices:
-        print(f"    {len(gap_indices)} trailing paper(s) not returned by Gemini "
-              f"— defaulted to group 0, routed to uncertain.")
+    if missing:
+        _pass1_defaulted_total += len(missing)
+        print(f"    {len(missing)} paper(s) had no answer — defaulted to group 0, "
+              f"routed to uncertain.")
 
     n_certain = n_papers - len(uncertain)
     print(f"    Pass 1: {n_certain} certain → stable, "
@@ -966,7 +907,7 @@ def _parse_pass2_response(
     """
     text = re.sub(r"^```(?:json)?\s*", "", text.strip())
     text = re.sub(r"\s*```$", "", text)
-    # Truncate at last } to strip any trailing explanation Gemini appends after the JSON
+    # Truncate at last } to strip any trailing explanation Haiku appends after the JSON
     last_brace = text.rfind("}")
     if last_brace != -1:
         text = text[:last_brace + 1]
@@ -1008,7 +949,7 @@ def _parse_pass2_response(
             print(f"    Non-integer paper index: {k!r}")
             return None
 
-        # Guard against Gemini hallucinating paper indices beyond the batch.
+        # Guard against Haiku hallucinating paper indices beyond the batch.
         # (Observed 2026-04-20: Pass 2 returned 133 assignments for 128 uncertain
         # papers, crashing the apply loop with IndexError. Drop the stray ones
         # and let the 'Missing paper indices' check below decide if the real
@@ -1273,7 +1214,7 @@ def reconcile_dynamic_groups(
     final_assignment: dict[int, int],
     client,
 ) -> dict[int, int]:
-    """Ask Gemini to identify near-duplicate dynamic groups and return a merge map.
+    """Ask Haiku to identify near-duplicate dynamic groups and return a merge map.
 
     Only operates on dynamic groups (IDs >= 14).
     Returns {absorb_id: keep_id} — may be empty if no merges warranted.
@@ -1309,7 +1250,7 @@ def reconcile_dynamic_groups(
     )
 
     print(f"\n  Reconciliation — checking {len(dynamic)} dynamic groups for duplicates...")
-    raw, _ = _gemini_call(client, "", prompt, max_tokens=1024)
+    raw, _ = _llm_call(client, "", prompt, max_tokens=1024)
     if raw is None:
         print("  Reconciliation: API call failed — skipping.")
         return {}
@@ -1350,7 +1291,7 @@ def haiku_group_papers(
     df: pd.DataFrame,
     client,
 ) -> tuple[pd.DataFrame, dict[int, str]]:
-    """Stage 3: Two-pass Gemini grouping with persistent dynamic taxonomy.
+    """Stage 3: Two-pass Haiku grouping with persistent dynamic taxonomy.
 
     Pass 1 — All papers, titles only (single call):
       Assigns each paper to a stable category (0-13).
@@ -1362,7 +1303,7 @@ def haiku_group_papers(
 
     Review — Optional targeted call:
       Papers in groups whose rolling confidence has fallen below the
-      maturity-modulated threshold are re-evaluated by Gemini.
+      maturity-modulated threshold are re-evaluated by Haiku.
 
     Taxonomy is loaded, updated, and saved each run. Groups absent for
     TAXONOMY_RETIRE_DAYS are retired automatically.
@@ -1372,7 +1313,7 @@ def haiku_group_papers(
     df    = df.reset_index(drop=True)
     n     = len(df)
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    print(f"\n▶  Stage 3 — Gemini grouping + naming ({n} papers, two-pass)...")
+    print(f"\n▶  Stage 3 — Haiku grouping + naming ({n} papers, two-pass)...")
 
     # ── Load or seed dynamic taxonomy ────────────────────────────────────────
     if os.path.exists(TAXONOMY_PATH):
@@ -1390,13 +1331,16 @@ def haiku_group_papers(
     }
 
     # ── Pass 1: stable assignment (batched, titles only) ─────────────────────
-    # Batch size is now request-count-driven (see PASS1_TARGET_BATCHES):
-    # sized to hit ~PASS1_TARGET_BATCHES total requests, capped at
-    # PASS1_MAX_BATCH_SIZE so a heavy day doesn't produce one unwieldy batch.
+    # Fixed-size batches (PASS1_BATCH_SIZE). Papers are shuffled into batches
+    # with a fixed seed so each batch mixes days and topics: the DB is
+    # date-ordered, and contiguous slices let any batch-level failure show up
+    # as whole days landing in one group.
     import math as _math
-    p1_batch_size = min(PASS1_MAX_BATCH_SIZE,
-                        max(1, _math.ceil(n / PASS1_TARGET_BATCHES)))
+    global _pass1_defaulted_total
+    _pass1_defaulted_total = 0
+    p1_batch_size = max(1, PASS1_BATCH_SIZE)
     n_p1_batches  = _math.ceil(n / p1_batch_size)
+    p1_order      = np.random.default_rng(20261030).permutation(n)
     print(f"\n  Pass 1 — stable assignment ({n} papers, titles only, "
           f"{n_p1_batches} batch{'es' if n_p1_batches > 1 else ''} of up to "
           f"{p1_batch_size} papers each)...")
@@ -1407,25 +1351,29 @@ def haiku_group_papers(
     p1_failed = False
     failed_batches: list[int] = []
     quota_aborted_at_batch: int | None = None
+    p1_defaulted: list[int] = []   # global idx of papers from failed batches
 
     for b in range(n_p1_batches):
         b_start  = b * p1_batch_size
         b_end    = min(b_start + p1_batch_size, n)
         b_size   = b_end - b_start
-        batch_df = df.iloc[b_start:b_end].reset_index(drop=True)
+        b_global = [int(g) for g in p1_order[b_start:b_end]]   # local → global idx
+        batch_df = df.iloc[b_global].reset_index(drop=True)
         p1_msg   = _build_pass1_message(batch_df)
         approx_tk = len(p1_msg) // 4
         print(f"  Batch {b+1}/{n_p1_batches} "
-              f"(papers {b_start}–{b_end-1}, ≈{approx_tk:,} tokens)...")
+              f"({b_size} papers, ≈{approx_tk:,} tokens)...")
 
-        if _gemini_quota_exhausted:
-            print(f"  Daily quota already exhausted — routing this batch's "
-                  f"{b_size} paper(s) to uncertain without calling Gemini.")
+        if _llm_budget_exhausted:
+            print(f"  LLM request ceiling reached — routing this batch's "
+                  f"{b_size} paper(s) to uncertain without calling the API.")
             failed_batches.append(b + 1)
             quota_aborted_at_batch = b
+            _pass1_defaulted_total += b_size
+            p1_defaulted.extend(b_global)
             for local_i in range(b_size):
-                stable_assignments[b_start + local_i] = 0
-                uncertain_indices.append(b_start + local_i)
+                stable_assignments[b_global[local_i]] = 0
+                uncertain_indices.append(b_global[local_i])
             continue
 
         b_result = None
@@ -1433,9 +1381,9 @@ def haiku_group_papers(
             temp = _retry_temperature(attempt)
             print(f"    Attempt {attempt}/{GROUPING_MAX_RETRIES} "
                   f"(temperature={temp:.1f})...")
-            raw, is_overload = _gemini_call(client, _PASS1_SYSTEM, p1_msg,
-                              max_tokens=8192, use_cache=True, temperature=temp,
-                              response_mime_type="text/plain")
+            raw, is_overload = _llm_call(client, _PASS1_SYSTEM, p1_msg,
+                              max_tokens=PASS1_MAX_TOKENS, use_cache=True,
+                              temperature=temp)
             if raw is not None:
                 print(f"    Response length: {len(raw)} chars.")
                 b_result = _parse_pass1_response(raw, b_size)
@@ -1465,7 +1413,7 @@ def haiku_group_papers(
                     print(f"    Full response dump:\n{raw}")
                     is_overload = False  # got a response; it just didn't parse
 
-            if _gemini_quota_exhausted:
+            if _llm_budget_exhausted:
                 print(f"    Daily quota exhausted — abandoning remaining "
                       f"retries for this batch (no point waiting; quota "
                       f"won't refill until tomorrow).")
@@ -1486,19 +1434,21 @@ def haiku_group_papers(
                   f"attempts — routing its {b_size} paper(s) to uncertain "
                   f"(Pass 2) with best-guess group 0, continuing to next batch.")
             failed_batches.append(b + 1)
+            _pass1_defaulted_total += b_size
+            p1_defaulted.extend(b_global)
             for local_i in range(b_size):
-                stable_assignments[b_start + local_i] = 0
-                uncertain_indices.append(b_start + local_i)
+                stable_assignments[b_global[local_i]] = 0
+                uncertain_indices.append(b_global[local_i])
             continue
 
         b_assignments, b_uncertain, b_secondary = b_result
         # Merge into global: offset local indices by batch start
         for local_i, gid in b_assignments.items():
-            stable_assignments[b_start + local_i] = gid
+            stable_assignments[b_global[local_i]] = gid
         for local_i in b_uncertain:
-            uncertain_indices.append(b_start + local_i)
+            uncertain_indices.append(b_global[local_i])
         for local_i, sec in b_secondary.items():
-            p1_secondary_map[b_start + local_i] = sec
+            p1_secondary_map[b_global[local_i]] = sec
 
     if failed_batches:
         fail_fraction = len(failed_batches) / n_p1_batches
@@ -1526,6 +1476,18 @@ def haiku_group_papers(
     n_certain_total   = n - n_uncertain_total
     print(f"  Pass 1 complete: {n_certain_total} certain → stable, "
           f"{n_uncertain_total} uncertain → pass 2.")
+    if _pass1_defaulted_total:
+        frac = _pass1_defaulted_total / max(n, 1)
+        flag = "  ⚠⚠ HIGH — grouping quality is degraded" if frac > 0.05 else ""
+        print(f"  Pass 1 defaulted {_pass1_defaulted_total}/{n} papers "
+              f"({frac:.1%}) to group 0 for lack of an answer.{flag}")
+
+    # Papers from failed batches have no real answer at all, so they go to the
+    # front of the Pass 2 queue before the uncertain cap is applied.
+    if p1_defaulted:
+        _dset = set(p1_defaulted)
+        uncertain_indices = (list(dict.fromkeys(p1_defaulted))
+                             + [i for i in uncertain_indices if i not in _dset])
 
     # Apply uncertain cap
     if len(uncertain_indices) > PASS1_UNCERTAIN_CAP:
@@ -1552,7 +1514,7 @@ def haiku_group_papers(
         print(f"  Prompt ≈ {approx_tokens2:,} tokens.")
 
         p2_result = None
-        if _gemini_quota_exhausted:
+        if _llm_budget_exhausted:
             print("  Daily quota already exhausted — skipping Pass 2 "
                   "entirely (no API request made); uncertain papers keep "
                   "their stable best-guess.")
@@ -1561,8 +1523,8 @@ def haiku_group_papers(
                 temp = _retry_temperature(attempt)
                 print(f"  Attempt {attempt}/{GROUPING_MAX_RETRIES} "
                       f"(temperature={temp:.1f})...")
-                raw, is_overload = _gemini_call(client, _PASS2_SYSTEM, p2_msg,
-                                  max_tokens=8192, use_cache=True, temperature=temp)
+                raw, is_overload = _llm_call(client, _PASS2_SYSTEM, p2_msg,
+                                  max_tokens=16000, use_cache=True, temperature=temp)
                 if raw is not None:
                     print(f"  Response length: {len(raw)} chars.")
                     p2_result = _parse_pass2_response(raw, n_uncertain,
@@ -1572,7 +1534,7 @@ def haiku_group_papers(
                         break
                     else:
                         is_overload = False  # got a response; it just didn't parse
-                if _gemini_quota_exhausted:
+                if _llm_budget_exhausted:
                     print(f"  Daily quota exhausted — abandoning remaining "
                           f"Pass 2 retries (no point waiting).")
                     break
@@ -1695,7 +1657,7 @@ def haiku_group_papers(
             print(f"  Review prompt ≈ {approx_tkr:,} tokens.")
 
             rev_result = None
-            if _gemini_quota_exhausted:
+            if _llm_budget_exhausted:
                 print("  Daily quota already exhausted — skipping Review "
                       "entirely (no API request made).")
             else:
@@ -1703,7 +1665,7 @@ def haiku_group_papers(
                     temp = _retry_temperature(attempt)
                     print(f"  Review attempt {attempt}/{GROUPING_MAX_RETRIES} "
                           f"(temperature={temp:.1f})...")
-                    raw, is_overload = _gemini_call(client, _PASS2_SYSTEM, rev_msg,
+                    raw, is_overload = _llm_call(client, _PASS2_SYSTEM, rev_msg,
                                       max_tokens=4096, use_cache=True, temperature=temp)
                     if raw is not None:
                         print(f"  Response length: {len(raw)} chars.")
@@ -1717,7 +1679,7 @@ def haiku_group_papers(
                             break
                         else:
                             is_overload = False  # got a response; it just didn't parse
-                    if _gemini_quota_exhausted:
+                    if _llm_budget_exhausted:
                         print(f"  Daily quota exhausted — abandoning remaining "
                               f"Review retries (no point waiting).")
                         break
@@ -1849,7 +1811,7 @@ def _load_group_names_cache(df: pd.DataFrame | None = None) -> dict[int, str]:
 
 
 def _hdbscan_fallback_grouping(df: pd.DataFrame) -> dict[int, int]:
-    """Fallback HDBSCAN grouping if all Gemini calls fail."""
+    """Fallback HDBSCAN grouping if all Haiku calls fail."""
     from sklearn.cluster import HDBSCAN
     from sklearn.metrics.pairwise import cosine_distances
     from sklearn.preprocessing import normalize as sk_normalize
@@ -2116,7 +2078,6 @@ def write_labels_parquet(
 # ══════════════════════════════════════════════════════════════════════════════
 
 if __name__ == "__main__":
-    from google import genai
 
     now      = datetime.now(timezone.utc)
     run_date = now.strftime("%B %d, %Y")
@@ -2127,9 +2088,10 @@ if __name__ == "__main__":
     print(f"  BACKFILL_HINDICES  : {BACKFILL_HINDICES}")
     print(f"  OPENALEX_OFFLINE   : {OPENALEX_OFFLINE_MODE}")
     print(f"  GROUP_COUNT        : up to {GROUP_COUNT_MAX} ({GROUP_STABLE_COUNT} stable + dynamic)")
-    print(f"  PASS1_TARGET_BATCHES: {PASS1_TARGET_BATCHES} (max size {PASS1_MAX_BATCH_SIZE})")
+    print(f"  GROUPING_MODEL     : {HAIKU_MODEL}")
+    print(f"  PASS1_BATCH_SIZE   : {PASS1_BATCH_SIZE}")
     print(f"  PASS1_UNCERTAIN_CAP: {PASS1_UNCERTAIN_CAP}")
-    print(f"  GEMINI_DAILY_BUDGET: {GEMINI_DAILY_REQUEST_BUDGET} requests")
+    print(f"  LLM_MAX_REQUESTS   : {LLM_MAX_REQUESTS_PER_RUN} per run")
     print(f"  TAXONOMY_PATH      : {TAXONOMY_PATH}")
     print(f"  LAYOUT_SCALE       : {LAYOUT_SCALE}")
     print(f"  SCATTER_FRACTION   : {SCATTER_FRACTION}")
@@ -2216,13 +2178,7 @@ if __name__ == "__main__":
     # NORMAL MODE — full pipeline
     # ══════════════════════════════════════════════════════════════════════════
     else:
-        api_key = os.environ.get("GOOGLE_API_KEY", "").strip()
-        if not api_key:
-            raise RuntimeError(
-                "GOOGLE_API_KEY is not set. Add it to GitHub repo secrets "
-                "and expose it in the workflow YAML under env:."
-            )
-        grouping_client = genai.Client(api_key=api_key)
+        grouping_client = make_grouping_client()
 
         # ── Stage 1: Load & prune rolling DB ────────────────────────────────
         print("\n▶  Stage 1 -- Loading rolling database...")
@@ -2500,7 +2456,7 @@ if __name__ == "__main__":
         print("\n▶  Stage 2 — SPECTER2 embedding + UMAP...")
         df = embed_and_project(df, model_name="specter2")
 
-        # ── Stage 3: Gemini grouping + naming ────────────────────────────────
+        # ── Stage 3: Haiku grouping + naming ─────────────────────────────────
         df, group_names = haiku_group_papers(df, grouping_client)
 
     # ══════════════════════════════════════════════════════════════════════════
