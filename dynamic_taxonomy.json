@@ -9,15 +9,15 @@
         1.0,
         1.0,
         1.0,
-        1.0,
-        0.971
+        0.971,
+        0.963
       ],
       "paper_count_history": [
         1,
-        1,
         2,
         1,
-        34
+        34,
+        27
       ]
     },
     "227": {
@@ -32,11 +32,11 @@
         1.0
       ],
       "paper_count_history": [
-        2,
         1,
         1,
         1,
-        10
+        10,
+        8
       ]
     },
     "230": {
@@ -46,22 +46,26 @@
       "confidence_history": [
         1.0,
         1.0,
+        0.714,
         0.714
       ],
       "paper_count_history": [
         1,
         1,
-        14
+        14,
+        7
       ]
     },
     "231": {
       "name": "Multimodal Reinforcement Learning",
       "created": "2026-10-22",
-      "last_seen": "2026-10-22",
+      "last_seen": "2026-10-30",
       "confidence_history": [
+        1.0,
         1.0
       ],
       "paper_count_history": [
+        1,
         1
       ]
     },
@@ -71,11 +75,13 @@
       "last_seen": "2026-10-30",
       "confidence_history": [
         1.0,
-        0.913
+        0.913,
+        0.857
       ],
       "paper_count_history": [
         1,
-        23
+        23,
+        28
       ]
     },
     "234": {
@@ -84,11 +90,13 @@
       "last_seen": "2026-10-30",
       "confidence_history": [
         1.0,
+        1.0,
         1.0
       ],
       "paper_count_history": [
         1,
-        11
+        11,
+        13
       ]
     },
     "233": {
@@ -97,11 +105,13 @@
       "last_seen": "2026-10-30",
       "confidence_history": [
         1.0,
-        0.938
+        0.938,
+        1.0
       ],
       "paper_count_history": [
         2,
-        16
+        16,
+        24
       ]
     },
     "235": {
@@ -109,10 +119,12 @@
       "created": "2026-10-30",
       "last_seen": "2026-10-30",
       "confidence_history": [
+        1.0,
         1.0
       ],
       "paper_count_history": [
-        20
+        20,
+        24
       ]
     },
     "248": {
@@ -120,10 +132,12 @@
       "created": "2026-10-30",
       "last_seen": "2026-10-30",
       "confidence_history": [
-        0.947
+        0.947,
+        0.87
       ],
       "paper_count_history": [
-        19
+        19,
+        23
       ]
     },
     "249": {
@@ -131,10 +145,12 @@
       "created": "2026-10-30",
       "last_seen": "2026-10-30",
       "confidence_history": [
-        0.0
+        0.0,
+        0.077
       ],
       "paper_count_history": [
-        31
+        31,
+        26
       ]
     },
     "241": {
@@ -142,10 +158,12 @@
       "created": "2026-10-30",
       "last_seen": "2026-10-30",
       "confidence_history": [
-        0.929
+        0.929,
+        0.955
       ],
       "paper_count_history": [
-        28
+        28,
+        22
       ]
     },
     "238": {
@@ -153,10 +171,12 @@
       "created": "2026-10-30",
       "last_seen": "2026-10-30",
       "confidence_history": [
-        0.933
+        0.933,
+        0.917
       ],
       "paper_count_history": [
-        15
+        15,
+        12
       ]
     },
     "245": {
@@ -164,10 +184,12 @@
       "created": "2026-10-30",
       "last_seen": "2026-10-30",
       "confidence_history": [
-        0.944
+        0.944,
+        0.895
       ],
       "paper_count_history": [
-        18
+        18,
+        19
       ]
     },
     "237": {
@@ -175,10 +197,12 @@
       "created": "2026-10-30",
       "last_seen": "2026-10-30",
       "confidence_history": [
-        1.0
+        1.0,
+        0.944
       ],
       "paper_count_history": [
-        13
+        13,
+        18
       ]
     },
     "240": {
@@ -186,10 +210,12 @@
       "created": "2026-10-30",
       "last_seen": "2026-10-30",
       "confidence_history": [
-        0.975
+        0.975,
+        0.943
       ],
       "paper_count_history": [
-        40
+        40,
+        35
       ]
     },
     "247": {
@@ -197,10 +223,12 @@
       "created": "2026-10-30",
       "last_seen": "2026-10-30",
       "confidence_history": [
-        0.958
+        0.958,
+        0.875
       ],
       "paper_count_history": [
-        24
+        24,
+        16
       ]
     },
     "239": {
@@ -208,10 +236,12 @@
       "created": "2026-10-30",
       "last_seen": "2026-10-30",
       "confidence_history": [
-        1.0
+        1.0,
+        0.923
       ],
       "paper_count_history": [
-        29
+        29,
+        26
       ]
     },
     "242": {
@@ -219,10 +249,12 @@
       "created": "2026-10-30",
       "last_seen": "2026-10-30",
       "confidence_history": [
+        1.0,
         1.0
       ],
       "paper_count_history": [
-        3
+        3,
+        12
       ]
     },
     "243": {
@@ -230,10 +262,12 @@
       "created": "2026-10-30",
       "last_seen": "2026-10-30",
       "confidence_history": [
-        0.938
+        0.938,
+        0.789
       ],
       "paper_count_history": [
-        16
+        16,
+        19
       ]
     },
     "246": {
@@ -241,10 +275,12 @@
       "created": "2026-10-30",
       "last_seen": "2026-10-30",
       "confidence_history": [
-        1.0
+        1.0,
+        0.9
       ],
       "paper_count_history": [
-        9
+        9,
+        10
       ]
     },
     "236": {
@@ -252,10 +288,12 @@
       "created": "2026-10-30",
       "last_seen": "2026-10-30",
       "confidence_history": [
-        0.944
+        0.944,
+        0.938
       ],
       "paper_count_history": [
-        18
+        18,
+        16
       ]
     },
     "244": {
@@ -263,10 +301,12 @@
       "created": "2026-10-30",
       "last_seen": "2026-10-30",
       "confidence_history": [
-        0.889
+        0.889,
+        0.929
       ],
       "paper_count_history": [
-        9
+        9,
+        14
       ]
     }
   }
