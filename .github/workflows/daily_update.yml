@@ -93,11 +93,12 @@ jobs:
       #
       # ── PRODUCTION (daily scheduled run, 00:00 UTC) ──────────────────────
       #   The cron trigger handles this automatically. No changes needed
-      #   beyond confirming the two "must be off" items below are off.
+      #   beyond confirming the "must be off" items below are off.
       #
       #   OFFLINE_MODE:          must be commented out
       #   BACKFILL_HINDICES:     must be commented out
       #   OPENALEX_OFFLINE_MODE: must be commented out (job-level env block)
+      #   DRY_RUN (LinkedIn):    must be commented out for real daily posts
       #   SKIP_HAIKU:            currently inert (not read by the pipeline)
       #   Everything else:  leave as configured
       # ════════════════════════════════════════════════════════════════════
@@ -179,6 +180,25 @@ jobs:
       - name: Run nightly assertions
         run: python nightly_assert.py
 
+      # ── LinkedIn daily post ─────────────────────────────────────────────
+      # Both steps are continue-on-error: a failure here can never block the
+      # data commit or the Pages deploy below.
+      - name: Render Atlas snapshot (LinkedIn image)
+        continue-on-error: true
+        run: |
+          pip install playwright
+          python -m playwright install --with-deps chromium
+          python atlas_snapshot.py
+
+      - name: Post snapshot to LinkedIn
+        continue-on-error: true
+        env:
+          LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
+          DRY_RUN: "true"   # FIRST TEST ONLY — comment this line out to post for real
+        run: |
+          pip install requests
+          python post_linkedin.py
+
       - name: Commit and Push Database Changes
         run: |
           git config --global user.name "github-actions[bot]"
@@ -194,6 +214,8 @@ jobs:
           git add significant_papers.json 2>/dev/null || true
           git add sig_candidates.json 2>/dev/null || true
           git add label_diagnostics.json 2>/dev/null || true
+          git add atlas_snapshot.png 2>/dev/null || true
+          git add linkedin_last_post.txt 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
