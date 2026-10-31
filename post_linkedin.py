@@ -17,8 +17,10 @@ Env:
   LINKEDIN_ACCESS_TOKEN  member token with scopes: openid profile w_member_social
                          (expires every ~60 days -- regenerate in the LinkedIn
                          Developer Portal and update the GitHub secret)
-  LINKEDIN_VERSION       LinkedIn-Version header (YYYYMM). Bump this if the
-                         API rejects the default as an unsupported version.
+  LINKEDIN_VERSION       optional LinkedIn-Version header (YYYYMM) to try
+                         first. Not needed: LinkedIn retires versions after
+                         ~12 months, so the script probes from the current
+                         month backwards and uses the newest active one.
   DRY_RUN                "true" -> validate the token and print what would be
                          posted, but post nothing.
 """
@@ -34,15 +36,33 @@ POST_TEXT = "AI Research Atlas Daily Report"
 ALT_TEXT = "Semantic map of today's arXiv cs.AI papers - airesearchatlas.com"
 IMAGE = "atlas_snapshot.png"
 STAMP_FILE = "linkedin_last_post.txt"
-VERSION = os.environ.get("LINKEDIN_VERSION", "202506")
 
 
-def versioned_headers(token):
+def candidate_versions():
+    """Newest-first YYYYMM strings: optional override, then this month back 12."""
+    out = []
+    override = os.environ.get("LINKEDIN_VERSION", "").strip()
+    if override:
+        out.append(override)
+    d = datetime.date.today().replace(day=1)
+    for _ in range(13):
+        v = d.strftime("%Y%m")
+        if v not in out:
+            out.append(v)
+        d = (d - datetime.timedelta(days=1)).replace(day=1)
+    return out
+
+
+def versioned_headers(token, version):
     return {
         "Authorization": f"Bearer {token}",
         "X-Restli-Protocol-Version": "2.0.0",
-        "LinkedIn-Version": VERSION,
+        "LinkedIn-Version": version,
     }
+
+
+def is_version_error(r):
+    return r.status_code == 426 or "NONEXISTENT_VERSION" in r.text
 
 
 def main():
@@ -77,17 +97,29 @@ def main():
               f"({os.path.getsize(IMAGE)} bytes). Posting nothing.")
         return 0
 
-    # 2. Register the image upload.
-    r = requests.post(f"{API}/rest/images?action=initializeUpload",
-                      headers={**versioned_headers(token),
-                               "Content-Type": "application/json"},
-                      json={"initializeUploadRequest": {"owner": author}},
-                      timeout=30)
-    if r.status_code not in (200, 201):
-        print(f"LINKEDIN FAIL: initializeUpload {r.status_code}: {r.text[:300]}")
-        if "version" in r.text.lower():
-            print("Hint: try a newer LINKEDIN_VERSION (YYYYMM) in the workflow env.")
+    # 2. Register the image upload, probing for the newest active API version
+    #    (brand-new months are often not live yet; old ones get retired).
+    version = None
+    for v in candidate_versions():
+        r = requests.post(f"{API}/rest/images?action=initializeUpload",
+                          headers={**versioned_headers(token, v),
+                                   "Content-Type": "application/json"},
+                          json={"initializeUploadRequest": {"owner": author}},
+                          timeout=30)
+        if is_version_error(r):
+            print(f"API version {v} not active; trying older...")
+            continue
+        version = v
+        break
+    if version is None:
+        print("LINKEDIN FAIL: no active LinkedIn API version found in the last "
+              "13 months. Set LINKEDIN_VERSION (YYYYMM) in the workflow env.")
         return 1
+    if r.status_code not in (200, 201):
+        print(f"LINKEDIN FAIL: initializeUpload {r.status_code} "
+              f"(version {version}): {r.text[:300]}")
+        return 1
+    print(f"Using LinkedIn API version {version}")
     value = r.json()["value"]
     upload_url, image_urn = value["uploadUrl"], value["image"]
 
@@ -117,7 +149,7 @@ def main():
         "isReshareDisabledByAuthor": False,
     }
     r = requests.post(f"{API}/rest/posts",
-                      headers={**versioned_headers(token),
+                      headers={**versioned_headers(token, version),
                                "Content-Type": "application/json"},
                       json=payload, timeout=60)
     if r.status_code != 201:
