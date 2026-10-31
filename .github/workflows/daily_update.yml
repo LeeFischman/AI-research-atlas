@@ -5,6 +5,10 @@ on:
   workflow_dispatch: # Allows manual runs for testing
 permissions:
   contents: write
+concurrency:
+  group: atlas-data-commit
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -195,7 +199,7 @@ jobs:
         continue-on-error: true
         env:
           LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
-          DRY_RUN: "true"   # FIRST TEST ONLY — comment this line out to post for real
+          # DRY_RUN: "true"   # FIRST TEST ONLY — comment this line out to post for real
         run: |
           pip install requests
           python post_linkedin.py
