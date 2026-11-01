@@ -32,10 +32,88 @@ import sys
 import requests
 
 API = "https://api.linkedin.com"
-POST_TEXT = "AI Research Atlas Daily Report. Explore further: https://airesearchatlas.com"
+TITLE = "AI Research Atlas Daily Report"
+SITE_URL = "https://airesearchatlas.com"
+HASHTAGS = ["AI", "MachineLearning", "arXiv"]
+DATABASE = "database.parquet"
+TAXONOMY = "dynamic_taxonomy.json"
+# "New on the map": dynamic groups created in the last NEW_GROUP_DAYS days,
+# still active, with at least NEW_GROUP_MIN_PAPERS papers. Days on which more
+# than BULK_CREATION_LIMIT groups were created are treated as a taxonomy
+# rebuild (not genuine emergence) and skipped. At most NEW_GROUP_MAX shown.
+NEW_GROUP_DAYS = 7
+NEW_GROUP_MIN_PAPERS = 5
+NEW_GROUP_MAX = 2
+BULK_CREATION_LIMIT = 3
 ALT_TEXT = "Semantic map of today's arXiv cs.AI papers - airesearchatlas.com"
 IMAGE = "atlas_snapshot.png"
 STAMP_FILE = "linkedin_last_post.txt"
+
+
+# LinkedIn "little text" reserved characters must be backslash-escaped in
+# the post commentary, or the post can be rejected or silently truncated.
+_RESERVED = set("\\|{}@[]()<>#*_~")
+
+
+def escape_little_text(text):
+    return "".join("\\" + c if c in _RESERVED else c for c in text)
+
+
+def map_stats():
+    """(paper_count, group_count) from database.parquet, or None."""
+    try:
+        import pyarrow.parquet as pq
+        table = pq.read_table(DATABASE, columns=["group_id_v3"])
+        col = table.column("group_id_v3").to_pylist()
+        groups = {g for g in col if g is not None}
+        return table.num_rows, len(groups)
+    except Exception as e:
+        print(f"Post text: map stats unavailable ({type(e).__name__}: {e})")
+        return None
+
+
+def new_groups(today):
+    """Names of genuinely new research directions, largest first."""
+    try:
+        import json
+        from collections import Counter
+        with open(TAXONOMY) as fh:
+            groups = json.load(fh).get("groups", {})
+        per_day = Counter(g.get("created") for g in groups.values())
+        cutoff = today - datetime.timedelta(days=NEW_GROUP_DAYS)
+        active_since = today - datetime.timedelta(days=1)
+        picks = []
+        for g in groups.values():
+            created = datetime.date.fromisoformat(g["created"])
+            last_seen = datetime.date.fromisoformat(g["last_seen"])
+            papers = (g.get("paper_count_history") or [0])[-1]
+            if (created > cutoff and last_seen >= active_since
+                    and papers >= NEW_GROUP_MIN_PAPERS
+                    and per_day[g["created"]] <= BULK_CREATION_LIMIT):
+                picks.append((papers, g["name"]))
+        picks.sort(reverse=True)
+        return [name for _, name in picks[:NEW_GROUP_MAX]]
+    except Exception as e:
+        print(f"Post text: new-group detection unavailable ({type(e).__name__}: {e})")
+        return []
+
+
+def build_post_text(today):
+    """Daily post text. Every part beyond the title and link is optional and
+    is simply left out if its data can't be read."""
+    stats = map_stats()
+    if stats:
+        papers, groups = stats
+        first = f"{TITLE}: {papers:,} papers across {groups} research directions"
+    else:
+        first = TITLE
+    lines = [escape_little_text(first)]
+    fresh = new_groups(today)
+    if fresh:
+        lines.append(escape_little_text("New on the map: " + "; ".join(fresh)))
+    lines.append(escape_little_text(f"Explore further: {SITE_URL}"))
+    lines.append(" ".join("{hashtag|\\#|" + t + "}" for t in HASHTAGS))
+    return "\n".join(lines)
 
 
 def candidate_versions():
@@ -92,8 +170,12 @@ def main():
     author = f"urn:li:person:{r.json()['sub']}"
     print(f"Posting as: {author}")
 
+    post_text = build_post_text(
+        datetime.datetime.now(datetime.timezone.utc).date())
+    print("Post text:\n" + post_text)
+
     if os.environ.get("DRY_RUN", "").lower() == "true":
-        print(f"DRY_RUN: would post '{POST_TEXT}' with {IMAGE} "
+        print(f"DRY_RUN: would post the text above with {IMAGE} "
               f"({os.path.getsize(IMAGE)} bytes). Posting nothing.")
         return 0
 
@@ -137,7 +219,7 @@ def main():
     # 4. Create the post.
     payload = {
         "author": author,
-        "commentary": POST_TEXT,
+        "commentary": post_text,
         "visibility": "PUBLIC",
         "distribution": {
             "feedDistribution": "MAIN_FEED",
