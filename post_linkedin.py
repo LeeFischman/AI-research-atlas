@@ -32,7 +32,7 @@ import sys
 import requests
 
 API = "https://api.linkedin.com"
-POST_TEXT = "AI Research Atlas Daily Report"
+POST_TEXT = "AI Research Atlas Daily Report. Explore further: https://airesearchatlas.com"
 ALT_TEXT = "Semantic map of today's arXiv cs.AI papers - airesearchatlas.com"
 IMAGE = "atlas_snapshot.png"
 STAMP_FILE = "linkedin_last_post.txt"
