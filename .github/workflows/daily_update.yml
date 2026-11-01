@@ -191,7 +191,7 @@ jobs:
       - name: Render Atlas snapshot (LinkedIn image)
         continue-on-error: true
         run: |
-          pip install playwright
+          pip install playwright pillow
           python -m playwright install --with-deps chromium
           python atlas_snapshot.py
 
