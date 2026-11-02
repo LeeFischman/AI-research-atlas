@@ -596,8 +596,8 @@
   "2602.16503": {
     "citation_count": 0,
     "influential_citation_count": 0,
-    "tldr": "",
-    "fetched_at": "2026-03-09T21:30:34.492741+00:00"
+    "tldr": "Experiments show that CALMs consistently outperform GAMs and achieve accuracy comparable with GA$^2$Ms, and a principled distillation-based training pipeline that identifies homogeneous regions with limited interactions and fits interpretable shape functions via region-aware backfitting is proposed.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2602.16498": {
     "citation_count": 0,
@@ -5565,7 +5565,7 @@
     "citation_count": 2,
     "influential_citation_count": 0,
     "tldr": "This work studies cross-lingual mathematical reasoning transfer in English-centric LLMs under controlled multilingual evaluation and finds that transfer is highly variable across initial model choice, target language, and training paradigm.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2510.02283": {
     "citation_count": 0,
@@ -6432,10 +6432,10 @@
     "fetched_at": "2026-02-27T19:46:49.657522+00:00"
   },
   "2510.03004": {
-    "citation_count": 1,
+    "citation_count": 3,
     "influential_citation_count": 0,
     "tldr": "An end-to-end innovative graph neural network framework named BrainIB++ is introduced, which applies the information bottleneck (IB) principle to identify the most informative data-driven brain regions as subgraphs during model training for interpretation, which consistently demonstrates superior diagnostic accuracy and exhibits generalizability to unseen data.",
-    "fetched_at": "2026-02-27T19:46:49.657522+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2510.03029": {
     "citation_count": 0,
@@ -12270,10 +12270,10 @@
     "fetched_at": "2026-05-10T05:55:11.602662+00:00"
   },
   "2505.14756": {
-    "citation_count": 4,
-    "influential_citation_count": 0,
+    "citation_count": 16,
+    "influential_citation_count": 1,
     "tldr": "LLINBO: LLM-in-the-Loop BO is proposed, a hybrid framework for BO that combines LLMs with statistical surrogate experts (e.g., Gaussian Processes (GP), to leverage contextual reasoning strengths of LLMs for early exploration, while relying on principled statistical models to guide efficient exploitation.",
-    "fetched_at": "2026-02-27T19:46:49.657522+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2505.16567": {
     "citation_count": 0,
@@ -13587,7 +13587,7 @@
     "citation_count": 11,
     "influential_citation_count": 0,
     "tldr": "Two simple, robust tuning recipes are identified that learn strongly while limiting drift and match or exceed their learning-stability balance while remaining simpler, requiring no replay, auxiliary parameters, or per-stage tuning.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2510.08568": {
     "citation_count": 12,
@@ -22008,10 +22008,10 @@
     "fetched_at": "2026-02-27T19:46:49.657522+00:00"
   },
   "2505.15234": {
-    "citation_count": 2,
+    "citation_count": 7,
     "influential_citation_count": 0,
     "tldr": "Extensive experiments demonstrate that SAMA-UNet consistently outperforms CNN, Transformer, and Mamba-based methods in combining efficiency with accuracy, making it a promising solution for real-world clinical segmentation tasks.",
-    "fetched_at": "2026-02-27T19:46:49.657522+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2505.22467": {
     "citation_count": 1,
@@ -32643,7 +32643,7 @@
     "citation_count": 5,
     "influential_citation_count": 1,
     "tldr": "",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2510.22702": {
     "citation_count": 0,
@@ -33120,10 +33120,10 @@
     "fetched_at": "2026-02-27T19:46:49.657522+00:00"
   },
   "2510.23482": {
-    "citation_count": 3,
-    "influential_citation_count": 1,
+    "citation_count": 15,
+    "influential_citation_count": 2,
     "tldr": "This paper probes the faithfulness of MCoT by measuring how much the prediction changes when its visual and textual thoughts are intervened and proposes a novel MCoT learning strategy termed Sufficient-Component Cause Model (SCCM), which encourages the MCoT to generate sufficient yet minimal visual components that are independently capable of leading to correct answers.",
-    "fetched_at": "2026-02-27T19:46:49.657522+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2510.23498": {
     "citation_count": 0,
@@ -39084,10 +39084,10 @@
     "fetched_at": "2026-02-27T19:46:49.657522+00:00"
   },
   "2511.00421": {
-    "citation_count": 0,
-    "influential_citation_count": 0,
-    "tldr": "",
-    "fetched_at": "2026-10-26T09:37:38.922848+00:00"
+    "citation_count": 6,
+    "influential_citation_count": 1,
+    "tldr": "LoRA fine-tuning yields higher sentence extraction accuracy and higher point estimates on all three reference-based correction similarity metrics in both languages, and several leading general-purpose reasoning models outperform all three evaluated medical-domain models on these two subtasks.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2511.00424": {
     "citation_count": 0,
@@ -39942,10 +39942,10 @@
     "fetched_at": "2026-02-27T19:46:49.657522+00:00"
   },
   "2511.01261": {
-    "citation_count": 1,
-    "influential_citation_count": 0,
+    "citation_count": 5,
+    "influential_citation_count": 1,
     "tldr": "Speech-DRAME provides the first comprehensive, reproducible foundation for assessing spoken role-play, and distinguishes between two complementary evaluation strategies: Archetype Evaluation, a top-down approach measuring adherence to broad role archetypes, and Realism Evaluation, a bottom-up approach grounded in real human speech that emphasizes nuanced role quality.",
-    "fetched_at": "2026-02-27T19:46:49.657522+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2511.01268": {
     "citation_count": 2,
@@ -43680,10 +43680,10 @@
     "fetched_at": "2026-02-27T19:46:49.657522+00:00"
   },
   "2505.13438": {
-    "citation_count": 19,
-    "influential_citation_count": 0,
+    "citation_count": 29,
+    "influential_citation_count": 2,
     "tldr": "A novel framework, AnytimeReasoner, to optimize anytime reasoning performance, which aims to improve token efficiency and the flexibility of reasoning under varying token budget constraints and introduces verifiable dense rewards into the reasoning process.",
-    "fetched_at": "2026-02-27T19:46:49.657522+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2506.01502": {
     "citation_count": 1,
@@ -49746,10 +49746,10 @@
     "fetched_at": "2026-02-27T19:46:49.657522+00:00"
   },
   "2510.12787": {
-    "citation_count": 16,
+    "citation_count": 34,
     "influential_citation_count": 5,
-    "tldr": "Ax-Prover is competitive with state-of-the-art provers, while it largely outperforms them on the new benchmarks, showing that, unlike specialized systems that struggle to generalize, the tool-based agentic theorem prover approach offers a generalizable methodology for formal verification across diverse scientific domains.",
-    "fetched_at": "2026-06-01T08:54:11.100629+00:00"
+    "tldr": "On the public datasets, Ax-Prover is the top prover among those that do not rely on any domain-specific training; on the new benchmarks, it largely outperforms all baselines, suggesting that tool-based agentic theorem proving can support formal verification across benchmarks with different mathematical and scientific structure.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2510.12858": {
     "citation_count": 0,
@@ -51402,10 +51402,10 @@
     "fetched_at": "2026-10-22T08:03:45.776187+00:00"
   },
   "2511.11231": {
-    "citation_count": 0,
+    "citation_count": 1,
     "influential_citation_count": 0,
     "tldr": "DiT-Gaze is proposed, a framework that enhances 3D gaze redirection models using a novel combination of Diffusion Transformer, weak supervision across gaze angles, and an orthogonality constraint loss to set a new state-of-the-art in both perceptual quality and redirection accuracy.",
-    "fetched_at": "2026-02-27T19:46:49.657522+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2511.11240": {
     "citation_count": 0,
@@ -57831,7 +57831,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "It is argued that ragged data is fundamentally a flat function over a coordinate space, and that making this view explicit resolves all three difficulties at once in Operon, a statically verifiable workflow engine built around a formalism of named dimensions with explicit dependency relations.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2511.16084": {
     "citation_count": 1,
@@ -64647,7 +64647,7 @@
     "citation_count": 15,
     "influential_citation_count": 0,
     "tldr": "F Fault Localization Across Writing in Science (FLAWS) is introduced, an automated benchmark consisting of 713 paper-error pairs designed to evaluate how effectively LLMs detect errors that undermine key claims in research papers.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2511.21846": {
     "citation_count": 0,
@@ -71013,7 +71013,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "MarkTune is introduced, a theoretically grounded on-policy fine-tuning framework that uses the GaussMark detection statistic as a reward while preserving generation quality through cross-entropy on high-quality human text or KL divergence to a stronger oracle model.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2512.04047": {
     "citation_count": 0,
@@ -76599,7 +76599,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2512.08951": {
     "citation_count": 0,
@@ -80460,10 +80460,10 @@
     "fetched_at": "2026-02-27T19:46:49.657522+00:00"
   },
   "2512.12063": {
-    "citation_count": 0,
+    "citation_count": 1,
     "influential_citation_count": 0,
     "tldr": "InstruBPM is introduced, a reproducible approach that prepares paired text-diagram data and instruction tunes an open source large language model with parameter-efficient fine-tuning and quantization for on-prem deployment and improves structural accuracy and robustness compared to untuned baselines and reduces reliance on heavy prompt scaffolding.",
-    "fetched_at": "2026-02-27T19:46:49.657522+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2512.12081": {
     "citation_count": 0,
@@ -83145,7 +83145,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "This paper proposes a scalable mediation analysis framework tailored for large causal DAGs involving multiple treatments and mediators, and systematically decomposes total effects into interpretable direct and indirect components.",
-    "fetched_at": "2026-02-27T19:46:49.657522+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2512.14765": {
     "citation_count": 0,
@@ -89877,7 +89877,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "This work constructs a deep learning-based Wi-Fi sensing system using only a single transceiver pair and design experiments to validate performance gains, finding that under hardware-constrained conditions, the performance gains of deep learning in Wi-Fi sensing primarily originate from two aspects: prior information and temporal correlation.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2511.08653": {
     "citation_count": 1,
@@ -94974,10 +94974,10 @@
     "fetched_at": "2026-10-05T11:13:25.490499+00:00"
   },
   "2511.10843": {
-    "citation_count": 0,
+    "citation_count": 2,
     "influential_citation_count": 0,
     "tldr": "This paper leverages new results from off-policy evaluation; it has recently been shown that well-designed behaviour policies can be used to collect off-policy data for provably lower variance return estimates.",
-    "fetched_at": "2026-02-27T19:46:49.657522+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2511.12791": {
     "citation_count": 0,
@@ -102765,7 +102765,7 @@
     "citation_count": 3,
     "influential_citation_count": 0,
     "tldr": "The results demonstrate that a clean teacher alone is not a sufficient safeguard: poisoned distillation data can produce a strongly backdoored student while maintaining competitive performance on clean images.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2505.11618": {
     "citation_count": 3,
@@ -103878,10 +103878,10 @@
     "fetched_at": "2026-02-27T19:46:49.657522+00:00"
   },
   "2601.06844": {
-    "citation_count": 0,
+    "citation_count": 1,
     "influential_citation_count": 0,
     "tldr": "Variational decomposition autoencoding (VDA), a framework that extends VAEs by incorporating a strong structural bias toward signal decomposition, is introduced, suggesting that decomposition-aware architectures can serve as robust tools for extracting structured representations from dynamic signals.",
-    "fetched_at": "2026-02-27T19:46:49.657522+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2601.06845": {
     "citation_count": 0,
@@ -111681,7 +111681,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "Analysis of semantic dynamics shows that improvement arises primarily through the persistence of effective and repeatable strategies under a regime of consolidation and pruning, a paradigm the authors refer to as negative-space learning (NSL), and that models develop meta-learning strategies without explicit instruction.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2601.12316": {
     "citation_count": 0,
@@ -114057,7 +114057,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2601.14667": {
     "citation_count": 0,
@@ -122730,10 +122730,10 @@
     "fetched_at": "2026-10-05T11:13:25.490499+00:00"
   },
   "2601.19092": {
-    "citation_count": 0,
-    "influential_citation_count": 0,
+    "citation_count": 6,
+    "influential_citation_count": 2,
     "tldr": "A multi-granularity, distribution-aware DSL and compiler that composes thread-local control with collective operators in a single kernel is designed that can bring performance close to hand-tuned kernels on across latest GPU devices and multi-device environments and accelerator backends.",
-    "fetched_at": "2026-02-27T19:46:49.657522+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2601.19768": {
     "citation_count": 0,
@@ -126594,10 +126594,10 @@
     "fetched_at": "2026-02-27T19:46:49.657522+00:00"
   },
   "2601.23143": {
-    "citation_count": 0,
-    "influential_citation_count": 0,
-    "tldr": "",
-    "fetched_at": "2026-07-06T08:17:29.118802+00:00"
+    "citation_count": 13,
+    "influential_citation_count": 4,
+    "tldr": "This work formalizes safety realignment as a KL projection onto the safe simplex and proves that the student's own safety-filtered distribution is the unique KL-optimal target, while any external teacher incurs an irreducible excess KL penalty.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2601.23147": {
     "citation_count": 0,
@@ -129642,10 +129642,10 @@
     "fetched_at": "2026-02-27T19:46:49.657522+00:00"
   },
   "2510.04217": {
-    "citation_count": 3,
+    "citation_count": 11,
     "influential_citation_count": 0,
     "tldr": "This work proposes MLLMEraser, an input-aware, training-free framework for test-time unlearning that consistently outperforms state-of-the-art MLLM unlearning baselines, achieving stronger forgetting performance with lower computational cost and minimal utility degradation.",
-    "fetched_at": "2026-02-27T19:46:49.657522+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2510.04399": {
     "citation_count": 2,
@@ -144933,7 +144933,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2602.10545": {
     "citation_count": 1,
@@ -145578,10 +145578,10 @@
     "fetched_at": "2026-08-03T06:56:55.395171+00:00"
   },
   "2601.22871": {
-    "citation_count": 2,
+    "citation_count": 10,
     "influential_citation_count": 0,
-    "tldr": "JudgeGPT and RogueGPT are presented, a dual-axis framework that decouples \"authenticity\" from \"attribution\" to investigate the mechanisms of human susceptibility, and a \"fluency trap\" is identified where GPT-4 outputs bypass Source Monitoring mechanisms, rendering them indistinguishable from human text.",
-    "fetched_at": "2026-02-28T00:09:49.898417+00:00"
+    "tldr": "JudgeGPT and RogueGPT are presented, a dual-axis framework that decouples ''authenticity'' from ''attribution'' to investigate the mechanisms of human susceptibility and suggest that ''pre-bunking'' interventions should target cognitive source monitoring rather than demographic segmentation to ensure trustworthy information ecosystems.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2602.00148": {
     "citation_count": 0,
@@ -146637,7 +146637,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "Sci-CoE is proposed, a two-stage co-evolving framework for domains without verifiable feedback that enhances complex reasoning capabilities and exhibits strong scalability, facilitating the construction of more robust and diverse evaluation systems.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2602.12170": {
     "citation_count": 0,
@@ -147642,10 +147642,10 @@
     "fetched_at": "2026-03-09T21:30:34.492741+00:00"
   },
   "2312.00326": {
-    "citation_count": 53,
+    "citation_count": 54,
     "influential_citation_count": 2,
     "tldr": "This study introduces a novel agent-powered LLM-based design paradigm for OM systems, namely Agent-OM (Agent for Ontology Matching), consisting of two Siamese agents for retrieval and matching, with a set of OM tools.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2312.02355": {
     "citation_count": 3,
@@ -150138,10 +150138,10 @@
     "fetched_at": "2026-10-26T09:37:38.922848+00:00"
   },
   "2602.12444": {
-    "citation_count": 0,
+    "citation_count": 2,
     "influential_citation_count": 0,
-    "tldr": "",
-    "fetched_at": "2026-03-09T21:30:34.492741+00:00"
+    "tldr": "This paper introduces a novel recovery-based shielding framework that enables safe RL with a provable safety lower bound for unknown and non-linear continuous dynamical systems.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2602.13351": {
     "citation_count": 0,
@@ -153807,7 +153807,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "This work presents Place-it-R1, an end-to-end framework for physically plausible video object insertion driven by environment-aware MLLM reasoning, which produces more physically coherent and visually natural insertions than state-of-the-art methods and achieves competitive results against commercial systems.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2603.06135": {
     "citation_count": 0,
@@ -153912,10 +153912,10 @@
     "fetched_at": "2026-03-11T04:35:22.366879+00:00"
   },
   "2603.06570": {
-    "citation_count": 0,
-    "influential_citation_count": 0,
+    "citation_count": 6,
+    "influential_citation_count": 1,
     "tldr": "Two models are introduced: SureonVLM, a vision-language model adapted through supervised fine-tuning, and SureonVLM-R1, a reasoning model trained with Group Relative Policy Optimization, which can answer complex questions about surgery and substantially outperform larger general-domain models.",
-    "fetched_at": "2026-03-11T04:35:22.366879+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2603.06565": {
     "citation_count": 0,
@@ -157623,7 +157623,7 @@
     "citation_count": 3,
     "influential_citation_count": 0,
     "tldr": "This paper defines this iterative inference process as Markovian generation chains, where each step takes a specific prompt template and the previous output as input, without including any prior data.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2603.11140": {
     "citation_count": 0,
@@ -158580,10 +158580,10 @@
     "fetched_at": "2026-05-04T06:38:08.658601+00:00"
   },
   "2603.12183": {
-    "citation_count": 0,
+    "citation_count": 1,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-03-16T05:10:44.710667+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2603.12120": {
     "citation_count": 0,
@@ -165939,7 +165939,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2603.01101": {
     "citation_count": 0,
@@ -166911,7 +166911,7 @@
     "citation_count": 5,
     "influential_citation_count": 1,
     "tldr": "This work addresses the problem of statistical efficiency of online learning with respect to KL-regularized MABs via a sharp analysis of KL-UCB using a novel peeling argument, and shows that the KL-regularized regret for MABs is $\\eta$-independent and scales as $\\tilde{\\Theta}(\\sqrt{KT})$.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2603.02156": {
     "citation_count": 0,
@@ -169569,7 +169569,7 @@
     "citation_count": 1,
     "influential_citation_count": 0,
     "tldr": "This work introduces ShIOEnv, a Gymnasium-compatible Bash environment for synthesizing execution-annotated shell input traces and introduces grammar-constrained synthesis to generate syntactically valid arguments with high input irreducibility, which is estimated through self-ablative contrasts of execution artifacts.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2505.19255": {
     "citation_count": 0,
@@ -175677,7 +175677,7 @@
     "citation_count": 6,
     "influential_citation_count": 0,
     "tldr": "It is observed that VLMs can clearly distinguish benign inputs from harmful ones in their representation space, and even among harmful inputs, jailbreak samples form a distinct internal state that is separable from refusal samples.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2603.17378": {
     "citation_count": 0,
@@ -175866,10 +175866,10 @@
     "fetched_at": "2026-04-06T05:59:23.463186+00:00"
   },
   "2603.15080": {
-    "citation_count": 0,
+    "citation_count": 1,
     "influential_citation_count": 0,
     "tldr": "A reproducible ETL pattern for constructing large-scale KGs from heterogeneous public data sources, with cross-source deduplication, batch loading, and portable snapshot export is described, and a schema-driven MCP server generation for LLM agent access is introduced.",
-    "fetched_at": "2026-04-06T05:59:23.463186+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2603.15352": {
     "citation_count": 0,
@@ -176229,7 +176229,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "This work proposes a specification-aware action distribution optimization framework that enforces a broad class of Signal Temporal Logic constraints during execution of a pretrained robotics foundation model without modifying its parameters.",
-    "fetched_at": "2026-04-06T05:59:23.463186+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2603.17974": {
     "citation_count": 0,
@@ -177249,7 +177249,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "Li-Net is proposed, a novel architecture designed for multi-channel time series forecasting that captures the linear and non-linear dependencies among channels and provides a superior balance between prediction accuracy and computational burden, exhibiting significantly lower memory usage and faster inference times.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2603.18718": {
     "citation_count": 10,
@@ -178638,10 +178638,10 @@
     "fetched_at": "2026-04-13T06:13:27.385563+00:00"
   },
   "2603.21840": {
-    "citation_count": 2,
+    "citation_count": 3,
     "influential_citation_count": 0,
     "tldr": "This work formalizes Active Testing in NLP and conducts an extensive benchmarking of existing approaches across 18 datasets and 4 embedding strategies spanning 4 different NLP tasks, revealing variations in method effectiveness across different data characteristics and task types.",
-    "fetched_at": "2026-09-08T07:29:37.544942+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2603.21844": {
     "citation_count": 0,
@@ -179226,10 +179226,10 @@
     "fetched_at": "2026-10-26T09:37:35.912166+00:00"
   },
   "2603.22577": {
-    "citation_count": 0,
-    "influential_citation_count": 0,
+    "citation_count": 2,
+    "influential_citation_count": 1,
     "tldr": "STRIATUM-CTF (A Search-based Test-time Reasoning Inference Agent for Tactical Utility Maximization in Cybersecurity), a modular agentic framework built upon the Model Context Protocol (MCP), is introduced, suggesting that standardized context protocols are a critical path toward robust autonomous cyber-reasoning systems.",
-    "fetched_at": "2026-04-13T06:13:27.385563+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2603.22582": {
     "citation_count": 0,
@@ -180399,7 +180399,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2603.23584": {
     "citation_count": 0,
@@ -186345,7 +186345,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2603.28429": {
     "citation_count": 0,
@@ -191316,10 +191316,10 @@
     "fetched_at": "2026-10-05T11:13:25.490499+00:00"
   },
   "2604.16552": {
-    "citation_count": 0,
+    "citation_count": 1,
     "influential_citation_count": 0,
-    "tldr": "",
-    "fetched_at": "2026-05-18T07:59:57.404195+00:00"
+    "tldr": "A new paradigm of sequential text-to-scene generation is presented and a novel generative model for interactive scene creation is proposed and presented, which unifies the autoregressive generation over a multimodal token sequence and diffusion generation of next-object 3D latents.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2604.16790": {
     "citation_count": 0,
@@ -195903,7 +195903,7 @@
     "citation_count": 24,
     "influential_citation_count": 2,
     "tldr": "This work introduces a theoretical framework for quantifying model sensitivity to prompt variants, or brittleness, that can enable us to disentangle data-induced difficulty from prompt-related variability, and designs a novel evaluation pipeline, Brittlebench, to holistically evaluate the sensitivity of frontier models.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2603.22347": {
     "citation_count": 0,
@@ -197811,7 +197811,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2503.08292": {
     "citation_count": 0,
@@ -199515,7 +199515,7 @@
     "citation_count": 1,
     "influential_citation_count": 0,
     "tldr": "CLEAR first employs a reflection agent to perform contrastive analysis over past execution trajectories and summarize useful context for each observed task to train a context augmentation model (CAM), which further optimize CAM using reinforcement learning, where the reward signal is obtained by running the task execution agent.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2604.07490": {
     "citation_count": 0,
@@ -202455,7 +202455,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "MultiStroke is developed, which progressively varies the spatial granularity of the clean-signal component in both the evolving state and velocity regression target while leaving the Gaussian component uncoarsened in both the evolving state and velocity regression target.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2603.13730": {
     "citation_count": 0,
@@ -202497,7 +202497,7 @@
     "citation_count": 15,
     "influential_citation_count": 4,
     "tldr": "Results highlight a coverage boundary worth examining: auto mode assumes dangerous actions transit the shell, but agents routinely achieve equivalent effects through file edits that the classifier does not evaluate, highlighting a coverage boundary worth examining.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2604.03254": {
     "citation_count": 0,
@@ -203565,7 +203565,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "This separation explains how SFT first moves the model out of the cold-start regime, followed by the more robust RLVR, under the SFT-then-RLVR paradigm.",
-    "fetched_at": "2026-05-25T08:17:25.345899+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2604.25895": {
     "citation_count": 0,
@@ -204162,10 +204162,10 @@
     "fetched_at": "2026-09-07T08:52:02.115285+00:00"
   },
   "2604.26103": {
-    "citation_count": 0,
+    "citation_count": 1,
     "influential_citation_count": 0,
-    "tldr": "",
-    "fetched_at": "2026-05-18T07:59:57.404195+00:00"
+    "tldr": "AMMA, a multi-chiplet, memory-centric architecture for low-latency long-context attention, replaces GPU compute dies with HBM-PNM cubes, roughly doubling the available memory bandwidth to better serve memory-bound attention workloads.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2604.26073": {
     "citation_count": 0,
@@ -211506,10 +211506,10 @@
     "fetched_at": "2026-05-16T05:46:13.458259+00:00"
   },
   "2505.00020": {
-    "citation_count": 0,
+    "citation_count": 9,
     "influential_citation_count": 0,
-    "tldr": "",
-    "fetched_at": "2026-05-25T08:17:25.345899+00:00"
+    "tldr": "Whether OpenAI\u2019s large language models were trained on copyrighted content without consent is investigated using the DE-COP membership inference attack method and results highlight the urgent need for increased corporate transparency regarding pre-training data sources as a means to develop formal licensing frameworks for AI content training.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2508.19035": {
     "citation_count": 0,
@@ -215037,7 +215037,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2605.06317": {
     "citation_count": 0,
@@ -220434,10 +220434,10 @@
     "fetched_at": "2026-06-01T09:23:08.061714+00:00"
   },
   "2605.11519": {
-    "citation_count": 0,
+    "citation_count": 2,
     "influential_citation_count": 0,
-    "tldr": "",
-    "fetched_at": "2026-06-01T09:23:08.061714+00:00"
+    "tldr": "This work formalizes controllable simulation as a causal inference problem and establishes theoretical conditions for accurate simulation and proposes practical training mitigations: a priori controls, step-wise dynamic controls, and direct policy-conditioned learning.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2605.11505": {
     "citation_count": 0,
@@ -222147,7 +222147,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "TCFT is proposed, a Temporal Critique Fine-Tuning framework that trains models to acquire cutoff-aware temporal verification, and teaches the model to identify post-cutoff leakage, explain temporal boundary violations, and judge temporal admissibility.",
-    "fetched_at": "2026-06-01T09:23:08.061714+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2605.14619": {
     "citation_count": 0,
@@ -230703,7 +230703,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "Generating a distribution of two-player zero-sum imperfect-information card games and introducing a jaggedness measure of within-distribution smoothness that detects when a model's advantage jumps unpredictably between strategically similar games give a deployment-relevant diagnostic that the overall ranking alone cannot provide.",
-    "fetched_at": "2026-06-04T07:36:27.723987+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2605.23887": {
     "citation_count": 0,
@@ -232674,10 +232674,10 @@
     "fetched_at": "2026-05-25T08:17:25.345899+00:00"
   },
   "2605.06535": {
-    "citation_count": 0,
+    "citation_count": 1,
     "influential_citation_count": 0,
     "tldr": "This paper designs a scalable pipeline that generates foreground and background guidance in a decoupled manner with strict quality filtering, and introduces Sparkle, a dataset of ~140K video pairs spanning five common background-change themes, alongside Sparkle-Bench, the largest evaluation benchmark tailored for background replacement to date.",
-    "fetched_at": "2026-05-25T08:17:25.345899+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2605.06540": {
     "citation_count": 0,
@@ -232962,10 +232962,10 @@
     "fetched_at": "2026-06-15T09:59:09.859126+00:00"
   },
   "2604.11811": {
-    "citation_count": 1,
-    "influential_citation_count": 0,
+    "citation_count": 11,
+    "influential_citation_count": 2,
     "tldr": "This work introduces M, a method that automatically discovers task-optimized memory harnesses through executable program evolution through a reflective code evolution method and demonstrates that M improves performance over existing fixed-memory baselines robustly across all evaluated tasks.",
-    "fetched_at": "2026-06-04T07:36:27.723987+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2603.06626": {
     "citation_count": 7,
@@ -234897,7 +234897,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2605.26161": {
     "citation_count": 0,
@@ -241647,7 +241647,7 @@
     "citation_count": 1,
     "influential_citation_count": 0,
     "tldr": "This work proposes SAEParate, which explicitly separates semantically overlapping concepts in the SAE latent space through concept-aware contrastive learning, supported by cross-attention-guided spatial aggregation that emphasizes concept-relevant regions.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2605.12129": {
     "citation_count": 0,
@@ -245733,7 +245733,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "This work proposes a belief-aware VLM framework that integrates retrieval-based memory by leveraging prior context for improved VLM reasoning and further refine decision-making using a reinforcement learning policy over task-contextualized VLM latent space.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2606.03810": {
     "citation_count": 1,
@@ -251238,10 +251238,10 @@
     "fetched_at": "2026-06-08T08:51:28.525442+00:00"
   },
   "2605.13339": {
-    "citation_count": 4,
-    "influential_citation_count": 0,
+    "citation_count": 6,
+    "influential_citation_count": 1,
     "tldr": "A probe trained on the helpful assistant predicts and steers the choices of qualitatively different personas, including an evil persona whose preferences anti-correlate with the Assistant's.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2605.17989": {
     "citation_count": 0,
@@ -251688,10 +251688,10 @@
     "fetched_at": "2026-07-27T06:59:35.570101+00:00"
   },
   "2605.18421": {
-    "citation_count": 1,
-    "influential_citation_count": 0,
+    "citation_count": 19,
+    "influential_citation_count": 1,
     "tldr": "This paper studies agent memory from a self-evolving perspective and introduces EvoMemBench, a unified benchmark organized along two axes: memory scope (in-episode vs. cross-episode) and memory content (knowledge-oriented vs. execution-oriented).",
-    "fetched_at": "2026-07-06T08:17:27.125493+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2605.18444": {
     "citation_count": 0,
@@ -253656,10 +253656,10 @@
     "fetched_at": "2026-06-08T08:51:28.525442+00:00"
   },
   "2605.19376": {
-    "citation_count": 15,
+    "citation_count": 16,
     "influential_citation_count": 4,
     "tldr": "Generative Recursive reAsoning Models (GRAM) is introduced, a framework that turns recursive latent reasoning into probabilistic multi-trajectory computation and yields a latent-variable generative model supporting conditional reasoning and unconditional generation.",
-    "fetched_at": "2026-10-25T07:52:30.002373+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2605.19503": {
     "citation_count": 0,
@@ -254096,8 +254096,8 @@
   "2605.20554": {
     "citation_count": 0,
     "influential_citation_count": 0,
-    "tldr": "This article introduces personality engineering--a methodology that precisely parameterizes the personas of AI agents based on established personality frameworks--and proposes how this method can be used to study the traits and behaviors of human negotiators.",
-    "fetched_at": "2026-10-05T11:13:25.490499+00:00"
+    "tldr": "This article introduces personality engineering-a methodology that precisely parameterizes the personas of AI agents based on established personality frameworks-and proposes the interpersonal circumplex-and its two core dimensions of warmth and dominance-as a foundational coordinate system for the field.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2605.20555": {
     "citation_count": 0,
@@ -254235,7 +254235,7 @@
     "citation_count": 4,
     "influential_citation_count": 0,
     "tldr": "This paper proposes Diffusion-Adaptive Routing (DAR), a drop-in residual replacement that performs learnable, timestep-adaptive, and non-incremental aggregation over the history of sublayer outputs, and is compatible with many modern Transformer enhancement methods, such as REPA.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2605.20712": {
     "citation_count": 0,
@@ -258573,7 +258573,7 @@
     "citation_count": 1,
     "influential_citation_count": 0,
     "tldr": "Gefen, a memory-efficient optimizer that automatically shares second-moment estimates across parameter blocks and quantizes the first moment using a learned codebook, is proposed, a drop-in replacement that can train larger models or use larger global batch sizes.",
-    "fetched_at": "2026-10-26T09:37:35.912166+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2606.14200": {
     "citation_count": 0,
@@ -260502,10 +260502,10 @@
     "fetched_at": "2026-06-15T09:59:09.859126+00:00"
   },
   "2605.26038": {
-    "citation_count": 0,
+    "citation_count": 1,
     "influential_citation_count": 0,
     "tldr": "DRScaffold is proposed, a supervised fine-tuning framework that decomposes the supervision target into four causally ordered stages, enforcing grounded reasoning without architectural modification, demonstrating that structured supervision can substitute for a significant portion of model scale in dense-scene reasoning.",
-    "fetched_at": "2026-06-15T09:59:09.859126+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2605.26040": {
     "citation_count": 0,
@@ -266739,7 +266739,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2606.18114": {
     "citation_count": 0,
@@ -271323,7 +271323,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "It is observed that I2I ReID pre-training positively impacts the generalization ability to T2I data, and incorporating textual supervision during the vision encoder training stage enhances both I2I and T2I performance.",
-    "fetched_at": "2026-06-22T09:54:15.508337+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2606.02251": {
     "citation_count": 0,
@@ -273375,7 +273375,7 @@
     "citation_count": 1,
     "influential_citation_count": 0,
     "tldr": "The results show that ACTIVA is a promising approach for estimating interventional distributions from observational data, and a population-level characterization of ACTIVA's estimand shows that it targets a simulator-weighted mixture over the interventional distributions of causal models that are observationally compatible with the input.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2505.04999": {
     "citation_count": 0,
@@ -280734,10 +280734,10 @@
     "fetched_at": "2026-06-29T14:51:03.509475+00:00"
   },
   "2606.09646": {
-    "citation_count": 1,
+    "citation_count": 6,
     "influential_citation_count": 0,
     "tldr": "The results suggest that intuitive-physics knowledge emerges reliably in pretrained video representations, but its accessibility depends strongly on pretraining paradigm, representational depth, and readout mechanism.",
-    "fetched_at": "2026-10-05T11:13:25.490499+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2606.09648": {
     "citation_count": 0,
@@ -290583,7 +290583,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2501.05795": {
     "citation_count": 3,
@@ -291699,7 +291699,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "This work proposes two complementary families of tests: a copula-first family that systematically varies ground-truth MI, dimensionality, and marginal complexity using synthetic and flow-based transformations; and a marginals-first family that couples real-world image data with controlled dependency structures, extending the classic same-class-pairing paradigm.",
-    "fetched_at": "2026-07-16T05:31:32.436836+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2607.03423": {
     "citation_count": 0,
@@ -293394,10 +293394,10 @@
     "fetched_at": "2026-07-27T06:59:35.570101+00:00"
   },
   "2506.08630": {
-    "citation_count": 0,
+    "citation_count": 3,
     "influential_citation_count": 0,
-    "tldr": "",
-    "fetched_at": "2026-07-27T06:59:35.570101+00:00"
+    "tldr": "It is posited that contextual features are often only partially available, but that they can be recovered through modular interactions, which can allow for better multi-robot control and generalization to contexts that are not seen during training.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2602.18201": {
     "citation_count": 0,
@@ -294278,8 +294278,8 @@
   "2607.07379": {
     "citation_count": 0,
     "influential_citation_count": 0,
-    "tldr": "",
-    "fetched_at": "2026-07-27T06:59:35.570101+00:00"
+    "tldr": "This work introduces Physics-Audited Agentic SciML (PA-SciML), a verification-first workflow for agentic SciML discovery that adds advisory numerical probes before training and tests one modeling change at a time to record which isolated edits are associated with score gains before reuse.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2607.07368": {
     "citation_count": 0,
@@ -294813,7 +294813,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2607.08173": {
     "citation_count": 1,
@@ -297141,7 +297141,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2606.23044": {
     "citation_count": 0,
@@ -301554,10 +301554,10 @@
     "fetched_at": "2026-08-03T06:56:53.180182+00:00"
   },
   "2505.22442": {
-    "citation_count": 0,
+    "citation_count": 2,
     "influential_citation_count": 0,
     "tldr": "SOReL is introduced, a fully offline Bayesian model-based RL method that learns a posterior over dynamics, estimates policy value via predictive uncertainty, and enables complete offline hyperparameter selection and TOReL, which extends this tuning framework to arbitrary model-free and model-based ORL algorithms.",
-    "fetched_at": "2026-08-03T06:56:53.180182+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2505.17974": {
     "citation_count": 0,
@@ -304602,10 +304602,10 @@
     "fetched_at": "2026-07-20T06:43:29.722784+00:00"
   },
   "2606.30410": {
-    "citation_count": 0,
-    "influential_citation_count": 0,
+    "citation_count": 24,
+    "influential_citation_count": 3,
     "tldr": "BeyondArena is the first unified holistic benchmark for tabular data that supports diverse task types (IID, temporal, grouped), across sample size and feature dimensionality scales, with diverse feature types from a broad range of disciplines.",
-    "fetched_at": "2026-07-20T06:43:29.722784+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2606.30412": {
     "citation_count": 0,
@@ -305469,7 +305469,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "DAUPNet is proposed, a unified framework that reformulates cross-domain prototype matching as uncertainty-aware prototype discrimination and provides a robust and interpretable approach to CD-FSS under severe domain shift.",
-    "fetched_at": "2026-07-29T05:42:54.355871+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2607.16632": {
     "citation_count": 0,
@@ -306993,7 +306993,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "A neuro-symbolic meta-policy that learns which symbolic memory heuristic to apply at each decision point while keeping execution symbolic is introduced, achieving best held-out performance among the compared symbolic, neural, and neuro-symbolic systems while preserving step-level traceability of memory-management decisions.",
-    "fetched_at": "2026-10-13T09:49:26.224703+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2607.18361": {
     "citation_count": 0,
@@ -307041,7 +307041,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2607.18429": {
     "citation_count": 0,
@@ -307718,8 +307718,8 @@
   "2607.19195": {
     "citation_count": 0,
     "influential_citation_count": 0,
-    "tldr": "",
-    "fetched_at": "2026-08-10T05:22:38.383989+00:00"
+    "tldr": "This method provides a systematic procedure for analyzing diverse, complex architectures in associative memory and reveals how memory retrieval depends on the initial state in higher-order dense networks, and gives the exact full-retrieval threshold for the LSE model.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2607.19191": {
     "citation_count": 0,
@@ -312756,10 +312756,10 @@
     "fetched_at": "2026-10-22T08:03:45.776187+00:00"
   },
   "2501.14249": {
-    "citation_count": 426,
+    "citation_count": 432,
     "influential_citation_count": 59,
     "tldr": "",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2406.02021": {
     "citation_count": 0,
@@ -313449,7 +313449,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "CogArena is introduced, a procedurally generated 13-paradigm benchmark built around a multimethod framework for determining when cognitive-task scores warrant dimensional labels across five theory-motivated groupings, and theory-aligned prompting produces a small in-battery diagonal tendency, but the present evidence does not establish stable five-dimensional profiles.",
-    "fetched_at": "2026-08-17T04:39:08.775798+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2607.24996": {
     "citation_count": 0,
@@ -315777,7 +315777,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "A hybrid Benders solver with output-sensitive iteration bounds is developed, leveraging a Helly-based conflict compression theory to avoid generic exponential cut explosion and establishes an unconditionally polynomial Benders iteration complexity in network size.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2307.08532": {
     "citation_count": 0,
@@ -317739,7 +317739,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2607.28890": {
     "citation_count": 0,
@@ -320451,7 +320451,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "ReBRAC-v2 is introduced, which directly trains an exact-likelihood normalizing flow as the RL actor, combines likelihood, MSE, and MAE behavior regularization, and integrates a classification-based residual critic, staged optimization, and multi-sample test-time action selection, and ranks first in eight categories.",
-    "fetched_at": "2026-08-24T04:41:24.595317+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2608.01193": {
     "citation_count": 0,
@@ -321810,10 +321810,10 @@
     "fetched_at": "2026-08-24T04:41:24.595317+00:00"
   },
   "2608.03270": {
-    "citation_count": 0,
+    "citation_count": 2,
     "influential_citation_count": 0,
-    "tldr": "",
-    "fetched_at": "2026-08-24T04:41:24.595317+00:00"
+    "tldr": "gui-Lens is introduced, a coarse-to-fine grounding framework that allows a general-purpose VLM to determine the target through active visual observations and improves overall grounding accuracy by up to 24.9 percentage points and achieves state-of-the-art performance with GPT-5.5.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2608.03501": {
     "citation_count": 0,
@@ -321825,7 +321825,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2608.03483": {
     "citation_count": 0,
@@ -327339,7 +327339,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2608.07809": {
     "citation_count": 0,
@@ -328275,7 +328275,7 @@
     "citation_count": 8,
     "influential_citation_count": 0,
     "tldr": "Analysis of in-the-wild multi-turn conversations across three open reasoning and one state-of-the-art model finds that response quality is largely preserved under aggressive context filtering, and designs a context-filtering approach that selectively omits the assistant-side history.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2409.04744": {
     "citation_count": 20,
@@ -329949,7 +329949,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2608.11239": {
     "citation_count": 0,
@@ -330489,7 +330489,7 @@
     "citation_count": 13,
     "influential_citation_count": 1,
     "tldr": "Rubric Dropout is proposed, which applies dropout to rubric criteria: at each training step, a random subset of each rubric's criteria is removed from the reward, so the rewarded subset of criteria is resampled at each step.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2608.11612": {
     "citation_count": 0,
@@ -330783,7 +330783,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2608.12001": {
     "citation_count": 0,
@@ -336240,10 +336240,10 @@
     "fetched_at": "2026-08-27T13:11:30.012455+00:00"
   },
   "2608.15381": {
-    "citation_count": 0,
+    "citation_count": 1,
     "influential_citation_count": 0,
     "tldr": "FedPA-LoRA is proposed, a product-aligned federated LoRA framework that jointly addresses limitations and provably converges under both homogeneous and heterogeneous client ranks, with up to a $6.82$ percentage-point improvement in average GLUE accuracy under heterogeneous client ranks.",
-    "fetched_at": "2026-08-27T13:11:30.012455+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2608.15619": {
     "citation_count": 0,
@@ -336585,7 +336585,7 @@
     "citation_count": 3,
     "influential_citation_count": 0,
     "tldr": "The results suggest that Engram can serve as a reusable external knowledge artifact, provided that the target has access to a compatible reader interface and target-side adaptation can further improve alignment when direct reader reuse is insufficient.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2608.16984": {
     "citation_count": 0,
@@ -339561,7 +339561,7 @@
     "citation_count": 2,
     "influential_citation_count": 0,
     "tldr": "An evaluation protocol for long generation and a characterization of a simple intervention, not a mechanism of creativity are reported, report an evaluation protocol for long generation and a characterization of a simple intervention.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2608.19863": {
     "citation_count": 0,
@@ -346851,7 +346851,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2608.27268": {
     "citation_count": 0,
@@ -351744,10 +351744,10 @@
     "fetched_at": "2026-09-09T07:39:23.658551+00:00"
   },
   "2608.30362": {
-    "citation_count": 0,
-    "influential_citation_count": 0,
+    "citation_count": 1,
+    "influential_citation_count": 1,
     "tldr": "ICoA (Induced Covert Attack), an IPI attack designed to induce covert outcomes by steering the agent back to the user task by steering the agent back to the user task after executing the injection is proposed.",
-    "fetched_at": "2026-10-12T11:38:13.677822+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2609.00100": {
     "citation_count": 0,
@@ -351825,7 +351825,7 @@
     "citation_count": 2,
     "influential_citation_count": 0,
     "tldr": "This model compares ordinary least squares, generalized additive models, XGBoost, and Double Machine Learning with XGBoost with independent and with clustered observations, and derived the second-order remainder through which errors in the exposure and outcome nuisance functions jointly determine the bias of the residualized estimator.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2609.00070": {
     "citation_count": 0,
@@ -355917,7 +355917,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "SUDO is introduced, a simulation-free framework for UDOT with general non-quadratic convex growth penalties that supports asymmetric penalties that encode proliferation-dominant priors and produce more plausible trajectories and growth estimates on synthetic and single-cell datasets.",
-    "fetched_at": "2026-09-14T08:49:46.575437+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2609.04678": {
     "citation_count": 0,
@@ -358515,7 +358515,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "Thirteen new semantic end-of-turn detectors for TamilEOT are released: 18,485 labelled turn boundaries cut from 116 real Tamil telephone conversations, and two audio-only detectors fine-tuned from Smart Turn v3.",
-    "fetched_at": "2026-09-09T07:39:23.658551+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2609.05593": {
     "citation_count": 0,
@@ -361575,7 +361575,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "A four-coefficient parameterization lambda_t = sigma(a * h_t + b * u(x) + c + d * gap_t) in which direction-aligned proxies of EOPD and ToDi appear as one-dimensional (1D) restrictions, and which adds multi-channel composition and an explicit bias as further degrees of freedom.",
-    "fetched_at": "2026-09-12T07:24:17.242451+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2609.11737": {
     "citation_count": 1,
@@ -361719,7 +361719,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "SIRF (Spec-Internalized Risk Foundation Model), which internalizes a platform's complex policies, synthesized without additional human annotation via EntiGraph, MAGA rewriting and account-level chain-of-thought (CoT), into the weights via continued pretraining (CPT), so rules are applied at high precision under an ultra-low-latency, verdict-only deployment.",
-    "fetched_at": "2026-09-12T07:24:17.242451+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2609.11739": {
     "citation_count": 0,
@@ -365751,7 +365751,7 @@
     "citation_count": 1,
     "influential_citation_count": 0,
     "tldr": "This work proposes Hybrid Neural Solver for Combinatorial Optimization (HyCO), a hybrid inference algorithm that constructs a solution prefix with an RL solver and adaptively switches to a conditional DM to complete the remaining decisions, and designs a lightweight adaptive trigger that combines policy entropy and RL-DM disagreement to detect trajectory-level signals of the regime shift.",
-    "fetched_at": "2026-10-05T11:13:25.490499+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2609.07998": {
     "citation_count": 0,
@@ -368517,7 +368517,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2609.15094": {
     "citation_count": 0,
@@ -370790,8 +370790,8 @@
   "2609.17989": {
     "citation_count": 4,
     "influential_citation_count": 0,
-    "tldr": "It is argued that an agent's evaluation of a sponsored listing should not depend on which party deployed it, and shown that disclosure mandates designed for human consumers cannot by themselves protect consumers in AI-mediated commerce.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "tldr": "This work examines whether an AI agent's evaluation of paid listings depends on who delegates the agent across both model families, and establishes this sponsorship bias across generative LLMs, prompt wordings, and reasoning efforts.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2609.17997": {
     "citation_count": 1,
@@ -371994,10 +371994,10 @@
     "fetched_at": "2026-10-05T11:13:25.490499+00:00"
   },
   "2609.19906": {
-    "citation_count": 0,
-    "influential_citation_count": 0,
-    "tldr": "The value of execution-improved software as a resource for acquiring new policies in this setting is demonstrated, although initial references remain better on two target tasks when averaged across runs.",
-    "fetched_at": "2026-10-05T11:13:25.490499+00:00"
+    "citation_count": 3,
+    "influential_citation_count": 1,
+    "tldr": "Results show that improving source-task code also improves learning on new tasks, and this approach is validated on a physical Unitree G1 and its relationship to cross-task transfer.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2609.19916": {
     "citation_count": 0,
@@ -374097,7 +374097,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "This work mechanistically analyze VLA representations using a sparse autoencoder and identifies a feature whose activation strongly correlates with the presence of an adversarial patch, and suppress the identified feature at inference time only when a linear probe detects an attack.",
-    "fetched_at": "2026-10-13T09:49:26.224703+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.03383": {
     "citation_count": 0,
@@ -374835,7 +374835,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.04003": {
     "citation_count": 0,
@@ -375044,8 +375044,8 @@
   "2610.04206": {
     "citation_count": 0,
     "influential_citation_count": 0,
-    "tldr": "",
-    "fetched_at": "2026-10-26T09:37:35.912166+00:00"
+    "tldr": "Fine-tuned Google DeepMind-built Gemma-4 mixture-of-experts (MoE) models significantly outperformed fine-tuned Gemma-4 generalist models in predicting rotations defined by both their axes and angles and substantially improved angle estimation for 2D representation without requiring an explicit coordinate system.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.04253": {
     "citation_count": 0,
@@ -375939,7 +375939,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "DiVeR is proposed, which estimates decision criticality from the dispersion of sampled action representations and uses this signal to reweight verifier learning toward states where action selection is most consequential, without requiring step-level annotations or additional environment interaction.",
-    "fetched_at": "2026-10-26T09:37:35.912166+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.04942": {
     "citation_count": 0,
@@ -376059,7 +376059,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "PIT-GCL is introduced, a dual tower structure aware framework that encodes each protein independently from its amino acid sequence, C{\\alpha} point cloud, and a global persistent homology descriptor that outperforms representative sequence based, structure aware, and task specific baselines on general PPI under evaluation.",
-    "fetched_at": "2026-10-26T09:37:35.912166+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.04830": {
     "citation_count": 0,
@@ -378048,10 +378048,10 @@
     "fetched_at": "2026-10-26T09:37:35.912166+00:00"
   },
   "2605.27381": {
-    "citation_count": 0,
+    "citation_count": 2,
     "influential_citation_count": 0,
-    "tldr": "",
-    "fetched_at": "2026-10-26T09:37:38.922848+00:00"
+    "tldr": "The framework thus separates acquisition, certification, and computability ascent, identifying both a positive route to verified support removal and the assumptions on which it depends, and giving a conditional criterion for strict ascent and distinguish it from finite behavioral evidence.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.05610": {
     "citation_count": 0,
@@ -380115,7 +380115,7 @@
     "citation_count": 1,
     "influential_citation_count": 0,
     "tldr": "It is proved that independent majority amplification preserves both languages, whereas existential acceptance over random tapes can admit incorrect outputs, under a uniform pointwise probability gap and task-relative soundness.",
-    "fetched_at": "2026-10-26T09:37:35.912166+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.10608": {
     "citation_count": 0,
@@ -380751,7 +380751,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "Hi3D 3.0 is presented, an image-to-3D generation system targeting object-specific fidelity, with Twinkle3D as its geometry model for generating watertight triangle meshes at $2048^{3}$ resolution, with a fine-grained image-3D cross-modal interaction mechanism that strengthens correspondence between visual evidence and geometric tokens, improving the recovery of object-specific structures.",
-    "fetched_at": "2026-10-26T09:37:35.912166+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.11663": {
     "citation_count": 0,
@@ -380919,7 +380919,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "A Deep Reinforcement Learning-governed dynamic DE-CMAES Orchestration (DRL-DCO) algorithm, in which a Deep Deterministic Policy Gradient (DDPG)-based actor-critic agent continuously governs the evolutionary process as a single, unified system rather than a mechanical concatenation of algorithms.",
-    "fetched_at": "2026-10-26T09:37:35.912166+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.11539": {
     "citation_count": 0,
@@ -380949,7 +380949,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "An MSDF accelerator for quantized U-Net segmentation with a two-stage grouped processing element supporting signed INT8 operands and in-stream bias accumulation and a projected eight-output accelerator with shared activation delivery achieves 16.6~ms latency and 1.67~mJ per patch.",
-    "fetched_at": "2026-10-26T09:37:35.912166+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.11738": {
     "citation_count": 0,
@@ -381033,7 +381033,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "MultiWorldBench, a diagnostic Minecraft benchmark comprising 495 case configurations across seven task suites and ten capabilities, is introduced, showing that current multiplayer world models still exhibit a substantial gap relative to Engine GT in maintaining a coherent shared world.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.11715": {
     "citation_count": 0,
@@ -381132,10 +381132,10 @@
     "fetched_at": "2026-10-26T09:37:35.912166+00:00"
   },
   "2610.11858": {
-    "citation_count": 0,
-    "influential_citation_count": 0,
-    "tldr": "SkillMorph is a skill-evolution approach based on trajectory-guided fault localization in agent skills that compares failure and success evidence in abstracted trajectories across repeated runs and tasks, incorporating changes between evolution loops to identify suspicious actions.",
-    "fetched_at": "2026-10-26T09:37:35.912166+00:00"
+    "citation_count": 7,
+    "influential_citation_count": 2,
+    "tldr": "FAMAS is the first spectrum-based failure attribution approach for MASs and proposes a novel suspiciousness formula tailored to MASs, which integrates two key factor groups, namely the agent behavior group and the action behavior group, to account for the agent activation patterns and action activation patterns within the MAS execution trajectories.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.11854": {
     "citation_count": 0,
@@ -388305,7 +388305,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "SYNTRA is introduced, a self-improving agentic framework that turns a few retrieval examples into reusable synthesis instructions that enables scalable embedding-model adaptation with minimal human intervention.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.14707": {
     "citation_count": 0,
@@ -389301,7 +389301,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.18088": {
     "citation_count": 0,
@@ -391215,7 +391215,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.21085": {
     "citation_count": 0,
@@ -391317,7 +391317,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.21368": {
     "citation_count": 3,
@@ -391605,7 +391605,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "This paper proposes PriorityFEC, a utility-aware KV-cache handoff scheme that jointly exploits model-side KV importance and transport-side reliability and achieves superior task quality over the compared transport schemes, with its advantages becoming particularly pronounced under stringent deadline constraints.",
-    "fetched_at": "2026-10-25T07:52:30.002373+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.21337": {
     "citation_count": 0,
@@ -392277,7 +392277,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "Metro-WM is introduced, a hierarchical framework that issues sub-goals by retrieving genuine states from prior experience rather than generating ungrounded latent vectors that achieves superior long-horizon success rates and maintains robust performance under extremely sparse dataset conditions.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2609.34582": {
     "citation_count": 0,
@@ -392292,10 +392292,10 @@
     "fetched_at": "2026-10-26T09:39:12.750060+00:00"
   },
   "2609.33867": {
-    "citation_count": 1,
+    "citation_count": 2,
     "influential_citation_count": 0,
     "tldr": "R$^2$ Flow is introduced, a recursive self-improvement framework that alternates policy learning, independent verification, and versioned skill-library updates on a shared-state orchestration graph that improves task accuracy and library-edit precision over heuristic orchestration, reinforcement learning, and skill-evolution baselines, and transfers across executors.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2609.33662": {
     "citation_count": 0,
@@ -392307,7 +392307,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "This work proposes CollabFlow, an RSI system of Learned Agent Collaboration: a trainable Collab-Director constructs teams of complete Agents, a frozen executor runs them, and each round's outcomes retrain the director, and each round's outcomes retrain the director.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2609.32544": {
     "citation_count": 0,
@@ -392421,7 +392421,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "RiskCueBench is introduced, a recoverability-controlled benchmark that separates whether a model can successfully recover a high-level intent and then evaluating its safety behavior on the same prompt, showing that the safety behavior can be miscalibrated to the surface form even after the intent has been recovered.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.22408": {
     "citation_count": 0,
@@ -392481,7 +392481,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "A hierarchical feedback framework that uses different types of feedback information to guide LLMs in generating executable plans for CPSs and can generate executable plans and feasible control executions that satisfy the original natural language missions with a success rate of 87.9% with GPT-5.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.22420": {
     "citation_count": 0,
@@ -392847,7 +392847,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "This work proposes R$^2$Orch, a new paradigm of Recursive Self-Play Orchestration: an inner loop of self-play that improves the orchestrator on self-chosen tasks, and an outer loop that improves how the inner loop improves.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.22734": {
     "citation_count": 0,
@@ -393165,7 +393165,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "Results identify reward-preserving training structure as a practical route to lower per-step cost in short-window RLVR, and single-problem evaluations provide supporting evidence of retained reasoning quality.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.23199": {
     "citation_count": 0,
@@ -394881,7 +394881,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "EHRAdapt, an adapter that maps tuples directly into a frozen language model's embedding space, outperforms text-based LLM and count-based baselines and the same LLMs adapted to the same records through next-event prediction, and both pathways improve rare-disease discrimination.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2609.34012": {
     "citation_count": 0,
@@ -395193,13 +395193,13 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "This work proposes SafePO, a reinforcement learning algorithm for refining violation identification while balancing explanatory reasoning and final verdicts, and develops AdaGuard, a family of 0.6B, 4B, and 8B guard models that assess agent trajectories under policies supplied at inference time.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2609.34242": {
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "Stashbird is an episode-grounded memory system that uses provenance to reconcile derived graph and retrieval state during updates and deletion and achieves competitive question-answering accuracy and strong model efficiency.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2609.34250": {
     "citation_count": 0,
@@ -398916,10 +398916,10 @@
     "fetched_at": "2026-10-19T09:34:19.423045+00:00"
   },
   "2609.37061": {
-    "citation_count": 0,
+    "citation_count": 1,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-10-19T09:34:19.423045+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2609.37066": {
     "citation_count": 0,
@@ -400107,7 +400107,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2609.20820": {
     "citation_count": 0,
@@ -401361,7 +401361,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "A novel, forward-only proxy motivated by the norm of the Hessian is tested, alongside common Hessian measures, across molecular property, protein fitness, and drug-response tasks, finding that geometry does not become more useful as validation Spearman correlation deteriorates, and a generalisation signal need not be a model-selection signal.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2609.39101": {
     "citation_count": 0,
@@ -402117,7 +402117,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "This work addresses a failure mode in which lower generalized passenger time coexists with incomplete passenger journeys and studies the cross-fidelity problem for multi-line bus holding.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2609.39869": {
     "citation_count": 0,
@@ -402579,7 +402579,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.00354": {
     "citation_count": 0,
@@ -403383,7 +403383,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "Zero2Repo is introduced, a benchmark in which an agent receives a product requirements document, an interface contract, and an empty workspace, and must deliver a complete repository in the project's native ecosystem.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2609.38353": {
     "citation_count": 0,
@@ -403395,13 +403395,13 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "The results demonstrate that the model design is key to making transformer architectures effective for motion retargeting, outperforming existing approaches.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2609.38645": {
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "Embedded probes that detect undesired properties in model activations as a direct training signal achieves better safety-utility trade-offs than DPO and inference-time steering, while being substantially more robust against jailbreak and abliteration attacks.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2609.38659": {
     "citation_count": 0,
@@ -403551,7 +403551,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "This work introduces the Model-Corrected World Model (MC-WM), which separates initial target data into disjoint fit, selection, and calibration partitions and deploys the family with lower standardized calibration risk.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.01002": {
     "citation_count": 0,
@@ -404337,7 +404337,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "This structured narrative review maps three literatures: medical education assessment instruments, clinical LLM benchmarks published from 2023 onwards, and general-domain methods for evaluating long-form generation and examines six dimensions: problem representation, temporal synthesis, differential and management reasoning, counterfactual reasoning, calibrated uncertainty, and reasoning faithfulness.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.01949": {
     "citation_count": 1,
@@ -404547,7 +404547,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "Forward Entropy-Regularized Policy Optimization (FERPO) is proposed, an on-policy maximum entropy reinforcement learning algorithm that performs policy improvement using critic values without differentiating the critic with respect to actions.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.02200": {
     "citation_count": 11,
@@ -404691,7 +404691,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2605.17193": {
     "citation_count": 4,
@@ -404775,7 +404775,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.15884": {
     "citation_count": 0,
@@ -404859,7 +404859,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.24048": {
     "citation_count": 0,
@@ -404871,7 +404871,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.24014": {
     "citation_count": 0,
@@ -404931,13 +404931,13 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.23914": {
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.24006": {
     "citation_count": 0,
@@ -404973,7 +404973,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.22195": {
     "citation_count": 0,
@@ -405255,13 +405255,13 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.24268": {
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.24241": {
     "citation_count": 0,
@@ -405285,13 +405285,13 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.24147": {
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.24108": {
     "citation_count": 0,
@@ -405351,7 +405351,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.24157": {
     "citation_count": 0,
@@ -405453,7 +405453,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.24464": {
     "citation_count": 0,
@@ -405483,7 +405483,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.24483": {
     "citation_count": 0,
@@ -405723,7 +405723,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.24871": {
     "citation_count": 0,
@@ -405741,13 +405741,13 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.24709": {
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.24662": {
     "citation_count": 0,
@@ -405765,25 +405765,25 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.24926": {
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.24916": {
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.24824": {
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.24789": {
     "citation_count": 0,
@@ -405795,13 +405795,13 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.24730": {
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.24721": {
     "citation_count": 0,
@@ -405825,13 +405825,13 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.24869": {
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.24823": {
     "citation_count": 0,
@@ -405855,7 +405855,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.24717": {
     "citation_count": 0,
@@ -405867,13 +405867,13 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.24649": {
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.24928": {
     "citation_count": 0,
@@ -405885,13 +405885,13 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.24952": {
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.24945": {
     "citation_count": 0,
@@ -405903,7 +405903,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.24930": {
     "citation_count": 0,
@@ -405915,13 +405915,13 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.24903": {
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.24899": {
     "citation_count": 0,
@@ -405957,7 +405957,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.24957": {
     "citation_count": 0,
@@ -405981,19 +405981,19 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.25163": {
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.25134": {
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.25096": {
     "citation_count": 0,
@@ -406011,7 +406011,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.25059": {
     "citation_count": 0,
@@ -406023,13 +406023,13 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.25005": {
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2407.08250": {
     "citation_count": 8,
@@ -406101,7 +406101,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.25069": {
     "citation_count": 0,
@@ -406125,7 +406125,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2506.00060": {
     "citation_count": 2,
@@ -406143,7 +406143,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.25121": {
     "citation_count": 0,
@@ -406167,7 +406167,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2412.16336": {
     "citation_count": 3,
@@ -406191,19 +406191,19 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.25015": {
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.24962": {
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2504.20829": {
     "citation_count": 9,
@@ -406329,7 +406329,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.25481": {
     "citation_count": 0,
@@ -406389,7 +406389,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.18603": {
     "citation_count": 0,
@@ -406695,7 +406695,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.26899": {
     "citation_count": 0,
@@ -407163,7 +407163,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.27518": {
     "citation_count": 0,
@@ -407217,7 +407217,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.27610": {
     "citation_count": 0,
@@ -407325,7 +407325,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.27465": {
     "citation_count": 0,
@@ -407607,7 +407607,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.27714": {
     "citation_count": 0,
@@ -407733,13 +407733,13 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.28064": {
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.28048": {
     "citation_count": 0,
@@ -407751,7 +407751,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.28203": {
     "citation_count": 0,
@@ -407871,7 +407871,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.27901": {
     "citation_count": 0,
@@ -408111,7 +408111,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.26821": {
     "citation_count": 0,
@@ -408315,7 +408315,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.29010": {
     "citation_count": 0,
@@ -408405,7 +408405,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.28849": {
     "citation_count": 0,
@@ -408447,7 +408447,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.28907": {
     "citation_count": 0,
@@ -408489,7 +408489,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.28997": {
     "citation_count": 0,
@@ -408537,7 +408537,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.28834": {
     "citation_count": 0,
@@ -408633,7 +408633,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.29110": {
     "citation_count": 0,
@@ -408741,7 +408741,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.29101": {
     "citation_count": 0,
@@ -408819,7 +408819,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.29271": {
     "citation_count": 0,
@@ -408885,7 +408885,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.29317": {
     "citation_count": 0,
@@ -409221,7 +409221,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.29922": {
     "citation_count": 0,
@@ -409335,7 +409335,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.29832": {
     "citation_count": 0,
@@ -409485,55 +409485,55 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "This chapter examines cross-cutting conceptualisations, modelling problems, and design challenges shared by large-scale distributed AI and institutional systems and argues thatepistemological, normative, and value pluralisms are necessary conditions for sustaining the ecological character of intelligence.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2603.06793": {
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "Optimistic Policy Regularization is proposed, which turns those episodes into a closed-form reward bonus and estimates an elite action prior from top-quartile episodes and adds a reviewblue transform of the log-ratio of the prior to the policy's action distribution.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2509.08812": {
     "citation_count": 2,
     "influential_citation_count": 0,
     "tldr": "Morpheme-aware Subword Vocabulary Construction (MoVoC) is presented and MoVoC-Tok, a tokenizer that integrates supervised morphological analysis into the subword vocabulary, is trained, which has the highest MorphScore in three of four languages and the highest morpheme boundary precision in two of four.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2504.20310": {
     "citation_count": 1,
     "influential_citation_count": 0,
     "tldr": "This work shows that, when there is a quadratic gap in computational resources between attacker and defender, every learnable classification task admits either a transferable attack or an adversarial defense, and proves a stronger result that implies this failure.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2410.23726": {
     "citation_count": 6,
     "influential_citation_count": 1,
     "tldr": "In an idealized multivariate Gaussian model for the noisy reward function, it is shown that the regularizer achieving optimal risk in a suitably local neighborhood of the reference policy is the quadratic norm weighted by the reward covariance matrix.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2505.11109": {
     "citation_count": 13,
     "influential_citation_count": 1,
     "tldr": "This work presents the first large-scale open-set benchmark for multilingual audio-video deepfake detection, and shows that state-of-the-art detectors are not currently able to maintain their performance levels when tested in the open-set scenarios.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2403.17147": {
     "citation_count": 4,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2505.05492": {
     "citation_count": 1,
     "influential_citation_count": 0,
     "tldr": "The motivation, design, and use cases of DetoxAI, an open-source Python library for improving fairness in deep learning vision classifiers through post-hoc debiasing are presented, demonstrating its tangible value to engineers and researchers.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2506.08785": {
     "citation_count": 13,
     "influential_citation_count": 0,
     "tldr": "PARV-CE is presented, a SIMD-enabled, multi-precision MAC engine that performs efficient multiply-accumulate operations using a unified data-path for 4/8/16-bit fixed-point, floating point, and posit formats, and incorporates POLARON as a scalable and energy-efficient solution for precision-adaptive AI acceleration at edge.",
-    "fetched_at": "2026-10-26T09:39:12.750060+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2606.07581": {
     "citation_count": 1,
@@ -409557,7 +409557,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.22155": {
     "citation_count": 0,
@@ -409749,7 +409749,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.30291": {
     "citation_count": 0,
@@ -409791,7 +409791,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.30391": {
     "citation_count": 0,
@@ -409905,7 +409905,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.30349": {
     "citation_count": 0,
@@ -410109,7 +410109,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.30769": {
     "citation_count": 0,
@@ -410163,7 +410163,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.30528": {
     "citation_count": 0,
@@ -410175,7 +410175,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.30660": {
     "citation_count": 0,
@@ -410259,7 +410259,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.30908": {
     "citation_count": 0,
@@ -410355,7 +410355,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.31104": {
     "citation_count": 0,
@@ -410367,13 +410367,13 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.31060": {
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.31047": {
     "citation_count": 0,
@@ -410397,7 +410397,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.31100": {
     "citation_count": 0,
@@ -410463,7 +410463,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.31066": {
     "citation_count": 0,
@@ -410535,13 +410535,13 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.31147": {
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.31118": {
     "citation_count": 0,
@@ -410643,7 +410643,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.31380": {
     "citation_count": 0,
@@ -411447,7 +411447,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "It is shown that, under appropriate architectural and contextual constraints, statistical learning can produce meaning-mediated abstractions, although generation remains strongly constrained by superficial plausibility.",
-    "fetched_at": "2026-10-26T09:37:35.912166+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2609.35671": {
     "citation_count": 0,
@@ -411710,8 +411710,8 @@
   "2610.05533": {
     "citation_count": 0,
     "influential_citation_count": 0,
-    "tldr": "A study of where harness search gains come from, with three small models, three benchmarks, replication and test partitions, a GEPA search arm and six evaluation defects injected one at a time, and all 47 primary endpoints.",
-    "fetched_at": "2026-10-26T09:37:35.912166+00:00"
+    "tldr": "Longevity fine-tuning raised a 1.7B model's letter accuracy by 41 points and cut its MMLU-Pro and GSM8K accuracy by 16 and 63 points; on a second GPU, 58% of its zero-temperature token sequences changed and none of the nine grid verdicts the authors rechecked did.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.05538": {
     "citation_count": 1,
@@ -411824,8 +411824,8 @@
   "2610.05625": {
     "citation_count": 0,
     "influential_citation_count": 0,
-    "tldr": "The tool eliminates the need for manual band selection and repetitive raster computations by automating the multi-step workflow of radiometric calibration, NDVI-based emissivity correction, and thermal conversion, and provides an interactive LLM-based interface for result interpretation.",
-    "fetched_at": "2026-10-26T09:37:35.912166+00:00"
+    "tldr": "The tool eliminates the need for manual band selection and repetitive raster computations by automating the multi-step workflow of radiometric calibration, NDVI-based emissivity correction, and thermal conversion, and provides an interactive LLM-based interface for result's interpretation.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.05633": {
     "citation_count": 0,
@@ -412209,7 +412209,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "This paper presents the system used for a first place submission to the PalmCity challenge in the leaderboard snapshot dated 5 October 2026, providing a documented challenge workflow with existing architectures.",
-    "fetched_at": "2026-10-26T09:37:35.912166+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.06069": {
     "citation_count": 0,
@@ -413684,8 +413684,8 @@
   "2610.12113": {
     "citation_count": 0,
     "influential_citation_count": 0,
-    "tldr": "GeZo-SAC is proposed, which uses auxiliary geometric representations to adapt critic pessimism to the state and action and achieves the lowest average actuator work and action effort per metre among the evaluated methods, while maintaining near-zero measured overestimation frequency across all four environments.",
-    "fetched_at": "2026-10-26T09:37:35.912166+00:00"
+    "tldr": "Geometric Zonotope Soft Actor-Critic (GeZo-SAC), which uses auxiliary geometric representations to adapt critic pessimism to the state and action, and achieves the highest mean return on Ant-v5 and Hopper-v5 and remains competitive with other methods on the remaining tasks.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.12114": {
     "citation_count": 0,
@@ -414117,7 +414117,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.30282": {
     "citation_count": 0,
@@ -414243,7 +414243,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.31678": {
     "citation_count": 0,
@@ -414333,7 +414333,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.31937": {
     "citation_count": 0,
@@ -414465,7 +414465,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.32113": {
     "citation_count": 0,
@@ -414555,7 +414555,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.32196": {
     "citation_count": 0,
@@ -414651,7 +414651,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.32127": {
     "citation_count": 0,
@@ -414669,7 +414669,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.32046": {
     "citation_count": 0,
@@ -414741,7 +414741,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.32255": {
     "citation_count": 0,
@@ -414777,7 +414777,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.32260": {
     "citation_count": 0,
@@ -414807,7 +414807,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.32431": {
     "citation_count": 0,
@@ -414849,13 +414849,13 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.32322": {
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.32262": {
     "citation_count": 0,
@@ -414957,7 +414957,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.32229": {
     "citation_count": 0,
@@ -415095,7 +415095,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.32874": {
     "citation_count": 0,
@@ -415173,7 +415173,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.32813": {
     "citation_count": 0,
@@ -415239,7 +415239,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.32866": {
     "citation_count": 0,
@@ -415251,7 +415251,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.32781": {
     "citation_count": 0,
@@ -415455,7 +415455,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.33024": {
     "citation_count": 0,
@@ -415545,7 +415545,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.33063": {
     "citation_count": 0,
@@ -415587,7 +415587,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.33014": {
     "citation_count": 0,
@@ -415707,7 +415707,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.33245": {
     "citation_count": 0,
@@ -415743,7 +415743,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.33088": {
     "citation_count": 0,
@@ -415875,7 +415875,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.33318": {
     "citation_count": 0,
@@ -415911,7 +415911,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.33094": {
     "citation_count": 0,
@@ -416199,7 +416199,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.33592": {
     "citation_count": 0,
@@ -416325,7 +416325,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.33962": {
     "citation_count": 0,
@@ -416637,7 +416637,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.34290": {
     "citation_count": 0,
@@ -416727,7 +416727,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2603.20273": {
     "citation_count": 0,
@@ -416931,7 +416931,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.36010": {
     "citation_count": 0,
@@ -416991,7 +416991,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.35541": {
     "citation_count": 0,
@@ -417267,7 +417267,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.36513": {
     "citation_count": 0,
@@ -417297,7 +417297,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.36341": {
     "citation_count": 0,
@@ -417393,7 +417393,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.36389": {
     "citation_count": 0,
@@ -417477,7 +417477,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.36229": {
     "citation_count": 0,
@@ -417537,7 +417537,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.36668": {
     "citation_count": 0,
@@ -417663,7 +417663,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.36623": {
     "citation_count": 0,
@@ -417885,7 +417885,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.36983": {
     "citation_count": 0,
@@ -417987,7 +417987,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.36980": {
     "citation_count": 0,
@@ -418005,7 +418005,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.36958": {
     "citation_count": 0,
@@ -418041,7 +418041,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.36948": {
     "citation_count": 0,
@@ -418053,13 +418053,13 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.37137": {
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.36911": {
     "citation_count": 0,
@@ -418299,7 +418299,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.37481": {
     "citation_count": 0,
@@ -418497,7 +418497,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.26844": {
     "citation_count": 0,
@@ -418533,13 +418533,13 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.37689": {
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.37919": {
     "citation_count": 0,
@@ -418659,7 +418659,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.37732": {
     "citation_count": 0,
@@ -418887,7 +418887,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.37994": {
     "citation_count": 0,
@@ -418953,7 +418953,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.37973": {
     "citation_count": 0,
@@ -419019,13 +419019,13 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.38008": {
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.38005": {
     "citation_count": 0,
@@ -419043,7 +419043,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.38221": {
     "citation_count": 0,
@@ -419337,7 +419337,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.38445": {
     "citation_count": 0,
@@ -419547,7 +419547,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.38720": {
     "citation_count": 0,
@@ -419703,7 +419703,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.38634": {
     "citation_count": 0,
@@ -419715,7 +419715,7 @@
     "citation_count": 0,
     "influential_citation_count": 0,
     "tldr": "",
-    "fetched_at": "2026-11-01T09:49:59.953690+00:00"
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   },
   "2610.39124": {
     "citation_count": 0,
@@ -419914,5 +419914,1277 @@
     "influential_citation_count": 0,
     "tldr": "This work proposes a two stage detection framework that first identifies suspicious conversations using a tailored ensemble classification model and compares its modular approach against a Dual LLM baseline that performs detection and judgment using different language models.",
     "fetched_at": "2026-10-30T16:34:00.007965+00:00"
+  },
+  "2604.03755": {
+    "citation_count": 3,
+    "influential_citation_count": 0,
+    "tldr": "The results indicate that user-side detection is not a viable defense and motivate system-level countermeasures such as cryptographic content provenance.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2503.13309": {
+    "citation_count": 4,
+    "influential_citation_count": 1,
+    "tldr": "A hybrid, multi-scale and multi-view Swin Transformer-based framework (MSMV-Swin) that enhances diagnostic robustness and accuracy and is designed to be a decision-support tool, helping radiologists analyze multi-view mammograms more effectively.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2603.07379": {
+    "citation_count": 14,
+    "influential_citation_count": 0,
+    "tldr": "This paper formalizes agentic retrieval-generation loops as finite-horizon partially observable Markov decision processes, explicitly modeling their control policies and state transitions, and develops a comprehensive taxonomy and modular architectural decomposition that categorizes systems by their planning mechanisms, retrieval orchestration, memory paradigms, and tool-invocation behaviors.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2509.15688": {
+    "citation_count": 4,
+    "influential_citation_count": 0,
+    "tldr": "This work proposes a two-stage process that first extracts peripheral features (coarse view) and generates a sample map, from which fixation patches are sampled and encoded in parallel using a weight-shared encoder to prevent spatial collapse.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2506.20856": {
+    "citation_count": 6,
+    "influential_citation_count": 3,
+    "tldr": "It is demonstrated that LoRA significantly reduces memorization risks compared to full fine-tuning, while still maintaining strong task performance.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2411.09181": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "A simple yet effective mechanism for generating time-aware user/item embeddings is introduced and two strategies for denoising bipartite temporal graph in recommender systems (DeBaTeR) are proposed.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2509.22014": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "A lightweight agentic multimodal framework for video-based scene understanding that supports chain-of-thought reasoning, speech-vision fusion, and dynamic tool invocation and shows competitive accuracy and improved robustness compared to state-of-the-art VLMs.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2209.11134": {
+    "citation_count": 31,
+    "influential_citation_count": 2,
+    "tldr": "Two kinds of neural networks inspired by power method and inverse power method to solve linear eigenvalue problems are proposed and numerical results show that accurate eigen value and eigenfunction approximations can be obtained by these methods.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2505.23977": {
+    "citation_count": 15,
+    "influential_citation_count": 1,
+    "tldr": "This work proposes a rule-to-image synthesis pipeline, which extracts and expands puzzle rules from seed questions and generates the code of grounding synthesis image synthesis for puzzle sample assembly, to tackle the challenge of image synthesis with grounding answers.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2603.20206": {
+    "citation_count": 2,
+    "influential_citation_count": 0,
+    "tldr": "A representation-level fine-tuning approach, named Embedding Space Separation (ES2), which improves LLM safety by explicitly enlarging the distance between harmful and safe representations in the embedding space by introducing a Kullback-Leibler divergence regularization term into the loss function.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2506.20651": {
+    "citation_count": 3,
+    "influential_citation_count": 1,
+    "tldr": "A defender's perspective is adopted to provide the first comprehensive analysis of malicious gradient leakage attacks and the model manipulation techniques that enable them, and a simple, lightweight, and broadly applicable client-side detection mechanism is proposed that flags suspicious model updates before local training begins, despite the fact that such detection may not be strictly necessary in realistic FL settings.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2507.00557": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "A two-dimensional cell-jump move is introduced, generalizing the key operation, cell-jump, of the local search method for SMT-NRA, and an extended local search framework is proposed, named \\emph{$2d$-LS} (following the local search framework, LS, for SMT-NRA), integrating the model constructing satisfiability calculus (MCSAT) framework to improve search efficiency.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2508.05653": {
+    "citation_count": 1,
+    "influential_citation_count": 0,
+    "tldr": "A formal representation framework for INS is introduced, inspired by diverse approaches from the state of the art, that facilitates the analysis, the description and comparison of INS properties.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2608.21702": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "The method guards the keyword-stuffing regime of growing proprietary knowledge bases and complements neural rerankers; a corpus-level calibration gate selects the correct regime with>= 95% reliability; a fully local testbed demonstrates deployability.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.17256": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "This paper froze a rule in which agreement with the shown answer is the score and deterministic checks act as vetoes and caps, and pre-registered a test on Spider dev before any Spider answer existed, holding the primary hypothesis.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.15620": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "ReState is proposed, a unified iterative reasoning framework that reformulates multimodal reasoning from a stage-driven pipeline into a state-driven dynamic process and achieves strong performance on multiple public reasoning benchmarks, supporting the shift from stage-centric reasoning toward state-centric reasoning.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2609.23058": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "LazyAgent is presented, a unified execution framework for agent-authored programs organized around a live, goal-derived demanded set that consistently outperforms the strongest goal-stopping eager baseline by refusing unrelated work before it starts and motivates benchmarks built from standing programs and sequences.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.16927": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "This work proposes WeFair, Fidelity-Aware Alignment from Human Feedback for Personalized Query Rewriting in WeChat short-video search and constructs a strict verification reward based on actual human reformulations to further boost performance with group relative policy optimization.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.17748": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "Results show that I3L helps close the last-mile gap between offline training and reliable deployment and provides practical insights into collecting and using corrections for long-horizon whole-body mobile manipulation.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40927": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40798": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40728": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40714": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.39876": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "This approach combines calibrated multi-teacher on-policy distillation with an execution path that uses post-capacity bounded-width dispatch, final-route replay, and asynchronous rollout--training overlap to demonstrate strong specialist integration alongside more efficient consolidation, while reflecting the complete training and execution framework rather than any single component.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.39500": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "ReTold-2k, a reconstructable corpus with the scoring protocol and per-judge baselines kept unaggregated, is released, a reconstructable corpus with the scoring protocol and per-judge baselines kept unaggregated needed to detect and reduce distortions.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40692": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40938": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40906": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40890": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40883": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40847": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40831": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40828": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40759": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40757": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.35685": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "The LLM-Social Computing framework is adapted to Pashupatinath Temple, Nepal, by specifying a 12-type entity taxonomy with component-wise human evaluation and explicit reproducibility and generalization limitations, a culturally grounded, domain-specific adaptation.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.34829": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "This work proposes MONOLOGUE, a single-document poisoning framework based on Logic Hijacking without explicit refutation, which achieves the strongest overall attack efficacy among the evaluated single-document poisoning attacks.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40758": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40753": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40735": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40665": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40867": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.35218": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "MuSID-KD is proposed, which combines Hierarchical Candidate Distribution Alignment (HCDA) and Ranking Impact Guided Levelwise Distillation (RIGD) and demonstrates improved recommendation accuracy and better alignment of prefix marginal distributions and pairwise item rankings, without modifying the student's online inference architecture.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40503": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "This work introduces the Algebraic World Model (AWM), a framework that turns interaction with unfamiliar environments into explicit mathematical models supporting formal reasoning, and produces interpretable mathematical models whose rules can be inspected and tested step by step.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40934": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40917": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40901": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40420": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "Neighbor Event-Curve Augmentation (NECA), a model-agnostic method that retrieves training-set patients with similar early-window profiles and converts their subsequent organ dysfunction event onset times into cumulative event-curve features over 6h, 12h, 24h, and 42h, supports similar-patient event timing as a structured temporal risk signal for ICU organ dysfunction event prediction.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.39714": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "MoLRSI is introduced, an AI agent that combines systematic optimization of workflows and model architectures with persistent cross-task memory to recursively improve its search policy for molecular discovery.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40744": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40721": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40716": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.39813": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "EvoTeam is a collaboration-centric evolution framework that jointly evolves team organization, interaction rules, and individual agent skills through execution experience that maintains a library of reusable teams and guides collaboration through team-specific interaction rules.",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40751": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41169": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41168": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41132": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41112": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40992": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40946": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40939": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41014": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41009": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40998": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40985": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40954": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41162": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41149": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41129": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41100": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41074": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41073": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41072": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41040": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41025": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41199": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41172": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41124": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41114": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41107": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41090": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41089": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41056": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41044": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41030": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41018": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40943": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40940": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41183": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41015": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40945": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41157": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41130": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41104": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41085": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41081": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41037": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41165": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41158": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41076": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41039": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40970": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.40959": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41160": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41236": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41231": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41604": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41399": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41384": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41328": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41314": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41482": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41290": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41486": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41453": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41445": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41435": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41411": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41398": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41397": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41396": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41381": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41378": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41359": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41307": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41609": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41564": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41232": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41210": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41596": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41563": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41511": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41479": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41420": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41401": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41267": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41264": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41291": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41380": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41375": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41358": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41304": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41487": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41368": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41350": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41322": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41308": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41301": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41296": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41570": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41245": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41225": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41280": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41272": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.42039": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.42004": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41956": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41790": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41677": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41661": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41647": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41639": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41629": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41616": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41901": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41805": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41795": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41899": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41893": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41856": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41850": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.42040": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41970": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41968": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41939": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41998": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41754": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41751": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41675": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41710": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41697": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41866": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41835": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41813": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41793": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41792": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.42030": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41994": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41951": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41949": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41946": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41988": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41784": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41713": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41688": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41618": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.42024": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41909": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41879": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41665": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.42001": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41900": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.41865": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.42036": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.42141": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.42116": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.42066": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.42146": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.42112": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.42054": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.42096": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
+  },
+  "2610.42147": {
+    "citation_count": 0,
+    "influential_citation_count": 0,
+    "tldr": "",
+    "fetched_at": "2026-11-02T10:08:40.533693+00:00"
   }
 }
