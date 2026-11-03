@@ -4,26 +4,26 @@
     "226": {
       "name": "LLM Agent Frameworks & Architectures",
       "created": "2026-10-06",
-      "last_seen": "2026-11-02",
+      "last_seen": "2026-11-03",
       "confidence_history": [
-        0.963,
         1.0,
         0.955,
         0.963,
-        0.96
+        0.96,
+        0.926
       ],
       "paper_count_history": [
-        27,
         18,
         22,
         27,
-        25
+        25,
+        27
       ]
     },
     "227": {
       "name": "LLM Agent Skill Management & Safety",
       "created": "2026-10-06",
-      "last_seen": "2026-11-02",
+      "last_seen": "2026-11-03",
       "confidence_history": [
         1.0,
         1.0,
@@ -34,40 +34,42 @@
       "paper_count_history": [
         8,
         8,
-        8,
         9,
-        1
+        1,
+        5
       ]
     },
     "230": {
       "name": "LLM Uncertainty Quantification & Calibration",
       "created": "2026-10-20",
-      "last_seen": "2026-11-02",
+      "last_seen": "2026-11-03",
       "confidence_history": [
-        0.714,
         1.0,
         0.875,
         1.0,
-        1.0
+        1.0,
+        0.857
       ],
       "paper_count_history": [
         7,
-        7,
         8,
         7,
-        8
+        8,
+        7
       ]
     },
     "231": {
       "name": "Multimodal Reinforcement Learning",
       "created": "2026-10-22",
-      "last_seen": "2026-11-01",
+      "last_seen": "2026-11-03",
       "confidence_history": [
+        1.0,
         1.0,
         1.0,
         1.0
       ],
       "paper_count_history": [
+        1,
         1,
         1,
         1
@@ -76,64 +78,64 @@
     "232": {
       "name": "LLM Reasoning & Generalization Analysis",
       "created": "2026-10-25",
-      "last_seen": "2026-11-02",
+      "last_seen": "2026-11-03",
       "confidence_history": [
-        0.857,
         0.941,
         1.0,
         0.944,
-        0.857
+        0.857,
+        0.688
       ],
       "paper_count_history": [
-        28,
         17,
         13,
         18,
-        21
+        21,
+        16
       ]
     },
     "234": {
       "name": "Scientific Discovery Agents",
       "created": "2026-10-28",
-      "last_seen": "2026-11-02",
+      "last_seen": "2026-11-03",
       "confidence_history": [
         1.0,
         1.0,
         1.0,
-        1.0,
-        0.889
+        0.889,
+        1.0
       ],
       "paper_count_history": [
-        13,
         15,
         15,
         12,
-        9
+        9,
+        16
       ]
     },
     "233": {
       "name": "AI Agent Evaluation & Reliability",
       "created": "2026-10-28",
-      "last_seen": "2026-11-02",
+      "last_seen": "2026-11-03",
       "confidence_history": [
         1.0,
-        1.0,
         0.933,
+        1.0,
         1.0,
         1.0
       ],
       "paper_count_history": [
-        24,
         18,
         15,
         14,
-        16
+        16,
+        14
       ]
     },
     "235": {
       "name": "LLM Knowledge Distillation & Self-Improvement",
       "created": "2026-10-30",
-      "last_seen": "2026-11-02",
+      "last_seen": "2026-11-03",
       "confidence_history": [
         1.0,
         1.0,
@@ -142,123 +144,123 @@
         1.0
       ],
       "paper_count_history": [
-        24,
         11,
         14,
         23,
-        9
+        9,
+        17
       ]
     },
     "248": {
       "name": "Multimodal Perception & Reasoning",
       "created": "2026-10-30",
-      "last_seen": "2026-11-02",
+      "last_seen": "2026-11-03",
       "confidence_history": [
-        0.87,
         0.944,
         1.0,
         1.0,
-        0.964
+        0.964,
+        0.812
       ],
       "paper_count_history": [
-        23,
         18,
         21,
         23,
-        28
+        28,
+        16
       ]
     },
     "249": {
       "name": "Neural Systems Modeling & Miscellaneous ML",
       "created": "2026-10-30",
-      "last_seen": "2026-11-02",
+      "last_seen": "2026-11-03",
       "confidence_history": [
-        0.077,
         0.947,
         0.952,
         1.0,
-        0.647
+        0.647,
+        0.76
       ],
       "paper_count_history": [
-        26,
         19,
         42,
         18,
-        51
+        51,
+        50
       ]
     },
     "241": {
       "name": "LLM Code Generation & Verification",
       "created": "2026-10-30",
-      "last_seen": "2026-11-02",
+      "last_seen": "2026-11-03",
       "confidence_history": [
-        0.955,
         1.0,
         1.0,
         1.0,
-        1.0
+        1.0,
+        0.944
       ],
       "paper_count_history": [
-        22,
         21,
         20,
         32,
+        18,
         18
       ]
     },
     "238": {
       "name": "Multi-Agent Systems & Coordination",
       "created": "2026-10-30",
-      "last_seen": "2026-11-02",
+      "last_seen": "2026-11-03",
       "confidence_history": [
-        0.917,
         0.931,
         0.955,
         1.0,
-        1.0
+        1.0,
+        0.95
       ],
       "paper_count_history": [
-        12,
         29,
         22,
         21,
-        21
+        21,
+        20
       ]
     },
     "245": {
       "name": "LLM Training Efficiency & Systems",
       "created": "2026-10-30",
-      "last_seen": "2026-11-02",
+      "last_seen": "2026-11-03",
       "confidence_history": [
-        0.895,
         0.957,
         0.857,
+        1.0,
         1.0,
         1.0
       ],
       "paper_count_history": [
-        19,
         23,
         14,
         19,
-        17
+        17,
+        6
       ]
     },
     "237": {
       "name": "LLM Interpretability & Mechanistic Analysis",
       "created": "2026-10-30",
-      "last_seen": "2026-11-02",
+      "last_seen": "2026-11-03",
       "confidence_history": [
-        0.944,
         1.0,
         0.875,
         1.0,
-        0.889
+        0.889,
+        0.833
       ],
       "paper_count_history": [
-        18,
         19,
         16,
+        18,
         18,
         18
       ]
@@ -266,153 +268,153 @@
     "240": {
       "name": "Domain-Specific LLM Applications",
       "created": "2026-10-30",
-      "last_seen": "2026-11-02",
+      "last_seen": "2026-11-03",
       "confidence_history": [
-        0.943,
         1.0,
         0.974,
         1.0,
-        1.0
+        1.0,
+        0.932
       ],
       "paper_count_history": [
-        35,
         25,
         38,
         38,
-        33
+        33,
+        44
       ]
     },
     "247": {
       "name": "Reinforcement Learning for Agents & Policies",
       "created": "2026-10-30",
-      "last_seen": "2026-11-02",
+      "last_seen": "2026-11-03",
       "confidence_history": [
-        0.875,
+        1.0,
         1.0,
         1.0,
         1.0,
         1.0
       ],
       "paper_count_history": [
-        16,
         20,
         22,
         17,
-        14
+        14,
+        10
       ]
     },
     "239": {
       "name": "LLM Safety, Security & Privacy",
       "created": "2026-10-30",
-      "last_seen": "2026-11-02",
+      "last_seen": "2026-11-03",
       "confidence_history": [
-        0.923,
         0.9,
+        1.0,
         1.0,
         1.0,
         1.0
       ],
       "paper_count_history": [
-        26,
         30,
         31,
         26,
-        31
+        31,
+        30
       ]
     },
     "242": {
       "name": "LLM Evaluation Benchmarks & Methodology",
       "created": "2026-10-30",
-      "last_seen": "2026-11-02",
+      "last_seen": "2026-11-03",
       "confidence_history": [
-        1.0,
         0.947,
         1.0,
         1.0,
-        1.0
+        1.0,
+        0.895
       ],
       "paper_count_history": [
-        12,
         19,
         13,
         10,
-        9
+        9,
+        19
       ]
     },
     "243": {
       "name": "Agentic Tool Use & Retrieval",
       "created": "2026-10-30",
-      "last_seen": "2026-11-02",
+      "last_seen": "2026-11-03",
       "confidence_history": [
-        0.789,
         1.0,
         1.0,
         1.0,
-        1.0
+        1.0,
+        0.857
       ],
       "paper_count_history": [
-        19,
         16,
         17,
         19,
-        25
+        25,
+        21
       ]
     },
     "246": {
       "name": "Time Series & Spatiotemporal Modeling",
       "created": "2026-10-30",
-      "last_seen": "2026-11-02",
+      "last_seen": "2026-11-03",
       "confidence_history": [
-        0.9,
+        1.0,
         1.0,
         1.0,
         1.0,
         1.0
       ],
       "paper_count_history": [
-        10,
         17,
         16,
         10,
-        12
+        12,
+        8
       ]
     },
     "236": {
       "name": "LLM Memory & Context Management",
       "created": "2026-10-30",
-      "last_seen": "2026-11-02",
+      "last_seen": "2026-11-03",
       "confidence_history": [
-        0.938,
         1.0,
         1.0,
         1.0,
-        0.947
+        0.947,
+        0.963
       ],
       "paper_count_history": [
-        16,
         19,
         20,
         23,
-        19
+        19,
+        27
       ]
     },
     "244": {
       "name": "Trustworthy & Human-AI Decision Making",
       "created": "2026-10-30",
-      "last_seen": "2026-11-02",
+      "last_seen": "2026-11-03",
       "confidence_history": [
-        0.929,
         0.737,
         0.923,
         1.0,
-        0.929
+        0.929,
+        0.7
       ],
       "paper_count_history": [
-        14,
         19,
         13,
         13,
-        14
+        14,
+        10
       ]
     }
   }
