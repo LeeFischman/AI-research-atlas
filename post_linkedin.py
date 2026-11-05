@@ -8,7 +8,8 @@ atlas_snapshot.py renders and before the commit step.
 Guards (all exit 0, never fail the pipeline):
   - LINKEDIN_ACCESS_TOKEN not set         -> setup pending, skip
   - atlas_snapshot.png missing            -> nothing to post, skip
-  - linkedin_last_post.txt == today (UTC) -> already posted today (e.g. a
+  - not the posting weekday (LINKEDIN_POST_DAY, New York time) -> skip
+  - linkedin_last_post.txt == this ISO week -> already posted (e.g. a
                                              workflow re-run), skip
 Real API failures exit 1: the workflow step is continue-on-error, so the
 pipeline still completes, but the step shows red in the run summary.
@@ -32,7 +33,7 @@ import sys
 import requests
 
 API = "https://api.linkedin.com"
-TITLE = "AI Research Atlas Daily Report"
+TITLE = "AI Research Atlas Weekly Report"
 SITE_URL = "https://airesearchatlas.com"
 HASHTAGS = ["AI", "MachineLearning", "arXiv"]
 DATABASE = "database.parquet"
@@ -47,7 +48,13 @@ NEW_GROUP_MAX = 2
 BULK_CREATION_LIMIT = 3
 ALT_TEXT = "Semantic map of today's arXiv cs.AI papers - airesearchatlas.com"
 IMAGE = "atlas_snapshot.png"
-STAMP_FILE = "linkedin_last_post.txt"
+STAMP_FILE = "linkedin_last_post.txt"   # holds the ISO week last posted, e.g. 2026-W46
+# Post once a week, on the run that falls on this weekday in New York time.
+# The nightly run (03:00 UTC) lands at 10-11pm ET the previous evening, so the
+# Monday post is made by the run that starts Tuesday 03:00 UTC. Override with
+# LINKEDIN_POST_DAY (Mon..Sun), or set it to "daily" to post every run.
+POST_DAY = os.environ.get("LINKEDIN_POST_DAY", "Mon").strip()
+POST_TZ = "America/New_York"
 
 
 # LinkedIn "little text" reserved characters must be backslash-escaped in
@@ -152,11 +159,25 @@ def main():
         print(f"LINKEDIN SKIP: {IMAGE} not found (snapshot step failed?).")
         return 0
 
-    today = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d")
+    from zoneinfo import ZoneInfo
+    local_now = datetime.datetime.now(ZoneInfo(POST_TZ))
+    daily = POST_DAY.lower() == "daily"
+    # Grace window: a scheduled run delayed past midnight still counts for the
+    # posting day if it starts before 06:00 the next morning.
+    effective = local_now - datetime.timedelta(hours=6) if local_now.hour < 6 else local_now
+    if not daily and effective.strftime("%a").lower() != POST_DAY[:3].lower():
+        print(f"LINKEDIN SKIP: posts go out weekly on {POST_DAY} ({POST_TZ}); "
+              f"today is {local_now.strftime('%a %Y-%m-%d')}.")
+        return 0
+
+    # One post per period: per ISO week when weekly, per day when daily.
+    iso = local_now.isocalendar()
+    period = (local_now.strftime("%Y-%m-%d") if daily
+              else f"{iso[0]}-W{iso[1]:02d}")
     if os.path.exists(STAMP_FILE):
         with open(STAMP_FILE) as fh:
-            if fh.read().strip() == today:
-                print(f"LINKEDIN SKIP: already posted on {today}.")
+            if fh.read().strip() == period:
+                print(f"LINKEDIN SKIP: already posted for {period}.")
                 return 0
 
     # 1. Resolve the member URN from the token (needs openid + profile scopes).
@@ -241,7 +262,7 @@ def main():
     post_id = r.headers.get("x-restli-id", "(id not returned)")
     print(f"LINKEDIN OK: post created {post_id}")
     with open(STAMP_FILE, "w") as fh:
-        fh.write(today + "\n")
+        fh.write(period + "\n")
     return 0
 
 
