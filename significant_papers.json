@@ -10,7 +10,7 @@
     "ss_citation_count": 7,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-08"
+    "publication_date": "2026-11-09"
   },
   {
     "id": "2611.08438v1",
@@ -18,12 +18,12 @@
     "url": "http://arxiv.org/pdf/2611.08438v1",
     "authors_list": [],
     "author_count": 27,
-    "ss_tldr": "",
+    "ss_tldr": "This work surveys mechanistic interpretability for AI safety and examines how mechanistic understanding can support AI safety, including knowledge editing, steering, and monitoring, and assess its limitations, failure modes, open problems, and relationship to behavioural safety measures.",
     "abstract": "Neural networks are likely to be among the most consequential artefacts in human history. As these systems become more capable and autonomous, their potential to cause societal harm also grows, making AI safety one of the defining challenges of our time. Yet we continue to build increasingly powerful systems without fully understanding how they work, how they will behave in unfamiliar situations, or how to reliably control them. Mechanistic interpretability offers a path towards understanding these systems by studying their internal representations and computations, with the aim of evaluating, predicting, and controlling behaviour. We survey mechanistic interpretability for AI safety in order to answer the question: Does understanding how models work actually make them safer? We place mechanistic interpretability in the broader context of interpretability research and compare its mechanistic evidence with behavioural evaluation. We introduce the foundations of mechanistic interpretability, including features, polysemanticity, transformer computation, and circuits, and survey methods for feature extraction and analysis, circuit discovery and causal verification, explaining intermediate representations in natural language, learning dynamics, and training-data attribution. Beyond surveying existing methods, we propose a unified framework for evaluating mechanistic interpretability claims and characterise six research orientations by their goals, assumptions, and trade-offs. Finally, we examine how mechanistic understanding can support AI safety, including knowledge editing, steering, and monitoring, and assess its limitations, failure modes, open problems, and relationship to behavioural safety measures. We also release a repository of code notebooks with worked examples that reproduce key findings from surveyed methods, allowing readers to build intuition through hands-on experimentation.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-08"
+    "publication_date": "2026-11-09"
   },
   {
     "id": "2608.11676v2",
@@ -36,7 +36,7 @@
     "ss_citation_count": 4,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-08"
+    "publication_date": "2026-11-09"
   },
   {
     "id": "2611.07892v1",
@@ -49,7 +49,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Enhanced",
-    "publication_date": "2026-11-08"
+    "publication_date": "2026-11-09"
   },
   {
     "id": "2609.31140v2",
@@ -62,7 +62,7 @@
     "ss_citation_count": 1,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-08"
+    "publication_date": "2026-11-09"
   },
   {
     "id": "2611.06543v2",
@@ -75,7 +75,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-08"
+    "publication_date": "2026-11-09"
   },
   {
     "id": "2611.07245v1",
@@ -88,7 +88,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-08"
+    "publication_date": "2026-11-09"
   },
   {
     "id": "2611.08483v1",
@@ -96,12 +96,12 @@
     "url": "http://arxiv.org/pdf/2611.08483v1",
     "authors_list": [],
     "author_count": 2,
-    "ss_tldr": "",
+    "ss_tldr": "SwarmEvolve, a framework in which hundreds of low-cost agents per round work in swarms, reason in latent space without decoding to text, and share information by passing KV caches, shows that agent swarms that communicate in latent space offer a fast, low-cost approach to program search for scientific problems.",
     "abstract": "LLM-guided evolutionary search uses AI agents to improve programs for mathematical and computational problems by iteratively refining solutions and combining high-scoring methods. However, the process is often slow because the LLM generates a long textual chain of thought for each round and must repeat this generation many times to maintain population diversity. We present SwarmEvolve, a framework in which hundreds of low-cost agents per round work in swarms, reason in latent space without decoding to text, and share information by passing KV caches. Each swarm studies the problem from a different angle. A novelty filter keeps the most distinct agent ideas by directly measuring the distances between the agents' hidden state vectors. Crossover of ideas happens naturally in latent space, as a summarizer agent receives the combined KV caches of all swarm members. On 21 problems in mathematical discovery and scientific computing, SwarmEvolve gets the highest average score and needs a median of only 3 to 8 minutes to reach the best scores that other state-of-the-art frameworks reach in 60 minutes. On several problems, SwarmEvolve with Qwen3 8B improves on the solutions that AlphaEvolve first found with frontier LLMs. Our work shows that agent swarms that communicate in latent space offer a fast, low-cost approach to program search for scientific problems.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-08"
+    "publication_date": "2026-11-09"
   },
   {
     "id": "2608.27969v2",
@@ -114,7 +114,7 @@
     "ss_citation_count": 1,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-08"
+    "publication_date": "2026-11-09"
   },
   {
     "id": "2608.25667v2",
@@ -127,7 +127,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-08"
+    "publication_date": "2026-11-09"
   },
   {
     "id": "2605.26032v2",
@@ -135,12 +135,12 @@
     "url": "http://arxiv.org/pdf/2605.26032v2",
     "authors_list": [],
     "author_count": 7,
-    "ss_tldr": "",
+    "ss_tldr": "A scale-invariantcale-invariant-space-spaceiffusion model that unifies generation and continuous super-resolution within a single unconditional framework and reconstructs critical Ising models whose connected four-point correlations closely track the ground truth.",
     "abstract": "Creating images from noise is image generation; reconstructing fine details from coarse inputs is super-resolution. Despite their practical differences, both can be understood as reversing information loss across scales. We introduce $\\textbf{SKILD}$, a $\\textbf{S}$cale-invariant $\\textbf{K}$-Space $\\textbf{I}$mage $\\textbf{L}$earning $\\textbf{D}$iffusion model that unifies generation and continuous super-resolution within a single unconditional framework. Both natural images and critical physical systems exhibit scale invariance, and we leverage it to design a forward process that attenuates image content from fine to coarse scales while injecting spectrum-matched Gaussian noise, making scale an explicit coordinate of the diffusion dynamics. The same trained reverse process performs generation and continuous super-resolution by varying only the starting timestep: $\\textit{no task-specific architecture, no conditioning branch, no classifier-free guidance, no retraining per scale factor}$. Empirically, SKILD reaches FID $2.61$ and Inception Score $9.65$ on unconditional CIFAR-10, performs $2\\times$--$8\\times$ super-resolution on ImageNet from a single unconditional checkpoint while outperforming conditional models across perceptual metrics, and reconstructs critical Ising models whose connected four-point correlations closely track the ground truth.",
-    "ss_citation_count": 0,
+    "ss_citation_count": 2,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-08"
+    "publication_date": "2026-11-09"
   },
   {
     "id": "2610.34763v2",
@@ -153,7 +153,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-08"
+    "publication_date": "2026-11-09"
   },
   {
     "id": "2611.03577v2",
@@ -166,7 +166,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-11-08"
+    "publication_date": "2026-11-09"
   },
   {
     "id": "2611.07778v1",
@@ -179,7 +179,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-11-08"
+    "publication_date": "2026-11-09"
   },
   {
     "id": "2611.07891v1",
@@ -192,7 +192,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-11-08"
+    "publication_date": "2026-11-09"
   },
   {
     "id": "2611.01215v2",
@@ -205,7 +205,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-08"
+    "publication_date": "2026-11-09"
   },
   {
     "id": "2611.06748v2",
@@ -218,7 +218,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-08"
+    "publication_date": "2026-11-09"
   },
   {
     "id": "2611.07836v1",
@@ -231,7 +231,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-08"
+    "publication_date": "2026-11-09"
   },
   {
     "id": "2611.07948v1",
@@ -244,7 +244,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-08"
+    "publication_date": "2026-11-09"
   },
   {
     "id": "2610.08327v4",
@@ -257,6 +257,6 @@
     "ss_citation_count": 1,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-08"
+    "publication_date": "2026-11-09"
   }
 ]
