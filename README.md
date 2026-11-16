@@ -185,7 +185,6 @@ OFFLINE_MODE=true python update_map_v2.py
 ```yaml
 - name: Run Update Script
   env:
-    ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
     OFFLINE_MODE: "true"
   run: python update_map_v2.py
 ```
@@ -200,14 +199,14 @@ Remove `OFFLINE_MODE` from the YAML when you want a full production run (fresh f
 
 - Python 3.12+
 - GitHub repository with Pages enabled
-- Anthropic API key (for Haiku grouping)
+- Anthropic credentials for Haiku grouping: workload identity federation in GitHub Actions, or an API key for local runs
 - Optionally: Hugging Face token (for higher rate limits when downloading SPECTER2)
 
 ### GitHub secrets required
 
 | Secret | Purpose |
 |---|---|
-| `ANTHROPIC_API_KEY` | Haiku grouping call |
+| (none for Anthropic) | Haiku grouping authenticates via workload identity federation; set repo Variables `ANTHROPIC_FEDERATION_RULE_ID`, `ANTHROPIC_ORGANIZATION_ID`, `ANTHROPIC_SERVICE_ACCOUNT_ID`, optionally `ANTHROPIC_WORKSPACE_ID` |
 | `HF_TOKEN` | (Optional) Hugging Face model downloads at higher rate limits |
 
 ### First run

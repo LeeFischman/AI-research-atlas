@@ -5,6 +5,7 @@ on:
   workflow_dispatch: # Allows manual runs for testing
 permissions:
   contents: write
+  id-token: write   # lets the job mint a GitHub OIDC token for Anthropic workload identity federation
 concurrency:
   group: atlas-data-commit
   cancel-in-progress: false
@@ -82,7 +83,7 @@ jobs:
       #             from a previous normal run.
       #
       #   Set:  OFFLINE_MODE: "true"   (uncomment the line below)
-      #   Keep: ANTHROPIC_API_KEY present but unused
+      #   Keep: ANTHROPIC_* federation vars present but unused
       #   Rest: all other vars are ignored in this mode
       #
       # ── RUNNING TEST (full pipeline, triggered manually) ─────────────────
@@ -91,7 +92,7 @@ jobs:
       #   Cost: a few cents of Claude Haiku (~45 calls) + OpenAlex/S2 free tier. Runtime: ~15 min.
       #
       #   Set:  OFFLINE_MODE commented out (normal mode)
-      #   Keep: ANTHROPIC_API_KEY active
+      #   Keep: ANTHROPIC_* federation vars set (repo Variables)
       #   Note: BACKFILL_HINDICES only needed if author_hindices was lost or
       #         corrupted — comment it back out after one successful run
       #
@@ -139,7 +140,13 @@ jobs:
 
       - name: Run Update Script
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          # Anthropic auth via workload identity federation (no API key secret).
+          # IDs come from the Claude Console "Connect workload" wizard and are
+          # stored as repo Variables (Settings > Secrets and variables > Actions > Variables).
+          ANTHROPIC_FEDERATION_RULE_ID: ${{ vars.ANTHROPIC_FEDERATION_RULE_ID }}
+          ANTHROPIC_ORGANIZATION_ID: ${{ vars.ANTHROPIC_ORGANIZATION_ID }}
+          ANTHROPIC_SERVICE_ACCOUNT_ID: ${{ vars.ANTHROPIC_SERVICE_ACCOUNT_ID }}
+          ANTHROPIC_WORKSPACE_ID: ${{ vars.ANTHROPIC_WORKSPACE_ID }}
           # Stage 3 grouping runs on Claude Haiku (claude-haiku-5-5).
           # Optional overrides: HAIKU_MODEL, PASS1_BATCH_SIZE (default 100),
           # LLM_MAX_REQUESTS_PER_RUN (runaway guard, default 250).

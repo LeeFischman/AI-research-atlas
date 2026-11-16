@@ -33,4 +33,3 @@ jobs:
         env:
           LINKEDIN_EMAIL: ${{ secrets.LINKEDIN_EMAIL }}
           LINKEDIN_PASSWORD: ${{ secrets.LINKEDIN_PASSWORD }}
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}

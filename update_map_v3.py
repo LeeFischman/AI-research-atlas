@@ -38,6 +38,8 @@
 #
 # Normal run:
 #   ANTHROPIC_API_KEY=... python update_map_v3.py
+#   (In GitHub Actions, production authenticates via workload identity
+#    federation instead; see make_grouping_client.)
 # ──────────────────────────────────────────────────────────────────────────────
 
 import json
@@ -474,28 +476,98 @@ def _retry_temperature(attempt: int) -> float:
     return min(0.2 * (attempt - 1), 0.8)
 
 
+ANTHROPIC_OIDC_AUDIENCE = "https://api.anthropic.com"
+
+
+def _github_oidc_token() -> str:
+    """Fetch a fresh GitHub Actions OIDC token (JWT) for the Anthropic audience.
+
+    The SDK calls this on every token exchange. GitHub tokens live ~5 minutes
+    and Anthropic treats each one as single-use, so a run longer than one
+    federated token's lifetime (Stage 3 takes ~15 min) needs a new JWT on each
+    refresh. Fetching on demand avoids a stale-file refresh loop in the YAML.
+    Requires `permissions: id-token: write` on the workflow or job.
+    """
+    import urllib.request
+
+    req_url = os.environ.get("ACTIONS_ID_TOKEN_REQUEST_URL", "")
+    req_token = os.environ.get("ACTIONS_ID_TOKEN_REQUEST_TOKEN", "")
+    if not req_url or not req_token:
+        raise RuntimeError(
+            "GitHub OIDC is not available in this job. Add "
+            "`id-token: write` under `permissions:` in the workflow YAML."
+        )
+    req = urllib.request.Request(
+        f"{req_url}&audience={ANTHROPIC_OIDC_AUDIENCE}",
+        headers={"Authorization": f"Bearer {req_token}"},
+    )
+    with urllib.request.urlopen(req, timeout=30) as resp:
+        token = json.load(resp).get("value", "")
+    if not token:
+        raise RuntimeError("GitHub OIDC endpoint returned no token.")
+    return token
+
+
 def make_grouping_client():
     """Build the Anthropic client for Stage 3 and verify the model answers.
 
-    Reads ANTHROPIC_API_KEY. Transient errors (429, 5xx, 529 overloaded,
-    connection resets) are retried by the SDK itself with backoff.
+    Auth, in order:
+      1. Workload Identity Federation, when ANTHROPIC_FEDERATION_RULE_ID is
+         set: the job's GitHub OIDC token is exchanged for a short-lived
+         Anthropic token, refreshed automatically. Needs
+         ANTHROPIC_ORGANIZATION_ID and ANTHROPIC_SERVICE_ACCOUNT_ID too
+         (ANTHROPIC_WORKSPACE_ID optional). Passed explicitly, so a leftover
+         ANTHROPIC_API_KEY in the environment cannot silently override it.
+      2. ANTHROPIC_API_KEY (static key) otherwise, e.g. staging or local runs.
 
-    A one-token preflight call runs first. A bad key, a retired or misspelled
-    HAIKU_MODEL, or a billing problem fails it immediately, and the run stops
-    here, before anything is regrouped or committed, instead of quietly
-    falling back to HDBSCAN and publishing a "Group N" map.
+    Transient errors (429, 5xx, 529 overloaded, connection resets) are
+    retried by the SDK itself with backoff.
+
+    A one-token preflight call runs first. Bad credentials, a retired or
+    misspelled HAIKU_MODEL, or a billing problem fails it immediately, and
+    the run stops here, before anything is regrouped or committed, instead
+    of quietly falling back to HDBSCAN and publishing a "Group N" map.
     """
     import anthropic
 
+    common = dict(max_retries=HAIKU_SDK_MAX_RETRIES, timeout=300.0)
+    rule_id = os.environ.get("ANTHROPIC_FEDERATION_RULE_ID", "").strip()
     api_key = os.environ.get("ANTHROPIC_API_KEY", "").strip()
-    if not api_key:
-        raise RuntimeError(
-            "ANTHROPIC_API_KEY is not set. Add it to GitHub repo secrets "
-            "and expose it in the workflow YAML under env:."
+
+    if rule_id:
+        from anthropic.lib.credentials import WorkloadIdentityCredentials
+
+        org_id = os.environ.get("ANTHROPIC_ORGANIZATION_ID", "").strip()
+        svac_id = os.environ.get("ANTHROPIC_SERVICE_ACCOUNT_ID", "").strip()
+        ws_id = os.environ.get("ANTHROPIC_WORKSPACE_ID", "").strip()
+        missing = [n for n, v in (("ANTHROPIC_ORGANIZATION_ID", org_id),
+                                  ("ANTHROPIC_SERVICE_ACCOUNT_ID", svac_id))
+                   if not v]
+        if missing:
+            raise RuntimeError(
+                f"ANTHROPIC_FEDERATION_RULE_ID is set but {', '.join(missing)} "
+                f"is not. Set it under env: in the workflow YAML."
+            )
+        if api_key:
+            print("  Note: ANTHROPIC_API_KEY is also set; ignoring it in "
+                  "favour of workload identity federation.")
+        credentials = WorkloadIdentityCredentials(
+            identity_token_provider=_github_oidc_token,
+            federation_rule_id=rule_id,
+            organization_id=org_id,
+            service_account_id=svac_id,
+            workspace_id=ws_id or None,
         )
-    client = anthropic.Anthropic(api_key=api_key,
-                                 max_retries=HAIKU_SDK_MAX_RETRIES,
-                                 timeout=300.0)
+        client = anthropic.Anthropic(credentials=credentials, **common)
+        print(f"  Auth: workload identity federation (rule {rule_id}).")
+    elif api_key:
+        client = anthropic.Anthropic(api_key=api_key, **common)
+        print("  Auth: ANTHROPIC_API_KEY.")
+    else:
+        raise RuntimeError(
+            "No Anthropic credentials. Set ANTHROPIC_FEDERATION_RULE_ID (plus "
+            "org and service account IDs) for federation, or ANTHROPIC_API_KEY."
+        )
 
     print(f"  Preflight: checking {HAIKU_MODEL} responds...")
     raw, is_overload = _llm_call(client, "", "Reply with the single word OK.",
@@ -505,7 +577,8 @@ def make_grouping_client():
             f"Preflight call to {HAIKU_MODEL} failed "
             f"({'API overloaded/rate-limited' if is_overload else 'see API error above'}). "
             f"Stopping before Stage 1 so nothing is overwritten. Check "
-            f"ANTHROPIC_API_KEY, account billing, and the HAIKU_MODEL id."
+            f"Anthropic credentials (federation rule or API key), account "
+            f"billing, and the HAIKU_MODEL id."
         )
     print(f"  Preflight OK ({HAIKU_MODEL} replied {raw[:20]!r}).")
     return client
