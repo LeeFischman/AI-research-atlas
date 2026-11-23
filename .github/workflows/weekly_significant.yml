@@ -5,6 +5,10 @@ on:
   workflow_dispatch:       # Manual trigger for testing
 permissions:
   contents: write
+  id-token: write   # lets the job mint a GitHub OIDC token for Anthropic workload identity federation
+concurrency:
+  group: atlas-data-commit   # same group as daily_update.yml so the two never commit concurrently
+  cancel-in-progress: false
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -99,21 +103,19 @@ jobs:
           fi
 
       # ════════════════════════════════════════════════════════════════════
-      # WEEKLY FULL PIPELINE RUN (Gemini grouping)
+      # WEEKLY FULL PIPELINE RUN (Claude Haiku grouping)
       #
       # Runs immediately after the significant papers scan so the atlas
-      # reflects the updated pool. Two-pass Gemini 2.5 Flash-Lite grouping
-      # runs here on the refreshed pool.
-      #
-      # NOTE: SKIP_HAIKU in daily_update.yml is currently inert — nothing in
-      # the pipeline reads it — so the daily run ALSO performs full grouping.
-      # Both runs now use Gemini 2.5 Flash-Lite. To gate grouping to weekly
-      # only, a SKIP_HAIKU check would have to be added to update_map_v3.py.
+      # reflects the updated pool. Uses the same Anthropic workload identity
+      # federation auth as daily_update.yml -- keep the env blocks in sync.
       # ════════════════════════════════════════════════════════════════════
       - name: Run Weekly Atlas Pipeline
         env:
-          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
-          GEMINI_TARGET_RPM: "8"   # free-tier pacing: 8 req/min (20% under the 10 RPM cap); set 6 for more margin, 0 to disable on paid
+          # Anthropic auth via workload identity federation (no API key secret).
+          ANTHROPIC_FEDERATION_RULE_ID: ${{ vars.ANTHROPIC_FEDERATION_RULE_ID }}
+          ANTHROPIC_ORGANIZATION_ID: ${{ vars.ANTHROPIC_ORGANIZATION_ID }}
+          ANTHROPIC_SERVICE_ACCOUNT_ID: ${{ vars.ANTHROPIC_SERVICE_ACCOUNT_ID }}
+          ANTHROPIC_WORKSPACE_ID: ${{ vars.ANTHROPIC_WORKSPACE_ID }}
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
           OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
           SEMANTIC_SCHOLAR_API_KEY: ${{ secrets.SEMANTIC_SCHOLAR_API_KEY }}
