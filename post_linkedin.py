@@ -46,6 +46,19 @@ NEW_GROUP_DAYS = 7
 NEW_GROUP_MIN_PAPERS = 5
 NEW_GROUP_MAX = 2
 BULK_CREATION_LIMIT = 3
+GROUP_NAMES = "group_names_v3.json"
+# Weekly lines: "this week" is the 7 calendar days (UTC, by date_added) ending
+# on the newest date in the database; "last week" is the 7 days before that.
+# Missed nightly runs leave gaps, so each line needs WEEK_MIN_DAYS days with
+# data in its window(s), or it is left out. The mover compares each
+# direction's SHARE of the week's papers (raw counts swing with gaps and the
+# 400/day fetch cap), only among directions present in both weeks with at
+# least MOVER_MIN_PAPERS papers this week, and needs a gain of at least
+# MOVER_MIN_GAIN_PTS percentage points.
+WEEK_MIN_DAYS = 4
+TOP_DIRECTIONS = 3
+MOVER_MIN_PAPERS = 20
+MOVER_MIN_GAIN_PTS = 1.0
 ALT_TEXT = "Semantic map of today's arXiv cs.AI papers - airesearchatlas.com"
 IMAGE = "atlas_snapshot.png"
 STAMP_FILE = "linkedin_last_post.txt"   # holds the ISO week last posted, e.g. 2026-W46
@@ -105,6 +118,58 @@ def new_groups(today):
         return []
 
 
+def weekly_stats():
+    """(new_papers, top_directions, mover) for the week, or None.
+
+    top_directions: [(name, count)] or [] if this week has too few days.
+    mover: (name, prev_share_pct, this_share_pct) or None.
+    """
+    try:
+        import json
+        from collections import Counter
+        import pyarrow.parquet as pq
+        with open(GROUP_NAMES) as fh:
+            names = json.load(fh)
+        table = pq.read_table(DATABASE, columns=["date_added", "group_id_v3"])
+        rows = []
+        for d, g in zip(table.column("date_added").to_pylist(),
+                        table.column("group_id_v3").to_pylist()):
+            if d and g is not None:
+                rows.append((datetime.date.fromisoformat(str(d)[:10]), int(g)))
+        if not rows:
+            return None
+        end = max(d for d, _ in rows)
+        this_start = end - datetime.timedelta(days=6)
+        prev_start = this_start - datetime.timedelta(days=7)
+        this = [(d, g) for d, g in rows if d >= this_start]
+        prev = [(d, g) for d, g in rows if prev_start <= d < this_start]
+        this_days = len({d for d, _ in this})
+        prev_days = len({d for d, _ in prev})
+        print(f"Post text: this week {this_start}..{end} {len(this)} papers / "
+              f"{this_days} days; last week {len(prev)} papers / {prev_days} days")
+        if this_days < WEEK_MIN_DAYS:
+            return None
+        name = lambda g: names.get(str(g))
+        tc = Counter(g for _, g in this)
+        top = [(name(g), n) for g, n in tc.most_common() if name(g)][:TOP_DIRECTIONS]
+        mover = None
+        if prev_days >= WEEK_MIN_DAYS:
+            pc = Counter(g for _, g in prev)
+            best = None
+            for g, n in tc.items():
+                if g in pc and n >= MOVER_MIN_PAPERS and name(g):
+                    a = 100.0 * pc[g] / len(prev)
+                    b = 100.0 * n / len(this)
+                    if b - a >= MOVER_MIN_GAIN_PTS and (best is None or b - a > best[0]):
+                        best = (b - a, name(g), a, b)
+            if best:
+                mover = best[1:]
+        return len(this), top, mover
+    except Exception as e:
+        print(f"Post text: weekly stats unavailable ({type(e).__name__}: {e})")
+        return None
+
+
 def build_post_text(today):
     """Daily post text. Every part beyond the title and link is optional and
     is simply left out if its data can't be read."""
@@ -115,6 +180,17 @@ def build_post_text(today):
     else:
         first = TITLE
     lines = [escape_little_text(first)]
+    week = weekly_stats()
+    if week:
+        new_papers, top, mover = week
+        line = f"This week: {new_papers:,} new papers"
+        if top:
+            line += ". Most active: " + ", ".join(f"{n} ({c})" for n, c in top)
+        lines.append(escape_little_text(line))
+        if mover:
+            m, a, b = mover
+            lines.append(escape_little_text(
+                f"Fastest-growing: {m} ({a:.1f}% \u2192 {b:.1f}% of new papers)"))
     fresh = new_groups(today)
     if fresh:
         lines.append(escape_little_text("New on the map: " + "; ".join(fresh)))
