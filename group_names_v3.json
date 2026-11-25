@@ -13,6 +13,7 @@
   "11": "Data, Benchmarks & Evaluation",
   "12": "Human-AI Interaction",
   "13": "Planning & Search",
+  "256": "Decision Model Harness & Self-Improvement",
   "22": "Compressed & Efficient Sequence Architectures",
   "23": "Tabular & Classical Supervised Learning",
   "24": "Scientific & Medical Signal Analysis",
@@ -38,5 +39,11 @@
   "248": "Multimodal Perception & Reasoning",
   "249": "Neural Systems Modeling & Miscellaneous ML",
   "250": "Verifiable Agent Governance & Provenance",
-  "251": "Neural Network Weight-Space Analysis"
+  "251": "Neural Network Weight-Space Analysis",
+  "26": "Wireless Communications & Sensing",
+  "27": "Quantum Machine Learning",
+  "28": "Physics-Informed & Surrogate Modeling",
+  "29": "Neuro-Symbolic & Algorithmic Reasoning",
+  "30": "Generative Model Foundations & Surveys",
+  "25": "Group 25"
 }
