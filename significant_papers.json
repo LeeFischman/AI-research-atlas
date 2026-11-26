@@ -5,12 +5,12 @@
     "url": "http://arxiv.org/pdf/2501.14851v3",
     "authors_list": [],
     "author_count": 4,
-    "ss_tldr": "",
+    "ss_tldr": "JustLogic is a synthetically generated benchmark for evaluating deduction in propositional logic that is complex, capable of generating a diverse range of linguistic patterns, vocabulary, and argument structures, and capable of in-depth error analysis on the heterogeneous effects of proof size and argument form on model accuracy.",
     "abstract": "Logical reasoning is a critical component of Large Language Models (LLMs), and substantial research efforts in recent years have aimed to enhance their deductive reasoning abilities. However, existing deductive reasoning benchmarks suffer from significant constraints that restrict their utility, i.e., the lack of task complexity, the presence of prior knowledge as a confounder, and superficial error analysis. To address these deficiencies, we introduce JustLogic, a synthetically generated benchmark for evaluating deduction in propositional logic. Within this fragment, JustLogic is (i) complex, capable of generating a diverse range of linguistic patterns, vocabulary, and argument structures, (ii) prior knowledge independent, substantially reducing the advantage of models possessing prior knowledge so that questions are answerable from the given premises alone, and (iii) capable of in-depth error analysis on the heterogeneous effects of proof size and argument form on model accuracy. Our experimental results on JustLogic reveal that (i) several state-of-the-art (SOTA) reasoning LLMs score above the human average on JustLogic, although only DeepSeek R1's margin is significant on the matched items after correction for multiple comparisons, and (ii) the evaluated non-reasoning models score below the human average. Given the small human study (18 participants, seven questions each), these comparisons are indicative. All code and data are available at https://github.com/michaelchen-lab/JustLogic",
-    "ss_citation_count": 0,
-    "ss_influential_citations": 0,
+    "ss_citation_count": 22,
+    "ss_influential_citations": 3,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-25"
+    "publication_date": "2026-11-26"
   },
   {
     "id": "2611.28508v1",
@@ -18,12 +18,12 @@
     "url": "http://arxiv.org/pdf/2611.28508v1",
     "authors_list": [],
     "author_count": 6,
-    "ss_tldr": "",
+    "ss_tldr": "Spectator is proposed, a linear latent world model trained with a joint-embedding predictive objective that encodes short- and long-horizon observation histories into a two-timescale latent state and predicts state transitions linearly from the current state and stimulus.",
     "abstract": "Understanding naturalistic brain activity requires going beyond the stimulus alone, as external inputs continuously interact with an individual's evolving brain state. A world model captures such dynamics in a latent state by inferring it from neural observations, predicting stimulus-driven evolution, and updating with new observations. However, existing brain world models fail to maintain a persistent latent state over time, and standard metrics of neural prediction accuracy cannot tell whether a model tracks an individual's brain state or relies solely on the stimulus. To directly test state inference, prediction, and updating, we introduce BrainStateBench, which evaluates a model's latent state through a frozen linear probe on whole-cortex, movie-driven fMRI. Its State task tests whether a model captures trial-to-trial variability in an individual's responses to repeated stimuli, while Forecast and Updating evaluate future activity predictions without and with new observations, respectively. To track individual brain state across time, we propose Spectator, a linear latent world model trained with a joint-embedding predictive objective. Spectator encodes short- and long-horizon observation histories into a two-timescale latent state and predicts state transitions linearly from the current state and stimulus. Stimulus-only encoders reach 0.320 in fMRI prediction correlation without observing the brain (0% on State), while prior deep brain world models reach 0.239 yet score at most 0.4% on State. In contrast, Spectator achieves 0.349 correlation alongside 5.5% on State, 16.0% on Forecast, and 20.3% on Updating, outperforming all baselines while forecasting over 20x faster than deep forecasting models.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-25"
+    "publication_date": "2026-11-26"
   },
   {
     "id": "2605.13542v2",
@@ -31,12 +31,12 @@
     "url": "http://arxiv.org/pdf/2605.13542v2",
     "authors_list": [],
     "author_count": 11,
-    "ss_tldr": "",
+    "ss_tldr": "RealICU is introduced, a hindsight-annotated benchmark for evaluating large language models (LLMs) under realistic ICU conditions, where labels are created after senior physicians review the full patient trajectory, and ICU-Evo is introduced to study structured-memory agents that improves long-horizon reasoning but does not fully eliminate safety failures.",
     "abstract": "Intensive care units (ICU) generate long, dense and evolving streams of clinical information, where physicians must repeatedly reassess patient states under time pressure, underscoring a clear need for reliable AI decision support. Existing ICU benchmarks typically treat historical clinician actions as ground truth. However, these actions are made under incomplete information and limited temporal context of the underlying patient state, and may therefore be suboptimal, making it difficult to assess the true reasoning capabilities of AI systems. We introduce RealICU, a hindsight-annotated benchmark for evaluating large language models (LLMs) under realistic ICU conditions, where labels are created after senior physicians review the full patient trajectory. We formulate four physician-motivated tasks: assess Patient Status, Acute Problems, Recommended Actions, and Red Flag actions that risk unsafe outcomes. We partition each trajectory with 30-min windows and release two datasets: RealICU-Gold with 930-window annotations from 94 MIMIC-IV patients, and RealICU-Scale with 11,862 windows extended by Oracle, a physician-validated LLM hindsight labeler. Existing LLMs including memory-augmented ones performed poorly on RealICU, exposing two failure modes: a recall-safety tradeoff for clinical recommendations, and an anchoring bias to early interpretations of the patient. We further introduce ICU-Evo to study structured-memory agents that improves long-horizon reasoning but does not fully eliminate safety failures. Together, RealICU provides a clinically grounded testbed for measuring and improving AI sequential decision-support in high-stakes care. Project page: https://chengzhi-leo.github.io/RealICU-Bench/",
-    "ss_citation_count": 0,
+    "ss_citation_count": 3,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-25"
+    "publication_date": "2026-11-26"
   },
   {
     "id": "2611.25043v1",
@@ -49,7 +49,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-25"
+    "publication_date": "2026-11-26"
   },
   {
     "id": "2611.23700v2",
@@ -62,7 +62,7 @@
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-25"
+    "publication_date": "2026-11-26"
   },
   {
     "id": "2611.28146v1",
@@ -70,12 +70,12 @@
     "url": "http://arxiv.org/pdf/2611.28146v1",
     "authors_list": [],
     "author_count": 10,
-    "ss_tldr": "",
+    "ss_tldr": "LEDGER closes the loop around the encoder, and matches or exceeds the strongest baselines in fidelity on four sensors, raises retrieval by seven to nine points within its vocabulary and two to five outside it, and closes two thirds of the reduced-resolution gap to the reference.",
     "abstract": "A frozen vision-language encoder now guides image restoration and later indexes what it produced. Over a fixed set of eighteen pansharpening systems on one WorldView-III test set, the fidelity index that ranks them, $Q2^n$ with a reference and HQNR without one, picks the less retrievable of two systems one time in three and one in two; the disagreement lies between the pixel-supervised and the language-conditioned family, and even the best system falls short of the reference, small objects first. We call this the retrievability gap and trace it to the area weighting of position-averaged losses. LEDGER closes the loop around the encoder: it indexes the input into a set of named concepts, generates, re-encodes the output alone with the same frozen encoder, and minimises a set-level soft-Jaccard loss on the coverage of that set, a label-free target available at test time, so that every present concept of a scale receives a gradient share independent of its area. Measured outside the loop by label-grounded probes, held-out retrievers, language-free evaluators, detectors and human raters, LEDGER matches or exceeds the strongest baselines in fidelity on four sensors, raises retrieval by seven to nine points within its vocabulary and two to five outside it, closes two thirds of the reduced-resolution gap to the reference, lifts extraction on raw SpaceNet imagery above the vendor product in each of four cities, and transfers to existing generators as a training-only loss at no inference cost.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-25"
+    "publication_date": "2026-11-26"
   },
   {
     "id": "2606.10089v2",
@@ -83,12 +83,12 @@
     "url": "http://arxiv.org/pdf/2606.10089v2",
     "authors_list": [],
     "author_count": 5,
-    "ss_tldr": "",
+    "ss_tldr": "This work establishes convergence guarantees for gradient descent in the over-parameterized 2-layered ReLU neural network regime and derives generalization bounds for the conditional velocity-field matching objective.",
     "abstract": "In this work, we develop theoretical foundation for flow matching with neural-network-parameterized conditional velocity fields. We establish convergence guarantees for gradient descent in the over-parameterized 2-layered ReLU neural network regime. We derive generalization bounds for the conditional velocity-field matching objective. Building on these results, we provide Wasserstein-distance guarantees for the samples generated by the induced flow. Our analysis is based on generalization bound for multi-task representation learning with unbounded losses, which may be of independent interest beyond flow-based generative modeling. These theoretical results are validated through extensive experiments on both synthetic and real-world image benchmarks. Our code is available at https://github.com/qishuoyin/FlowMatchNN.",
-    "ss_citation_count": 0,
+    "ss_citation_count": 1,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-25"
+    "publication_date": "2026-11-26"
   },
   {
     "id": "2408.13630v3",
@@ -96,12 +96,12 @@
     "url": "http://arxiv.org/pdf/2408.13630v3",
     "authors_list": [],
     "author_count": 5,
-    "ss_tldr": "",
+    "ss_tldr": "This work shows the effectiveness of standard social choice data structures as features for learning existing voting rules, resulting in networks that have better accuracy than past approaches while using an order of magnitude fewer parameters, and develops a process for adding axiomatic properties to existing voting rules.",
     "abstract": "Recently, social choice theory has been found broadly useful for AI alignment and evaluation, often based on the axiomatic properties for combining preferences provided by social choice functions. However, for many sets of axioms, functions which never violate the axioms are known to not exist, e.g., Arrow's Impossibility Theorem. Recent work on learning novel rules to minimize axiom violations shows the effectiveness of machine learning but explores a limited class of axioms. In this work we show the effectiveness of standard social choice data structures as features for learning existing voting rules, resulting in networks that have better accuracy than past approaches while using an order of magnitude fewer parameters. Subsequently, we develop a process for adding axiomatic properties to existing voting rules. By building novel axiomatic loss functions we are able to use transfer learning to fine-tune existing voting rules in a way that quantitatively preserves their original behaviour while also exhibiting strong adherence to previously absent axiomatic properties, resulting in novel voting rules that are closer to the impossibility frontier than those in the machine learning or theoretical literature.",
-    "ss_citation_count": 0,
-    "ss_influential_citations": 0,
+    "ss_citation_count": 2,
+    "ss_influential_citations": 1,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-25"
+    "publication_date": "2026-11-26"
   },
   {
     "id": "2610.12847v2",
@@ -109,12 +109,12 @@
     "url": "http://arxiv.org/pdf/2610.12847v2",
     "authors_list": [],
     "author_count": 3,
-    "ss_tldr": "",
+    "ss_tldr": "This work investigates the conditions under which a generative model acts as a simulator through editability: whether changing a model's latent representation produces the next-step outputs the authors get by editing a simulator's state, and test two kinds of state mappings, both fit from latent states paired with simulator states.",
     "abstract": "A simulator summarizes an environment in a state that users can read and change. Generative models learn representations of the world without explicit specification, but offer no built-in way to edit that world's state. We investigate the conditions under which a generative model acts as a simulator through $\\textit{editability}$: whether changing a model's latent representation produces the next-step outputs we get by editing a simulator's state. We test two kinds of state mappings, both fit from latent states paired with simulator states. In one, we train probes to decode the simulator state from the model, then steer along them. In the other, we learn the simulator-to-latent mapping directly with an inverse map, which can succeed even when steering fails. We study both in two contrasting environments: the discrete board game Othello, and Rayworld, our own continuous world of moving discs seen through partial renderings, closer to physical scenes and video. We find that which mapping succeeds depends strongly on the environment, in ways decodability does not predict. In Othello, each simplification of the rules lowers editability. In Rayworld, probes fail to steer along the simulator's continuous state, yet an inverse map sets the model from that state anyway. Editability across layers suggests that the Othello model compresses its history into a board partway through the network, while the Rayworld model shifts its recent frames and then refines a rendering of the next frame. The inverse map succeeds by approximating this partial rendering. We relate both outcomes to the causal state of computational mechanics, the minimal summary of its history a model must keep to predict optimally, which may not align with the simulator. Guided by this view, we change how the Rayworld model is trained and make its state more simulator-like.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Emerging",
-    "publication_date": "2026-11-25"
+    "publication_date": "2026-11-26"
   },
   {
     "id": "2611.28564v1",
@@ -122,12 +122,12 @@
     "url": "http://arxiv.org/pdf/2611.28564v1",
     "authors_list": [],
     "author_count": 5,
-    "ss_tldr": "",
+    "ss_tldr": "This work proposes Tool-to-Self (T2S), a tool-scaffolded reinforcement learning framework that turns external visual tools into temporary training scaffolds and effectively teaches the model both to reproduce tool outputs and to reason from them.",
     "abstract": "Vision-language models (VLMs) increasingly rely on external visual tools to access fine-grained visual evidence, but repeated tool execution incurs substantial inference overhead and deployment dependencies. Moreover, conventional tool-use RL can improve visual-task performance, yet the resulting tool gains are often unstable. Motivated by this, we propose Tool-to-Self (T2S), a tool-scaffolded reinforcement learning framework that turns external visual tools into temporary training scaffolds. T2S cold-starts tool-use ability and observation prediction from tool-repairable examples, then progressively anneals tool execution on a per-tool basis during RL. By combining answer-correctness and observation-consistency rewards with privileged on-policy self-distillation from actual tool observations, T2S effectively teaches the model both to reproduce tool outputs and to reason from them. Experiments across diverse visual perception and reasoning benchmarks demonstrate consistent improvements over both explicit tool-use models and implicit zooming models while enabling tool-free inference with reduced latency.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-25"
+    "publication_date": "2026-11-26"
   },
   {
     "id": "2611.28558v1",
@@ -135,12 +135,12 @@
     "url": "http://arxiv.org/pdf/2611.28558v1",
     "authors_list": [],
     "author_count": 6,
-    "ss_tldr": "",
+    "ss_tldr": "AOVO is proposed, a data-centric framework that enables MLLMs to learn effective tool use through perception attribution and policy-adaptive data sampling (PADS), without introducing tool-specific rewards.",
     "abstract": "Multimodal large language models (MLLMs) increasingly use external visual tools to acquire evidence during reasoning, yet learning when to invoke these tools remains challenging. Existing tool-use reinforcement learning (RL) methods often rely on call-contingent rewards to encourage beneficial tool use, but such reward engineering can distort the task objective and lead to degenerate calling behaviors. We argue that effective tool-use learning requires identifying not merely which questions are difficult, but which failures are attributable to missing visual evidence and can therefore be corrected through tool observations. We propose AOVO, a data-centric framework that enables MLLMs to learn effective tool use through perception attribution and policy-adaptive data sampling (PADS), without introducing tool-specific rewards. It counterfactually probes the model's reasoning states to identify observation-sensitive questions, distinguishing them from reasoning-dominated ones. PADS then periodically estimates category-level observation effects from recent policy rollouts and dynamically reallocates the training distribution toward questions where visual observations provide informative learning signals, while optimizing solely for final-answer correctness. Experiments across diverse visual perception and multimodal reasoning benchmarks demonstrate consistent improvements over competitive tool-use MLLMs, with causal analysis further validating the data-centric perspective for learning effective visual tool use.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-25"
+    "publication_date": "2026-11-26"
   },
   {
     "id": "2611.28123v1",
@@ -148,12 +148,12 @@
     "url": "http://arxiv.org/pdf/2611.28123v1",
     "authors_list": [],
     "author_count": 6,
-    "ss_tldr": "",
+    "ss_tldr": "A label-free engine that turns any coordinate on Earth into a ray-traceable city, simulates matched single-factor counterfactuals, and computes every answer exactly is built and yields RadioVISTA, a benchmark and training dataset for visual reasoning about invisible fields.",
     "abstract": "Operating in the physical world requires reasoning beyond what cameras directly capture. In a city, radio signals are invisible to the lens, yet their strength is governed by the buildings and streets an image does show. Given only these visible structures, can vision-language models (VLMs) infer the invisible radio field they shape? Probing true physical reasoning requires exact fields in real cities, alongside controlled interventions where a single physical factor changes. We build a label-free engine that turns any coordinate on Earth into a ray-traceable city, simulates matched single-factor counterfactuals, and computes every answer exactly. This yields RadioVISTA, a benchmark and training dataset for visual reasoning about invisible fields. Physically, a radio field is the sum of its propagation paths, yet across six continents we uncover a striking field-path dissociation: frontier VLMs accurately judge where a field is strong, but fail to tell whether a single direct or one-wall path exists. Open models fail even earlier at reading the field itself, and are systematically wrong, scoring below random guessing even when credited for any of four attempts. On unseen cities, fine-tuning brings a 9B open model close to frontier proprietary models on fields, yet neither supervised nor reinforcement fine-tuning improves path tracing. Supervising only final answers teaches models to approximate the field, yet leaves single-path geometry out of reach.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-25"
+    "publication_date": "2026-11-26"
   },
   {
     "id": "2609.33781v2",
@@ -161,12 +161,12 @@
     "url": "http://arxiv.org/pdf/2609.33781v2",
     "authors_list": [],
     "author_count": 6,
-    "ss_tldr": "",
+    "ss_tldr": "Entropic Advantage Policy Optimization (EAPO) is introduced, an entropy-guided credit assignment method that treats success and failure asymmetrically and promotes more effective exploration, broadening problem coverage and diversifying successful reasoning strategies.",
     "abstract": "Reinforcement learning with verifiable rewards (RLVR) enhances reasoning in large language models (LLMs) through outcome-level feedback, yet recent approaches to finer-grained credit assignment often require auxiliary models, additional sampling, or privileged information. Although policy entropy provides a readily available signal, prioritizing uncertain positions under both reinforcement and penalization concentrates penalties where failed responses still retain alternatives for recovery, which can suppress opportunities for exploration. To address this, we introduce Entropic Advantage Policy Optimization (EAPO), an entropy-guided credit assignment method that treats success and failure asymmetrically. Specifically, motivated by the observation that success under uncertainty is less repeatable while confident failures tend to recur, EAPO couples normalized policy entropy with the sign of the response advantage to reinforce surprising success and correct repeated failure. It assigns stronger reinforcement to high-entropy decisions in successful responses and stronger penalties to low-entropy decisions in failed responses, while attenuating penalties at uncertain positions to preserve opportunities for recovery. By redistributing the response advantage across tokens, EAPO derives token-level credit directly from existing rollout signals without additional supervision. We validate EAPO on a range of reasoning tasks across both base and reasoning backbones, demonstrating that it achieves the best overall performance. We further show that EAPO promotes more effective exploration, broadening problem coverage and diversifying successful reasoning strategies.",
-    "ss_citation_count": 0,
-    "ss_influential_citations": 0,
+    "ss_citation_count": 1,
+    "ss_influential_citations": 1,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-25"
+    "publication_date": "2026-11-26"
   },
   {
     "id": "2611.28350v1",
@@ -174,12 +174,12 @@
     "url": "http://arxiv.org/pdf/2611.28350v1",
     "authors_list": [],
     "author_count": 8,
-    "ss_tldr": "",
+    "ss_tldr": "The resulting model, Fork-JEPA, matches predicted to measured differences, anchors the logged successor with behavior prediction, and adds a lookback head that keeps the predecessor recoverable, all at training time, leaving planning unchanged.",
     "abstract": "JEPA world models are trained to predict logged transitions but used to compare counterfactual actions from one state. The logged behavior data show one action per state, and under a local linear approximation we prove the action response is unidentified along any direction the policy never varies within a state. We therefore supplement behavior data with measured outcomes of alternative actions from the same state. Our fork futures execute two actions from one restored state, and their outcome difference cancels the state term, identifying the action response on the sampled span. The resulting model, Fork-JEPA, matches predicted to measured differences, anchors the logged successor with behavior prediction, and adds a lookback head that keeps the predecessor recoverable, all at training time, leaving planning unchanged. On three visual control tasks, behavior-only training leaves the predicted action effect no better than a constant guess. Fork-JEPA makes it readable and raises planning success by up to 14\\% over LeWM, its base model. Where the action response changes across hidden zones, it nearly doubles cross-zone success, and 1,024 fork pairs beat 1.2M extra behavior steps. Our project is available at https://fork-jepa.github.io/.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-25"
+    "publication_date": "2026-11-26"
   },
   {
     "id": "2602.01541v2",
@@ -187,12 +187,12 @@
     "url": "http://arxiv.org/pdf/2602.01541v2",
     "authors_list": [],
     "author_count": 15,
-    "ss_tldr": "",
+    "ss_tldr": "Cognitive Supersensing is introduced, a training paradigm that equips MLLMs with latent visual reasoning by integrating a Latent Visual Imagery Prediction (LVIP) head that progressively learns refined visual latent states aligned with the evolving reasoning context and target answer, thereby providing a structured visual grounding signal for internal reasoning.",
     "abstract": "Multimodal Large Language Models (MLLMs) have made rapid progress in open-vocabulary visual understanding, yet they often struggle with cognitive visual reasoning tasks that require maintaining, transforming, and simulating abstract visual states. Existing approaches primarily scale Chain-of-Thought (CoT) reasoning in language, forcing inherently spatial or visual computations into discrete text tokens. We introduce Cognitive Supersensing, a training paradigm that equips MLLMs with latent visual reasoning by integrating a Latent Visual Imagery Prediction (LVIP) head that progressively learns refined visual latent states aligned with the evolving reasoning context and target answer, thereby providing a structured visual grounding signal for internal reasoning. We further introduce a reinforcement learning stage that optimizes rationale trajectories using both answer evidence and LVIP-based latent grounding, encouraging reasoning paths that remain visually consistent. To evaluate the cognitive capabilities of MLLMs, we present CogSense-Bench, a comprehensive visual question answering (VQA) benchmark assessing five cognitive dimensions. Extensive experiments demonstrate that MLLMs trained with Cognitive Supersensing significantly outperform state-of-the-art baselines on CogSense-Bench and exhibit superior generalization on out-of-domain mathematics and science VQA benchmarks, suggesting that internal visual imagery may be key to bridging the gap between perceptual recognition and cognitive understanding. Causal analyses through noise injection, latent patching, and linear probing show that LVIP states progressively encode task-relevant visual structure and influence downstream answer probabilities, supporting their role as active reasoning signals.",
-    "ss_citation_count": 0,
+    "ss_citation_count": 24,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-25"
+    "publication_date": "2026-11-26"
   },
   {
     "id": "2611.29132v1",
@@ -200,12 +200,12 @@
     "url": "http://arxiv.org/pdf/2611.29132v1",
     "authors_list": [],
     "author_count": 10,
-    "ss_tldr": "",
+    "ss_tldr": "DeepDOSReasoner provides a blueprint for integrating machine learning with physical reasoning toward high-throughput spectral screening and autonomous materials discovery, and achieves the highest prediction accuracy across all evaluated metrics for both eDOS and phDOS.",
     "abstract": "Predicting a material's behavior from its atomic structure is a longstanding goal of the physical sciences. The electronic and phonon densities of states (eDOS and phDOS) govern key electronic, optical, vibrational, and thermodynamic properties, yet their calculation using density functional theory (DFT) is costly: about 60% of Materials Project entries lack eDOS and over 80% lack phDOS. Existing crystal-to-spectrum models rely on pooled structural representations and pointwise regression, which blur spectral features and violate total-state conservation. Here we introduce DeepDOSReasoner, a physics-grounded framework that decodes spectra through atom-to-energy source attention and refines the normalized DOS through learned continuity-equation transport, enforcing nonnegativity and total-state conservation by construction. DeepDOSReasoner achieves the highest prediction accuracy across all evaluated metrics for both eDOS and phDOS, recovers element-resolved contributions without supervision, and most reliably identifies rare valence-band (VB) gaps. In a prospective screen of 8,106 uncharted materials validated by new DFT calculations, its predictions remain the most accurate among the methods evaluated, with 25 of its top 50 candidates confirmed as VB-gap materials. Three case studies spanning substituted compounds, photovoltaic chalcogenides, and a high-entropy alloy demonstrate transfer across materials classes. Ablations confirm that both stages are necessary, while the model retains comparable accuracy when trained on only 25% of the data. Predicting spectra in milliseconds enables exhaustive screening; we release predictions filling the missing eDOS for 91,405 and phDOS for 127,768 Materials Project entries. DeepDOSReasoner provides a blueprint for integrating machine learning with physical reasoning toward high-throughput spectral screening and autonomous materials discovery.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-25"
+    "publication_date": "2026-11-26"
   },
   {
     "id": "2611.28135v1",
@@ -213,12 +213,12 @@
     "url": "http://arxiv.org/pdf/2611.28135v1",
     "authors_list": [],
     "author_count": 5,
-    "ss_tldr": "",
+    "ss_tldr": "Visual Intrinsic Privacy Erasure (VIPE), which targets privacy-related visual representations to weaken the model's ability to perceive sensitive information, and substantially alleviates prefix-triggered privacy leakage while maintaining competitive utility on general visual-language benchmarks.",
     "abstract": "Large vision-language models can extract personally identifiable information from images, making privacy protection essential for their deployment in perception-oriented tasks. Existing targeted fine-tuning and model-editing methods usually suppress sensitive answers by aligning the model toward safe responses. In this paper, we show that such protection can be illusory: although the fine-tuned model refuses to disclose private information under normal decoding, privacy leakage still occurs in sentence completion scenarios. This indicates that existing algorithms only change the model's output distribution, but the model still retains the ability to perceive private information. Private information therefore still remains inside the model. To address this problem, we propose Visual Intrinsic Privacy Erasure (VIPE), which targets privacy-related visual representations to weaken the model's ability to perceive sensitive information. VIPE constructs paired privacy-sensitive and privacy-masked images, uses their internal feature residuals to identify privacy-related visual components, and suppresses these components before they are perceived by the model. To preserve benign visual representations, the erasure objective projects feature differences onto a relaxed benign subspace and adaptively controls the erasure strength. VIPE compels the model to ignore the extraction of sensitive information in the visual representation space, thereby blocking the source of privacy leakage more fundamentally rather than merely altering the model's output distribution. Experiments on Qwen2.5-VL and LLaVA-OneVision show that VIPE substantially alleviates prefix-triggered privacy leakage while maintaining competitive utility on general visual-language benchmarks.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-25"
+    "publication_date": "2026-11-26"
   },
   {
     "id": "2611.29265v1",
@@ -226,12 +226,25 @@
     "url": "http://arxiv.org/pdf/2611.29265v1",
     "authors_list": [],
     "author_count": 5,
-    "ss_tldr": "",
+    "ss_tldr": "This study reveals the intricate interplay between a model's internal confidence and its proclivity to backtrack or commit to an answer.",
     "abstract": "Reasoning models deliberate over multiple answer proposals, often resulting in excessively long traces due to backtracking, even when the correct answer has already been reached (Across three 32B models, ~87% of rollouts contain 1 unique answer yet still make ~8 answer proposals on average). Given this potentially \"decorative\" chain of thought (CoT) reasoning, can we look to the model internals to determine if the model will backtrack or commit to an answer proposal? Operating under the hypothesis that models maintain an internal representation of their uncertainty, we seek to extract this representation and characterize its relationship with backtracking behavior at answer proposals. By querying the model's verbalized confidence following answer proposals throughout a response trace, we extract a linear direction for latent confidence that separates high and low verbalized confidence. This direction can steer verbalized confidence as expected, but it surprisingly can also steer the next token probability of backtracking, performing on par with a linear direction extracted directly from backtracking examples. We then test the direction under progressively more realistic interventions. Steering continuously from a mid-trace answer proposal modulates response length (~-1.3k - ~+2.5k tokens) and the number of answer proposals (-4.18 - +4.75) in both directions, with minimal cost to accuracy. Applying the confidence direction from the start of generation, where proposal positions are unknown, still shortens traces at comparable accuracy, and its effect surfaces in the linguistic confidence of proposals. Overall, our study reveals the intricate interplay between a model's internal confidence and its proclivity to backtrack or commit to an answer.",
     "ss_citation_count": 0,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-25"
+    "publication_date": "2026-11-26"
+  },
+  {
+    "id": "2404.01332v4",
+    "title": "Token Noise and the Illusion of Preference: A Shapley Value Framework for Auditing LLM-Simulated Choice Experiments",
+    "url": "http://arxiv.org/pdf/2404.01332v4",
+    "authors_list": [],
+    "author_count": 1,
+    "ss_tldr": "A Shapley value audit is introduced that separates what a simulated respondent prefers from how the question was asked, the distinction a study must draw before it reads a simulated choice as a preference.",
+    "abstract": "Large language models are increasingly used to simulate human respondents in choice experiments, yet their answers depend on the exact tokens of a prompt rather than on the offered products alone. I show that invisible characters, blank lines, or minor wording changes shift or reverse simulated choice probabilities. This sensitivity, which I term token noise, creates an illusion of preference and exposes studies to prompt hacking. I introduce a Shapley value audit that divides a model's choice response among the pieces of its prompt and reads each share beside the effect of removing that piece. The edit game divides the effect of several wording and formatting changes beside an actual price change. The word game divides a prompt's response across its words or tokens and summarizes the credit earned by the product attributes as the attribute share. Across four open-weight models and three product categories, wording and formatting edits could rival a substantive price change, while product attributes consistently received a minority of the word-level credit, sometimes less than the answer instruction. Framing cues could take credit from the very price they emphasized and frequently vanished or reversed across equivalent wordings of the question. A persona (even a bare statement that the respondent is a consumer) also shifted choice probabilities and the attributes' credit. Declared with its \"players,\" reference, scale, and uncertainty, my audit separates what a simulated respondent prefers from how the question was asked, the distinction a study must draw before it reads a simulated choice as a preference.",
+    "ss_citation_count": 17,
+    "ss_influential_citations": 1,
+    "prominence_tier": "Elite",
+    "publication_date": "2026-11-26"
   },
   {
     "id": "2502.07807v3",
@@ -244,19 +257,6 @@
     "ss_citation_count": 13,
     "ss_influential_citations": 0,
     "prominence_tier": "Elite",
-    "publication_date": "2026-11-25"
-  },
-  {
-    "id": "2404.01332v4",
-    "title": "Token Noise and the Illusion of Preference: A Shapley Value Framework for Auditing LLM-Simulated Choice Experiments",
-    "url": "http://arxiv.org/pdf/2404.01332v4",
-    "authors_list": [],
-    "author_count": 1,
-    "ss_tldr": "",
-    "abstract": "Large language models are increasingly used to simulate human respondents in choice experiments, yet their answers depend on the exact tokens of a prompt rather than on the offered products alone. I show that invisible characters, blank lines, or minor wording changes shift or reverse simulated choice probabilities. This sensitivity, which I term token noise, creates an illusion of preference and exposes studies to prompt hacking. I introduce a Shapley value audit that divides a model's choice response among the pieces of its prompt and reads each share beside the effect of removing that piece. The edit game divides the effect of several wording and formatting changes beside an actual price change. The word game divides a prompt's response across its words or tokens and summarizes the credit earned by the product attributes as the attribute share. Across four open-weight models and three product categories, wording and formatting edits could rival a substantive price change, while product attributes consistently received a minority of the word-level credit, sometimes less than the answer instruction. Framing cues could take credit from the very price they emphasized and frequently vanished or reversed across equivalent wordings of the question. A persona (even a bare statement that the respondent is a consumer) also shifted choice probabilities and the attributes' credit. Declared with its \"players,\" reference, scale, and uncertainty, my audit separates what a simulated respondent prefers from how the question was asked, the distinction a study must draw before it reads a simulated choice as a preference.",
-    "ss_citation_count": 0,
-    "ss_influential_citations": 0,
-    "prominence_tier": "Elite",
-    "publication_date": "2026-11-25"
+    "publication_date": "2026-11-26"
   }
 ]
